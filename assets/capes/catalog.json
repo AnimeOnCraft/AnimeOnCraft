@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "capes": [
+    {"id":"beta","name":"Beta","description":"Памятный плащ бета-тестера.","preview":"beta-preview.png","texture":null},
+    {"id":"ayaa-cobblestone","name":"Булыжник · Ayaa","description":"Персональный плащ с булыжником, сердцами и коронами.","preview":"ayaa-cobblestone-preview.png","texture":"ayaa-cobblestone-texture.png"},
+    {"id":"trickyowl-owl","name":"Сова · TrickyOwl","description":"Персональный плащ с янтарноглазой совой на тёмно-коричневом фоне.","preview":"trickyowl-owl-preview.png","texture":"trickyowl-owl-texture.png","edge_rgb":[14,9,7]},
+    {"id":"akuma-violet","name":"AKUMA · depressedInChina","description":"Персональный плащ с персонажем, тёмной аурой и фиолетовой надписью AKUMA.","preview":"akuma-violet-preview.png","texture":"akuma-violet-texture.png","edge_rgb":[12,5,20]}
+  ]
+}

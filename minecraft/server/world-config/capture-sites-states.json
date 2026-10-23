@@ -1,0 +1,788 @@
+{
+  "world_id": "states-20261020",
+  "seed": "20261020",
+  "height_source": "Original completed states-pregen build log; standing floor from PoiBuilder.build",
+  "points": {
+    "ring.outpost.scam": {
+      "x": 0,
+      "z": -1248,
+      "y": 64
+    },
+    "rim.watchtower.scam": {
+      "x": 0,
+      "z": -4704,
+      "y": 83
+    },
+    "ring.outpost.nya": {
+      "x": 1184,
+      "z": -384,
+      "y": 64
+    },
+    "rim.watchtower.nya": {
+      "x": 4464,
+      "z": -1456,
+      "y": 108
+    },
+    "ring.outpost.zxc": {
+      "x": 736,
+      "z": 1008,
+      "y": 70
+    },
+    "rim.watchtower.zxc": {
+      "x": 2768,
+      "z": 3808,
+      "y": 66
+    },
+    "ring.outpost.akuma": {
+      "x": -736,
+      "z": 1008,
+      "y": 65
+    },
+    "rim.watchtower.akuma": {
+      "x": -2768,
+      "z": 3808,
+      "y": 98
+    },
+    "ring.outpost.yakuza": {
+      "x": -1184,
+      "z": -384,
+      "y": 64
+    },
+    "rim.watchtower.yakuza": {
+      "x": -4640,
+      "z": -736,
+      "y": 64
+    },
+    "border.w1.fort": {
+      "x": 1584,
+      "z": -2192,
+      "y": 114
+    },
+    "border.w1.pass": {
+      "x": 1168,
+      "z": -1616,
+      "y": 188
+    },
+    "border.w1.village": {
+      "x": 2064,
+      "z": -2832,
+      "y": 174
+    },
+    "border.w2.fort": {
+      "x": 2560,
+      "z": 832,
+      "y": 68
+    },
+    "border.w2.bridge": {
+      "x": 1904,
+      "z": 624,
+      "y": 66
+    },
+    "border.w2.village": {
+      "x": 3328,
+      "z": 1088,
+      "y": 86
+    },
+    "border.w3.fort": {
+      "x": 0,
+      "z": 2704,
+      "y": 64
+    },
+    "border.w3.pass": {
+      "x": 0,
+      "z": 2000,
+      "y": 85
+    },
+    "border.w3.village": {
+      "x": 0,
+      "z": 3504,
+      "y": 86
+    },
+    "border.w4.fort": {
+      "x": -2560,
+      "z": 832,
+      "y": 64
+    },
+    "border.w4.port": {
+      "x": -1904,
+      "z": 624,
+      "y": 64
+    },
+    "border.w4.village": {
+      "x": -3328,
+      "z": 1088,
+      "y": 64
+    },
+    "border.w5.fort": {
+      "x": -1584,
+      "z": -2192,
+      "y": 112
+    },
+    "border.w5.bridge": {
+      "x": -1168,
+      "z": -1616,
+      "y": 112
+    },
+    "border.w5.village": {
+      "x": -2064,
+      "z": -2832,
+      "y": 116
+    },
+    "frontier.settlement.n": {
+      "x": 2256,
+      "z": -6944,
+      "y": 86
+    },
+    "frontier.settlement.e": {
+      "x": 5904,
+      "z": 4288,
+      "y": 68
+    },
+    "frontier.settlement.s": {
+      "x": -2256,
+      "z": 6944,
+      "y": 64
+    },
+    "frontier.port.gulf": {
+      "x": -8016,
+      "z": -4080,
+      "y": 64
+    },
+    "site.ring.36": {
+      "x": 736,
+      "z": -1008,
+      "y": 65,
+      "output": {
+        "version": 2,
+        "label": "Дубовые брёвна и саженцы",
+        "placement": "CACHE",
+        "items": [
+          [
+            "minecraft:oak_log",
+            64
+          ],
+          [
+            "minecraft:oak_sapling",
+            4
+          ]
+        ]
+      },
+      "kind": "CACHE"
+    },
+    "site.ring.108": {
+      "x": 1184,
+      "z": 384,
+      "y": 65,
+      "output": {
+        "version": 2,
+        "label": "Угольная и железная руда",
+        "placement": "UNDERGROUND",
+        "seed": [
+          [
+            "minecraft:coal_ore",
+            1
+          ],
+          [
+            "minecraft:iron_ore",
+            1
+          ]
+        ],
+        "blocks": [
+          "minecraft:coal_ore",
+          "minecraft:deepslate_coal_ore",
+          "minecraft:iron_ore",
+          "minecraft:deepslate_iron_ore"
+        ]
+      }
+    },
+    "site.ring.180": {
+      "x": 0,
+      "z": 1248,
+      "y": 72,
+      "output": {
+        "version": 2,
+        "label": "Спелая пшеница и морковь",
+        "placement": "SURFACE",
+        "seed": [
+          [
+            "minecraft:wheat",
+            1
+          ],
+          [
+            "minecraft:carrots",
+            1
+          ]
+        ],
+        "blocks": [
+          "minecraft:wheat",
+          "minecraft:carrots"
+        ]
+      }
+    },
+    "site.ring.252": {
+      "x": -1184,
+      "z": 384,
+      "y": 75,
+      "output": {
+        "version": 2,
+        "label": "Треска и лосось",
+        "placement": "CACHE",
+        "items": [
+          [
+            "minecraft:cod",
+            24
+          ],
+          [
+            "minecraft:salmon",
+            16
+          ]
+        ]
+      },
+      "kind": "CACHE"
+    },
+    "site.ring.324": {
+      "x": -736,
+      "z": -1008,
+      "y": 80,
+      "output": {
+        "version": 2,
+        "label": "Медная руда",
+        "placement": "UNDERGROUND",
+        "seed": [
+          [
+            "minecraft:copper_ore",
+            1
+          ]
+        ],
+        "blocks": [
+          "minecraft:copper_ore",
+          "minecraft:deepslate_copper_ore"
+        ]
+      }
+    },
+    "site.w1.t2": {
+      "x": 1056,
+      "z": -1456,
+      "y": 208,
+      "output": {
+        "version": 2,
+        "label": "Железная руда",
+        "placement": "UNDERGROUND",
+        "seed": [
+          [
+            "minecraft:iron_ore",
+            1
+          ]
+        ],
+        "blocks": [
+          "minecraft:iron_ore",
+          "minecraft:deepslate_iron_ore"
+        ]
+      }
+    },
+    "site.w1.t3": {
+      "x": 2320,
+      "z": -3200,
+      "y": 124,
+      "output": {
+        "version": 2,
+        "label": "Аметист",
+        "placement": "UNDERGROUND",
+        "seed": [
+          [
+            "minecraft:amethyst_block",
+            1
+          ]
+        ],
+        "blocks": [
+          "minecraft:amethyst_block"
+        ],
+        "limit": 96
+      }
+    },
+    "site.w2.t2": {
+      "x": 1712,
+      "z": 560,
+      "y": 70,
+      "output": {
+        "version": 2,
+        "label": "Сладкие ягоды",
+        "placement": "SURFACE",
+        "seed": [
+          [
+            "minecraft:sweet_berry_bush",
+            1
+          ]
+        ],
+        "blocks": [
+          "minecraft:sweet_berry_bush"
+        ]
+      }
+    },
+    "site.w2.t3": {
+      "x": 3760,
+      "z": 1216,
+      "y": 76,
+      "output": {
+        "version": 2,
+        "label": "Золотая руда",
+        "placement": "UNDERGROUND",
+        "seed": [
+          [
+            "minecraft:gold_ore",
+            1
+          ]
+        ],
+        "blocks": [
+          "minecraft:gold_ore",
+          "minecraft:deepslate_gold_ore"
+        ],
+        "limit": 64
+      }
+    },
+    "site.w3.t2": {
+      "x": 0,
+      "z": 1792,
+      "y": 102,
+      "output": {
+        "version": 2,
+        "label": "Цинковая руда",
+        "placement": "UNDERGROUND",
+        "seed": [
+          [
+            "create:zinc_ore",
+            1
+          ]
+        ],
+        "blocks": [
+          "create:zinc_ore",
+          "create:deepslate_zinc_ore"
+        ]
+      }
+    },
+    "site.w3.t3": {
+      "x": 0,
+      "z": 3952,
+      "y": 91,
+      "output": {
+        "version": 2,
+        "label": "Угольная и железная руда",
+        "placement": "UNDERGROUND",
+        "seed": [
+          [
+            "minecraft:coal_ore",
+            1
+          ],
+          [
+            "minecraft:iron_ore",
+            1
+          ]
+        ],
+        "blocks": [
+          "minecraft:coal_ore",
+          "minecraft:deepslate_coal_ore",
+          "minecraft:iron_ore",
+          "minecraft:deepslate_iron_ore"
+        ]
+      }
+    },
+    "site.w4.t2": {
+      "x": -1712,
+      "z": 560,
+      "y": 63,
+      "output": {
+        "version": 2,
+        "label": "Медная руда",
+        "placement": "UNDERGROUND",
+        "seed": [
+          [
+            "minecraft:copper_ore",
+            1
+          ]
+        ],
+        "blocks": [
+          "minecraft:copper_ore",
+          "minecraft:deepslate_copper_ore"
+        ]
+      }
+    },
+    "site.w4.t3": {
+      "x": -3760,
+      "z": 1216,
+      "y": 63,
+      "output": {
+        "version": 2,
+        "label": "Редстоуновая руда",
+        "placement": "UNDERGROUND",
+        "seed": [
+          [
+            "minecraft:redstone_ore",
+            1
+          ]
+        ],
+        "blocks": [
+          "minecraft:redstone_ore",
+          "minecraft:deepslate_redstone_ore"
+        ]
+      }
+    },
+    "site.w5.t2": {
+      "x": -1056,
+      "z": -1456,
+      "y": 117,
+      "output": {
+        "version": 2,
+        "label": "Спелая пшеница и картофель",
+        "placement": "SURFACE",
+        "seed": [
+          [
+            "minecraft:wheat",
+            1
+          ],
+          [
+            "minecraft:potatoes",
+            1
+          ]
+        ],
+        "blocks": [
+          "minecraft:wheat",
+          "minecraft:potatoes"
+        ]
+      }
+    },
+    "site.w5.t3": {
+      "x": -2320,
+      "z": -3200,
+      "y": 111,
+      "output": {
+        "version": 2,
+        "label": "Аметист и лазуритовая руда",
+        "placement": "UNDERGROUND",
+        "seed": [
+          [
+            "minecraft:amethyst_block",
+            1
+          ],
+          [
+            "minecraft:lapis_ore",
+            1
+          ]
+        ],
+        "blocks": [
+          "minecraft:amethyst_block",
+          "minecraft:lapis_ore",
+          "minecraft:deepslate_lapis_ore"
+        ],
+        "limit": 96
+      }
+    },
+    "site.rim.36": {
+      "x": 3152,
+      "z": -3488,
+      "y": 63,
+      "output": {
+        "version": 2,
+        "label": "Алмазная руда",
+        "placement": "UNDERGROUND",
+        "seed": [
+          [
+            "minecraft:diamond_ore",
+            1
+          ]
+        ],
+        "blocks": [
+          "minecraft:diamond_ore",
+          "minecraft:deepslate_diamond_ore"
+        ],
+        "limit": 16
+      }
+    },
+    "site.rim.108": {
+      "x": 4288,
+      "z": 1904,
+      "y": 63,
+      "output": {
+        "version": 2,
+        "label": "Мифриловая руда",
+        "placement": "UNDERGROUND",
+        "seed": [
+          [
+            "irons_spellbooks:mithril_ore",
+            1
+          ]
+        ],
+        "blocks": [
+          "irons_spellbooks:mithril_ore",
+          "irons_spellbooks:deepslate_mithril_ore"
+        ],
+        "limit": 24
+      }
+    },
+    "site.rim.180": {
+      "x": -496,
+      "z": 4672,
+      "y": 67,
+      "output": {
+        "version": 2,
+        "label": "Красные и коричневые грибы",
+        "placement": "CACHE",
+        "items": [
+          [
+            "minecraft:red_mushroom",
+            24
+          ],
+          [
+            "minecraft:brown_mushroom",
+            24
+          ],
+          [
+            "minecraft:sweet_berries",
+            16
+          ]
+        ]
+      },
+      "kind": "CACHE"
+    },
+    "site.rim.252": {
+      "x": -4592,
+      "z": 976,
+      "y": 91,
+      "output": {
+        "version": 2,
+        "label": "Железная и угольная руда",
+        "placement": "UNDERGROUND",
+        "seed": [
+          [
+            "minecraft:iron_ore",
+            1
+          ],
+          [
+            "minecraft:coal_ore",
+            1
+          ]
+        ],
+        "blocks": [
+          "minecraft:iron_ore",
+          "minecraft:deepslate_iron_ore",
+          "minecraft:coal_ore",
+          "minecraft:deepslate_coal_ore"
+        ]
+      }
+    },
+    "site.rim.324": {
+      "x": -2352,
+      "z": -4064,
+      "y": 94,
+      "output": {
+        "version": 2,
+        "label": "Редстоуновая руда",
+        "placement": "UNDERGROUND",
+        "seed": [
+          [
+            "minecraft:redstone_ore",
+            1
+          ]
+        ],
+        "blocks": [
+          "minecraft:redstone_ore",
+          "minecraft:deepslate_redstone_ore"
+        ]
+      }
+    },
+    "site.frontier.54": {
+      "x": 6640,
+      "z": -4816,
+      "y": 70,
+      "output": {
+        "version": 2,
+        "label": "Аметист и алмазная руда",
+        "placement": "UNDERGROUND",
+        "seed": [
+          [
+            "minecraft:amethyst_block",
+            5
+          ],
+          [
+            "minecraft:diamond_ore",
+            1
+          ]
+        ],
+        "blocks": [
+          "minecraft:amethyst_block",
+          "minecraft:diamond_ore",
+          "minecraft:deepslate_diamond_ore"
+        ],
+        "limit": 96
+      }
+    },
+    "site.frontier.230": {
+      "x": -6288,
+      "z": 5264,
+      "y": 67,
+      "output": {
+        "version": 2,
+        "label": "Алмазы и изумруды",
+        "placement": "UNDERGROUND",
+        "seed": [
+          [
+            "minecraft:diamond_ore",
+            2
+          ],
+          [
+            "minecraft:emerald_ore",
+            1
+          ]
+        ],
+        "blocks": [
+          "minecraft:diamond_ore",
+          "minecraft:deepslate_diamond_ore",
+          "minecraft:emerald_ore",
+          "minecraft:deepslate_emerald_ore"
+        ],
+        "limit": 24
+      }
+    },
+    "site.frontier.162": {
+      "x": 2352,
+      "z": 7232,
+      "y": 119,
+      "output": {
+        "version": 2,
+        "label": "Цинковая руда",
+        "placement": "UNDERGROUND",
+        "seed": [
+          [
+            "create:zinc_ore",
+            1
+          ]
+        ],
+        "blocks": [
+          "create:zinc_ore",
+          "create:deepslate_zinc_ore"
+        ]
+      }
+    },
+    "site.frontier.280": {
+      "x": -9152,
+      "z": -1616,
+      "y": 96,
+      "output": {
+        "version": 2,
+        "label": "Треска, лосось, призмарин и раковины",
+        "placement": "CACHE",
+        "items": [
+          [
+            "minecraft:cod",
+            24
+          ],
+          [
+            "minecraft:salmon",
+            16
+          ],
+          [
+            "minecraft:prismarine_shard",
+            12
+          ],
+          [
+            "minecraft:nautilus_shell",
+            1
+          ]
+        ]
+      },
+      "kind": "CACHE"
+    },
+    "site.frontier.340": {
+      "x": -2672,
+      "z": -7328,
+      "y": 77,
+      "output": {
+        "version": 2,
+        "label": "Сладкие ягоды",
+        "placement": "SURFACE",
+        "seed": [
+          [
+            "minecraft:sweet_berry_bush",
+            1
+          ]
+        ],
+        "blocks": [
+          "minecraft:sweet_berry_bush"
+        ]
+      }
+    },
+    "site.frontier.98": {
+      "x": 5936,
+      "z": 832,
+      "y": 126,
+      "output": {
+        "version": 2,
+        "label": "Железная и угольная руда",
+        "placement": "UNDERGROUND",
+        "seed": [
+          [
+            "minecraft:iron_ore",
+            1
+          ],
+          [
+            "minecraft:coal_ore",
+            1
+          ]
+        ],
+        "blocks": [
+          "minecraft:iron_ore",
+          "minecraft:deepslate_iron_ore",
+          "minecraft:coal_ore",
+          "minecraft:deepslate_coal_ore"
+        ]
+      }
+    },
+    "site.frontier.226": {
+      "x": -4320,
+      "z": 4160,
+      "y": 104,
+      "output": {
+        "version": 2,
+        "label": "Древесина мёртвых деревьев",
+        "placement": "SURFACE",
+        "seed": [
+          [
+            "biomesoplenty:dead_log",
+            1
+          ]
+        ],
+        "blocks": [
+          "biomesoplenty:dead_log"
+        ]
+      }
+    },
+    "site.frontier.314": {
+      "x": -4320,
+      "z": -4160,
+      "y": 85,
+      "output": {
+        "version": 2,
+        "label": "Редстоун, медь, железные самородки и кварц",
+        "placement": "CACHE",
+        "items": [
+          [
+            "minecraft:redstone",
+            32
+          ],
+          [
+            "minecraft:copper_ingot",
+            12
+          ],
+          [
+            "minecraft:iron_nugget",
+            24
+          ],
+          [
+            "minecraft:quartz",
+            8
+          ]
+        ]
+      },
+      "kind": "CACHE"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+# Use on the host after a real domain points to it. No service is published by this file.
+{$AOC_PUBLIC_DOMAIN} {
+ encode gzip
+ @serverOnly path /api/v1/game/admission/*
+ respond @serverOnly 404
+ reverse_proxy 127.0.0.1:3000
+}

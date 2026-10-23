@@ -1,0 +1,704 @@
+// SQL migrations own CHECK/partial indexes/triggers; relation arrays include historical rows.
+generator client {
+  provider        = "prisma-client"
+  output          = "../src/generated/prisma"
+  previewFeatures = ["partialIndexes"]
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id                                                    String                     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  login                                                 String                     @default(dbgenerated("('legacy_'::text || replace((gen_random_uuid())::text, '-'::text, ''::text))")) @db.VarChar(64)
+  loginKey                                              String                     @unique @default(dbgenerated()) @map("login_key") @db.VarChar(64)
+  passwordChangeRequired                                Boolean                    @default(false) @map("password_change_required")
+  email                                                 String                     @db.VarChar(320)
+  emailKey                                              String                     @unique @map("email_key") @db.VarChar(320)
+  emailVerifiedAt                                       DateTime?                  @map("email_verified_at") @db.Timestamptz(3)
+  passwordHash                                          String                     @map("password_hash")
+  systemRole                                            SystemRole                 @default(PLAYER) @map("system_role")
+  state                                                 UserState                  @default(ACTIVE)
+  authEpoch                                             BigInt                     @default(0) @map("auth_epoch")
+  accessEpoch                                           BigInt                     @default(0) @map("access_epoch")
+  version                                               BigInt                     @default(0)
+  createdAt                                             DateTime                   @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt                                             DateTime                   @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
+  application_history                                   application_history[]
+  audit_logs                                            audit_logs[]
+  bans_bans_issued_byTousers                            bans[]                     @relation("bans_issued_byTousers")
+  bans_bans_user_idTousers                              bans[]                     @relation("bans_user_idTousers")
+  clan_applications_clan_applications_decided_byTousers clan_applications[]        @relation("clan_applications_decided_byTousers")
+  clan_applications_clan_applications_user_idTousers    clan_applications[]        @relation("clan_applications_user_idTousers")
+  clan_manager_assignments                              clan_manager_assignments[]
+  clan_members                                          clan_members[]
+  minecraft_accounts                                    minecraft_accounts[]
+  game_profile                                          game_profiles?
+  skin                                                  player_skins?
+  capes                                                 player_capes[]
+  back_equipment                                        player_back_equipment?
+  emote_grants                                          player_emote_grants[]
+  game_tickets                                          game_tickets[]
+  news                                                  news[]
+  player_statistics                                     player_statistics[]
+  sessions                                              sessions[]
+  auth_challenges                                       auth_challenges[]
+  mfa_credentials                                       mfa_credentials?
+  mfa_recovery_codes                                    mfa_recovery_codes[]
+  outbox_events                                         outbox_events[]
+  idempotency_keys                                      idempotency_keys[]
+  whitelist_whitelist_granted_byTousers                 whitelist[]                @relation("whitelist_granted_byTousers")
+  whitelist_whitelist_user_idTousers                    whitelist[]                @relation("whitelist_user_idTousers")
+
+
+  clan_online_presence                                  clan_online_presence[]
+  @@map("users")
+}
+
+model game_profiles {
+  user_id        String   @id @db.Uuid
+  game_name      String   @db.VarChar(16)
+  game_name_key  String   @unique @default(dbgenerated()) @db.VarChar(16)
+  minecraft_uuid String   @unique @db.Uuid
+  created_at     DateTime @default(now()) @db.Timestamptz(3)
+  user           User     @relation(fields: [user_id], references: [id], onDelete: Restrict, onUpdate: NoAction)
+}
+
+model player_skins {
+  user_id    String @id @db.Uuid
+  png        Bytes @db.ByteA
+  model      String @db.VarChar(7)
+  updated_at DateTime @default(now()) @db.Timestamptz(3)
+  user       User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
+
+model game_tickets {
+  token_hash   String    @id @db.Char(64)
+  user_id      String    @db.Uuid
+  session_id   String    @db.Uuid
+  server_id    String    @db.Uuid
+  created_at   DateTime  @default(now()) @db.Timestamptz(3)
+  expires_at   DateTime  @db.Timestamptz(3)
+  consumed_at  DateTime? @db.Timestamptz(3)
+  revoked_at   DateTime? @db.Timestamptz(3)
+  connection_id String? @db.Uuid
+  joined_at     DateTime? @db.Timestamptz(3)
+  launcher_version String?
+  user         User         @relation(fields: [user_id], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  session      sessions     @relation(fields: [session_id], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  server       game_servers @relation(fields: [server_id], references: [id], onDelete: Restrict, onUpdate: NoAction)
+
+  @@index([user_id, server_id], map: "game_tickets_user_server")
+}
+
+model beta_campaign {
+  id String @id @db.VarChar(16)
+  starts_at DateTime? @db.Timestamptz(3)
+  ends_at DateTime? @db.Timestamptz(3)
+}
+
+model player_emote_grants {
+  user_id String @db.Uuid
+  code String @db.VarChar(32)
+  source String @db.VarChar(80)
+  granted_at DateTime @default(now()) @db.Timestamptz(3)
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  @@id([user_id, code])
+}
+
+model player_back_equipment {
+  user_id String @id @db.Uuid
+  kind String @default("NONE") @db.VarChar(8)
+  code String @default("") @db.VarChar(32)
+  revision BigInt @default(0)
+  updated_at DateTime @default(now()) @db.Timestamptz(3)
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
+
+model player_capes {
+  user_id String @db.Uuid
+  cape_id String @db.VarChar(32)
+  awarded_at DateTime @default(now()) @db.Timestamptz(3)
+  equipped Boolean @default(false)
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  @@id([user_id, cape_id])
+}
+
+model Clan {
+  id                       String                     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                     String                     @db.VarChar(64)
+  shortCode                String                     @map("short_code") @db.VarChar(12)
+  codeKey                  String                     @unique @map("code_key") @db.VarChar(12)
+  description              String                     @default("") @db.VarChar(4000)
+  logoUrl                  String?                    @map("logo_url")
+  discordUrl               String?                    @map("discord_url")
+  enabled                  Boolean                    @default(false)
+  archivedAt               DateTime?                  @map("archived_at") @db.Timestamptz(3)
+  version                  BigInt                     @default(0)
+  createdAt                DateTime                   @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt                DateTime                   @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
+  logo_media_id            String?                    @db.Uuid
+  color                    String?                    @db.Char(6)
+  clan_applications        clan_applications[]
+  clan_manager_assignments clan_manager_assignments[]
+  clan_members             clan_members[]
+  clan_roles               clan_roles[]
+  media_assets             media_assets?              @relation(fields: [logo_media_id], references: [id], onDelete: Restrict, onUpdate: NoAction)
+
+
+  clan_achievements                                                          clan_achievements[]
+  clan_event_scores                                                          clan_event_scores[]
+  clan_gameplay_events                                                       clan_gameplay_events[]
+  clan_online_presence                                                       clan_online_presence[]
+  clan_progression                                                           clan_progression?
+  clan_territory_control_clan_territory_control_captured_from_clan_idToclans clan_territory_control[]   @relation("clan_territory_control_captured_from_clan_idToclans")
+  clan_territory_control_clan_territory_control_controller_clan_idToclans    clan_territory_control[]   @relation("clan_territory_control_controller_clan_idToclans")
+  clan_war_windows_clan_war_windows_attacker_clan_idToclans                  clan_war_windows[]         @relation("clan_war_windows_attacker_clan_idToclans")
+  clan_war_windows_clan_war_windows_defender_clan_idToclans                  clan_war_windows[]         @relation("clan_war_windows_defender_clan_idToclans")
+  @@map("clans")
+}
+
+model application_history {
+  id                String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  application_id    String             @db.Uuid
+  status            application_status
+  actor_user_id     String?            @db.Uuid
+  reason            String?            @db.VarChar(1000)
+  time              DateTime           @default(now()) @db.Timestamptz(3)
+  users             User?              @relation(fields: [actor_user_id], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  clan_applications clan_applications  @relation(fields: [application_id], references: [id], onUpdate: NoAction)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model audit_logs {
+  id               String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  actor_user_id    String?             @db.Uuid
+  actor_service_id String?             @db.Uuid
+  service_identity service_principals? @relation(fields: [actor_service_id], references: [id], onDelete: Restrict, onUpdate: NoAction, map: "audit_logs_service_fkey")
+  actor_kind       audit_actor_kind
+  action           String              @db.VarChar(64)
+  target_type      String              @db.VarChar(64)
+  target_id        String              @db.Uuid
+  before_redacted  Json?
+  after_redacted   Json?
+  reason           String              @db.VarChar(1000)
+  request_id       String              @db.Uuid
+  time             DateTime            @default(now()) @db.Timestamptz(3)
+  users            User?               @relation(fields: [actor_user_id], references: [id], onDelete: Restrict, onUpdate: NoAction)
+
+  @@index([actor_user_id, time], map: "audit_logs_actor_time")
+  @@index([target_type, target_id, time], map: "audit_logs_target_time")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model bans {
+  id                          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id                     String    @db.Uuid
+  scope                       ban_scope
+  reason_private              String    @db.VarChar(1000)
+  message_public              String    @db.VarChar(1000)
+  issued_by                   String    @db.Uuid
+  created_at                  DateTime  @default(now()) @db.Timestamptz(3)
+  expires_at                  DateTime? @db.Timestamptz(3)
+  revoked_at                  DateTime? @db.Timestamptz(3)
+  version                     BigInt    @default(0)
+  users_bans_issued_byTousers User      @relation("bans_issued_byTousers", fields: [issued_by], references: [id], onUpdate: NoAction)
+  users_bans_user_idTousers   User      @relation("bans_user_idTousers", fields: [user_id], references: [id], onUpdate: NoAction)
+
+  @@index([user_id, revoked_at, expires_at], map: "bans_policy")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model clan_applications {
+  id                                        String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id                                   String                @db.Uuid
+  clan_id                                   String                @db.Uuid
+  message                                   String                @db.VarChar(4000)
+  status                                    application_status    @default(PENDING)
+  decided_by                                String?               @db.Uuid
+  decided_at                                DateTime?             @db.Timestamptz(3)
+  reason                                    String?               @db.VarChar(1000)
+  version                                   BigInt                @default(0)
+  created_at                                DateTime              @default(now()) @db.Timestamptz(3)
+  application_history                       application_history[]
+  clans                                     Clan                  @relation(fields: [clan_id], references: [id], onUpdate: NoAction)
+  users_clan_applications_decided_byTousers User?                 @relation("clan_applications_decided_byTousers", fields: [decided_by], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  users_clan_applications_user_idTousers    User                  @relation("clan_applications_user_idTousers", fields: [user_id], references: [id], onUpdate: NoAction)
+  clan_members                              clan_members[]
+
+  @@unique([id, user_id, clan_id])
+  @@index([clan_id, status, created_at, id], map: "clan_applications_queue")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model clan_manager_assignments {
+  id         String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id    String     @db.Uuid
+  clan_id    String     @db.Uuid
+  role_id    String     @db.Uuid
+  created_at DateTime   @default(now()) @db.Timestamptz(3)
+  ended_at   DateTime?  @db.Timestamptz(3)
+  version    BigInt     @default(0)
+  can_remove_members Boolean @default(false)
+  clans      Clan       @relation(fields: [clan_id], references: [id], onUpdate: NoAction)
+  clan_roles clan_roles @relation(fields: [role_id, clan_id], references: [id, clan_id], onUpdate: NoAction)
+  users      User       @relation(fields: [user_id], references: [id], onUpdate: NoAction)
+}
+
+model idempotency_keys {
+  principal_id String @db.Uuid
+  route String @db.VarChar(256)
+  key String @db.Uuid
+  request_digest String @db.Char(64)
+  result Json
+  created_at DateTime @default(now()) @db.Timestamptz(3)
+  expires_at DateTime @db.Timestamptz(3)
+  user User @relation(fields: [principal_id], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  @@id([principal_id, route, key])
+  @@index([expires_at])
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model clan_members {
+  id                      String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clan_id                 String             @db.Uuid
+  user_id                 String             @db.Uuid
+  joined_at               DateTime           @default(now()) @db.Timestamptz(3)
+  ended_at                DateTime?          @db.Timestamptz(3)
+  end_reason              String?            @db.VarChar(1000)
+  accepted_application_id String?            @unique @db.Uuid
+  version                 BigInt             @default(0)
+  clan_applications       clan_applications? @relation(fields: [accepted_application_id, user_id, clan_id], references: [id, user_id, clan_id], onUpdate: NoAction)
+  clans                   Clan               @relation(fields: [clan_id], references: [id], onUpdate: NoAction)
+  users                   User               @relation(fields: [user_id], references: [id], onUpdate: NoAction)
+  whitelist               whitelist[]
+
+  @@unique([id, user_id])
+  @@index([clan_id, ended_at, joined_at, id], map: "clan_members_roster")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model clan_roles {
+  id                       String                     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clan_id                  String                     @db.Uuid
+  code                     String                     @db.VarChar(16)
+  label                    String                     @db.VarChar(64)
+  can_remove_members       Boolean                    @default(false)
+  version                  BigInt                     @default(0)
+  clan_manager_assignments clan_manager_assignments[]
+  clans                    Clan                       @relation(fields: [clan_id], references: [id], onUpdate: NoAction)
+
+  @@unique([clan_id, code])
+  @@unique([id, clan_id])
+}
+
+model game_servers {
+  clan_server_presence clan_server_presence?
+  game_tickets       game_tickets[]
+  service_principals service_principals[]
+  id                 String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name               String               @db.VarChar(64)
+  maintenance        Boolean              @default(true)
+  created_at         DateTime             @default(now()) @db.Timestamptz(3)
+  player_statistics  player_statistics[]
+  server_boots       server_boots[]
+  server_events      server_events[]
+  clan_gameplay_events clan_gameplay_events[]
+  clan_online_presence clan_online_presence[]
+
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model launcher_versions {
+  id               String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  channel          String    @db.VarChar(32)
+  platform         String    @db.VarChar(32)
+  version_label    String    @db.VarChar(64)
+  release_sequence BigInt
+  min_api_major    Int
+  artifact_target  String    @db.VarChar(256)
+  sha256           String    @db.Char(64)
+  size             BigInt
+  created_at       DateTime  @default(now()) @db.Timestamptz(3)
+  published_at     DateTime? @db.Timestamptz(3)
+  revoked_at       DateTime? @db.Timestamptz(3)
+
+  @@unique([channel, platform, release_sequence])
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model media_assets {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  object_key String   @unique
+  format     String   @db.VarChar(8)
+  sha256     String   @db.Char(64)
+  size       BigInt
+  width      Int
+  height     Int
+  status     String   @db.VarChar(16)
+  created_at DateTime @default(now()) @db.Timestamptz(3)
+  clans      Clan[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model minecraft_accounts {
+  id             String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id        String                  @db.Uuid
+  minecraft_uuid String                  @unique @db.Uuid
+  nickname       String                  @db.VarChar(16)
+  state          minecraft_account_state
+  verified_at    DateTime                @db.Timestamptz(3)
+  revoked_at     DateTime?               @db.Timestamptz(3)
+  version        BigInt                  @default(0)
+  users          User                    @relation(fields: [user_id], references: [id], onUpdate: NoAction)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model news {
+  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  slug          String    @unique @db.VarChar(100)
+  title         String    @db.VarChar(160)
+  body_markdown String    @db.VarChar(20000)
+  published_at  DateTime? @db.Timestamptz(3)
+  archived_at   DateTime? @db.Timestamptz(3)
+  author_id     String    @db.Uuid
+  version       BigInt    @default(0)
+  created_at    DateTime  @default(now()) @db.Timestamptz(3)
+  updated_at    DateTime  @default(now()) @db.Timestamptz(3)
+  users         User      @relation(fields: [author_id], references: [id], onUpdate: NoAction)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model player_statistics {
+  user_id          String       @db.Uuid
+  server_id        String       @db.Uuid
+  playtime_seconds BigInt       @default(0)
+  last_seen_at     DateTime?    @db.Timestamptz(3)
+  version          BigInt       @default(0)
+  updated_at       DateTime     @default(now()) @db.Timestamptz(3)
+  game_servers     game_servers @relation(fields: [server_id], references: [id], onUpdate: NoAction)
+  users            User         @relation(fields: [user_id], references: [id], onUpdate: NoAction)
+
+  @@id([user_id, server_id])
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model server_boots {
+  id             String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  server_id      String          @db.Uuid
+  started_at     DateTime        @default(now()) @db.Timestamptz(3)
+  ended_at       DateTime?       @db.Timestamptz(3)
+  protocol_major Int
+  game_servers   game_servers    @relation(fields: [server_id], references: [id], onUpdate: NoAction)
+  server_events  server_events[]
+
+  @@unique([id, server_id])
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model server_events {
+  event_id          String       @db.Uuid
+  server_id         String       @db.Uuid
+  boot_id           String       @db.Uuid
+  kind              String       @db.VarChar(32)
+  observed_at       DateTime     @db.Timestamptz(3)
+  received_at       DateTime     @default(now()) @db.Timestamptz(3)
+  schema_version    Int
+  payload           Json
+  processing_status String       @default("PENDING") @db.VarChar(16)
+  server_boots      server_boots @relation(fields: [boot_id, server_id], references: [id, server_id], onUpdate: NoAction)
+  game_servers      game_servers @relation(fields: [server_id], references: [id], onUpdate: NoAction)
+
+  @@id([server_id, boot_id, event_id])
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model sessions {
+  game_tickets       game_tickets[]
+  id                  String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id             String              @db.Uuid
+  client_kind         session_client_kind
+  created_at          DateTime            @default(now()) @db.Timestamptz(3)
+  absolute_expires_at DateTime            @db.Timestamptz(3)
+  idle_expires_at     DateTime            @db.Timestamptz(3)
+  revoked_at          DateTime?           @db.Timestamptz(3)
+  auth_epoch          BigInt
+  mfa_verified_at     DateTime?           @db.Timestamptz(3)
+  last_step_up_at     DateTime?           @db.Timestamptz(3)
+  users               User                @relation(fields: [user_id], references: [id], onUpdate: NoAction)
+
+  auth_tokens         auth_tokens[]
+  auth_challenges     auth_challenges[]
+
+  @@index([user_id, revoked_at], map: "sessions_user_revoked")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model whitelist {
+  id                                String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id                           String         @db.Uuid
+  kind                              whitelist_kind
+  membership_id                     String?        @db.Uuid
+  granted_by                        String?        @db.Uuid
+  reason                            String         @db.VarChar(1000)
+  created_at                        DateTime       @default(now()) @db.Timestamptz(3)
+  expires_at                        DateTime?      @db.Timestamptz(3)
+  revoked_at                        DateTime?      @db.Timestamptz(3)
+  version                           BigInt         @default(0)
+  users_whitelist_granted_byTousers User?          @relation("whitelist_granted_byTousers", fields: [granted_by], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  clan_members                      clan_members?  @relation(fields: [membership_id, user_id], references: [id, user_id], onUpdate: NoAction)
+  users_whitelist_user_idTousers    User           @relation("whitelist_user_idTousers", fields: [user_id], references: [id], onUpdate: NoAction)
+}
+
+model service_principals {
+  id           String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  server_id    String       @db.Uuid
+  name         String       @db.VarChar(64)
+  enabled      Boolean      @default(false)
+  created_at   DateTime     @default(now()) @db.Timestamptz(3)
+  game_servers game_servers @relation(fields: [server_id], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  audit_logs   audit_logs[]
+}
+
+model outbox_events {
+  event_id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  type String @db.VarChar(64)
+  schema_version Int @default(1)
+  aggregate_id String @db.Uuid
+  aggregate_version BigInt
+  occurred_at DateTime @default(now()) @db.Timestamptz(3)
+  payload Json
+  user User @relation(fields: [aggregate_id], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  @@index([aggregate_id,aggregate_version], map: "outbox_events_aggregate")
+}
+
+model auth_tokens {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  session_id String @db.Uuid
+  token_hash String @unique @db.Char(64)
+  kind auth_token_kind
+  created_at DateTime @default(now()) @db.Timestamptz(3)
+  expires_at DateTime @db.Timestamptz(3)
+  used_at DateTime? @db.Timestamptz(3)
+  revoked_at DateTime? @db.Timestamptz(3)
+  session sessions @relation(fields: [session_id], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  @@index([session_id,revoked_at], map: "auth_tokens_session")
+}
+
+model auth_challenges {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id String @db.Uuid
+  session_id String? @db.Uuid
+  kind auth_challenge_kind
+  token_hash String @unique @db.Char(64)
+  auth_epoch BigInt
+  client_kind session_client_kind?
+  created_at DateTime @default(now()) @db.Timestamptz(3)
+  expires_at DateTime @db.Timestamptz(3)
+  consumed_at DateTime? @db.Timestamptz(3)
+  user User @relation(fields: [user_id], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  session sessions? @relation(fields: [session_id], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  @@index([user_id,kind,consumed_at], map: "auth_challenges_user")
+}
+
+model mfa_credentials {
+  user_id String @id @db.Uuid
+  secret_ciphertext String
+  key_id String @db.VarChar(64)
+  enabled Boolean @default(false)
+  pending_expires_at DateTime? @db.Timestamptz(3)
+  last_used_step BigInt @default(-1)
+  created_at DateTime @default(now()) @db.Timestamptz(3)
+  user User @relation(fields: [user_id], references: [id], onDelete: Restrict, onUpdate: NoAction)
+}
+
+model mfa_recovery_codes {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id String @db.Uuid
+  code_hash String @unique @db.Char(64)
+  created_at DateTime @default(now()) @db.Timestamptz(3)
+  used_at DateTime? @db.Timestamptz(3)
+  user User @relation(fields: [user_id], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  @@index([user_id,used_at], map: "mfa_recovery_codes_user")
+}
+
+model clan_achievements {
+  clan_id     String    @db.Uuid
+  code        String    @db.VarChar(64)
+  progress    BigInt    @default(0)
+  target      BigInt
+  unlocked_at DateTime? @db.Timestamptz(3)
+  version     BigInt    @default(0)
+  updated_at  DateTime  @default(now()) @db.Timestamptz(3)
+  clans       Clan      @relation(fields: [clan_id], references: [id], onUpdate: NoAction)
+
+  @@id([clan_id, code])
+}
+
+model clan_event_scores {
+  event_id          String      @db.Uuid
+  clan_id           String      @db.Uuid
+  score             BigInt      @default(0)
+  reward_granted_at DateTime?   @db.Timestamptz(3)
+  version           BigInt      @default(0)
+  updated_at        DateTime    @default(now()) @db.Timestamptz(3)
+  clans             Clan        @relation(fields: [clan_id], references: [id], onUpdate: NoAction)
+  clan_events       clan_events @relation(fields: [event_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([event_id, clan_id])
+}
+
+model clan_events {
+  id                String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code              String              @unique(map: "clan_events_code") @db.VarChar(64)
+  title             String              @db.VarChar(160)
+  status            String              @db.VarChar(16)
+  starts_at         DateTime            @db.Timestamptz(3)
+  ends_at           DateTime            @db.Timestamptz(3)
+  payload           Json                @default("{}")
+  version           BigInt              @default(0)
+  created_at        DateTime            @default(now()) @db.Timestamptz(3)
+  clan_event_scores clan_event_scores[]
+}
+
+model clan_gameplay_events {
+  event_id         String       @id @db.Uuid
+  server_id        String       @db.Uuid
+  clan_id          String       @db.Uuid
+  kind             String       @db.VarChar(64)
+  xp_delta         BigInt       @default(0)
+  reputation_delta Int          @default(0)
+  payload          Json         @default("{}")
+  occurred_at      DateTime     @db.Timestamptz(3)
+  created_at       DateTime     @default(now()) @db.Timestamptz(3)
+  clans            Clan         @relation(fields: [clan_id], references: [id], onUpdate: NoAction)
+  game_servers     game_servers @relation(fields: [server_id], references: [id], onUpdate: NoAction)
+
+  @@index([clan_id, occurred_at(sort: Desc)], map: "clan_gameplay_events_clan_time")
+}
+
+model clan_online_presence {
+  server_id    String       @db.Uuid
+  user_id      String       @db.Uuid
+  clan_id      String?      @db.Uuid
+  online       Boolean      @default(false)
+  last_seen_at DateTime     @default(now()) @db.Timestamptz(3)
+  updated_at   DateTime     @default(now()) @db.Timestamptz(3)
+  clans        Clan?        @relation(fields: [clan_id], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  game_servers game_servers @relation(fields: [server_id], references: [id], onUpdate: NoAction)
+  users        User         @relation(fields: [user_id], references: [id], onUpdate: NoAction)
+
+  @@id([server_id, user_id])
+  @@index([clan_id, online, last_seen_at], map: "clan_online_presence_clan")
+}
+
+model clan_progression {
+  clan_id    String   @id @db.Uuid
+  xp         BigInt   @default(0)
+  level      Int      @default(1)
+  reputation Int      @default(0)
+  statistics Json     @default("{}")
+  version    BigInt   @default(0)
+  updated_at DateTime @default(now()) @db.Timestamptz(3)
+  clans      Clan     @relation(fields: [clan_id], references: [id], onUpdate: NoAction)
+}
+
+model clan_territory_control {
+  territory_code                                            String           @id @db.VarChar(12)
+  controller_clan_id                                        String           @db.Uuid
+  captured_from_clan_id                                     String           @db.Uuid
+  war_window_id                                             String           @db.Uuid
+  captured_at                                               DateTime         @default(now()) @db.Timestamptz(3)
+  version                                                   BigInt           @default(0)
+  clans_clan_territory_control_captured_from_clan_idToclans Clan             @relation("clan_territory_control_captured_from_clan_idToclans", fields: [captured_from_clan_id], references: [id], onUpdate: NoAction)
+  clans_clan_territory_control_controller_clan_idToclans    Clan             @relation("clan_territory_control_controller_clan_idToclans", fields: [controller_clan_id], references: [id], onUpdate: NoAction)
+  clan_war_windows                                          clan_war_windows @relation(fields: [war_window_id], references: [id], onUpdate: NoAction)
+}
+
+model clan_war_windows {
+  id                                             String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  attacker_clan_id                               String                   @db.Uuid
+  defender_clan_id                               String                   @db.Uuid
+  status                                         String                   @db.VarChar(16)
+  preparation_starts_at                          DateTime                 @db.Timestamptz(3)
+  active_starts_at                               DateTime                 @db.Timestamptz(3)
+  active_ends_at                                 DateTime                 @db.Timestamptz(3)
+  cooldown_ends_at                               DateTime?                @db.Timestamptz(3)
+  reason                                         String                   @db.VarChar(1000)
+  version                                        BigInt                   @default(0)
+  created_at                                     DateTime                 @default(now()) @db.Timestamptz(3)
+  clan_territory_control                         clan_territory_control[]
+  clans_clan_war_windows_attacker_clan_idToclans Clan                     @relation("clan_war_windows_attacker_clan_idToclans", fields: [attacker_clan_id], references: [id], onUpdate: NoAction)
+  clans_clan_war_windows_defender_clan_idToclans Clan                     @relation("clan_war_windows_defender_clan_idToclans", fields: [defender_clan_id], references: [id], onUpdate: NoAction)
+
+  @@index([active_starts_at, active_ends_at, status], map: "clan_war_windows_active")
+}
+
+enum auth_token_kind {
+  ACCESS
+  REFRESH
+}
+
+enum auth_challenge_kind {
+  EMAIL_VERIFY
+  PASSWORD_RESET
+  LOGIN_MFA
+  MINECRAFT_BIND
+}
+
+enum SystemRole {
+  OWNER
+  PLAYER
+
+  @@map("system_role")
+}
+
+enum UserState {
+  ACTIVE
+  SUSPENDED
+
+  @@map("user_state")
+}
+
+enum application_status {
+  PENDING
+  ACCEPTED
+  REJECTED
+  WITHDRAWN
+  CANCELLED
+}
+
+enum audit_actor_kind {
+  USER
+  SERVICE
+  OPERATOR
+  DEVELOPMENT
+}
+
+enum ban_scope {
+  GAME
+  ACCOUNT
+}
+
+enum minecraft_account_state {
+  VERIFIED
+  REVOKED
+}
+
+enum session_client_kind {
+  LAUNCHER
+  WEB_ADMIN
+}
+
+enum whitelist_kind {
+  MEMBERSHIP
+  OWNER
+}
+
+model clan_server_presence {
+  server_id String @id @db.Uuid
+  snapshot_at DateTime @db.Timestamptz(3)
+  updated_at DateTime @default(now()) @db.Timestamptz(3)
+  server game_servers @relation(fields:[server_id],references:[id],onDelete:Restrict,onUpdate:NoAction)
+}

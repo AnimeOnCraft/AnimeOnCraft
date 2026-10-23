@@ -1,0 +1,14 @@
+{
+  "code": "FOX_EARS",
+  "source": "minecraft\\cosmetics\\fox-ears\\fox-ears.bbmodel",
+  "source_sha256": "d7cac729b20be6599336f4eefced9740737f5cd09c1d47c15ca30b6beb64f6ca",
+  "geometry": "minecraft/integration/neoforge/src/main/resources/assets/animeoncraft/cosmetics/fox_ears.json",
+  "texture": "minecraft/integration/neoforge/src/main/resources/assets/animeoncraft/textures/cosmetics/fox_ears.png",
+  "faces": 106,
+  "triangles": 26,
+  "emissive_faces": 2,
+  "parts": [
+    "static"
+  ],
+  "reference_head_exported": false
+}

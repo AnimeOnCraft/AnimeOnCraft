@@ -1,0 +1,16 @@
+{
+  "format_version": 1,
+  "minecraft": "1.21.1",
+  "structure_frequency_multipliers": {
+    "dungeons_arise": 0.2,
+    "mvs": 0.5
+  },
+  "wda_valuable_pool_chance": 0.5,
+  "valuable_items": [
+    "minecraft:diamond", "minecraft:diamond_block", "minecraft:emerald", "minecraft:emerald_block",
+    "minecraft:ancient_debris", "minecraft:netherite_scrap", "minecraft:netherite_ingot", "minecraft:netherite_block",
+    "minecraft:enchanted_golden_apple", "minecraft:enchanted_book", "minecraft:elytra",
+    "minecraft:totem_of_undying", "minecraft:nether_star", "minecraft:beacon"
+  ],
+  "note": "Only new candidate starts are reduced. Existing chunks/loot and pregenerated map remain untouched; frequencies are per structure set, not a global minimum distance."
+}

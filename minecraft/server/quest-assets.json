@@ -1,0 +1,46 @@
+{
+  "format_version": 1,
+  "id": "aoc-personal-quests-v1",
+  "source_directory": "minecraft/modpack/quest-book",
+  "chapters": 5,
+  "quests": 22,
+  "progress": "personal",
+  "files": [
+    {
+      "path": "data.snbt",
+      "sha256": "04b76fe27a4625f4e74eceed14599fa2e353992ef0a35c2e271bb7d9b444ec8a"
+    },
+    {
+      "path": "chapter_groups.snbt",
+      "sha256": "e9e0daacf0a4fe587c0231cea95dc56f1aae62c5e8b1d3371829360a50f1b332"
+    },
+    {
+      "path": "chapters/aoc_1.snbt",
+      "sha256": "abf9d2f544948c5b49ffbb695220659c0c7be3f41c7ae0e1c98cd9a466e3ff5b"
+    },
+    {
+      "path": "chapters/aoc_2.snbt",
+      "sha256": "d42470834ecd2824b21e383aac217988f4b56e87cedff30bdfc7009936a7e172"
+    },
+    {
+      "path": "chapters/aoc_3.snbt",
+      "sha256": "08fad9f90e24486a89f0c007e2f5656effecb300356678c79da6eebb76e5481f"
+    },
+    {
+      "path": "chapters/aoc_4.snbt",
+      "sha256": "13e9133fedc77f33700f9a7d162d55f083d8a097adaa7eb9c4cf96e30b88fc44"
+    },
+    {
+      "path": "chapters/aoc_5.snbt",
+      "sha256": "685b631da6c07bff37fc4021196783d7046ed6307d4b9973e09d55776d948f54"
+    },
+    {
+      "path": "lang/ru_ru.snbt",
+      "sha256": "913a65aa9f6b16a615162f080c4660c7b573a474938ae0db65ab566478cb0c72"
+    },
+    {
+      "path": "lang/en_us.snbt",
+      "sha256": "913a65aa9f6b16a615162f080c4660c7b573a474938ae0db65ab566478cb0c72"
+    }
+  ]
+}

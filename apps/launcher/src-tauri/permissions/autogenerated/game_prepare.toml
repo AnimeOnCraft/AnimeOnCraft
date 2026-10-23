@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-game-prepare"
+description = "Enables the game_prepare command without any pre-configured scope."
+commands.allow = ["game_prepare"]
+
+[[permission]]
+identifier = "deny-game-prepare"
+description = "Denies the game_prepare command without any pre-configured scope."
+commands.deny = ["game_prepare"]

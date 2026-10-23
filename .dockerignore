@@ -1,0 +1,14 @@
+.git
+node_modules
+**/node_modules
+**/dist
+**/target
+**/build
+.env
+.env.*
+!.env.example
+world*
+logs
+backups
+.tools
+**/.tools

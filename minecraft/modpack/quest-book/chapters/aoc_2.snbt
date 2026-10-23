@@ -1,0 +1,122 @@
+{
+  "id": "1000000000000002",
+  "filename": "aoc_2",
+  "group": "",
+  "order_index": 1,
+  "icon": "irons_spellbooks:arcane_essence",
+  "default_quest_shape": "square",
+  "default_repeatable_quest": false,
+  "consume_items": false,
+  "quests": [
+    {
+      "id": "2000000000000005",
+      "x": 0,
+      "y": 0,
+      "shape": "square",
+      "size": 1,
+      "can_repeat": false,
+      "tasks": [
+        {
+          "id": "3000000000000005",
+          "type": "item",
+          "item": "minecraft:book",
+          "count": 1,
+          "consume_items": false
+        }
+      ],
+      "dependencies": [],
+      "rewards": [
+        {
+          "id": "4000000000000005",
+          "type": "item",
+          "item": "minecraft:bread",
+          "count": 3
+        }
+      ]
+    },
+    {
+      "id": "2000000000000006",
+      "x": 3,
+      "y": 0,
+      "shape": "square",
+      "size": 1,
+      "can_repeat": false,
+      "tasks": [
+        {
+          "id": "3000000000000006",
+          "type": "item",
+          "item": "irons_spellbooks:arcane_essence",
+          "count": 8,
+          "consume_items": false
+        }
+      ],
+      "dependencies": [
+        "2000000000000005"
+      ],
+      "rewards": [
+        {
+          "id": "4000000000000006",
+          "type": "item",
+          "item": "minecraft:bread",
+          "count": 3
+        }
+      ]
+    },
+    {
+      "id": "2000000000000007",
+      "x": 6,
+      "y": 0,
+      "shape": "square",
+      "size": 1,
+      "can_repeat": false,
+      "tasks": [
+        {
+          "id": "3000000000000007",
+          "type": "item",
+          "item": "irons_spellbooks:common_ink",
+          "count": 1,
+          "consume_items": false
+        }
+      ],
+      "dependencies": [
+        "2000000000000006"
+      ],
+      "rewards": [
+        {
+          "id": "4000000000000007",
+          "type": "item",
+          "item": "minecraft:bread",
+          "count": 3
+        }
+      ]
+    },
+    {
+      "id": "2000000000000008",
+      "x": 9,
+      "y": 0,
+      "shape": "square",
+      "size": 1,
+      "can_repeat": false,
+      "tasks": [
+        {
+          "id": "3000000000000008",
+          "type": "item",
+          "item": "irons_spellbooks:arcane_anvil",
+          "count": 1,
+          "consume_items": false
+        }
+      ],
+      "dependencies": [
+        "2000000000000007"
+      ],
+      "rewards": [
+        {
+          "id": "4000000000000008",
+          "type": "item",
+          "item": "minecraft:bread",
+          "count": 3
+        }
+      ]
+    }
+  ]
+}

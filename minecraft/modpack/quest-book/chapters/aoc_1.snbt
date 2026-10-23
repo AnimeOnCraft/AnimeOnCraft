@@ -1,0 +1,122 @@
+{
+  "id": "1000000000000001",
+  "filename": "aoc_1",
+  "group": "",
+  "order_index": 0,
+  "icon": "minecraft:crafting_table",
+  "default_quest_shape": "square",
+  "default_repeatable_quest": false,
+  "consume_items": false,
+  "quests": [
+    {
+      "id": "2000000000000001",
+      "x": 0,
+      "y": 0,
+      "shape": "square",
+      "size": 1,
+      "can_repeat": false,
+      "tasks": [
+        {
+          "id": "3000000000000001",
+          "type": "item",
+          "item": "minecraft:oak_log",
+          "count": 16,
+          "consume_items": false
+        }
+      ],
+      "dependencies": [],
+      "rewards": [
+        {
+          "id": "4000000000000001",
+          "type": "item",
+          "item": "minecraft:bread",
+          "count": 3
+        }
+      ]
+    },
+    {
+      "id": "2000000000000002",
+      "x": 3,
+      "y": 0,
+      "shape": "square",
+      "size": 1,
+      "can_repeat": false,
+      "tasks": [
+        {
+          "id": "3000000000000002",
+          "type": "item",
+          "item": "minecraft:crafting_table",
+          "count": 1,
+          "consume_items": false
+        }
+      ],
+      "dependencies": [
+        "2000000000000001"
+      ],
+      "rewards": [
+        {
+          "id": "4000000000000002",
+          "type": "item",
+          "item": "minecraft:bread",
+          "count": 3
+        }
+      ]
+    },
+    {
+      "id": "2000000000000003",
+      "x": 6,
+      "y": 0,
+      "shape": "square",
+      "size": 1,
+      "can_repeat": false,
+      "tasks": [
+        {
+          "id": "3000000000000003",
+          "type": "item",
+          "item": "minecraft:furnace",
+          "count": 1,
+          "consume_items": false
+        }
+      ],
+      "dependencies": [
+        "2000000000000002"
+      ],
+      "rewards": [
+        {
+          "id": "4000000000000003",
+          "type": "item",
+          "item": "minecraft:bread",
+          "count": 3
+        }
+      ]
+    },
+    {
+      "id": "2000000000000004",
+      "x": 9,
+      "y": 0,
+      "shape": "square",
+      "size": 1,
+      "can_repeat": false,
+      "tasks": [
+        {
+          "id": "3000000000000004",
+          "type": "item",
+          "item": "minecraft:iron_pickaxe",
+          "count": 1,
+          "consume_items": false
+        }
+      ],
+      "dependencies": [
+        "2000000000000003"
+      ],
+      "rewards": [
+        {
+          "id": "4000000000000004",
+          "type": "item",
+          "item": "minecraft:bread",
+          "count": 3
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://animeoncraft.local/schemas/health-live.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["status", "service", "version"],
+  "properties": {
+    "status": { "const": "ok" },
+    "service": { "const": "animeoncraft-backend" },
+    "version": { "type": "string", "minLength": 1 }
+  }
+}

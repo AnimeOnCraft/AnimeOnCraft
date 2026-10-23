@@ -1,0 +1,3593 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "AnimeOnCraft clan workflows — development",
+    "version": "0.5.0-clans-dev",
+    "description": "Default-off auth module; loopback development only. External identity/SMTP/HTTPS and production gates remain open. PATCH ClanInput replaces the full allowlisted profile. If-Match on direct admission/manager changes references clan version; removal/leave references membership version. Dashboard is bounded to 100 clans; lists use signed scoped cursors."
+  },
+  "paths": {
+    "/api/v1/launcher/owner/clans": {
+      "get": {
+        "description": "Current LAUNCHER session and current OWNER role. Limited to clan self-join and reviewing applications.",
+        "parameters": [
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "launcher"
+              ]
+            }
+          }
+        ],
+        "security": [
+          {
+            "nativeBearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Committed result; game synchronization/admission remains separate.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OwnerClans"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled 400 error envelope; no internal data."
+          },
+          "401": {
+            "description": "Controlled 401 error envelope; no internal data."
+          },
+          "403": {
+            "description": "Controlled 403 error envelope; no internal data."
+          },
+          "404": {
+            "description": "Controlled 404 error envelope; no internal data."
+          },
+          "409": {
+            "description": "Controlled 409 error envelope; no internal data."
+          },
+          "412": {
+            "description": "Controlled 412 error envelope; no internal data."
+          },
+          "428": {
+            "description": "Controlled 428 error envelope; no internal data."
+          },
+          "429": {
+            "description": "Controlled 429 error envelope; no internal data."
+          },
+          "503": {
+            "description": "Controlled 503 error envelope; no internal data."
+          }
+        }
+      }
+    },
+    "/api/v1/launcher/owner/clans/{id}/applications": {
+      "get": {
+        "description": "Current LAUNCHER session and current OWNER role. Limited to clan self-join and reviewing applications.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "launcher"
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "maxLength": 512
+            }
+          }
+        ],
+        "security": [
+          {
+            "nativeBearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Committed result; game synchronization/admission remains separate.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OwnerApplications"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled 400 error envelope; no internal data."
+          },
+          "401": {
+            "description": "Controlled 401 error envelope; no internal data."
+          },
+          "403": {
+            "description": "Controlled 403 error envelope; no internal data."
+          },
+          "404": {
+            "description": "Controlled 404 error envelope; no internal data."
+          },
+          "409": {
+            "description": "Controlled 409 error envelope; no internal data."
+          },
+          "412": {
+            "description": "Controlled 412 error envelope; no internal data."
+          },
+          "428": {
+            "description": "Controlled 428 error envelope; no internal data."
+          },
+          "429": {
+            "description": "Controlled 429 error envelope; no internal data."
+          },
+          "503": {
+            "description": "Controlled 503 error envelope; no internal data."
+          }
+        }
+      }
+    },
+    "/api/v1/launcher/owner/clans/{id}/join": {
+      "post": {
+        "description": "Current LAUNCHER session and current OWNER role. Limited to clan self-join and reviewing applications.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "launcher"
+              ]
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": false,
+            "description": "Required for WEB_ADMIN with exact configured Origin.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"(0|[1-9][0-9]{0,18})\"$"
+            }
+          }
+        ],
+        "security": [
+          {
+            "nativeBearer": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Committed result; game synchronization/admission remains separate.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled 400 error envelope; no internal data."
+          },
+          "401": {
+            "description": "Controlled 401 error envelope; no internal data."
+          },
+          "403": {
+            "description": "Controlled 403 error envelope; no internal data."
+          },
+          "404": {
+            "description": "Controlled 404 error envelope; no internal data."
+          },
+          "409": {
+            "description": "Controlled 409 error envelope; no internal data."
+          },
+          "412": {
+            "description": "Controlled 412 error envelope; no internal data."
+          },
+          "428": {
+            "description": "Controlled 428 error envelope; no internal data."
+          },
+          "429": {
+            "description": "Controlled 429 error envelope; no internal data."
+          },
+          "503": {
+            "description": "Controlled 503 error envelope; no internal data."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Reason"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/launcher/owner/applications/{id}/approve": {
+      "post": {
+        "description": "Current LAUNCHER session and current OWNER role. Limited to clan self-join and reviewing applications.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "launcher"
+              ]
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": false,
+            "description": "Required for WEB_ADMIN with exact configured Origin.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"(0|[1-9][0-9]{0,18})\"$"
+            }
+          }
+        ],
+        "security": [
+          {
+            "nativeBearer": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Committed result; game synchronization/admission remains separate.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled 400 error envelope; no internal data."
+          },
+          "401": {
+            "description": "Controlled 401 error envelope; no internal data."
+          },
+          "403": {
+            "description": "Controlled 403 error envelope; no internal data."
+          },
+          "404": {
+            "description": "Controlled 404 error envelope; no internal data."
+          },
+          "409": {
+            "description": "Controlled 409 error envelope; no internal data."
+          },
+          "412": {
+            "description": "Controlled 412 error envelope; no internal data."
+          },
+          "428": {
+            "description": "Controlled 428 error envelope; no internal data."
+          },
+          "429": {
+            "description": "Controlled 429 error envelope; no internal data."
+          },
+          "503": {
+            "description": "Controlled 503 error envelope; no internal data."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Reason"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/launcher/owner/applications/{id}/reject": {
+      "post": {
+        "description": "Current LAUNCHER session and current OWNER role. Limited to clan self-join and reviewing applications.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "launcher"
+              ]
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": false,
+            "description": "Required for WEB_ADMIN with exact configured Origin.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"(0|[1-9][0-9]{0,18})\"$"
+            }
+          }
+        ],
+        "security": [
+          {
+            "nativeBearer": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Committed result; game synchronization/admission remains separate.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled 400 error envelope; no internal data."
+          },
+          "401": {
+            "description": "Controlled 401 error envelope; no internal data."
+          },
+          "403": {
+            "description": "Controlled 403 error envelope; no internal data."
+          },
+          "404": {
+            "description": "Controlled 404 error envelope; no internal data."
+          },
+          "409": {
+            "description": "Controlled 409 error envelope; no internal data."
+          },
+          "412": {
+            "description": "Controlled 412 error envelope; no internal data."
+          },
+          "428": {
+            "description": "Controlled 428 error envelope; no internal data."
+          },
+          "429": {
+            "description": "Controlled 429 error envelope; no internal data."
+          },
+          "503": {
+            "description": "Controlled 503 error envelope; no internal data."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Reason"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/management/dashboard": {
+      "get": {
+        "description": "Current WEB_ADMIN + enabled MFA and current OWNER/scoped assignment; every mutation requires step-up within 10 minutes.",
+        "parameters": [
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "web-admin"
+              ]
+            }
+          }
+        ],
+        "security": [
+          {
+            "webSession": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Committed result; game synchronization/admission remains separate.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dashboard"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled 400 error envelope; no internal data."
+          },
+          "401": {
+            "description": "Controlled 401 error envelope; no internal data."
+          },
+          "403": {
+            "description": "Controlled 403 error envelope; no internal data."
+          },
+          "404": {
+            "description": "Controlled 404 error envelope; no internal data."
+          },
+          "409": {
+            "description": "Controlled 409 error envelope; no internal data."
+          },
+          "412": {
+            "description": "Controlled 412 error envelope; no internal data."
+          },
+          "428": {
+            "description": "Controlled 428 error envelope; no internal data."
+          },
+          "429": {
+            "description": "Controlled 429 error envelope; no internal data."
+          },
+          "503": {
+            "description": "Controlled 503 error envelope; no internal data."
+          }
+        }
+      }
+    },
+    "/api/v1/management/clans": {
+      "post": {
+        "description": "Current WEB_ADMIN + enabled MFA and current OWNER/scoped assignment; every mutation requires step-up within 10 minutes.",
+        "parameters": [
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "web-admin"
+              ]
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": false,
+            "description": "Required for WEB_ADMIN with exact configured Origin.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "webSession": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Committed result; game synchronization/admission remains separate.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Clan"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled 400 error envelope; no internal data."
+          },
+          "401": {
+            "description": "Controlled 401 error envelope; no internal data."
+          },
+          "403": {
+            "description": "Controlled 403 error envelope; no internal data."
+          },
+          "404": {
+            "description": "Controlled 404 error envelope; no internal data."
+          },
+          "409": {
+            "description": "Controlled 409 error envelope; no internal data."
+          },
+          "412": {
+            "description": "Controlled 412 error envelope; no internal data."
+          },
+          "428": {
+            "description": "Controlled 428 error envelope; no internal data."
+          },
+          "429": {
+            "description": "Controlled 429 error envelope; no internal data."
+          },
+          "503": {
+            "description": "Controlled 503 error envelope; no internal data."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClanInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/management/clans/{id}": {
+      "patch": {
+        "description": "Current WEB_ADMIN + enabled MFA and current OWNER/scoped assignment; every mutation requires step-up within 10 minutes.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "web-admin"
+              ]
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": false,
+            "description": "Required for WEB_ADMIN with exact configured Origin.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"(0|[1-9][0-9]{0,18})\"$"
+            }
+          }
+        ],
+        "security": [
+          {
+            "webSession": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Committed result; game synchronization/admission remains separate.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Clan"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled 400 error envelope; no internal data."
+          },
+          "401": {
+            "description": "Controlled 401 error envelope; no internal data."
+          },
+          "403": {
+            "description": "Controlled 403 error envelope; no internal data."
+          },
+          "404": {
+            "description": "Controlled 404 error envelope; no internal data."
+          },
+          "409": {
+            "description": "Controlled 409 error envelope; no internal data."
+          },
+          "412": {
+            "description": "Controlled 412 error envelope; no internal data."
+          },
+          "428": {
+            "description": "Controlled 428 error envelope; no internal data."
+          },
+          "429": {
+            "description": "Controlled 429 error envelope; no internal data."
+          },
+          "503": {
+            "description": "Controlled 503 error envelope; no internal data."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClanInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/management/clans/{id}/archive-preview": {
+      "get": {
+        "description": "Current WEB_ADMIN + enabled MFA and current OWNER/scoped assignment; every mutation requires step-up within 10 minutes.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "web-admin"
+              ]
+            }
+          }
+        ],
+        "security": [
+          {
+            "webSession": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Committed result; game synchronization/admission remains separate.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Preview"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled 400 error envelope; no internal data."
+          },
+          "401": {
+            "description": "Controlled 401 error envelope; no internal data."
+          },
+          "403": {
+            "description": "Controlled 403 error envelope; no internal data."
+          },
+          "404": {
+            "description": "Controlled 404 error envelope; no internal data."
+          },
+          "409": {
+            "description": "Controlled 409 error envelope; no internal data."
+          },
+          "412": {
+            "description": "Controlled 412 error envelope; no internal data."
+          },
+          "428": {
+            "description": "Controlled 428 error envelope; no internal data."
+          },
+          "429": {
+            "description": "Controlled 429 error envelope; no internal data."
+          },
+          "503": {
+            "description": "Controlled 503 error envelope; no internal data."
+          }
+        }
+      }
+    },
+    "/api/v1/management/clans/{id}/archive": {
+      "post": {
+        "description": "Current WEB_ADMIN + enabled MFA and current OWNER/scoped assignment; every mutation requires step-up within 10 minutes.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "web-admin"
+              ]
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": false,
+            "description": "Required for WEB_ADMIN with exact configured Origin.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"(0|[1-9][0-9]{0,18})\"$"
+            }
+          }
+        ],
+        "security": [
+          {
+            "webSession": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Committed result; game synchronization/admission remains separate.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled 400 error envelope; no internal data."
+          },
+          "401": {
+            "description": "Controlled 401 error envelope; no internal data."
+          },
+          "403": {
+            "description": "Controlled 403 error envelope; no internal data."
+          },
+          "404": {
+            "description": "Controlled 404 error envelope; no internal data."
+          },
+          "409": {
+            "description": "Controlled 409 error envelope; no internal data."
+          },
+          "412": {
+            "description": "Controlled 412 error envelope; no internal data."
+          },
+          "428": {
+            "description": "Controlled 428 error envelope; no internal data."
+          },
+          "429": {
+            "description": "Controlled 429 error envelope; no internal data."
+          },
+          "503": {
+            "description": "Controlled 503 error envelope; no internal data."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Reason"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/management/clans/{id}/unarchive": {
+      "post": {
+        "description": "Current WEB_ADMIN + enabled MFA and current OWNER/scoped assignment; every mutation requires step-up within 10 minutes.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "web-admin"
+              ]
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": false,
+            "description": "Required for WEB_ADMIN with exact configured Origin.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"(0|[1-9][0-9]{0,18})\"$"
+            }
+          }
+        ],
+        "security": [
+          {
+            "webSession": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Committed result; game synchronization/admission remains separate.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled 400 error envelope; no internal data."
+          },
+          "401": {
+            "description": "Controlled 401 error envelope; no internal data."
+          },
+          "403": {
+            "description": "Controlled 403 error envelope; no internal data."
+          },
+          "404": {
+            "description": "Controlled 404 error envelope; no internal data."
+          },
+          "409": {
+            "description": "Controlled 409 error envelope; no internal data."
+          },
+          "412": {
+            "description": "Controlled 412 error envelope; no internal data."
+          },
+          "428": {
+            "description": "Controlled 428 error envelope; no internal data."
+          },
+          "429": {
+            "description": "Controlled 429 error envelope; no internal data."
+          },
+          "503": {
+            "description": "Controlled 503 error envelope; no internal data."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Reason"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/management/clans/{id}/managers/{user}": {
+      "put": {
+        "description": "Current WEB_ADMIN + enabled MFA and current OWNER/scoped assignment; every mutation requires step-up within 10 minutes.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "user",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "web-admin"
+              ]
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": false,
+            "description": "Required for WEB_ADMIN with exact configured Origin.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"(0|[1-9][0-9]{0,18})\"$"
+            }
+          }
+        ],
+        "security": [
+          {
+            "webSession": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Committed result; game synchronization/admission remains separate.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled 400 error envelope; no internal data."
+          },
+          "401": {
+            "description": "Controlled 401 error envelope; no internal data."
+          },
+          "403": {
+            "description": "Controlled 403 error envelope; no internal data."
+          },
+          "404": {
+            "description": "Controlled 404 error envelope; no internal data."
+          },
+          "409": {
+            "description": "Controlled 409 error envelope; no internal data."
+          },
+          "412": {
+            "description": "Controlled 412 error envelope; no internal data."
+          },
+          "428": {
+            "description": "Controlled 428 error envelope; no internal data."
+          },
+          "429": {
+            "description": "Controlled 429 error envelope; no internal data."
+          },
+          "503": {
+            "description": "Controlled 503 error envelope; no internal data."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ManagerInput"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Current WEB_ADMIN + enabled MFA and current OWNER/scoped assignment; every mutation requires step-up within 10 minutes.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "user",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "web-admin"
+              ]
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": false,
+            "description": "Required for WEB_ADMIN with exact configured Origin.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"(0|[1-9][0-9]{0,18})\"$"
+            }
+          }
+        ],
+        "security": [
+          {
+            "webSession": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Committed result; game synchronization/admission remains separate.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled 400 error envelope; no internal data."
+          },
+          "401": {
+            "description": "Controlled 401 error envelope; no internal data."
+          },
+          "403": {
+            "description": "Controlled 403 error envelope; no internal data."
+          },
+          "404": {
+            "description": "Controlled 404 error envelope; no internal data."
+          },
+          "409": {
+            "description": "Controlled 409 error envelope; no internal data."
+          },
+          "412": {
+            "description": "Controlled 412 error envelope; no internal data."
+          },
+          "428": {
+            "description": "Controlled 428 error envelope; no internal data."
+          },
+          "429": {
+            "description": "Controlled 429 error envelope; no internal data."
+          },
+          "503": {
+            "description": "Controlled 503 error envelope; no internal data."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Reason"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/management/clans/{id}/applications": {
+      "get": {
+        "description": "Current WEB_ADMIN + enabled MFA and current OWNER/scoped assignment; every mutation requires step-up within 10 minutes.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "web-admin"
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "maxLength": 512
+            }
+          }
+        ],
+        "security": [
+          {
+            "webSession": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Committed result; game synchronization/admission remains separate.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Applications"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled 400 error envelope; no internal data."
+          },
+          "401": {
+            "description": "Controlled 401 error envelope; no internal data."
+          },
+          "403": {
+            "description": "Controlled 403 error envelope; no internal data."
+          },
+          "404": {
+            "description": "Controlled 404 error envelope; no internal data."
+          },
+          "409": {
+            "description": "Controlled 409 error envelope; no internal data."
+          },
+          "412": {
+            "description": "Controlled 412 error envelope; no internal data."
+          },
+          "428": {
+            "description": "Controlled 428 error envelope; no internal data."
+          },
+          "429": {
+            "description": "Controlled 429 error envelope; no internal data."
+          },
+          "503": {
+            "description": "Controlled 503 error envelope; no internal data."
+          }
+        }
+      }
+    },
+    "/api/v1/management/clans/{id}/members": {
+      "get": {
+        "description": "Current WEB_ADMIN + enabled MFA and current OWNER/scoped assignment; every mutation requires step-up within 10 minutes.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "web-admin"
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "maxLength": 512
+            }
+          }
+        ],
+        "security": [
+          {
+            "webSession": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Committed result; game synchronization/admission remains separate.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Members"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled 400 error envelope; no internal data."
+          },
+          "401": {
+            "description": "Controlled 401 error envelope; no internal data."
+          },
+          "403": {
+            "description": "Controlled 403 error envelope; no internal data."
+          },
+          "404": {
+            "description": "Controlled 404 error envelope; no internal data."
+          },
+          "409": {
+            "description": "Controlled 409 error envelope; no internal data."
+          },
+          "412": {
+            "description": "Controlled 412 error envelope; no internal data."
+          },
+          "428": {
+            "description": "Controlled 428 error envelope; no internal data."
+          },
+          "429": {
+            "description": "Controlled 429 error envelope; no internal data."
+          },
+          "503": {
+            "description": "Controlled 503 error envelope; no internal data."
+          }
+        }
+      },
+      "post": {
+        "description": "Current WEB_ADMIN + enabled MFA and current OWNER/scoped assignment; every mutation requires step-up within 10 minutes.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "web-admin"
+              ]
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": false,
+            "description": "Required for WEB_ADMIN with exact configured Origin.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"(0|[1-9][0-9]{0,18})\"$"
+            }
+          }
+        ],
+        "security": [
+          {
+            "webSession": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Committed result; game synchronization/admission remains separate.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled 400 error envelope; no internal data."
+          },
+          "401": {
+            "description": "Controlled 401 error envelope; no internal data."
+          },
+          "403": {
+            "description": "Controlled 403 error envelope; no internal data."
+          },
+          "404": {
+            "description": "Controlled 404 error envelope; no internal data."
+          },
+          "409": {
+            "description": "Controlled 409 error envelope; no internal data."
+          },
+          "412": {
+            "description": "Controlled 412 error envelope; no internal data."
+          },
+          "428": {
+            "description": "Controlled 428 error envelope; no internal data."
+          },
+          "429": {
+            "description": "Controlled 429 error envelope; no internal data."
+          },
+          "503": {
+            "description": "Controlled 503 error envelope; no internal data."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdmissionInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/management/applications/{id}/approve": {
+      "post": {
+        "description": "Current WEB_ADMIN + enabled MFA and current OWNER/scoped assignment; every mutation requires step-up within 10 minutes.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "web-admin"
+              ]
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": false,
+            "description": "Required for WEB_ADMIN with exact configured Origin.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"(0|[1-9][0-9]{0,18})\"$"
+            }
+          }
+        ],
+        "security": [
+          {
+            "webSession": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Committed result; game synchronization/admission remains separate.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled 400 error envelope; no internal data."
+          },
+          "401": {
+            "description": "Controlled 401 error envelope; no internal data."
+          },
+          "403": {
+            "description": "Controlled 403 error envelope; no internal data."
+          },
+          "404": {
+            "description": "Controlled 404 error envelope; no internal data."
+          },
+          "409": {
+            "description": "Controlled 409 error envelope; no internal data."
+          },
+          "412": {
+            "description": "Controlled 412 error envelope; no internal data."
+          },
+          "428": {
+            "description": "Controlled 428 error envelope; no internal data."
+          },
+          "429": {
+            "description": "Controlled 429 error envelope; no internal data."
+          },
+          "503": {
+            "description": "Controlled 503 error envelope; no internal data."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Reason"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/management/applications/{id}/reject": {
+      "post": {
+        "description": "Current WEB_ADMIN + enabled MFA and current OWNER/scoped assignment; every mutation requires step-up within 10 minutes.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "web-admin"
+              ]
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": false,
+            "description": "Required for WEB_ADMIN with exact configured Origin.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"(0|[1-9][0-9]{0,18})\"$"
+            }
+          }
+        ],
+        "security": [
+          {
+            "webSession": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Committed result; game synchronization/admission remains separate.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled 400 error envelope; no internal data."
+          },
+          "401": {
+            "description": "Controlled 401 error envelope; no internal data."
+          },
+          "403": {
+            "description": "Controlled 403 error envelope; no internal data."
+          },
+          "404": {
+            "description": "Controlled 404 error envelope; no internal data."
+          },
+          "409": {
+            "description": "Controlled 409 error envelope; no internal data."
+          },
+          "412": {
+            "description": "Controlled 412 error envelope; no internal data."
+          },
+          "428": {
+            "description": "Controlled 428 error envelope; no internal data."
+          },
+          "429": {
+            "description": "Controlled 429 error envelope; no internal data."
+          },
+          "503": {
+            "description": "Controlled 503 error envelope; no internal data."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Reason"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/management/clans/{id}/members/{user}": {
+      "delete": {
+        "description": "Current WEB_ADMIN + enabled MFA and current OWNER/scoped assignment; every mutation requires step-up within 10 minutes.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "user",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "web-admin"
+              ]
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": false,
+            "description": "Required for WEB_ADMIN with exact configured Origin.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"(0|[1-9][0-9]{0,18})\"$"
+            }
+          }
+        ],
+        "security": [
+          {
+            "webSession": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Committed result; game synchronization/admission remains separate.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled 400 error envelope; no internal data."
+          },
+          "401": {
+            "description": "Controlled 401 error envelope; no internal data."
+          },
+          "403": {
+            "description": "Controlled 403 error envelope; no internal data."
+          },
+          "404": {
+            "description": "Controlled 404 error envelope; no internal data."
+          },
+          "409": {
+            "description": "Controlled 409 error envelope; no internal data."
+          },
+          "412": {
+            "description": "Controlled 412 error envelope; no internal data."
+          },
+          "428": {
+            "description": "Controlled 428 error envelope; no internal data."
+          },
+          "429": {
+            "description": "Controlled 429 error envelope; no internal data."
+          },
+          "503": {
+            "description": "Controlled 503 error envelope; no internal data."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Reason"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/clans/{id}/applications": {
+      "post": {
+        "description": "Current own session. Requests reject unknown fields.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "launcher",
+                "web-admin"
+              ]
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": false,
+            "description": "Required for WEB_ADMIN with exact configured Origin.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "webSession": []
+          },
+          {
+            "nativeBearer": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Committed result; game synchronization/admission remains separate.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Application"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled 400 error envelope; no internal data."
+          },
+          "401": {
+            "description": "Controlled 401 error envelope; no internal data."
+          },
+          "403": {
+            "description": "Controlled 403 error envelope; no internal data."
+          },
+          "404": {
+            "description": "Controlled 404 error envelope; no internal data."
+          },
+          "409": {
+            "description": "Controlled 409 error envelope; no internal data."
+          },
+          "412": {
+            "description": "Controlled 412 error envelope; no internal data."
+          },
+          "428": {
+            "description": "Controlled 428 error envelope; no internal data."
+          },
+          "429": {
+            "description": "Controlled 429 error envelope; no internal data."
+          },
+          "503": {
+            "description": "Controlled 503 error envelope; no internal data."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/clans/{id}/members": {
+      "get": {
+        "description": "Current own session. Requests reject unknown fields.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "launcher",
+                "web-admin"
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "maxLength": 512
+            }
+          }
+        ],
+        "security": [
+          {
+            "webSession": []
+          },
+          {
+            "nativeBearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Committed result; game synchronization/admission remains separate.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Roster"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled 400 error envelope; no internal data."
+          },
+          "401": {
+            "description": "Controlled 401 error envelope; no internal data."
+          },
+          "403": {
+            "description": "Controlled 403 error envelope; no internal data."
+          },
+          "404": {
+            "description": "Controlled 404 error envelope; no internal data."
+          },
+          "409": {
+            "description": "Controlled 409 error envelope; no internal data."
+          },
+          "412": {
+            "description": "Controlled 412 error envelope; no internal data."
+          },
+          "428": {
+            "description": "Controlled 428 error envelope; no internal data."
+          },
+          "429": {
+            "description": "Controlled 429 error envelope; no internal data."
+          },
+          "503": {
+            "description": "Controlled 503 error envelope; no internal data."
+          }
+        }
+      }
+    },
+    "/api/v1/me/applications": {
+      "get": {
+        "description": "Current own session. Requests reject unknown fields.",
+        "parameters": [
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "launcher",
+                "web-admin"
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "maxLength": 512
+            }
+          }
+        ],
+        "security": [
+          {
+            "webSession": []
+          },
+          {
+            "nativeBearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Committed result; game synchronization/admission remains separate.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Applications"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled 400 error envelope; no internal data."
+          },
+          "401": {
+            "description": "Controlled 401 error envelope; no internal data."
+          },
+          "403": {
+            "description": "Controlled 403 error envelope; no internal data."
+          },
+          "404": {
+            "description": "Controlled 404 error envelope; no internal data."
+          },
+          "409": {
+            "description": "Controlled 409 error envelope; no internal data."
+          },
+          "412": {
+            "description": "Controlled 412 error envelope; no internal data."
+          },
+          "428": {
+            "description": "Controlled 428 error envelope; no internal data."
+          },
+          "429": {
+            "description": "Controlled 429 error envelope; no internal data."
+          },
+          "503": {
+            "description": "Controlled 503 error envelope; no internal data."
+          }
+        }
+      }
+    },
+    "/api/v1/me/applications/{id}/withdraw": {
+      "post": {
+        "description": "Current own session. Requests reject unknown fields.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "launcher",
+                "web-admin"
+              ]
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": false,
+            "description": "Required for WEB_ADMIN with exact configured Origin.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"(0|[1-9][0-9]{0,18})\"$"
+            }
+          }
+        ],
+        "security": [
+          {
+            "webSession": []
+          },
+          {
+            "nativeBearer": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Committed result; game synchronization/admission remains separate.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled 400 error envelope; no internal data."
+          },
+          "401": {
+            "description": "Controlled 401 error envelope; no internal data."
+          },
+          "403": {
+            "description": "Controlled 403 error envelope; no internal data."
+          },
+          "404": {
+            "description": "Controlled 404 error envelope; no internal data."
+          },
+          "409": {
+            "description": "Controlled 409 error envelope; no internal data."
+          },
+          "412": {
+            "description": "Controlled 412 error envelope; no internal data."
+          },
+          "428": {
+            "description": "Controlled 428 error envelope; no internal data."
+          },
+          "429": {
+            "description": "Controlled 429 error envelope; no internal data."
+          },
+          "503": {
+            "description": "Controlled 503 error envelope; no internal data."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Reason"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/me/clan/leave": {
+      "post": {
+        "description": "Current own session. Requests reject unknown fields.",
+        "parameters": [
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "launcher",
+                "web-admin"
+              ]
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": false,
+            "description": "Required for WEB_ADMIN with exact configured Origin.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"(0|[1-9][0-9]{0,18})\"$"
+            }
+          }
+        ],
+        "security": [
+          {
+            "webSession": []
+          },
+          {
+            "nativeBearer": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Committed result; game synchronization/admission remains separate.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled 400 error envelope; no internal data."
+          },
+          "401": {
+            "description": "Controlled 401 error envelope; no internal data."
+          },
+          "403": {
+            "description": "Controlled 403 error envelope; no internal data."
+          },
+          "404": {
+            "description": "Controlled 404 error envelope; no internal data."
+          },
+          "409": {
+            "description": "Controlled 409 error envelope; no internal data."
+          },
+          "412": {
+            "description": "Controlled 412 error envelope; no internal data."
+          },
+          "428": {
+            "description": "Controlled 428 error envelope; no internal data."
+          },
+          "429": {
+            "description": "Controlled 429 error envelope; no internal data."
+          },
+          "503": {
+            "description": "Controlled 503 error envelope; no internal data."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Reason"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/me/access": {
+      "get": {
+        "description": "Current own session. Requests reject unknown fields.",
+        "parameters": [
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "launcher",
+                "web-admin"
+              ]
+            }
+          }
+        ],
+        "security": [
+          {
+            "webSession": []
+          },
+          {
+            "nativeBearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Committed result; game synchronization/admission remains separate.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Access"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled 400 error envelope; no internal data."
+          },
+          "401": {
+            "description": "Controlled 401 error envelope; no internal data."
+          },
+          "403": {
+            "description": "Controlled 403 error envelope; no internal data."
+          },
+          "404": {
+            "description": "Controlled 404 error envelope; no internal data."
+          },
+          "409": {
+            "description": "Controlled 409 error envelope; no internal data."
+          },
+          "412": {
+            "description": "Controlled 412 error envelope; no internal data."
+          },
+          "428": {
+            "description": "Controlled 428 error envelope; no internal data."
+          },
+          "429": {
+            "description": "Controlled 429 error envelope; no internal data."
+          },
+          "503": {
+            "description": "Controlled 503 error envelope; no internal data."
+          }
+        }
+      }
+    },
+    "/api/v1/me/clan": {
+      "get": {
+        "description": "Current own session. Requests reject unknown fields.",
+        "parameters": [
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "launcher",
+                "web-admin"
+              ]
+            }
+          }
+        ],
+        "security": [
+          {
+            "webSession": []
+          },
+          {
+            "nativeBearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Committed result; game synchronization/admission remains separate.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled 400 error envelope; no internal data."
+          },
+          "401": {
+            "description": "Controlled 401 error envelope; no internal data."
+          },
+          "403": {
+            "description": "Controlled 403 error envelope; no internal data."
+          },
+          "404": {
+            "description": "Controlled 404 error envelope; no internal data."
+          },
+          "409": {
+            "description": "Controlled 409 error envelope; no internal data."
+          },
+          "412": {
+            "description": "Controlled 412 error envelope; no internal data."
+          },
+          "428": {
+            "description": "Controlled 428 error envelope; no internal data."
+          },
+          "429": {
+            "description": "Controlled 429 error envelope; no internal data."
+          },
+          "503": {
+            "description": "Controlled 503 error envelope; no internal data."
+          }
+        }
+      }
+    },
+    "/api/v1/management/users/{user}/whitelist-grants": {
+      "post": {
+        "description": "Current WEB_ADMIN + enabled MFA and current OWNER/scoped assignment; every mutation requires step-up within 10 minutes.",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "web-admin"
+              ]
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": false,
+            "description": "Required for WEB_ADMIN with exact configured Origin.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "webSession": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Committed result; game synchronization/admission remains separate.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled 400 error envelope; no internal data."
+          },
+          "401": {
+            "description": "Controlled 401 error envelope; no internal data."
+          },
+          "403": {
+            "description": "Controlled 403 error envelope; no internal data."
+          },
+          "404": {
+            "description": "Controlled 404 error envelope; no internal data."
+          },
+          "409": {
+            "description": "Controlled 409 error envelope; no internal data."
+          },
+          "412": {
+            "description": "Controlled 412 error envelope; no internal data."
+          },
+          "428": {
+            "description": "Controlled 428 error envelope; no internal data."
+          },
+          "429": {
+            "description": "Controlled 429 error envelope; no internal data."
+          },
+          "503": {
+            "description": "Controlled 503 error envelope; no internal data."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GrantInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/management/whitelist-grants/{id}": {
+      "delete": {
+        "description": "Current WEB_ADMIN + enabled MFA and current OWNER/scoped assignment; every mutation requires step-up within 10 minutes.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "web-admin"
+              ]
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": false,
+            "description": "Required for WEB_ADMIN with exact configured Origin.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"(0|[1-9][0-9]{0,18})\"$"
+            }
+          }
+        ],
+        "security": [
+          {
+            "webSession": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Committed result; game synchronization/admission remains separate.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled 400 error envelope; no internal data."
+          },
+          "401": {
+            "description": "Controlled 401 error envelope; no internal data."
+          },
+          "403": {
+            "description": "Controlled 403 error envelope; no internal data."
+          },
+          "404": {
+            "description": "Controlled 404 error envelope; no internal data."
+          },
+          "409": {
+            "description": "Controlled 409 error envelope; no internal data."
+          },
+          "412": {
+            "description": "Controlled 412 error envelope; no internal data."
+          },
+          "428": {
+            "description": "Controlled 428 error envelope; no internal data."
+          },
+          "429": {
+            "description": "Controlled 429 error envelope; no internal data."
+          },
+          "503": {
+            "description": "Controlled 503 error envelope; no internal data."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Reason"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/management/users/{user}/bans": {
+      "post": {
+        "description": "Current WEB_ADMIN + enabled MFA and current OWNER/scoped assignment; every mutation requires step-up within 10 minutes.",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "web-admin"
+              ]
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": false,
+            "description": "Required for WEB_ADMIN with exact configured Origin.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "webSession": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Committed result; game synchronization/admission remains separate.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled 400 error envelope; no internal data."
+          },
+          "401": {
+            "description": "Controlled 401 error envelope; no internal data."
+          },
+          "403": {
+            "description": "Controlled 403 error envelope; no internal data."
+          },
+          "404": {
+            "description": "Controlled 404 error envelope; no internal data."
+          },
+          "409": {
+            "description": "Controlled 409 error envelope; no internal data."
+          },
+          "412": {
+            "description": "Controlled 412 error envelope; no internal data."
+          },
+          "428": {
+            "description": "Controlled 428 error envelope; no internal data."
+          },
+          "429": {
+            "description": "Controlled 429 error envelope; no internal data."
+          },
+          "503": {
+            "description": "Controlled 503 error envelope; no internal data."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BanInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/management/bans/{id}/revoke": {
+      "post": {
+        "description": "Current WEB_ADMIN + enabled MFA and current OWNER/scoped assignment; every mutation requires step-up within 10 minutes.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "web-admin"
+              ]
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": false,
+            "description": "Required for WEB_ADMIN with exact configured Origin.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"(0|[1-9][0-9]{0,18})\"$"
+            }
+          }
+        ],
+        "security": [
+          {
+            "webSession": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Committed result; game synchronization/admission remains separate.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled 400 error envelope; no internal data."
+          },
+          "401": {
+            "description": "Controlled 401 error envelope; no internal data."
+          },
+          "403": {
+            "description": "Controlled 403 error envelope; no internal data."
+          },
+          "404": {
+            "description": "Controlled 404 error envelope; no internal data."
+          },
+          "409": {
+            "description": "Controlled 409 error envelope; no internal data."
+          },
+          "412": {
+            "description": "Controlled 412 error envelope; no internal data."
+          },
+          "428": {
+            "description": "Controlled 428 error envelope; no internal data."
+          },
+          "429": {
+            "description": "Controlled 429 error envelope; no internal data."
+          },
+          "503": {
+            "description": "Controlled 503 error envelope; no internal data."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Reason"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Reason": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "reason"
+        ],
+        "properties": {
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          }
+        }
+      },
+      "ApplicationInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "message"
+        ],
+        "properties": {
+          "message": {
+            "type": "string",
+            "minLength": 0,
+            "maxLength": 4000
+          }
+        }
+      },
+      "ManagerInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "reason",
+          "can_remove_members"
+        ],
+        "properties": {
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "can_remove_members": {
+            "type": "boolean"
+          }
+        }
+      },
+      "AdmissionInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "reason",
+          "user_id"
+        ],
+        "properties": {
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "user_id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "GrantInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "reason",
+          "expires_at"
+        ],
+        "properties": {
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      },
+      "BanInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "reason",
+          "expires_at",
+          "scope",
+          "message_public"
+        ],
+        "properties": {
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "scope": {
+            "type": "string",
+            "enum": [
+              "GAME",
+              "ACCOUNT"
+            ]
+          },
+          "message_public": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          }
+        }
+      },
+      "ClanInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "short_code",
+          "description",
+          "discord_url",
+          "enabled"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 64
+          },
+          "short_code": {
+            "type": "string",
+            "pattern": "^[A-Z0-9]{2,12}$"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 4000
+          },
+          "discord_url": {
+            "type": "string",
+            "maxLength": 256,
+            "pattern": "^https://(discord\\.gg/[A-Za-z0-9-]+|discord\\.com/invite/[A-Za-z0-9-]+)$",
+            "nullable": true
+          },
+          "enabled": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Clan": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "name",
+          "short_code",
+          "description",
+          "discord_url",
+          "logo_url",
+          "enabled",
+          "archived_at",
+          "version"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "short_code": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "discord_url": {
+            "type": "string",
+            "nullable": true
+          },
+          "logo_url": {
+            "type": "string",
+            "nullable": true
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "archived_at": {
+            "type": "string",
+            "nullable": true
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)$"
+          }
+        }
+      },
+      "Application": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "user_id",
+          "clan_id",
+          "message",
+          "status",
+          "version",
+          "created_at",
+          "decided_at",
+          "reason"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "user_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "clan_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "message": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "ACCEPTED",
+              "REJECTED",
+              "WITHDRAWN",
+              "CANCELLED"
+            ]
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)$"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "decided_at": {
+            "type": "string",
+            "nullable": true
+          },
+          "reason": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "Member": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "user_id",
+          "clan_id",
+          "joined_at",
+          "version",
+          "nickname",
+          "role",
+          "online",
+          "online_updated_at"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "user_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "clan_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "joined_at": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)$"
+          },
+          "nickname": {
+            "type": "string",
+            "nullable": true
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "MANAGER",
+              "MEMBER"
+            ]
+          },
+          "online": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "online_updated_at": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "RosterMember": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "joined_at",
+          "nickname",
+          "role",
+          "online",
+          "online_updated_at"
+        ],
+        "properties": {
+          "joined_at": {
+            "type": "string"
+          },
+          "nickname": {
+            "type": "string",
+            "nullable": true
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "MANAGER",
+              "MEMBER"
+            ]
+          },
+          "online": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "online_updated_at": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "Dashboard": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "system_role",
+          "items"
+        ],
+        "properties": {
+          "system_role": {
+            "type": "string",
+            "enum": [
+              "OWNER",
+              "PLAYER"
+            ]
+          },
+          "items": {
+            "type": "array",
+            "maxItems": 100,
+            "items": {
+              "$ref": "#/components/schemas/Clan"
+            }
+          }
+        }
+      },
+      "Preview": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "clan",
+          "members",
+          "managers",
+          "pending_applications",
+          "independent_owner_grants"
+        ],
+        "properties": {
+          "clan": {
+            "$ref": "#/components/schemas/Clan"
+          },
+          "members": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "managers": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "pending_applications": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "independent_owner_grants": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "Access": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "effective_access",
+          "reason",
+          "access_epoch",
+          "membership",
+          "sync_status",
+          "checked_at",
+          "game_admission_available"
+        ],
+        "properties": {
+          "effective_access": {
+            "type": "string",
+            "enum": [
+              "ALLOWED",
+              "DENIED"
+            ]
+          },
+          "reason": {
+            "type": "string",
+            "enum": [
+              "ALLOWED",
+              "BANNED",
+              "GAME_PROFILE_REQUIRED",
+              "GRANT_REQUIRED"
+            ]
+          },
+          "access_epoch": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)$"
+          },
+          "membership": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "user_id",
+              "clan_id",
+              "joined_at",
+              "version"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "user_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "clan_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "joined_at": {
+                "type": "string"
+              },
+              "version": {
+                "type": "string",
+                "pattern": "^(0|[1-9][0-9]*)$"
+              }
+            },
+            "nullable": true
+          },
+          "sync_status": {
+            "type": "string",
+            "enum": [
+              "UNKNOWN"
+            ]
+          },
+          "checked_at": {
+            "type": "string"
+          },
+          "game_admission_available": {
+            "type": "boolean",
+            "enum": [
+              false
+            ]
+          }
+        }
+      },
+      "Outcome": {
+        "type": "object",
+        "description": "Sanitized resource reference/version. Never contains tokens. sync_status PENDING does not confirm delivery to Minecraft.",
+        "additionalProperties": true
+      },
+      "Applications": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "next_cursor"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "maxItems": 100,
+            "items": {
+              "$ref": "#/components/schemas/Application"
+            }
+          },
+          "next_cursor": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "Members": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "next_cursor"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "maxItems": 100,
+            "items": {
+              "$ref": "#/components/schemas/Member"
+            }
+          },
+          "next_cursor": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "Roster": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "next_cursor"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "maxItems": 100,
+            "items": {
+              "$ref": "#/components/schemas/RosterMember"
+            }
+          },
+          "next_cursor": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "OwnerClans": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "maxItems": 100,
+            "items": {
+              "$ref": "#/components/schemas/Clan"
+            }
+          }
+        }
+      },
+      "OwnerApplication": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "user_id",
+          "clan_id",
+          "message",
+          "status",
+          "version",
+          "created_at",
+          "decided_at",
+          "reason",
+          "nickname"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "user_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "clan_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "message": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "ACCEPTED",
+              "REJECTED",
+              "WITHDRAWN",
+              "CANCELLED"
+            ]
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)$"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "decided_at": {
+            "type": "string",
+            "nullable": true
+          },
+          "reason": {
+            "type": "string",
+            "nullable": true
+          },
+          "nickname": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "OwnerApplications": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "next_cursor"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "maxItems": 100,
+            "items": {
+              "$ref": "#/components/schemas/OwnerApplication"
+            }
+          },
+          "next_cursor": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "webSession": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "__Host-aoc-access"
+      },
+      "nativeBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

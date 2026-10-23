@@ -1,0 +1,70 @@
+import 'reflect-metadata';
+import assert from 'node:assert/strict';import {randomUUID,randomBytes} from 'node:crypto';import fs from 'node:fs';
+import {Test} from '@nestjs/testing';import {FastifyAdapter,type NestFastifyApplication} from '@nestjs/platform-fastify';
+import {PrismaPg} from '@prisma/adapter-pg';import {PrismaClient} from '../src/generated/prisma/client.js';
+import {GameWardrobeModule} from '../src/wardrobe/wardrobe.controller.js';import {selectBack,readBack} from '../src/wardrobe/back-equipment.js';
+import {DatabaseService} from '../src/infrastructure/database.service.js';import {RateLimitStoreService} from '../src/infrastructure/rate-limit-store.service.js';
+import {AuthCrypto} from '../src/modules/auth/auth-crypto.js';import {AuthService} from '../src/modules/auth/auth.service.js';import {PlayerCapeService,awardBetaCape} from '../src/modules/auth/player-cape.service.js';
+import {GameTicketService} from '../src/modules/auth/game-ticket.service.js';
+import {readEmotes,grantEmote} from '../src/wardrobe/emotes.js';
+
+const url=new URL(process.env.DATABASE_URL!);assert.equal(url.hostname,'127.0.0.1');assert.ok(['55439','54329'].includes(url.port));assert.match(url.pathname,/^\/aoc_wardrobe_[a-f0-9]{32}$/);
+const db=new PrismaClient({adapter:new PrismaPg({connectionString:url.toString()})});
+const runtime=new PrismaClient({adapter:new PrismaPg({connectionString:url.toString(),options:'-c role=anime_app'})});let app:NestFastifyApplication|undefined;
+let requests=0;const checks:string[]=[];const note=(s:string)=>checks.push(s);
+try{
+ const legacy=await db.player_back_equipment.findUniqueOrThrow({where:{user_id:process.env.AOC_TEST_LEGACY_ID!}});assert.equal(legacy.kind,'CAPE');assert.equal(legacy.code,'beta');note('Migration imports an existing equipped cape');
+ const module=await Test.createTestingModule({imports:[GameWardrobeModule]}).overrideProvider(DatabaseService).useValue({client:runtime}).overrideProvider(RateLimitStoreService).useValue({consume:async(b:Array<{key:string;limit:number;seconds:number}>)=>{assert.equal(b[0]?.limit,120);requests++;}}).overrideProvider(AuthCrypto).useValue({}).compile();
+ app=module.createNestApplication<NestFastifyApplication>(new FastifyAdapter({logger:false,genReqId:()=>randomUUID()}));app.useLogger(['error']);await app.init();await app.getHttpAdapter().getInstance().ready();
+ const server=process.env.AOC_GAME_SERVER_ID!,connection=randomUUID(),mc=randomUUID(),now=new Date(),expiry=new Date(Date.now()+3600000);
+ await db.game_servers.create({data:{id:server,name:'Isolated wardrobe test',maintenance:false}});
+ const email='wardrobe-'+randomUUID()+'@example.invalid';const user=await db.user.create({data:{email,emailKey:email,passwordHash:'UNUSABLE_TEST_FIXTURE',systemRole:'OWNER'}});
+ await db.game_profiles.create({data:{user_id:user.id,game_name:'WardrobeTest',minecraft_uuid:mc}});
+ await db.whitelist.create({data:{user_id:user.id,kind:'OWNER',reason:'Isolated fixture'}});
+ const session=await db.sessions.create({data:{user_id:user.id,client_kind:'LAUNCHER',auth_epoch:0,absolute_expires_at:expiry,idle_expires_at:expiry}});
+ const ticket=await db.game_tickets.create({data:{token_hash:randomBytes(32).toString('hex'),user_id:user.id,session_id:session.id,server_id:server,connection_id:connection,created_at:new Date(now.getTime()-1000),expires_at:new Date(now.getTime()+30000),consumed_at:now,joined_at:now}});
+ await db.player_capes.createMany({data:[{user_id:user.id,cape_id:'beta',equipped:true},{user_id:user.id,cape_id:'ayaa-cobblestone'}]});
+ const headers={authorization:'Bearer '+process.env.AOC_GAME_SERVER_KEY};const base={server_id:server,connection_id:connection,minecraft_uuid:mc};
+ async function call(body:object={},status=200,extra:Record<string,string>={}){const r=await app!.inject({method:'POST',url:'/integration/v1/wardrobe',headers:{...headers,...extra},payload:{...base,action:'READ',...body}});assert.equal(r.statusCode,status,r.body);return r.json();}
+ let state=await call();assert.equal(state.back.code,'beta');assert.equal(state.capes.length,2);assert.equal(state.back.revision,'0');note('Legacy equipped cape preserved');
+ assert.deepEqual(state.emotes,['HERO_POSE','NEON_DANCE','ZEN_POSE']);
+ assert.equal((await db.$queryRaw<Array<{n:bigint}>>`SELECT count(*) AS n FROM player_emote_grants WHERE user_id=${process.env.AOC_TEST_LEGACY_ID}::uuid`)[0]!.n,3n);
+ await call();assert.equal((await db.$queryRaw<Array<{n:bigint}>>`SELECT count(*) AS n FROM player_emote_grants WHERE user_id=${user.id}::uuid`)[0]!.n,3n);
+ await db.$transaction(async tx=>{await grantEmote(tx,user.id,'HERO_POSE','future-pass-test');await grantEmote(tx,user.id,'HERO_POSE','future-pass-test');});
+ assert.equal((await readEmotes(db,user.id)).length,3);await assert.rejects(()=>grantEmote(db,user.id,'UNRELEASED','fixture'));
+ note('Three starter emotes for existing and new accounts; repeated reads/reward grants are idempotent; unknown reward rejected');
+ await call({minecraft_uuid:randomUUID()},403);await call({connection_id:randomUUID()},403);await call({},401,{authorization:'Bearer '+'0'.repeat(64)});await call({},401,{origin:'https://example.invalid'});await call({},401,{cookie:'session=x'});await call({user_id:user.id},400);note('Server authentication, browser rejection and connection identity');
+ await call({action:'BACK',kind:'CAPE',code:'trickyowl-owl',expected_revision:'0'},403);note('Unowned personal cape rejected');
+ state=await call({action:'BACK',kind:'BETA',code:'RIFT_MANTLE',expected_revision:'0'});assert.equal(state.back.kind,'BETA');assert.equal(await db.player_capes.count({where:{user_id:user.id,equipped:true}}),0);const revision=state.back.revision;note('Mantle clears equipped capes without removing ownership');
+ const duplicate=await call({action:'BACK',kind:'BETA',code:'RIFT_MANTLE',expected_revision:'0'});assert.equal(duplicate.back.revision,revision);await call({action:'BACK',kind:'CAPE',code:'beta',expected_revision:'0'},409);note('Idempotent retry and stale revision conflict');
+ state=await call({action:'BACK',kind:'CAPE',code:'ayaa-cobblestone',expected_revision:revision});assert.equal(state.back.kind,'CAPE');assert.equal(await db.player_capes.count({where:{user_id:user.id,equipped:true}}),1);note('Personal cape selected in shared back slot');
+ const auth=module.get(AuthService),capeService=new PlayerCapeService(auth);
+ const access=await db.auth_tokens.create({data:{session_id:session.id,kind:'ACCESS',token_hash:randomBytes(32).toString('hex'),expires_at:expiry}});
+ const principal={user,session,access_token_id:access.id,managers:[]};
+ const savedFetch=globalThis.fetch,savedPolicy=process.env.AOC_LAUNCHER_RELEASE_REQUIRED;
+ try{
+  let version='0.8.7';globalThis.fetch=async()=>new Response(JSON.stringify({version,platforms:{'windows-x86_64-nsis':{url:`https://charizma1337.github.io/animeoncraft-updates/${version}/AnimeOnCraft_${version}_x64-setup.exe`,signature:'x'.repeat(100)}}}));
+  process.env.AOC_LAUNCHER_RELEASE_REQUIRED='true';const tickets=new GameTicketService(auth);
+  for(const old of [undefined,'0.8.6'])await assert.rejects(()=>tickets.issue(principal,old),(e:unknown)=>(e as {status:number}).status===426);
+  const issued=await tickets.issue(principal,'0.8.7');
+  const stored=await db.game_tickets.findFirstOrThrow({where:{user_id:user.id,consumed_at:null,revoked_at:null}});assert.equal(stored.launcher_version,'0.8.7');
+  version='0.8.8';await new Promise(r=>setTimeout(r,5100));
+  await assert.rejects(()=>tickets.redeem(server,{ticket:issued.ticket,game_name:'WardrobeTest',minecraft_uuid:mc,connection_id:randomUUID()}),(e:unknown)=>(e as {status:number}).status===426);
+  const fresh=await tickets.issue(principal,'0.8.8');assert.equal((await tickets.redeem(server,{ticket:fresh.ticket,game_name:'WardrobeTest',minecraft_uuid:mc,connection_id:randomUUID()})).accepted,true);
+  note('Mandatory release: missing/old launcher refused, version stored, newly outdated ticket refused on redeem, current accepted');
+ }finally{globalThis.fetch=savedFetch;if(savedPolicy===undefined)delete process.env.AOC_LAUNCHER_RELEASE_REQUIRED;else process.env.AOC_LAUNCHER_RELEASE_REQUIRED=savedPolicy;}
+ const response=await capeService.save(principal,'beta',randomUUID(),true);assert.equal(response.equipped,'beta');assert.deepEqual(Object.keys(response).sort(),['beta','capes','equipped']);assert.equal((await readBack(db,user.id)).code,'beta');note('Existing launcher save keeps its exact response format and shares selection');
+ const before=await readBack(db,user.id);const races=await Promise.allSettled(['NONE','BETA'].map(kind=>auth.transaction(async tx=>{await auth.lockUser(tx,user.id);return selectBack(tx,user.id,{kind:kind as 'NONE'|'BETA',code:kind==='NONE'?'':'RIFT_MANTLE'},before.revision);})));
+ assert.equal(races.filter(r=>r.status==='fulfilled').length,1);assert.equal(races.filter(r=>r.status==='rejected').length,1);note('Concurrent conflicting selections have a single winner');
+ await db.game_tickets.update({where:{token_hash:ticket.token_hash},data:{revoked_at:new Date()}});await call({},403);await db.game_tickets.update({where:{token_hash:ticket.token_hash},data:{revoked_at:null}});note('Revoked admission rejected');
+ await db.game_tickets.create({data:{token_hash:randomBytes(32).toString('hex'),user_id:user.id,session_id:session.id,server_id:server,connection_id:randomUUID(),expires_at:new Date(Date.now()+30000),consumed_at:new Date(Date.now()+1000),joined_at:new Date(Date.now()+1000)}});await call({},403);note('Old connection cannot mutate after reconnect');
+ await db.game_tickets.deleteMany({where:{user_id:user.id,connection_id:{not:connection}}});await db.sessions.update({where:{id:session.id},data:{revoked_at:new Date()}});await call({},403);await db.sessions.update({where:{id:session.id},data:{revoked_at:null}});note('Revoked launcher session rejected');
+ await db.game_servers.update({where:{id:server},data:{maintenance:true}});await call({},403);await db.game_servers.update({where:{id:server},data:{maintenance:false}});note('Maintenance rejects changes');
+ await db.whitelist.updateMany({where:{user_id:user.id},data:{revoked_at:new Date()}});await call({},403);note('Revoked game access rejected');
+ await db.beta_campaign.update({where:{id:'beta'},data:{starts_at:new Date(Date.now()-60000),ends_at:null}});
+ const email2='award-'+randomUUID()+'@example.invalid';const user2=await db.user.create({data:{email:email2,emailKey:email2,passwordHash:'UNUSABLE_TEST_FIXTURE'}});
+ await db.player_back_equipment.create({data:{user_id:user2.id,kind:'BETA',code:'RIFT_MANTLE'}});
+ await auth.transaction(async tx=>{await auth.lockUser(tx,user2.id);assert.equal(await awardBetaCape(tx,user2.id,new Date()),true);});assert.equal((await readBack(db,user2.id)).kind,'BETA');assert.equal(await db.player_capes.count({where:{user_id:user2.id,equipped:true}}),0);note('Automatic Beta cape award keeps a selected mantle');
+ assert.equal(await db.player_capes.count({where:{user_id:user.id}}),2);note('Owned capes never removed');
+ const result={passed:true,checked_at:new Date().toISOString(),real_postgresql:true,real_nest_http:true,isolated_database:true,rate_limit_store_stubbed:true,requests,checks};fs.writeFileSync('F:/AnimeOnCraft/.tools/wardrobe-db-result.json',JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result));
+}finally{await app?.close();await runtime.$disconnect();await db.$disconnect();}

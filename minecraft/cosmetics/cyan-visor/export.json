@@ -1,0 +1,14 @@
+{
+  "code": "CYAN_VISOR",
+  "source": "minecraft\\cosmetics\\cyan-visor\\cyan-visor.bbmodel",
+  "source_sha256": "c0479262825921010bad3cb880f29d2db5006abc7c3253f9bb9ad16d866f0a94",
+  "geometry": "minecraft/integration/neoforge/src/main/resources/assets/animeoncraft/cosmetics/cyan_visor.json",
+  "texture": "minecraft/integration/neoforge/src/main/resources/assets/animeoncraft/textures/cosmetics/cyan_visor.png",
+  "faces": 116,
+  "triangles": 48,
+  "emissive_faces": 30,
+  "parts": [
+    "static"
+  ],
+  "reference_head_exported": false
+}

@@ -1,0 +1,9 @@
+.nav-item { font: inherit; cursor: pointer; background: transparent; border: 0; text-align: left; }
+.nav-item[aria-current="page"] { background: #213329; color: #d7f8b4; }
+.metric { font-size: 2rem; font-weight: 700; margin: .5rem 0; }
+.text-preview { white-space: pre-wrap; overflow-wrap: anywhere; font: inherit; }
+.clan-card code, .clan-card p { overflow-wrap: anywhere; }
+details { margin: 1rem 0; }
+summary { cursor: pointer; padding: .4rem 0; }
+fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+input[type="checkbox"] { accent-color: #b8db88; }

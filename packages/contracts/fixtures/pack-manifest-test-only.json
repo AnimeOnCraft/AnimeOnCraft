@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "pack_id": "animeoncraft",
+  "channel": "stable",
+  "release_sequence": 1,
+  "platform": {
+    "os": "windows",
+    "arch": "x86_64"
+  },
+  "minecraft_version": "test-only",
+  "loader": {
+    "id": "fabric",
+    "version": "fixture-v1"
+  },
+  "java": {
+    "major": 21,
+    "distribution_ref": "fixture-jre"
+  },
+  "minimum_launcher_version": "0.7.3",
+  "integration_protocol_major": 1,
+  "files": [
+    {
+      "path": "mods/fixture.jar",
+      "sha256": "a1ad085b3ea48ab2eb8fe87e50e771ce21eadd8cb8c773efe7f1559074f67d20",
+      "length": 15,
+      "side": "CLIENT",
+      "source_ref": {
+        "source_id": "fixture",
+        "object_key": "objects/fixture.bin"
+      },
+      "managed": true
+    }
+  ]
+}

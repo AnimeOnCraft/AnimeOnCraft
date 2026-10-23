@@ -1,0 +1,19 @@
+{
+  "code": "SHARD_CROWN",
+  "source": "minecraft\\cosmetics\\shard-crown\\shard-crown.bbmodel",
+  "source_sha256": "9c2fd6a247140208fa586ee3bc74d3f139559d9af31861651ca0be16eaff21cf",
+  "geometry": "minecraft/integration/neoforge/src/main/resources/assets/animeoncraft/cosmetics/shard_crown.json",
+  "texture": "minecraft/integration/neoforge/src/main/resources/assets/animeoncraft/textures/cosmetics/shard_crown.png",
+  "faces": 104,
+  "triangles": 40,
+  "emissive_faces": 30,
+  "parts": [
+    "static",
+    "shard_0",
+    "shard_1",
+    "shard_2",
+    "shard_3",
+    "shard_4"
+  ],
+  "reference_head_exported": false
+}

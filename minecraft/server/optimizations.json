@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "minecraft": "1.21.1",
+  "neoforge": "21.1.262",
+  "checked_on": "2026-10-19",
+  "purpose": "Server-only deployment overlay; optional for clients. Preserve when updating base modpack.",
+  "mods": [
+    {
+      "slug": "lithium",
+      "project_id": "gvQqBUqZ",
+      "version_id": "DDUrRVCA",
+      "version": "mc1.21.1-0.15.4-neoforge",
+      "source_url": "https://github.com/caffeinemc/lithium-fabric",
+      "project_url": "https://modrinth.com/mod/lithium",
+      "install_sides": [
+        "server"
+      ],
+      "file": {
+        "name": "lithium-neoforge-0.15.4+mc1.21.1.jar",
+        "url": "https://cdn.modrinth.com/data/gvQqBUqZ/versions/DDUrRVCA/lithium-neoforge-0.15.4%2Bmc1.21.1.jar",
+        "sha512": "2735da2088b88a8bdcd4ad02a2b6fffbfd3925557cefd4fa54b5477dfb9e582ea7f521300c060f57dff1325dd21bff276b7333363ad3371ed6893e3de9eca9cd",
+        "sha256": "488f33216030c1cb0baa33e59de3d657d08d5795a6c2080c8c8bbbc133fc8757"
+      }
+    },
+    {
+      "slug": "modernfix",
+      "project_id": "nmDcB62a",
+      "version_id": "7Jy58lnT",
+      "version": "5.27.26+mc1.21.1",
+      "source_url": "https://github.com/embeddedt/ModernFix",
+      "project_url": "https://modrinth.com/mod/modernfix",
+      "install_sides": [
+        "server"
+      ],
+      "file": {
+        "name": "modernfix-neoforge-5.27.26+mc1.21.1.jar",
+        "url": "https://cdn.modrinth.com/data/nmDcB62a/versions/7Jy58lnT/modernfix-neoforge-5.27.26%2Bmc1.21.1.jar",
+        "sha512": "37c76fc5bc72cfc1035260f891ffeb45b4f32651d2e490c5eb8c60f3b5686deca3145b32d4fab9036f65f5277b0ac66f4ad3855e52cd973e791b09e9c4b896d8",
+        "sha256": "09f6842c63d14b3f1707f1f4a6f4602052f237f7efa9be135e41d3d97acf2a13"
+      }
+    },
+    {
+      "slug": "noisium",
+      "project_id": "KuNKN7d2",
+      "version_id": "nJBE6tif",
+      "version": "2.3.0+mc1.21-1.21.1",
+      "source_url": "https://github.com/Steveplays28/noisium",
+      "project_url": "https://modrinth.com/mod/noisium",
+      "install_sides": [
+        "server"
+      ],
+      "file": {
+        "name": "noisium-neoforge-2.3.0+mc1.21-1.21.1.jar",
+        "url": "https://cdn.modrinth.com/data/KuNKN7d2/versions/nJBE6tif/noisium-neoforge-2.3.0%2Bmc1.21-1.21.1.jar",
+        "sha512": "b50c37d2f69d51742d4407d272cea525b428784d2a39338d34b692937320495cd77d47b2d2321b3976713447028f50823e9ba44ca618900eba4ced907985ec84",
+        "sha256": "e95209d593bc00d7c5de94f746ffd1dfbfa70ac8fbe938393ef930d00416109c"
+      }
+    },
+    {
+      "slug": "spark",
+      "project_id": "l6YH9Als",
+      "version_id": "v5qtqRQi",
+      "version": "1.10.124-neoforge-1.21.1",
+      "source_url": "https://github.com/lucko/spark",
+      "project_url": "https://modrinth.com/mod/spark",
+      "install_sides": [
+        "server"
+      ],
+      "file": {
+        "name": "spark-1.10.124-neoforge.jar",
+        "url": "https://cdn.modrinth.com/data/l6YH9Als/versions/v5qtqRQi/spark-1.10.124-neoforge.jar",
+        "sha512": "f86ce34f2759c69df82578c397ff55b666c84626229a98f598458b960c21b38c95d6bfef4772af7f963c4f4868e5e2d9aef6b99c1d51bab55bf45e0e6e6b5ed4",
+        "sha256": "647e8a81afbe414dba1df4ba15fd06c5d32d4cb544e68828405e8e074c2e16db"
+      }
+    },
+    {
+      "slug": "chunky",
+      "project_id": "fALzjamp",
+      "version_id": "LuFhm4eU",
+      "version": "1.4.23",
+      "source_url": "https://github.com/pop4959/Chunky",
+      "project_url": "https://modrinth.com/mod/chunky",
+      "install_sides": [
+        "server"
+      ],
+      "file": {
+        "name": "Chunky-NeoForge-1.4.23.jar",
+        "url": "https://cdn.modrinth.com/data/fALzjamp/versions/LuFhm4eU/Chunky-NeoForge-1.4.23.jar",
+        "sha512": "2db769dd723f243a21e1881e7c9f825e9c193da6f2bed454b70cb6fa9e51c57f63fdcf017c0657bbd26f7bba30815413e27c74d3c7be0783390a96ee9baa4bf7",
+        "sha256": "d72f235cf1f56f2c374f52c00bdda5034524b28142305a84cfc123a3f92ad274"
+      }
+    }
+  ]
+}

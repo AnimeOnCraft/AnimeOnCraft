@@ -1,0 +1,15 @@
+{
+  "code": "RIFT_LANTERN",
+  "anchor": "body",
+  "emissive_tiles": [
+    3,
+    5
+  ],
+  "parts": {
+    "lantern_swing": [
+      5.15,
+      -10.3,
+      0
+    ]
+  }
+}

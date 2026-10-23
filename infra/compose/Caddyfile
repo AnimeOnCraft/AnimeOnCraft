@@ -1,0 +1,6 @@
+:80 {
+  encode zstd gzip
+  @integration path /integration/* /development/*
+  respond @integration 404
+  reverse_proxy api:3000
+}

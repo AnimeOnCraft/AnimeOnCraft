@@ -1,0 +1,18 @@
+{
+  "code": "RIFT_MANTLE",
+  "source": "minecraft\\cosmetics\\rift-mantle\\rift-mantle.bbmodel",
+  "source_sha256": "3c9b159d0708abf1cceadb9c2e0c2f08aff2ba27b2b95526dc9f3e4e555f4f83",
+  "geometry": "minecraft/integration/neoforge/src/main/resources/assets/animeoncraft/cosmetics/rift_mantle.json",
+  "texture": "minecraft/integration/neoforge/src/main/resources/assets/animeoncraft/textures/cosmetics/rift_mantle.png",
+  "faces": 316,
+  "triangles": 92,
+  "emissive_faces": 174,
+  "parts": [
+    "static",
+    "panel_0",
+    "panel_1",
+    "panel_2",
+    "panel_3"
+  ],
+  "reference_head_exported": false
+}

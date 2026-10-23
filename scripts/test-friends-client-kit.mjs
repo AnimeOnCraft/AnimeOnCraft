@@ -1,0 +1,28 @@
+import assert from 'node:assert/strict';
+import {cpSync,existsSync,mkdirSync,readFileSync,readdirSync,writeFileSync} from 'node:fs';
+import {spawn} from 'node:child_process';
+import {once} from 'node:events';
+import path from 'node:path';
+import {root,files,hash} from './friends-backup-lib.mjs';
+const built=JSON.parse(readFileSync(path.join(root,'.tools/beta-client-kit-build.log'),'utf8'));
+assert.equal(built.local_test,true);const directory=built.directory;
+assert.equal(path.dirname(directory),path.join(root,'.tools/client-kits'));
+const inventory=files(directory);assert.ok(!inventory.some(file=>/(^|[\\/])(?:\.env|private|friends-game-server\.json|database\.dump)(?:$|[\\/])|\.key$/.test(file)));
+const config=JSON.parse(readFileSync(path.join(directory,'server-public.json'),'utf8'));assert.equal(Object.keys(config).sort().join(','),'api_origin,format_version,server_host,server_id,server_port');
+assert.equal(hash(path.join(directory,'AnimeOnCraft.exe')),built.launcher_sha256);
+const home=path.join(process.env.USERPROFILE,'.animeoncraft/launcher/game-runtime.json'),before=hash(home);
+const runtime=path.join(directory,'.tools/modpack-mvp'),cache=path.join(runtime,'minecraft');mkdirSync(cache,{recursive:true});
+// Test relocation using the verified local cache; no global Minecraft/user account data.
+for(const item of ['versions','libraries','assets'])cpSync(path.join(root,'.tools/modpack-mvp/minecraft',item),path.join(cache,item),{recursive:true,dereference:true});
+const child=spawn('powershell.exe',['-NoProfile','-ExecutionPolicy','Bypass','-File',path.join(directory,'Start-AnimeOnCraft.ps1'),'-PrepareOnly'],{cwd:directory,windowsHide:true,stdio:['ignore','pipe','pipe']});
+let output='';for(const stream of [child.stdout,child.stderr])stream.on('data',bytes=>{output+=bytes.toString();});const [code]=await once(child,'exit');
+writeFileSync(path.join(root,'.tools/beta-client-kit-prepare.log'),output);assert.equal(code,0,'Client kit failed; inspect its local preparation log');
+assert.equal(hash(home),before,'PrepareOnly must preserve the human launcher runtime');
+assert.ok(!existsSync(path.join(runtime,'server')),'A client kit must not prepare a Minecraft server');
+const plan=JSON.parse(readFileSync(path.join(directory,'.tools/client-game-runtime.json'),'utf8'));
+assert.equal(plan.server_host,config.server_host);assert.equal(plan.server_port,25565);assert.ok(plan.java.startsWith(directory));assert.ok(plan.game_directory.startsWith(directory));
+assert.ok(!JSON.stringify(plan).includes(path.join(root,'.tools/modpack-mvp')));
+const profile=JSON.parse(readFileSync(path.join(directory,'minecraft/modpack/profile.json'),'utf8'));
+const count=readdirSync(path.join(runtime,'client/mods')).filter(name=>name.endsWith('.jar')).length;assert.equal(count,profile.mods.filter(mod=>mod.install_sides.includes('client')).length+1);
+const result={passed:true,directory,launcher_version:built.launcher_version,public_config_only:true,private_files_absent:true,client_mods:count,java_bundled:true,setup_runs_without_pnpm:true,relocated_verified_cache:true,human_profile_preserved:true,server_prepared:false,new_computer_external_tested:false,checked_at:new Date().toISOString()};
+writeFileSync(path.join(root,'.tools/beta-client-kit-result.json'),JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result));

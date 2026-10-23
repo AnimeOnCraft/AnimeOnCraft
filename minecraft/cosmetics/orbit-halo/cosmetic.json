@@ -1,0 +1,15 @@
+{
+  "code": "ORBIT_HALO",
+  "anchor": "head_top",
+  "emissive_tiles": [
+    3,
+    5
+  ],
+  "parts": {
+    "orbit": [
+      0,
+      3.7,
+      0
+    ]
+  }
+}

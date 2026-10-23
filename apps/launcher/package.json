@@ -1,0 +1,31 @@
+{
+  "name": "@animeoncraft/launcher",
+  "version": "0.8.7-client-sync",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "prepare:bootstrap": "node ../../scripts/prepare-launcher-bootstrap.mjs",
+    "dev": "vite",
+    "build": "vite build",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "tauri:dev": "tauri dev",
+    "tauri:build": "tauri build"
+  },
+  "dependencies": {
+    "@animeoncraft/contracts": "workspace:*",
+    "@animeoncraft/ui": "workspace:*",
+    "@tauri-apps/api": "2.12.2",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "2.12.1",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.1.2",
+    "typescript": "5.9.3",
+    "vite": "8.3.4",
+    "vitest": "5.0.3"
+  }
+}

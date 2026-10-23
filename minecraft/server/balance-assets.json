@@ -1,0 +1,2758 @@
+{
+  "format_version": 1,
+  "files": [
+    {
+      "path": "data/create/recipe/sequenced_assembly/precision_mechanism.json",
+      "source_jar": "create-1.21.1-6.0.10.jar",
+      "source_sha256": "a5541f09fcaac78c25916591c0c19dc08e1f8f82593fe54cbcf19ae63b9dc1d5",
+      "sha256": "e7a889069528bc09b1c2bf12b88dcc0e84bae54279d8a6c31aa508d90957c2f3"
+    },
+    {
+      "path": "data/minecraft/loot_table/chests/nether_fortress/fort_inside.json",
+      "source_jar": "dungeons-and-taverns-v4.4.4.jar",
+      "source_sha256": "1d81727060ef051559e6e20e171a2852283fdde74bdea7980b8286ede72d4065",
+      "sha256": "b560f83002e427890a2c4cacb2c9b103acfac99cab70e04a7bf9040354eb9a0a"
+    },
+    {
+      "path": "data/nova_structures/loot_table/chests/hamlet/hamlet.json",
+      "source_jar": "dungeons-and-taverns-v4.4.4.jar",
+      "source_sha256": "2896ee895dc9ae00a81c4329e3914ab6123b6ca9b681cecb55b7c0e792fef839",
+      "sha256": "4b4e51dc09f4b0809e15e3d4c81ef7739370038a0bf13556787eae99326c03aa"
+    },
+    {
+      "path": "data/nova_structures/loot_table/chests/hamlet/hamlet_tresure.json",
+      "source_jar": "dungeons-and-taverns-v4.4.4.jar",
+      "source_sha256": "da7a2d47ce297e3dfb8fa791972d005873c32006fa95630e9337841a5edb388f",
+      "sha256": "a2cb1f5db6c1859101a002a7cdcf84d89b0aa641cf2faacd3d74eeb10c065f6b"
+    },
+    {
+      "path": "data/nova_structures/loot_table/chests/nether_keep/vault_keep.json",
+      "source_jar": "dungeons-and-taverns-v4.4.4.jar",
+      "source_sha256": "87fdd422d46e4a6d8280288f1828b384c8fb9d37de00f94167e194c11725f933",
+      "sha256": "c9663404b1afb1076b87b84da640d499e93e1bdf086b6b909b9ad7988c7f02da"
+    },
+    {
+      "path": "data/nova_structures/loot_table/chests/nether_port/nether_port_chest.json",
+      "source_jar": "dungeons-and-taverns-v4.4.4.jar",
+      "source_sha256": "a291b331ece474976544048ce6cb5395b19a17a883a77e8bbea1d30daef915d2",
+      "sha256": "20ba603c1d057be4dedaf08c40f2978d2bd24148607f95eff5332161aaf06b4c"
+    },
+    {
+      "path": "data/nova_structures/loot_table/chests/piglin_donjon/vault_piglin_donjon.json",
+      "source_jar": "dungeons-and-taverns-v4.4.4.jar",
+      "source_sha256": "3c616b868f46ceafac83c3164afe3c73c1afad8bcbc50820dcd7682c64e12917",
+      "sha256": "762da9c457c62b1f8df29fe0b789164030cd2d94f99c021798952393e3970e10"
+    },
+    {
+      "path": "data/nova_structures/loot_table/chests/piglin_outstation/outstation_tower.json",
+      "source_jar": "dungeons-and-taverns-v4.4.4.jar",
+      "source_sha256": "67e55ac33de83857de31606d7b547ed96c383666529fb85e543e1534560a2ca6",
+      "sha256": "a70a7ec44acc6488374fe93bac225004d236d7a4e1e0207babb7d55d961f4a2e"
+    },
+    {
+      "path": "data/simplyswords/recipe/eldritch_end/dreadtide.json",
+      "source_jar": "simplyswords-neoforge-1.70.2-1.21.1.jar",
+      "source_sha256": "5e75bd66ea489079d60c9c1ed98762550fbc0bee88cd7af399f17bbeb56608c3",
+      "sha256": "ad135e7ee41da0d1441b9e754f00681088034244005dacc7ace743f7e1282634"
+    },
+    {
+      "path": "data/simplyswords/recipe/mythicmetals_compat/adamantite/adamantite_twinblade.json",
+      "source_jar": "simplyswords-neoforge-1.70.2-1.21.1.jar",
+      "source_sha256": "5e75bd66ea489079d60c9c1ed98762550fbc0bee88cd7af399f17bbeb56608c3",
+      "sha256": "a9a5d14262eaff2efcc7a76577e76e83f051a677211869562c7578c61b4116c2"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_acacia.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "9603943ee142d56d3a4d26000986e60e646d08f65a1100f404cdf8efc9c617b4"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_rainbow_eucalyptus_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "029e08c9cc26174b86e85f600d00d002fb2a405aedb923108f3a120d3fc91968"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_blue_skies_starlit.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "8885829dec1650386abd7bd1159cc692ad20eda493130f1c3a6367ef18426f54"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_embur.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "0e6e2f37226f80e13fe9d5d197fd0ff6105a92a6c700265940ef9e44edc414bb"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_quark_ancient_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "5feb84d8e147eee1ab1a2f23e98a16fe43ccd8d2f0a30459a1d4300c32851487"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_nightshade_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "7ecf1ef76cd7ee27291f36bf1119a92692b307315929c9ffd7d486213a0a6799"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_white_mangrove_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "71dce6b2040be627ddd1b7c6e9f8fe0d3b78d42392976a7d99e51ab6142afb8e"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_green_enchanted_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "68d4d44762bfbf727193d1c3053c450996a702efce32984e7a2895bfdeac225b"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_quark_ancient_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "195e8fce518add3cb82394cde9db7b411591c11e8e7fd71f390ecc9d6332dbdb"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_quark_azalea_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "5b2a5d4df30bfc90515022952b1e599c0dafda7027b341235dee082e1cc65c79"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_chestnut.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "b2c1960449438d993642af040eaa5cfda78be816745fc8e1ac36074e4ca3b9a6"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_blue_skies_frostbright.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "3223b9c4735332ce6e385ff204e164e291a267b6e67b8f8900bfc70add4fc331"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_jacaranda_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "60ac182d122dcb14011ff4a3a4c6e1b3df6225c91f54a68abaed04a732870e3f"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_natures_spirit_palo_verde_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "21ccbb9624aef5f7cb396882c71dc18298e0883c9266f1fc9cf13ecedfb2cbbd"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_sycamore_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "32168778bdc88d28e91c734d344fc9b68536e808fbc5749739bdef6783c14c9d"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_hickory_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "cbde63b06d9fdbd75fb0685d7e76d63c20f5d047ae3a37cc559f8f365f26e639"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_white_mangrove_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "717a37bf67a4c791b79794b7dfb4b49a69b35d2583ced90e9d43daba8e6817d4"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_natures_spirit_joshua_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "6b59ec20b2dee337acf0e9abeba06e74e0509813500444aafb2cb75ca72155c4"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_rainbow_eucalyptus_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "2aa0afc3645b9a56da74c1fd2897b8cd923df9f40f06ffe4b01bb37319c36173"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_blue_skies_lunar_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "2ae85a2e601273a2d5b189afcbff8fd4fab1d4d7ddfa76c83f46978f25a16f56"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_blue_skies_maple.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "e1afc3fab03f9a43c639ef93277c3b0e0b53a6e77764f629c9d11aa34b5beb54"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_oak.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "3e93f609348b618ab443ff580a9c6ed38c3aaa2264a6690da63f206885121ed6"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_create_dd_smoked.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "3c99d7b9ae4ceb2b8cd230a83ef6e0ba5e11e682fb94e6298254194678334de6"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_hexcasting_edified_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "a08639b89969237f35c9a524a3ecab223e01cc4119a3e26601cc571f53684835"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_blackwood_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "de8bf88fe85923bdc5684ea2daae46c99382fff0c9717c5d7701e61efedeac99"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_maple_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "097ae9038efa4753763dd7f8abd3d4b97518f633d126af584f704a9307be4a4b"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_embur_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "75fed8bd5d65057ba64cbe4de0ec0375d203b6d91e1b4088196381c20992a578"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_white_cedar.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "2499dbcfe614f9e3cb2dc2578d84f261b5f8ac6ab8f5a8225c2730325f3faae4"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_sycamore.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "a9116c81e706bdb729c88d70612f6b227a98c3941ee4651b73fdae30c9723496"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_natures_spirit_cypress_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "bbfe1044c5b760cfa07db5c01c5674d7bf8ad6656259b71923936763e9134a04"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_blue_skies_dusk_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "e0c6c17c8b88f1a9e8ad004728197d52a7b58126627174ed17d10b5a0ef41475"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_birch_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "1df804320cebe36d5ae75f5a5faad91205e928baf1e21203be921263f020c04e"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_sythian_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "278e2cd87d1b39bb56eeb949388f17f12d64078c9270556c96d904aa3fd39865"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_redwood_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "952472832d75f5ddd865b24add52727ac9d4824f8780d2e3f4323f29cbc14b73"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_fir_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "c74e8d6e37430321d2b10bcf13a288f927d52419a5335d668e9c01f2da4c4946"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_aspen_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "235da519d2cfc31210b29a540caaa60008c46eb8913e518a4ff27db600f43b19"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_natures_spirit_sugi.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "11ad5b9b93be2b7bd9346999c9dda8bac2876899209fa8be51b48084aabcb05a"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_blue_skies_maple_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "9fe88be273c46c564cc670300b7de640f08bf35ba984ba0ab932f0fdaa1db74d"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_willow_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "a848ebbca86750378e54b2ce631f15396cdaf290502b2f0f0c68641fa046c908"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_oak_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "1958a0d95d5b79b53b0080fc82afea2444f6887ea7f280f4333bf333d00a3712"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_create_dd_spirit.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "e8b4f5311cf3edaaeeba2de54d00ac6f15e45e1ffc3d6a7d44d6d4ddf4097d96"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_maple.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "3d142a5a165d0215e84139587e70cafdf893383e8ba8ad959c57d51c974ba9ca"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_zelkova_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "646e0545ff122f684ec5a86cb0bf0bcaa67d2b7006dc8c2bff3277119f0671ab"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_pine.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "0c0b74cd7a45199179e1959dfa39567a7f7adcf525353fcc1db07fd6bae83311"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_cika_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "7a3a04c52d58c5b50a1427c7731f6d3e2d520a05a120ae06eeb57801eba187c8"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_natures_spirit_olive_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "be1c8f95b0b5aaa50433a0c00834275a90409b5e8204a115dafae39a1424434e"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_holly_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "280091d5137393367b3d6428a87e8d2db1eeb5f149e14adff336cf883b1d06d5"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_ash_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "d6dd5c2044e7d72787eb4fb61908eef449f5c871917c1934ffd662e3c3ee8529"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_skyris.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "0a713bca5be59782f01d0b36073334fcca05c9837a967f9738da35e6ae971246"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_birch_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "107d7aad4e4239bd395aeef2ec3d3f00442503e4cd50c48fb3c53133b49a84be"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_mangrove_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "69f95ace7086ec467c50b9c27ab57638c5741c9884c733ee3fd1f44fc9036840"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_natures_spirit_willow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "83be98d40b16390524f931bc077bf4c6445a5b13c5ded830e89ca652cbd51e83"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_sythian_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "f44d549b7b534a5ac01f069abd011edef6bca4dc8d022dec2ffd3f557ceb60e3"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_palm_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "c593a2de178a5227db3a88c6f74911a3ba64bd4ccd5f0ddbc552bb6778f5fa58"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_acacia_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "e174ab7054c3945da06ed8b75587e8979d0060d7c2f3d4bf160570a9e1f3a290"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_ether_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "85e1c33dd0db8327e559a5f8b8c4d9bf4a35c7c94ea03522e2b1f408fd3296d0"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_natures_spirit_wisteria.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "0e6a041e88e035bd458fb6d44215dff95b9f5bae19df4cdb12406d5da2b5321f"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_natures_spirit_maple.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "fce4248f8067a2d25a1d4ba53b8cddaca45a69648d0eeef755cf45b0bfa9c879"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_create_dd_spirit_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "e3e839f3dfb51051b679fe30ec7b13bb6a52e64dc8c7c73d5865663cd97e298b"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_quark_ancient.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "8547e54f171a00cea1acb15a6caa3648acf5082a287daf95db393f3d942f0940"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_hickory.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "270d5796ea62c33372ebdd3fa9a1816bb014fc35af81461da59a7f08eb0be8e0"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_create_dd_rubber.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "6d79b8eda4e8b53b4aa76a227959c8ff2aae51cb77e214b3c2240671d46a460b"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_fir_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "28d595c63319f340eae781ffdec23d7ab4027ea70f4396da55c86e211ea9ef04"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_zelkova.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "569388f7439e7996bea4d0898b6a69d5445236cdd214e657cef4a15578a48c30"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_blue_skies_bluebright_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "be44788562a03b90a73e535667fed0c1236651691da31d14e94a76b57427cc79"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_mahogany.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "14a085ca2a165f69ef3982c0135b2f72a784b1fa6fc92f7a452cc63b621f94c1"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_sequoia_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "4b12f94def36d5518a761d5fe0c47d49e9c92d0e915a101b66820a98684bd045"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_hickory_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "a7362112fa17ab788b708400b0e0b2c6df3a8584151d0f1cb64fa12f17f6e10e"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_hexcasting_edified.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "0fa019b695365a9baf298af29ba2ef362704b1147d86f9fa63ec5cf36e5855e0"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_baobab_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "ac0ddaa98c4054b06084cbe1971419cbf180532e0feeda9ac3ae137f68d1773b"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_natures_spirit_palo_verde_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "5bd9d96191d635b24b26d609dbad17b46fe43a52176b5f9d28f2c973900cbac1"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_blackwood_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "7b6b068e5d7d192fb956530842de1f1fbcd4fea8e735b6d88a64aaed50ed7bcd"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_natures_spirit_fir.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "6b0566449911069cbc7aab5c05671a515ba7826afeb8e2f37fda82d47bc0184d"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_natures_spirit_olive.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "42c08e0d4616078d9a1f2db2339a640c19ce210ecc2787de8025e6e9951c6703"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_imparius_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "e222be3633d899b8723c9b9bd00e45f6c88d04d0aab54f14e8ec28626aa34adf"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_mangrove.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "d38b512cd6bb52934c0e0009b649e5aa4f437812e679611da1746b6165082d6e"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_cypress_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "b8ea6dee3d4921cdc3b43c65de8cd5a392b4a1f64586038d67a7535103cbd4dc"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_palm_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "f80f4b006ea4cb6140667eb4f5951dacb454c919ad3c701f22a8eb3975b43b3c"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_kapok_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "28b22b6edb648e4e89bf050f6c5241c483d93a696d7d57c37dfe95d750634419"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_blue_enchanted_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "558a79bfd5c5521115bc6c86683f1e5c3a9da6e9d252f1cc9e5b1f7cf67c9905"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_mahogany_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "7cd8edfb16c19c18d428977651c94eaea35809cc0a902d097af0862285df3055"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_imparius_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "3798a25d96082b9a17b749c6e3194cd37a0fe462a863b77ca927cc61a2d40ab2"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_maple_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "070c81169baa4d8f18e2b97ee69fe8046498e3af033f912cf9028a50f3c69104"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_palm.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "61d1d9087239a5e02785be37d651dda4ac8b07bd8cdc376e5b9ff47f06be795b"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_blue_skies_dusk_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "fa246e468f1c0ae279b4662e21afdfa3bf6482e65464f04f350aa59a3a13830a"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_blue_skies_frostbright_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "0f21ad2ea62606e4843194f2e2ca47b4b2b6055d2bf86e5a364d8db432053088"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_white_cedar_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "36a702651e718ced247028e2cd8c5f49125b5ec22c191e8e0ae8f402d695a335"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_fir.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "4ab5098662ecdc55fbc17df36d9e1c366755e8cf2b9f98af213bbe5f657c88f3"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_natures_spirit_aspen_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "86c6919692bf083a8d505c5a3594ee56540910613d6f5af11bcc6ef3a131f339"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_rainbow_eucalyptus.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "ee66b90628e38097746ad9bb3613ddc9e69d01e16e6498c202604b29883b693e"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_mangrove_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "fc696209471305c24e0fe93dd0cf287796b79bca43e87cfcaaf288f66ec3faa0"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_ash.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "36ab81bfa8baf5c398898ea0b0b9b804677185f79b5c5571fb0c439b27a6e217"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_natures_spirit_wisteria_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "16fdb1cc87974d34268ac2656698ebfcc01ecf43a12d4790d8dbcf1e47ced041"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_sequoia.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "92df239976cb55d03c94e0d0614c52a31161c303b5b5a3397ae77dd0b637ea69"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_holly.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "74d31859c75a6dbc4bee95716e408997acb592a20ddcaf25e0655984be596888"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_maple_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "8f4d1442f769ce57e291c1a913c4fbfec1e7b0a73921ef4c42176c2cba8e8645"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_blue_skies_lunar.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "064fbe7848b51d04bab366b74123eb9f697a371840066e6ea5b546b140318a5c"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_lament.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "ffcd314bdf29a2e20fe40c47193820c111344c4a747f936f443c5f94da867020"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_natures_spirit_aspen_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "417f650b3a9ec7982c0b3ad7555d175836209753170aca522d03d5b9c855d5db"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_ebony_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "6322be4e91ca400893d3fc81a325d48af09c9a83e06f4292cf6e16b9a8571750"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_holly_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "8f968ba3d37fa4d320118f56b648367eff01bf0514e3ed970109eeedaa23494d"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_natures_spirit_redwood_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "6473a74576459b74c4d5dbb62a6d0c3844f05ef33eed23e9b0fd240290574666"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_create_dd_smoked_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "7a940e0e775f1c2590bac1a92657d27d485bdce331c78d1193dc172a1eb08cf8"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_natures_spirit_ghaf_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "07bd84f0577a7aea4163d914f55f22ff90b7ec01d44b2672d53cb5b85065746f"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_witch_hazel.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "ba5cb91a091af20dd6dafb505708641d5b0fd66a83c8214d2ac2e9f6978f8ce3"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_natures_spirit_willow_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "59f5907e2f74eeb63006dc538d09c17862d8605b2d78feeaae44f0a02897bba2"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_cypress.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "cdb3dfc69d4336cc735eb16e2669a1dcd506922e7bc07d7c37f469fbc840dfd1"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_sythian.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "887bf773b95cf530f16f7bbee6ce3243e01a7c78e22ada5dedbe3d2c52e52936"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_birch.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "916e2c79a9516fab5d018d02209a811d09e1c5450b689531923f1c4a1d9f7cc2"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_skyris_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "8689126fcc0cad8ba3f95bed3832dc575ba49ddd9c9e7aabb1c0e2759133d951"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_witch_hazel_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "fd3839e9f625aeaf181f8fff1403bd555f4ffa92b63e39b7b0d62835cdb7af6b"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_natures_spirit_joshua_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "8d88b2ba0c5b652702fe7cffbb7913c044c82bfa28e13a4a299d907b1de0099d"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_bulbis_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "8b9c3fffb729ffae05810dc6d189f549fb4e4a81ea09dbc30bd10efbd65504d2"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_green_enchanted_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "1cc3fb99881b655dd395404102257ce7b38ac2df66e914a99211049890944c17"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_chestnut_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "974a8c4ea38e828dbf4703d60fe124108f18c7832e976b4c73076da3548196fa"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_create_dd_rose_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "ca9c09ca3561ab1b4a3870e25aa2030e35e33f79cd6f3429e9419b5d4cb91933"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_skyris_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "8ece7e9bcfc3e25c83133934afbbd918c5559303bd9e046eaa34e5aaa3e43ce0"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_willow_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "30c49f9fe48bce3e1d698e98d2ff96d50dd128c45cf4cf43a8d503bfeb030145"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_ether_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "7d3e9ce86273c9eafd69917b2660b9188d95204f2ccde72b07afa6503da27834"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_create_dd_rose.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "1ad4b016ca0288167f0b670f6736d1ed92f3a5f6dd88e0b63c8674fd81861c08"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_mahogany_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "c6ed4d616b40657e39868707d6f591efa1b60f447913d5cf7841a5ee2fdb515d"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_acacia_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "c2fb6044776dd4c6949333eb170a27228198172325e17ab442a7642f93328f80"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_ebony.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "30e08bab4256fa19ae68eb0347c29cc5ebf3a9817d9e7ec47cd2bc2ccf78a501"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_rosewood.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "83fb4cacde351adbf981a2ff4f5e667d29b501768225c969942099eb9d452fd7"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_aspen_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "8c52174ff9c29c1fce2897456e9d18cd54176ed2c7d4da76791a731e19c87322"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_create_dd_rubber_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "e5e7c9eed9f0aa32d8692891001b7095e60a9a72c10dcf3e407c4d6bdcb31bd0"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_nightshade.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "d5115ec754ad030eb3fbdaf78ac4e530ce0881ff844fa1b169751e6f21f85245"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_willow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "00b0f90ecbd20d072e9588662511da03436b9871ee91c172c0cca172d2ac01cd"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_bulbis_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "627a8dfd8a5c09dbee62d9bffc065c0d82d3f71d0e0c440841cb2d65dbd9beba"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_cika_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "eef5554c7ae630284f655c781ceddc63df7d423b93d005f40be19fc54320139e"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_natures_spirit_wisteria_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "069231b715f92cfec5a02852c71d64cf6d54b192127ee914db7af083660538da"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_nightshade_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "c6a34ab71ae515f5f9e0211132d34369a5f519ed7afd16cae0201170162321fc"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_imparius.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "db59abd0396db9963e196759314262b9bf25eb6c24a8838b857f99afb8233deb"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_lament_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "39b570f508a63dd57d67d907c4bb32cbc99ab78139f3b54ca8300aca50e53cd9"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_aspen.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "02ada8e67ef25bfc09c557b50f842b8be5cad59777d455f77bfcb87132c30358"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_rosewood_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "d538d83bd98b5692e976867bcc89cb777e4eb1e7d9119e331ef77de000a54bd3"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_natures_spirit_cypress.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "600bc5215cffa63ebcb4521332d99bed63c3ffdc4b1086e19534b98502720b6c"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_create_dd_rose_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "37d5331c9efc2f540c6e553d0d0ebfa9990a159d7a0fb4438d592c527a487963"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_redwood_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "116bee18e399e88e9726023ea589329854f81f3a7565ef84fff980406f3ceaad"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_willow_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "35fe2dab0a5a6c31a4c8e09b710c2e4671ee4234780d213d17c3255ea1018400"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_douglas_fir.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "7633cad9304385b2d18f74fc574659f6d410bb6e3c30d6baaad5758066e134ae"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_ebony_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "fe36ba80f8cd03b079f2bbc584118643292c0fff45a64fd19885ffb9a7b682f6"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_blue_skies_dusk.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "e4b6f95e479e27a8cd47b8f440a67bf6a7109378270f8d5b9a4fce55ec67ebac"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_natures_spirit_fir_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "3ccb86c3ea688ea9022ce1df92f6b2ec01e131bba3d28499bbe5ae80bad604d6"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_kapok.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "6d1e02a46ac036b03beb592d9ad77d37327a171b0e68502bb1b4264260f4b13c"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_jacaranda_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "e2d11207ee1f608272fb87dd5d862e9b207335b1c27ef141feb1062da2305b0c"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_green_enchanted.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "7b2c6cc2e0727b00d649620d8f91653cb5493b47f5313bdcc20509cea0eabda9"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_white_mangrove.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "47cdc4858bb2981bb80158c4f25566b389a8983fa7dab77620419255ea2740ce"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_natures_spirit_aspen.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "0b0003835a02279d7c60365cbf334a28534291545d74d84dee16d9f4750dc9b3"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_blue_skies_frostbright_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "91eb79fb0b103fc9a2560caeb887f2fff8c242b1f068d75221096c4872f9b7eb"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_oak_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "8f4791e8c3597cb2acf98a8745f3c8fed1c3b2f41b4af9c0469a611eeb202ceb"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_blackwood.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "e55d95e8039bb825b0f1e4f87a43e75083b7fd6ddc89ed5365e879b72ad73a6a"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_natures_spirit_cypress_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "4eb27a31045514afa34ab088ca60c4651ef596e8a236caec08ef5c2800f1cb8e"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_quark_blossom_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "93f07b64db43bc4306dfff63eebf77c022eb428056be38f6d85dbe9c02b600be"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_chestnut_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "2011fcc47956def6a2d9f8c3eef5f4898604fea44b6492380029433406cbe1ea"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_natures_spirit_willow_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "566693320fcf56ddc07bc33b89f0d36898d19ed142dd352f7555249ebb454d76"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_blue_skies_bluebright.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "f7c02a7c230c2ce54d5bde9fc87e7726b3a681495bb79ae407da40f841feb5dc"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_ash_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "beec7a25c4e30f7ba4aa0419bc1aab433d56e0300ba9d7a7a4db5d2bf4df4eae"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_blue_skies_bluebright_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "48c5f1ff9ad85d7fc11c6b0a5de65e5900feb47983339aaea5ccd775f45428e4"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_embur_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "15e3d0ab4ac2c4ad722e111b3e71ed9b145172a1bba7089af40da0e21eac625d"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_natures_spirit_redwood.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "325deecb59de070136902561c68511223831875d02bddf04c59acbfccf29fecb"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_palm_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "05c16b3af2ba79eed5c2a85bb3cfa5cee61dd19c360c085f2deb09bb0d4fd8f8"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_baobab_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "5f6e49f9d0c5a9ae7dd9cd1ed819534cee1e2bf4b5de7807ad3c51ca40cfc8a9"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_rosewood_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "ff1a33ff4675ced7afb29e6c0481c831d083c4bcea31a145b4da4eebfb1cda26"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_jacaranda.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "735e733c2e9c86e1cd998736ef227d3c05511e749952cca90a9bb4edf2059296"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_blue_enchanted_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "07e5392f674bee79871124e3e5ecee37bea79fcb4d9f009b4cbdb05a6f661741"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_kapok_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "9171a0066066d7bb3a2ed335b46537f4d44cca564fc00d53b98cf11fa70c7d30"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_blue_skies_starlit_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "63b07b1cce1d7601e82553195fdd098d0aca84c760258d3670ae4db4b1d4e250"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_aspen.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "a05787436967b8df7d53ded36fb29d50d840a63bf209189761323723dea3065b"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_pine.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "03f637cdbed4a1b8dfd14f61389b95a648578b6c7984240dea23a50ab892ccd2"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_spruce_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "df51229d1fae4d9038aaaefbdabf50b5aa37a976ca2ee38d55c1b3da65c6fe22"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_zelkova_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "a5ef0d044fb32cb996719781c471bbfbfe6da67f3362f40480349a62a57f3c3e"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_spruce_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "75e24479a41d1c2195d4b5528c8e06e1038042c5b2e4a284383ac79db3134fc9"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_douglas_fir_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "cb62d615f55747f9ef0547ce565a364c8dc04ee7c51609b25763ff574aa9093a"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_willow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "f5b12d1ac367343636c8836eb67604e702b9dd7fa2b37c25a616ae12cecc49e7"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_hexcasting_edified_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "c8801ef498156869d33bcfe52261f3c8f3b989194601010bd1f0fcd91a5d840a"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_witch_hazel_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "2c134bab39105aaa12706cb86a517d4eeeca3ea3371050d81258a5fec26efa7a"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_willow_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "e34b44646d6da2f730ea0ca53a6c7cedf10b39c22d9679ec7a389f4de4d80b19"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_baobab.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "20742ad7a4eb12a90cc9c95274cf58abd32deda2cbe0a7d3233137de0fdd3bc6"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_natures_spirit_fir_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "81887850811749b786edf5b06ac3bf1d29715816c4158ff7aee34ea240785512"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_palm_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "5664c592d2b95570bc9a1e78b4d0ce4b7159b3c23df541a417a450046ad22002"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_pine_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "e1e03dd2916f9a8b20512142c2e9699755c8139f9c3c64d5de7934d8488fa154"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_natures_spirit_sugi_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "e3cef801af3ef39cd18b57615b1bd2eb28946c26c9a9910ee10a2a7e7b4d8c91"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_maple_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "0e64d7e643c47b20eee915c7e23e6fdc44d25c8a8279bf319b05d6d38e7cb6c4"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_maple.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "62d4c69744203bf80735d367648e0b81187945b9def0730a6644453c4262a6ff"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_lament_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "a465748ffb26a5ed3d03d1a0e3da51d062b57a4f85a79143b81372fec47f23e0"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_natures_spirit_ghaf.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "81acc618c0c0588f9f2c1da6dad1f3d1ac66046e0d00f82efe3e0715c45727ab"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_palm.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "1c9254be1556d149eb3db29ce81c64077a00a6577aeb7cc177993d457416bd93"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_blue_enchanted.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "eff80054a1eee82df603d9ee2d9432ca61976fec83304f2b09f4127e550cf698"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_natures_spirit_maple_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "c3630559c5e23762489a6c2e5b7d96dbaa955a73afeed0889d760b394977375f"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_white_cedar_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "52af18e8fa16917f31366d3300981842eaf4848c134e8996eae380aecb254b1f"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_pine_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "18188d79e5a6f110b3a471f402bda7ce1105f1ca6b2a22b1d05a42eb1ff81f35"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_natures_spirit_olive_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "d9d8a090b297131e96f12fdb79f60b0a821d14114efe1bf6b8bec5feb39d121c"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_natures_spirit_sugi_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "b0f7739a202168b4be72a8f07898b8e82d59584f1f05b6c19212ad9c11e8e966"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_aspen_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "fd6c94b3a78d87d5e88c7d4698f81da6687809894f660ceca0b008b1ee439152"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_sequoia_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "00a96254e29f42e78c93f1ed7bde616632367da093e41d7232f5cf5042e2323f"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_spruce.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "16d8471cd786f7e07af1cff981c34ecda303c051fcf333cd5328aa73170b512e"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_douglas_fir_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "4049b7682c06917689382218c7778af40e62f83e86346a5009625629cda9b97c"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_pine_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "801aaa2b6f1a0455b53e77ff36be519d902907342ef8303f4ded36d1c8021047"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_redwood.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "43c91f711ad3f9ef79ae07a952063c456f0c41baa154dc11e3256f07bf92e4b4"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_create_dd_rubber_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "cd631c85651662c56f298f717b30322714165b62112af919b4d17116e1e39d31"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_natures_spirit_ghaf_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "57e3e52b5c54dda111a0bf78f3295867cfc178df6129ab1b381b08471b56fd64"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_natures_spirit_palo_verde.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "ad4901bfcceec200cad5c1a0be42f03542fa5d109f31cb4d65a223fd7daa85f4"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_natures_spirit_redwood_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "cf9f4cc7760de649b65b5fc77975a2b1fa534f79f46b57804b5aaf005b6822f3"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_blue_skies_lunar_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "6a3ef1ca8c5fddfd089ebb95eebc026818268a8fdb81930f36fa244705cb266c"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_sycamore_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "26d275e922ca6388b3f23b10da1add04fa68a84dde45b26dd2c37f47068a84a3"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_aspen_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "fa614236384fb5b1b11288e783a09dba063213af56035d56f826e97d244cf131"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_create_dd_spirit_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "5d777cc679e17c32ee26d543de31e88debdae595eaf3b36021725d7a3aeb37da"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_quark_blossom_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "ce9118e3836a7fc19408c6666c76b827fc74dd1e99a8dcf011c04c5d8b732c08"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_ether.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "5322a48daf3e05a93c1a4ccf31d31f7d5a64b7627e0221fc3feef6fcc6f76485"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_blue_skies_starlit_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "2071fa910b93a70764328a858d1d8a06dda1d578a8c877d6a7a1e7fa5cec5200"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_cika.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "7f284bfd9e3f58137e56b754ef8f3e240ec3731936d0b861d1ca07466f6e9a23"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_quark_blossom.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "828e19c9a4fb074bb0dc4cc9da894395cae4928324c3c7195f5230914d7e44df"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_quark_azalea_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "37c1251ddf6f506187fa436148a51b450e7fb97e6fb1afd73fedffe0fab47ba7"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_natures_spirit_joshua.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "d94896804151d6270da9fea259dba82e93d7493c75431669335c23e7175f0167"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_bulbis.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "8abd659af84373927a56643a73e07759a73ed647b77f4f5367cbbe7f643c0658"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_byg_cypress_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "f814200d8a4d2198ac839e272008e014d4e8d153b29e50a593e62c39a240f59a"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_blue_skies_maple_wide.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "bc554b754333ee19109617d9a2a14e79794eb944aad2727251944ad6dc383417"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_natures_spirit_maple_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "83d75e6baef0a3a6dbc8b791044ce4dbd31586e7faf4eda1e0d67b2972e460ba"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_quark_azalea.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "de245fea9a90513caba9315db6adb7271122f456ee1b59b15d5997785394243a"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_tfc_pine_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "7904f695718d4b9139fb2564bfe362b2f7383acadc693bf66f995cb410b70004"
+    },
+    {
+      "path": "data/railways/loot_table/blocks/track_create_dd_smoked_narrow.json",
+      "source_jar": "railways-0.2.1+neoforge-mc1.21.1.jar",
+      "source_sha256": "b7636c8b1b0352ed1a130dfe67f8bb574e2fc08803ed1cda4d3ea00505193914",
+      "sha256": "65755359268a6ce1402655bf294164d1334f47fc4dcfca8e6a4c4c99d9e9d3d4"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/abandoned_temple/abandoned_temple_entrance.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "8f0473b8247743187f5319654f217f6e1b64644ce9b303ac29ab398c844e20d1",
+      "sha256": "5d1973af9e57c509057eac4a38718e286a928136e28f19e4e82625f99c88c094"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/abandoned_temple/abandoned_temple_map.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "ee8ffa70c9039171b5649c1e95f28adb2838953f2640a1a3041ce23bd111f8e1",
+      "sha256": "bd786977de440150040485864c1ae7887e4dbe7dd7b1452d230918d0902633eb"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/abandoned_temple/abandoned_temple_top.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "957e419b22f88a8e61940511c94d12860582abf8004219f93005760da5ad9dc4",
+      "sha256": "9b5507d82d130e6f90a86ea4ba2de851b4b47f590febc1881913fe8047198b47"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/aviary/aviary_barrels.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "8b79720ffc6f6eef0477f55f3c6a70bb7a6edd54292227d0b766a27f6db23e7b",
+      "sha256": "08fe1776cfd4d9395baea84c28b085ba8d3d5041f3c3b472272207d80b27f6d7"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/aviary/aviary_normal.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "7e464e178a742e8b584922c8526a6c9a7ab31e6987a420aaf6ac60bcfe5e5b1d",
+      "sha256": "f3843385573868df86dae3a4dac36f5c6490f2888bb4ed24851a40f9486465ed"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/aviary/aviary_treasure.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "c9b7d1afdc095de6e0159ca04242e0aa34223e7540b095ab88811f9810050db3",
+      "sha256": "04a5a77f544b0b0032ae8caa6ee3556213ca844790ce6e345d898b7ccaf78f32"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/bandit_towers/bandit_towers_gardens.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "c44fe8ac04216e32903839b8c148a6cf145d6d11c6b5f0fac4f1d9373ceb3f5c",
+      "sha256": "3a6607be3ea8c9a5be4d61a31dab7fcbe1575491b1292325229c95403ce020bd"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/bandit_towers/bandit_towers_supply.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "853084590181f09799c1195d5d93238ae765140e48c0d9a115d5af89f3d9f66e",
+      "sha256": "77cae2c82c6c95f408aab70c2dd2cb3ef40c76f7c90af6d430cf6fa148bb166a"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/bandit_towers/bandit_towers_treasure.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "061917b23ea2e8b96959ba9bce47862fcd056814e3e2ee02b8f10ac336b6d631",
+      "sha256": "6792aa94de60e2d568468f7c17dec1e7d9254e137fdeb81f6653fb2d1ee3ec69"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/bandit_village/bandit_village_supply.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "853084590181f09799c1195d5d93238ae765140e48c0d9a115d5af89f3d9f66e",
+      "sha256": "77cae2c82c6c95f408aab70c2dd2cb3ef40c76f7c90af6d430cf6fa148bb166a"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/bathhouse/bathhouse_normal.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "9fb9b320e4bbea313c9b3832ef805690404e67450dbb73abfc973b77713ea041",
+      "sha256": "751d30d4ddeecd78d08a6e1629ce13b46fcd3bbf97d3fc290194ebd71f18840b"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/ceryneian_hind/ceryneian_hind_treasure.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "0bebe95fac31181e9c48ee36861c2206a2876dd9925cbcfaaa1962214840c725",
+      "sha256": "c9c7a8ed7b45cfb588aedc2a1fff94ce663c1965964ac6ca067964653e18fb07"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/foundry/foundry_chains.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "2caeba94ae14ab34c4df833dadd8bc49f929a1120891d399a288027483332269",
+      "sha256": "de6c4fc8a48d7d723822aa51a31c6789d2c458c05b848134e621a690d23271c9"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/foundry/foundry_normal.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "6b56dc9a93aff660095a0a5969a1786893c1470e26a22659abc41ca4259dcd41",
+      "sha256": "d1b9531908028c2392d412ab31689c4ae2dee2cfff690ee50882fad193d76250"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/foundry/foundry_passage_normal.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "b31417a1dba78b05bb18d971599572e672e3a9e7e144795e6a3b816dc891eab0",
+      "sha256": "267e85cd2cdfb6da7c33708af2f3eea04b79053105b919c98aeff4d3d668899b"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/foundry/foundry_treasure.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "c5e2bcd4082cc85ba769873fdc9cfed215301c697902c5c46cd780de3411542d",
+      "sha256": "ce60d54f304c46ec6b29e740a5eedc68aa91761f4d13be00409a9d820e4207f0"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/greenwood_pub/greenwood_pub_normal.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "e55a314dd253123f7f8e945435b7761e3f65bb7bf7c53559dd00de6b51ca0701",
+      "sha256": "c56fb9d22fa5dc66c26aac678fe0218545df9e90f681bd3cf775575c6da1aaf2"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/heavenly_challenger/heavenly_challenger_normal.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "7e464e178a742e8b584922c8526a6c9a7ab31e6987a420aaf6ac60bcfe5e5b1d",
+      "sha256": "f3843385573868df86dae3a4dac36f5c6490f2888bb4ed24851a40f9486465ed"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/heavenly_challenger/heavenly_challenger_supply.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "e5ccbe6e2d1de79bdf670b888246ff2b0c497c430d7a0360fdc3013f4096de52",
+      "sha256": "55900d68048f15942a6d74110b393812269f1245df6520220ed6619ed681a7d3"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/heavenly_challenger/heavenly_challenger_theater.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "f7f6995719a5ee15e1032fe6fb03f4e217303f0b7b425df0383ca432216ed8b8",
+      "sha256": "0999cf31d9a0445fff13000164917f0510e906f5efe27298350686b11f512fe3"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/heavenly_challenger/heavenly_challenger_treasure.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "3c0d7459dae53460659892af98aab5262f76dab939e945ac47869b0ac85c319a",
+      "sha256": "b23b35fdade87b4ff204cba388a10af21519fbba719aff1969fcc4568975c3c1"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/heavenly_conqueror/heavenly_conqueror_barrels.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "64e79e9aa71b46628a7d345126a8a4a9c7f5e65f46368251c0c57d16fc538951",
+      "sha256": "02e1ab68d685b2635e71b00485c90d0ad211e1ca4477dc480a43cbc2c9617843"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/heavenly_conqueror/heavenly_conqueror_normal.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "0b2510eba0818383ce4c5edb92ab990bc5c87ed6634202c3e4728e52a89c0247",
+      "sha256": "dde1a27e0cacc66b5b590737d59d3921801643a97909b2d44f0c9c19c4c98a15"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/heavenly_conqueror/heavenly_conqueror_treasure.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "49930e73dfbb3d07c719e12370974c6cedcebcc888c3fea9742c98d577a8b4f7",
+      "sha256": "a5784737fb52cee5761ffa12d146ddbad835293ffc8e9767e59fe8bca5625c7b"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/heavenly_rider/heavenly_rider_barrels.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "64e79e9aa71b46628a7d345126a8a4a9c7f5e65f46368251c0c57d16fc538951",
+      "sha256": "02e1ab68d685b2635e71b00485c90d0ad211e1ca4477dc480a43cbc2c9617843"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/heavenly_rider/heavenly_rider_normal.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "64e79e9aa71b46628a7d345126a8a4a9c7f5e65f46368251c0c57d16fc538951",
+      "sha256": "02e1ab68d685b2635e71b00485c90d0ad211e1ca4477dc480a43cbc2c9617843"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/heavenly_rider/heavenly_rider_treasure.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "add7d2fca9ca8b36b9df7fb00299273dcb991edbd2822fb3524dc9b077fbf633",
+      "sha256": "7cb3ab30a7fc66b17f1441c70aebf3908d07a946bb352e94108673a447dd5501"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/illager_corsair/illager_corsair_treasure.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "9f80c4ac9ceb953724a83fc67a9671cd9f86d00ac07394ca38927cadbfacc9ae",
+      "sha256": "370d9700ee2e2c57183ed48d923630aba1d6f63b82d0d43f3a12ef7b278a10c0"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/illager_fort/illager_fort_barrels.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "fbdbe494be6585bdf8af0c257140f573f10bdad95951f133f02ed1b0c714d3dd",
+      "sha256": "04e69b7b05196bd78337daa4519b7b757f482bfd7527fcb88da40000d9af4678"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/illager_fort/illager_fort_normal.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "2dcbd666df7266651bea82dd92c2d1746b8730844a3b9c737e367c1080f614e7",
+      "sha256": "77376f4b6b86763e4749049126a9e98f978a82638573198677378442548f04b1"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/illager_fort/illager_fort_treasure.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "789e82b5872bd41478470b477b87d020aa0edae80f437f965022eaf971d2e8a9",
+      "sha256": "804b052401c4ddcbf3399b5ae625bc07c6d6ce5d0f1f7a8e3fbee75c4fa5a741"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/illager_galley/illager_galley_treasure.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "9f80c4ac9ceb953724a83fc67a9671cd9f86d00ac07394ca38927cadbfacc9ae",
+      "sha256": "370d9700ee2e2c57183ed48d923630aba1d6f63b82d0d43f3a12ef7b278a10c0"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/illager_windmill/illager_windmill_barrels.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "9e54fc8fc11011cc91aa223d3c585e1c1d3b111045a91276d449a342099214e4",
+      "sha256": "cda3d3ce238f15374415d6591c0b60608c5eda16655d3256117fdf80e7428a07"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/illager_windmill/illager_windmill_treasure.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "f49f8450fbbebd5a45f834500bed0b4991fd5e95b361606ccc87e3df8042a7f2",
+      "sha256": "db5b09e806efe826a3a775cf0934a05388ebe8632378524992bd9b401e17380a"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/infested_temple/infested_temple_room_normal.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "6699101578f04a070d14efa3f101e926409ebaaebf02bccc8b4d73062c2b4c99",
+      "sha256": "a26b83997b62548244c4a2ea5419881662f2ffe45e842d88538452e3e4d54da3"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/infested_temple/infested_temple_room_supply.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "29d63774fb44ce954e1a3c1e2828f2e76d5e7519b2004feb0ead3bd298266633",
+      "sha256": "3bb8d784382d74469ce5f158ffd2dab7926dd6f91fae74b7bbff2d839c529ea2"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/infested_temple/infested_temple_vault_normal.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "8852b02cd07aa0acba6d9063c30f0b65ebca192c6ab333e99b9f21756cec21d0",
+      "sha256": "13a464149aa830372e56c803b8a48439dc9d989a31ef1495b08a8883d269277f"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/infested_temple/infested_temple_vault_ominous.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "2ee2418f49daf921816c374eee338cbf51897d82f017603fd674076e5d58bbf8",
+      "sha256": "ebb37ff0a8b07d8fe2a699d8aaecd87c54352ec2b38cd77d3487e62b156a5905"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/infested_temple/infested_temple_vault_treasure.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "94033797a17d2986dc96092c4e808c0e065ef186ff34c180cd3c46ce9c2f02fe",
+      "sha256": "b89a58b8e49b5aa4e0b2a45a682d269c35247417ae9bb0df102e9671496127e5"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/jungle_tree_house/jungle_tree_house_treasure.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "ceaff5075d431d4c0565ebe7c80258e268ac832b7d10c479685d8006e9745b1b",
+      "sha256": "3960cbf025c1222e2683e674b63b8f0cb844351f1b243071e31cf8813a898324"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/keep_kayra/keep_kayra_garden_normal.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "af672f1b32305ba02219fa5abcf3cb6ad90e147fb47619bda3dd1bcf1d745273",
+      "sha256": "3ea1cb3fdfeebb1cbfad6cf90bd5d01ceb43d17fbd2ab2b4db737c4693bdccd9"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/keep_kayra/keep_kayra_garden_treasure.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "f4624f8d117f774727f0c1fcf7f53333f136ee7241b7ff018203682d3c405d92",
+      "sha256": "5729e9b62c48140b9b1452d297025161abd3850b94eb93d25bb4260f72d89374"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/keep_kayra/keep_kayra_library_normal.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "6f23a88a6edc15714ddd72af67e01a15d9f78d79555eaee8232dd4524db3c810",
+      "sha256": "c8a2a95d50b27443f68dd02bc3139386642385aef9818eb4836c9c11403ad62f"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/keep_kayra/keep_kayra_library_treasure.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "ee7e398314939c84c644fdbc7825999e314fdfff308aacdf86a94a2c9a00084f",
+      "sha256": "29264201b9adfdd7e805f1e21a63277e695bf7263e84dba61d812bad2c8ec45d"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/keep_kayra/keep_kayra_normal.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "cec108255d2290d187077b9582499e055b45132c806b6ee14421b744fda6c200",
+      "sha256": "7a9960cdebf2fa55d06394bba894b273150acdd3063b25f689ec0dc121fa8749"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/keep_kayra/keep_kayra_treasure.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "8bf79cee247e91c1972ac124455f0bbc04f0b0122ddd7711aecdf3ad8684a0be",
+      "sha256": "8717dc1f86a7e92c4d18c2e42cbbfd91a1b03480743a73bfe08e485e3856c108"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/kisegi_sanctuary/kisegi_sanctuary_basement.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "ac70020cbf7f4d0fcf84436254722edb645ddd9df187e50803925e5e1695ca41",
+      "sha256": "855a6af72c85e40ffef9b48db6a97a81e334dfe6a63248c1309ef4d170ddd5ac"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/kisegi_sanctuary/kisegi_sanctuary_normal.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "10ce194b69dbf96c6f20a1d58fc87bd798e634b01d0d87251225464ff6ea7263",
+      "sha256": "fa473a9f8cedecb5cf60d55de468604e63b82c4c1f98616a873ba3f0d40da7b8"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/kisegi_sanctuary/kisegi_sanctuary_top.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "8515a6d812267951876d0358954322e4690143c6b43762d576cd70af94fecc79",
+      "sha256": "8828fec2e12a160d9c1091fb8074597f6a2511d4fe2eed47936c9932f64c3e6a"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/kisegi_sanctuary/kisegi_sanctuary_treasure.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "02c83e5d7e663275be9a6c53a7097ba9cb69a49a59f935cc321ad66856122cb0",
+      "sha256": "316ca91da7dd54fb0ebb07ec4c259fab325e2611e34aa7049910eb55bcdc9707"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/kisegi_sanctuary/kisegi_sanctuary_vault_normal.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "e4b9226f41640f69f19d04adfefdef6c1623efc17e75757483419354538968de",
+      "sha256": "79bb45a3a250792fc34c59b92a80396486ba97cd91517a3525c3e25068581838"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/kisegi_sanctuary/kisegi_sanctuary_vault_normal_treasure.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "29fa6090a381154bd4a86c24ca494efca147b585a49de0ec11f7c08996418847",
+      "sha256": "f26a9fdcf189b42d81237b6adfe445135006d2b2eaa14daa683c7eff7fbd25cf"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/kisegi_sanctuary/kisegi_sanctuary_vault_ominous.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "3919ed8bda185d0a4a1697b9f445da0f1e136ac06dc9af43ae3b2ca4d5202738",
+      "sha256": "ca0e0849ae8833c7c9687097b632ca7850ecd0602ef6300d7688b194c6f6d194"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/kisegi_sanctuary/kisegi_sanctuary_vault_ominous_treasure.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "501265bf328530b3a17173761f5b190963fd675e211bf55be61d06a9751ca539",
+      "sha256": "d070e13d63e2e8e59e3d584c0d3e6366b002ae0ff40ef32c6180e41474af0820"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/mechanical_nest/mechanical_nest_equipment.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "6ea38835a2d92b62e6789e8e30e7c40b3e4831607c38485aa9d54dbe177c7f30",
+      "sha256": "647bedd17328841d3186224c98e4b18357b1fe0bc4a0349c68469b5697ade38c"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/mechanical_nest/mechanical_nest_normal.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "0f2c08fe95a4c8cb563811f6266475bc94baa30cbddfc07c481a771be4728b50",
+      "sha256": "4a2cba4c77b4b900ce3ae456564e99c80f582be4fdd896180528d1858f09169c"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/mechanical_nest/mechanical_nest_supply.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "7c62b4bc5c59d6b6a2a5ed002b83f588110f949f22aaa3b04bcd1703f0399c9d",
+      "sha256": "1dbd1e1ffdd38807bd9fd5ddf21392051680db1e23829e8dffec8ba6628cbc68"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/mechanical_nest/mechanical_nest_treasure.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "1b3ec900f354d91ae27aecd8a1e07e3c4fac02772759897617b83b908d13512c",
+      "sha256": "998b9dada2425a58cf850d7da50839b0dfa6040931ad2755efe66e4dcc5285ca"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/mines_treasure_big.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "c0337f53b820053b112edfc2a5fd15e854d213375e444b28902b35c1ab680ae0",
+      "sha256": "90bce23651692457e73333c6f76a691e1713e78a417c884f278a1169656168ac"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/mines_treasure_medium.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "f9cb373aa436675ccd52d022f655ec266fda71ba310f35ca36cce80f785f810c",
+      "sha256": "c300473f794990d18092b2e33c706fd06d379b36faea772fd57207f0a3a2eeb4"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/mining_complex/mining_complex_barrel.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "42730c590b8ac8d69bc80bfac7b1bab6e7439c4a9f4ef0d151617779270fd0bc",
+      "sha256": "2730c63cba1f2306e63000b2e6d98d3060d3997f0e3c467232707e2fde61d3f9"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/mining_complex/mining_complex_dripstone_normal.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "73530a4658f160c8809232593d058b603dc8bc5e9ca120b3160bc82154ba66ff",
+      "sha256": "c988f507d79d700ec6dd26d436053b2733e2c9b616a1f61f14cbd112fa12f133"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/mining_complex/mining_complex_facility_normal.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "1b6a13ef3ce615b5ac3f8b08f82a422949e2066fdeb529c6e5995bf2c77463b9",
+      "sha256": "66515e784110f9694edf3c314093c1fd75606e6d1a02121dc18ca1ae1fa3b1a1"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/mining_complex/mining_complex_lush_normal.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "6a6ac437f41fa91dc949a303576a9750d2c16ef8a8a6c1a676130b4bb888dc68",
+      "sha256": "98b51cecc535d620f809cc58ab2bc28839a51481d637d9820f770d91ed76bd1a"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/mining_complex/mining_complex_treasure.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "fcb2140125efc76a3fa1168cc010f9959b8da4d83251e21f2b71e5c91cba5683",
+      "sha256": "7043f1830bcbc127deb83424d1b4b09786c6d32d87b2694defd125cf7dd316e4"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/mining_system/mining_system_treasure.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "c0337f53b820053b112edfc2a5fd15e854d213375e444b28902b35c1ab680ae0",
+      "sha256": "90bce23651692457e73333c6f76a691e1713e78a417c884f278a1169656168ac"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/monastery/monastery_bridges.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "552336eb5cf4cdc1101b2e105b492f466f5c05af2ce40cce5dc852c0f4500636",
+      "sha256": "8488e9cd90a1ff1011912c3868dc95563ee6b8ed2d833cd31aa49fb11f3f5d67"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/mushroom_house/mushroom_house_barrels.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "552336eb5cf4cdc1101b2e105b492f466f5c05af2ce40cce5dc852c0f4500636",
+      "sha256": "8488e9cd90a1ff1011912c3868dc95563ee6b8ed2d833cd31aa49fb11f3f5d67"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/mushroom_house/mushroom_house_normal.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "9de11f6ee167f239eac4d384f68030d781ecde2afa98ecbf57d16ee56a3d638b",
+      "sha256": "275a1c56fc81cdef8423e9014b31f3d35355afcc9a2e42fa90f6a5f889b6bc97"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/mushroom_house/mushroom_house_treasure.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "f38e96d1828c4a45ab8a500b11a621c14430d4e0a48a7258a5a339966aba94d1",
+      "sha256": "b8aeef27781bf83295a6171d48978f6286c180f702672c646c44589a61ce2aa0"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/mushroom_mines/mushroom_mines_barrels.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "7783ece93c2ba8dbd7ac32a428510311add32522d9629b9e421116db88b8a2e9",
+      "sha256": "c300473f794990d18092b2e33c706fd06d379b36faea772fd57207f0a3a2eeb4"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/mushroom_mines/mushroom_mines_treasure.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "c0337f53b820053b112edfc2a5fd15e854d213375e444b28902b35c1ab680ae0",
+      "sha256": "90bce23651692457e73333c6f76a691e1713e78a417c884f278a1169656168ac"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/mushroom_village/mushroom_village_barrels.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "fe103c9e92e55dd6b25b4fa2e19160fb9833caa57970d0890a4710188d1f027f",
+      "sha256": "4387b5d05001084eafa1e8fd666be30a6efd0c767feab123f12e462660a1bcc9"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/mushroom_village/mushroom_village_treasure.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "61513011d618a15e8ab25bd1d871362c8b443ff6d694fe3d0ed310b73003c831",
+      "sha256": "8cb2b0fc32642151018c2f06d35cda18237a1d7377758293db60416e9204a26a"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/plague_asylum/plague_asylum_barrels.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "1f2da8e18a038e58150af7b98c78c36f7916c70ead5e3f28baa42f12547250f5",
+      "sha256": "90e30a28210a124392e9ba13a045ef30928bab3d294de6b06da1fd9dd18763a0"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/plague_asylum/plague_asylum_cells.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "bd0a6724f1062ef659297c081674e9c242b714b2732ce0eca853fe9d884c281b",
+      "sha256": "352f764c7638474979eef9155e248f8ae2b288627cfeafef10d8aa60a7b7ec9a"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/plague_asylum/plague_asylum_normal.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "665a968411e0e9125b3e0bdb7ec53a5430c0055846a6045aab0caef22e33fd99",
+      "sha256": "25193ad56537ca42cc806ded34053c1e5ebae639cd4fbd12e96258e1cc39a46e"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/plague_asylum/plague_asylum_potions.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "8e8bd6d2c4f235ba860d42f76b4b0ef97e98c74b19d6699dee93bb64d6431536",
+      "sha256": "5c7f8b476f418daf3f9ece94fd7e703e7eb2ecb4d265bfa1b4ce5025288cb19d"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/plague_asylum/plague_asylum_treasure.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "07e4ccdb676042343eb43468876b8435374da8da8ff23106faa92a46386d51d1",
+      "sha256": "f83c2095362b981ec9eb09a0d90d55325b8de0678d170733477617756041043c"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/scorched_mines/scorched_mines_barrels.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "5ca9b008b8aad269dd6cac64088073ae38894a419469368057281600dddf74cb",
+      "sha256": "cc641f1fe5d827a5adb885605f1efde1dea58633b5c1d9e626e940788e2abec5"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/scorched_mines/scorched_mines_housing.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "5ca9b008b8aad269dd6cac64088073ae38894a419469368057281600dddf74cb",
+      "sha256": "cc641f1fe5d827a5adb885605f1efde1dea58633b5c1d9e626e940788e2abec5"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/scorched_mines/scorched_mines_hub.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "390a5e7e6b43d27d6c2f28447550e8c2016eec24ccc4b0a72fb184b9d42d2071",
+      "sha256": "0c1cb5ba033b4f7cc9a764c45c2d32272a470d622223a08174297410d93b87d0"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/scorched_mines/scorched_mines_normal.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "5ca9b008b8aad269dd6cac64088073ae38894a419469368057281600dddf74cb",
+      "sha256": "cc641f1fe5d827a5adb885605f1efde1dea58633b5c1d9e626e940788e2abec5"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/scorched_mines/scorched_mines_treasure.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "bb6edaabc39bff1f5b802bc8eb1b003a578ab604f1518be877f09d85d94531a8",
+      "sha256": "d224ce09bdc2be32bde8493823e2ac5777cebfd469f58d7398d48a91c039f43a"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/shiraz_palace/shiraz_palace_elite.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "d0c597d06c3b393ad82711f21cfcf6325142fbd3ade84a9170388f18bf976df9",
+      "sha256": "883d39b6f6447af989949a62876b984781c21479fba9b6e19f1cb908f1a46e12"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/shiraz_palace/shiraz_palace_gardens.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "3e7c4bd718542cb986fe1d730957d0b4f7f8c307a5ff333c05beebec59ed291f",
+      "sha256": "a71bd2076f769811e9a6daefd94896b6931bea7d0d8026f36a0b7dc66012352a"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/shiraz_palace/shiraz_palace_normal.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "85ed8f6ad7ff2e73028c7cd9d5762de330ec85b867537d2f32c0ecc61de0b8ad",
+      "sha256": "a951455c175e02d0b767c9a3cf7cb28d14f031dfc96d3b14c646799774461b00"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/shiraz_palace/shiraz_palace_rooms.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "f1585ebef83b37b4f4023b71912fe4392a9192b14a5dddbb12e5d32dcc4708c1",
+      "sha256": "ea9859bb18ed40084c60c2ed65153ea987269c05c30ba8fa131321b9bedc7ab0"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/shiraz_palace/shiraz_palace_supply.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "849e7b41df11698bcdd92aa2a0759c04d17e330bfeffcd63d2bb1d25c3f1b457",
+      "sha256": "9749159a05c6df44b4ed28da52164902e1541738b6c5e51c95d803597fa4cee6"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/shiraz_palace/shiraz_palace_towers.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "ee59f4fdb2172aeabefd0c3161563e4a9b0591e83f275a97e1e323f20cfa7789",
+      "sha256": "2ba2bd7a59da4315f9782fea9873b017876cae0839179a3d923d1d8ee9a92986"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/shiraz_palace/shiraz_palace_treasure.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "6b106b0bc466fb46e247712a64646f400a41ac324cefd057d81ee5624e9c7b45",
+      "sha256": "08d154a2caff70082ebf5a7f8003059650df10bfcf6a6c65b2c148970c1cb956"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/small_blimp/small_blimp_treasure.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "c8dd6bd4800f4ed94636f144c7d6ac3f7424448d9bf0b85c40e99af8def80971",
+      "sha256": "6f2e92c2892b62462b3d1755f9819728d1905d3565419dc59be7971890d1f50b"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/thornborn_towers/thornborn_towers_barrels.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "2db8c85448ec639f94685011617f2587b5f798e0e647866846886fb42d26dfab",
+      "sha256": "d5d34180a4416fdf9dbf21a59e16b4bce8e603d9361358e2b9edb4edfe294037"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/thornborn_towers/thornborn_towers_rooms.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "74f18e9627ece32d2f5bbf7eafe67f05e0974f44e8928948aaa03d28a05bb50b",
+      "sha256": "dab080535f2dc27fe2e0afdcc97db73467b67028da38a63d5e9b1e554a17d532"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/thornborn_towers/thornborn_towers_top_rooms.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "b200edf79a4f6c641001a054b6c073c037fd7a5c40adb7f83a2774d55fafdb93",
+      "sha256": "246b157d17e460472cb889b2321fb422e01d94120da688d5bb64f7ffd9dabc47"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/thornborn_towers/thornborn_towers_top_treasure.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "9b34276cff46aac16a3ce475b2a849804747e34b39dc3d1270e661a5bc337a6f",
+      "sha256": "eb7cd4f68e6e59bebf28b0cad0b2360e50d93400047e642cb04c281a96d71675"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/typhon/typhon_treasure.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "cbd503ffb5bd76d6efa090d5e0f6d7674e934c8d86658e89dfdf82d6739c528a",
+      "sha256": "fec6b72ff042eefe1d82823b654b72828899e96ccdccc62f0ace1da8fae1acad"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/undead_pirate_ship/undead_pirate_ship_barrels.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "5327fbe8b84681f20a8fbc633b9cf5ad1d1bd63bb1963568a56729fe87039ca2",
+      "sha256": "94f08de69db70a8321c898ef615d124a88f3f0a5c55e51220b35780f59137482"
+    },
+    {
+      "path": "data/dungeons_arise/loot_table/chests/undead_pirate_ship/undead_pirate_ship_treasure.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "cbd503ffb5bd76d6efa090d5e0f6d7674e934c8d86658e89dfdf82d6739c528a",
+      "sha256": "fec6b72ff042eefe1d82823b654b72828899e96ccdccc62f0ace1da8fae1acad"
+    },
+    {
+      "path": "data/dungeons_arise/worldgen/structure_set/major_structures.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "ae66023861b537409016c61576d1198316e197ba4acc0cae82cc13c53abcb128",
+      "sha256": "123bcde8af6fd693505b748fa1cb88f127bb1e490d3b254ec188acabbf7fbb09"
+    },
+    {
+      "path": "data/dungeons_arise/worldgen/structure_set/minor_structures.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "1723025d7d56328883c0d0b8d29f036b831e51b10efdde53111fbc6eddc9e6d6",
+      "sha256": "aa71eb56750d43d01c6d6ce83cf7ebb51a08cbd3b216b557a1776cb4498eb63d"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/campsite.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "ce7497a0e72eef7f194bac9729165fe4eeea8bbe05d34da044291727fb48db77",
+      "sha256": "b17e3f56198bea9945839ece76f34642a61564ec3e836358f2a211ed1d129252"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/boulder.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "45b9f80ebbd6338a1c7e56b77b14f7d475d73458630ab8eb58f5df9cb0005d34",
+      "sha256": "f0a41956a8743dcb1df2c21e7dcee351d8760c088b9eddadffbf73f944dbef9f"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/castle_ruins.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "0687eb348992bd9add4046f0a54f5a8078b56085a8be9feb85efd8b6e8d0e05c",
+      "sha256": "f2318e0e777156e3c32d0166427c77218a61383cb7d1714249bae939b7247700"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/statue_ruins.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "b6bab9fb588b799677d06deef022b06cc93ec73f690b2f8be00c8080e686d0f7",
+      "sha256": "ec6d56403744e440a60d8ee6162c68a97fb3fcf66c3c83b1b00f6fb11976faf1"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/sunzi_gate.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "233749929ee284c230d84e0c1d760cd0aa6be268a9e379dd0bedbfe39c514cb2",
+      "sha256": "dfd31228b87ad04d852ce65bebec6611fbab998bcdd5170a04e2e53ea35faea3"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/windmill.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "065d3c15eb83699bbe5da334773efd96ba2a083c84997dd7cd4567699385baae",
+      "sha256": "8ed2fac8d84a0254a7b7229c3929a9bb2c54d32647dfee04bccea3646ec4faee"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/shed.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "86e836450bbdbb8c470ec9d64ed51d0567b6369c76e5eb154a9e291a77371951",
+      "sha256": "f59b70e898ab27d9dcfb93ab41bf29e60c2924a9b6e7341a44d0a99d0c62828a"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/log_ruin.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "126af69662707f6bc5ab30aed93bebebe423ba15b51fd912b51c9728a2ad95d7",
+      "sha256": "805092900f495c0ea5fd85cf6cba581b17b524f9abb30c3b13c2144e18aa31ce"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/tree_monument.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "e45534f378cf6162685c40bdcf70b6dc412754c6e7bfae4d35e566c4f7ffc9b3",
+      "sha256": "67c21f6154bae4d37bdd31f83142f6fb7d821d00de377cd3191c659c7589cfbb"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/azelea_house.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "e527b0664dfb3bf8b01f8b0e6c9aa47a5ae126f33ed63d8cc5a42ad8be74a558",
+      "sha256": "41d47cc8f30e71fef711408eafebadaa0274f67cd3f8d276875cc78ee186820d"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/fire_camp.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "fce8ffd560e323faee48a36a6f8afb8e6c41e94a455194b18441f60293ff96a9",
+      "sha256": "8697c48ec982bf37598335e58bb409df0c0a7847f2222b7a58e0863ea4aeefcd"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/spruce_log_pile.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "cbc9944a060791bc82a287d52079b21760a04bd79bd3c3c8386f43915463eeed",
+      "sha256": "77d88873ac78c7b7c779f26c9c8d03a971d18fc1e6aa0e1078dc12d757030805"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/small_tower_well.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "de4d65b23a66efed4c66d9edd0eea9aa2949a3c86a209e0ae391537673e56c86",
+      "sha256": "fca45469726d92c99b49406ea10bd42fe75450ed34c73a152d12b7c5605cbf39"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/mud_brick_house_1.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "3f7934bef83c8a352aaf65846e81ee47f79814105545b041dd6a9b88f160bd10",
+      "sha256": "38604913b776fa66a033e4ab8e7e980eeb364615b49bb20e5f35f0c0c00fe155"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/small_jungle_lantern.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "4b6773fec3d1b5ac9266b90aed0955a278ac405a24735b589de7f149c3ab6bdb",
+      "sha256": "5c7eaba9ec7fba42fbc59e9953df2a0f02a9c38254cdc2be6e3b92b83653e54f"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/tall_house.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "912c75817830fa0f62d8a1f444f1d0bf5e422bf9d03771294a79a363f5042899",
+      "sha256": "95882563693190df188da2e9e6b5c4695ec2bb2cbc965dbef6b046816f2bda60"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/medium_bamboo_cart.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "6b0fdd28ff93162cfba5683e4e2660dad7740893350fec30c5a1ba57a10afebd",
+      "sha256": "df55a19e090cb80bcce4cc295e07699e35ada34dc6f6b477e9bb45f30830c502"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/fox_hut.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "197568bdf07f661c584c00ccfa8e4863a281f277c9e2ebe8f4d613ee34ed6670",
+      "sha256": "ec0f806f70f1569e915c83e6043c6517175d8a6c1454014058c71bd0f555af7c"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/snowy_fossil.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "88af9df2919b0674bce57d125adb1eda365b62442a1c3e27810767ef10d77ce4",
+      "sha256": "fdbd3bedc8d4dfaebb7f2da57047a37d8f30da434e36ecc324551f543efc251c"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/dead_tree_cherry.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "31fc3927facc48f63af8bec6104b2c23cd06ff74941d4c0e6ba964acfb559f3e",
+      "sha256": "a606b63116b70372a1c72f85cf75cfcbe1d56655766f2717d217c30fc63f10c2"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/lamp_chest.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "aa4eed2fb401a19303d6f903aabbe4ebbcba4912be0e74fc8fb35fe0b1741210",
+      "sha256": "3e8fd6f2fa0dc5a3723a984f123a33fc5530f9b2ab91591c50818bc2555a2c1e"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/diorite_tower.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "68f7b50380334fecef484f569b8d785468880784879d6fb7dc85e6c8fe8fe2c3",
+      "sha256": "1636480132bb44ab1ce387f4910df4e07410e0b64116a21e2375eac2fdbc5f15"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/small_igloo.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "4d4983a00424a72371756307a7cb4c0a1c11fb0e8a9820c7d9ec0ee8fa11a7ac",
+      "sha256": "58732c58daa62b2be7f0669037afa9f0bf4f546c372530e875310e2ae75591bf"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/rare_well.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "f51d44965747b458b5d679f046ae980dbd0eb90215a92c22ff6c1daa132f5cf7",
+      "sha256": "7dcefd79d40d3ef7df75cd9f7d1dbf3ac05b858bd55da31772042972138ade1f"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/out_house.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "66e751a5d0efcdb37f8f652589a1d61788de9c72884495cdcd4d2cf52f7b1903",
+      "sha256": "2d2f0dc65fb6a4a10e17f71a31b7e74d5886cc009aaa6faf7283d0a611698591"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/spruce_tree.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "e465130756e0445a3f672928c7b95ec982fdcff8fb9764a438e453727c5aeb9c",
+      "sha256": "979c4c96d6eba2219d11b6badf6e4222eb43eb9f66db53978a0d411850075d78"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/oak_tree.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "e3220ed0eb71ae87615d51797a82086d329f07d981e297347cd30ab913475f38",
+      "sha256": "c9c59f53cc63a9e104fb3fe21df52081d015828424c2ae49bb4ed14a41507f7e"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/stone_rock.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "6f601fd403c30c2e6718a7c1d6f48b64a403bfe3869a26e6976f467f9b6acc63",
+      "sha256": "98e0197d92c81213472efc26136f40763344da5da9effb99a692cf8ae4ba7754"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/jungle_tree.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "95c858e9660bcfa0d6918b92bdf3d25541de6a2b31ab06da8b18b48e81f185f9",
+      "sha256": "3f474444be702071addcb2870a49532a173dc5cd203f3500e2a06523ef211d68"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/dead_tree_dark_oak.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "e8757b6c22c856c09f0580d68c381e7b78dc7f78b1028c581565558c4682b3f4",
+      "sha256": "465c010b36941259a76d7ef23d5270273b7b27f574eab0d7f40c79bc0a6c34e3"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/desert_house.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "563a9bf09cb25a10221064caa5fe798287f663eef80cdda03579d0ae847604b9",
+      "sha256": "cd4ade8e86dbedcbe8e5b85fb745a0637af6ed82b4ad664a4bf0dd46062874e5"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/small_campfire_lantern.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "9a026ef5190e224d25a4ec490c19d2ef4bbb91dfffb47782ee24334e3268cda5",
+      "sha256": "4e3b589ffdfdcc2102b3b1b54b29959c26845283d93df0b7f3852d19b20b878a"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/ruined_beacon.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "82bff008a6a26f0028a76277a1794153748561178f083feb69b56cd7f67e7324",
+      "sha256": "37f9ba5f9a0782412c570d77de33ec686eadeb9efe04171df050ff3511f4ac60"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/mushroom_well.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "180b62b83d1bde1b18e6b416d9c059fae1f0eaf9bae431584e40cca8e241494d",
+      "sha256": "5bf75402f57837e23310c8f0a68dae707582daf9ad773568e8906156b7417981"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/nether_well.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "3da857206d5221e8744176db4e3d110dd00b0a267a9e79ff149bdc1d4ad7f8cd",
+      "sha256": "18db0283582af0898870796365202ef56b82507df326bbef59082cd13610a58d"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/villager_statue.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "8e39c5aacbda7c5444208785dce0651409562dfbfd25d8b646483f2e924f57da",
+      "sha256": "c3176c5e86e7584a910688ea57e042101899f9747e84a4e6981c8c361e5699ed"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/gallows.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "c8f436c607b6dc7deda92ca3541f43ecd201cfe84a76daea3fd4911865a15415",
+      "sha256": "31bcb51b6874f15227f0d4f84fa1c18d48336304cb3846f126874507c1f732c4"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/warped_house.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "9a7a0dec4f86e0f1ab0d58263ea3a43a12b0fbcbfcef172988bb3e2e6c0d806e",
+      "sha256": "bc7b97cd529e62ac282bc8fe9d3ec8aca269050372259dcfd8a0ce39a3221701"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/prismarine_house_2.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "19d31794e602a40b8ffee1dae15ee587da8e89501255a1e707ff608ba81b89ec",
+      "sha256": "20049634593e917f731665a6de4f390d0854c2d374cbe557fe4ec97f3445cda3"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/medium_igloo_2.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "e3fe2044ad63d0053fdc6751497840463b5c7fef6b9d67575c26805b08135da4",
+      "sha256": "d277cf329d389fdf675e61996ee718d165307641f14f4a9a2ac5dd27bb38b543"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/ocean_tower.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "b8791ea8fad615fa6535390b89cfc1688f3da1d140076c72d34e8db5073d3af4",
+      "sha256": "dfaf57e31e4d0b8d49ffa23238f4bc63d291628bea6b596bbec1db0d02dcf420"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/flower_hole.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "4ec9a7aea65f7586e353d2501c3d8f5262181d6247ace13398446fbcc453d1d5",
+      "sha256": "f788f0c6082feb6e8aff6f2a8901d2cdccb635b598cecc78bf171e7f9d6c96a5"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/mushroom_pond.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "de4caa2875c4e92409442718a0fd110dea8efe00d9b5389570f5ba67630bb7c3",
+      "sha256": "e501e5758c0e6aa22b0b4c2ca51cee57de477caa4154e90d07f9619f8985b183"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/large_cart_1.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "a76361006ed2ff0b24a2422a8f742f92110b3e1a36bbfd9b6470bc6e3629fcb0",
+      "sha256": "c0c78cc1a19495e0db6213b5238f5577fd81cba535ad42bbfdc0feddeefff174"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/oak_log_pile.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "25b7376ba0ad2e7e9ce610af7073156e89f8a429e2bfa6aa0215cb0a14c33611",
+      "sha256": "1558e3a208d3bb04b80b5aee34fce71fd478a8fefa08b043cf0f687fbc14c0fb"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/paths.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "4ba12f33304560eabfdebc41f865e8db04f9c073c00907b112b1774ca5965974",
+      "sha256": "d6aa962eee169e72250c8116cc12db194f5ef050aa3f1113561467f6c80b4d2a"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/small_bamboo_lantern.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "c6509e64e5ec98208d67d1ba7f4adf4d02ec943a08aa139545ce89b1947d63da",
+      "sha256": "8e9d5cac3c3fe161658edb495cec17874ed28905e177fab689ef9a0a09ea3bf6"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/big_oak_tree.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "e5a48fd48e5acdc8343c2347f310af45d86ad725bb7ab0d8d9b0a91778c31b1d",
+      "sha256": "cd97482402e97cffc4cee227450febec66e8d3a5f9f2556a39b31c2b4a387e1d"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/acacia_tree.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "3f41696d07c3d6f7b76f71a193cbe24161f0b5ed1727f80bfcf7675697fcf78d",
+      "sha256": "22cb58aca1930b8ae138d01e46ab3ddedca844582f6a0f420cc9ab2bf6bfee3b"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/wheat_grain_bin.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "76f89c665dd10629b319182c0d791f16bd9c34bf07c14663f2a74c7c73cd49c4",
+      "sha256": "7b265eddc4cb94b3c4c3dd868e51cd837ac174a75b062297a55f30e2f357c6b8"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/small_acacia_lantern.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "fc3dd3c977d38d8374e1a28720e9091950cd8415efc71a598d38265ec6845518",
+      "sha256": "dd1b36134045240e524d9c185a3f38a8828613d4d5e2081af9f83dad3d7c7a2f"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/mine_with_campsite.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "9c9d7024296835674777bd0741f5beef6b515e01f36c47da5451adb82c62d125",
+      "sha256": "21303c723598b1938d5cf91df66e792e4fc2ed7422b1ccac8dad8929274d7a12"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/large_warped_tower.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "214daa91f11bdc24edf86086ca91ecd4ffb96d20a72a33d87672e78d76685919",
+      "sha256": "afbb690d209c41cb52a05ed26222e470c83adb7943d4aa525aa3294b88aca269"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/bench.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "a8f3a3ab870beb1ecb37c281d8861a86a3e4ea992ccc3c557db4a776dfbdc872",
+      "sha256": "4525a8b618b833b33c2118332493e1b2fffd6a91cbf8371c390c9b274b8104f7"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/bee_dome.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "3d576a849e06efc578f9075231cc8116bf15df782a92b081554e6b0b2eed0741",
+      "sha256": "e491872df6e654e5eaf93a819377bd9346a236dd6b8271b04b35a59e4303c632"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/small_dark_oak_lantern.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "ebf8511836bed4abe1141069eeff9b83f88c2692177e0c42ec0d144d42a7823c",
+      "sha256": "b5dcbf6e78e644e2b3045dc914350e9e6fde297e1da1f088e988a60274e97326"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/birch_log_pile.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "bac885ce05778f48f54f03d4a5ecb89a1ad086525263aff0a4acf11defc87180",
+      "sha256": "769a346e797b1fdafdf0b924d8e105539491e973b19fac5bb97459d7af6a7212"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/beach_bar.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "d5390478a6a1399449ac188984420f9abfbe72c0c8194764de2021068bd23212",
+      "sha256": "e3f92ef75cb4c80ffe18c99ff13f9e9415280da4c96d7e842b37ecdec5f788e6"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/small_cherry_lantern.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "1abe320f698e0a836cb192f4720e57b935d5b57a7a4258ab61c28ad3af69638e",
+      "sha256": "d81d55e4aa2f097548a897d56ac48e7155ec8168cc26126b0137ea892ae9dcd2"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/haystack.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "019c1bfb459b8a93ce26466ddce7f4bc59c6008ee6bfd7b7a03dcd57c4ef0510",
+      "sha256": "b122aa7b5f63901f61d88e1e4ffd5c38765079a376ae264ed46b6f667daf5ac6"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/railway.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "d3f71922342ae8402b252bdfd340d2e39c54c907de33c93a13570cdb5a291ac6",
+      "sha256": "807548a2f141f2c7421a19579a57a788b45e0ee1cfec611ced6f77b02c829e55"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/jungle_log_pile.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "2c5d38db2763728af149d9b7279342b655aaa08ff5b1532a7e3e2df17179ac67",
+      "sha256": "5df6f3be9f794a0818abc5acd790fc4bb02636ff7e64c23a785848b700c47a80"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/small_oak_lantern.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "bc52f680f8cb0c4660bd8f8fc94678818c543a2a5c9481b7d5834e734779527e",
+      "sha256": "5a4cf1753d720cf134f1948a964837157f99482371a0d90ba143d3cb80c64b2b"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/large_floating_island.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "f6e900bfc6f75340688edbb5140ec869973adbc91a9e8b502b3d70ae4d8b1550",
+      "sha256": "5b7f7a9c02c9de0d8b3b0b8a94b4cdb594ef67543bfb6b0b59f8754606c2f247"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/other_wells.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "d22e3a58716331d39e0030000344f42d98b257c0369f8050bfdd3cc6a3323767",
+      "sha256": "9dea6862f3dd6a630640e855ab86c481abfd7c6daa50d0cffac74459758b36fe"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/small_birch_lantern.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "09a2bdfc97b68a91cdcd7fba34ea338a97af6c00fc60327aafe62d4970c5b94d",
+      "sha256": "7d4e3c33287d23fa59fb507aa2cc7bcf1b849ca0b39c28e70fb99d25f5131da5"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/dead_tree_spruce.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "d04f55b43ce26e26e8c2a8788ff49dcd0ed0dfde24954cf9f0260535b7a219fa",
+      "sha256": "8ec0226daa126bf4441eb955c6fa1e1b5f2ee3ee1721f4c84353c316ad164de1"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/house.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "e5571327604acf40cb2732bcba2c6d2f3bab9ed8dd4a7fafb074222fa50875e7",
+      "sha256": "ad152eca05c6a19532aeff747ddccd89306cc094ec537883da92b5044938898e"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/dead_tree_jungle.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "0efb84458ee3aeff08ef3894074e6c027267f50b5ca8421731f9a22b3ce2583a",
+      "sha256": "0969c95435dc88ba402f9ccb1d0eba2fae412ca741fed3913fca6c5237c7679c"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/dead_tree_birch.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "9ab962c4c6bdc958ba7293e9d69038be02067d1eb4da6c5ac75ef5c6e1a1d0e5",
+      "sha256": "b9bb29ac120067fea83064f983392af2b6f07884e68a752211b365c14012b50c"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/lecturn_garden.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "6752f7c8cdc27fee80d7718e695874829b406aa1e6f25655e4481f8a76b92ffd",
+      "sha256": "1aaebae9e8ddfda61e2af4ff5894559e6aa0416502169e0ef9a1e6454a15267e"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/barn.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "c72604b7972a37436538a99370f346c8dcc0f5c3c5185184267db0c81ad756db",
+      "sha256": "322613476e70f5d995564ecaf164509c9dc1803eeab0b05c4fd46f356a114f8c"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/stone_fountain.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "76840d6cf1108b8b52f1b450867e4cd7d1cc3e1a1b9cd4a687fcae428ebf3d6a",
+      "sha256": "8a2d5843459382ac9a061b9050e27e7d6249c5d00a3109cfc96436af3e2a1a3f"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/large_cart_2.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "54d8074407e100eea97e6a278e36839fcf9c97a8dd749c68bfeecd17d3b02c3f",
+      "sha256": "0d962940df36b642a733e1b7fcbc64cf31f4624f112c77136511b07742e01d37"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/medium_oak_lantern.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "ddf61a2332e0addab11d5c949454dfa872b666eda9dd6da82a5ce61c6e731023",
+      "sha256": "775a865d56ffdca1a7b78f3594e042ccec707aee3bd2bdf5b6ddb9fc9aac1e7a"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/cart.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "8ccaf6d2bdbae42c5cde215b946aad37f72541c4bf91971818dc851a64c874a6",
+      "sha256": "903c5a5dfeb525f01ff4a2b3ac02c4c20c62ada49f8e3f3a6ad26189b3d80c7b"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/dark_oak_tree.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "b7512815c5194a451d04e3b3e6d9fcdfe3a403eb2795f98240e3a25d55582b2d",
+      "sha256": "7d1f764e61155930ab1c77669b494338a1d4bbf3547c8cfa8c18e8d617af4972"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/duck.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "8033f0513e6cf420fe22374911a41e87f012de520b0453ee122df918f4f089f0",
+      "sha256": "4492c5fb56cca2e861481dc618e3f4c765ce9c2890082a27a3403eb232bdee83"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/jungle_palm_tree.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "f63fbc468ec1614fd96ac9232d533512c27a96d3cc4d6331a9a9b3e0e4590537",
+      "sha256": "fcbdc3d58b9412b41701908473f0ae45fb2e7fdf36b88d2f8812ae75df4af86a"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/wooden_wheat_farm.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "b23deedcdc752f17a24f751f3efcbf99080e30f6f630e8d05ed63eaffac5cd0e",
+      "sha256": "62e903326b9e751ed87704c08a328a107ec15dceadb76fdcea89375b84bc0732"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/stone_pillars.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "c24bf1ab13c1776a7a92aeca362b3ac424b0e0d948073ed565ccf08e0b7d732b",
+      "sha256": "b6e8748d69ce49247b0b9475ad952b47d53bd42399cf4c1b67a572f082f5be1e"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/small_mangrove_lantern.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "7595d6762135cd69a5fd0e945fca84224d4801a22b83f35473c777a9a41ad7c4",
+      "sha256": "9efaf20983734602451db5ee6a46e9fa889e91913f4c71bb34eb8e9fad5b1445"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/small_ruin.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "29f3dd9d67da6128ee37eeea8bf37bca3d729ccd76c2e1a8e65632ac2c2dbe5b",
+      "sha256": "074b6a7b66185c0cc4c61cce67991884cbc8f2b22a33f3be2d96567cdcc07b96"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/dead_tree_oak.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "e6ea7698a6eb335cc5e418d1c651cfb6c66205e16c1f2d343e304001d51cc084",
+      "sha256": "bc553585020d17f2e765baf3e4500e62c1dd5725d2b7797b9c262dbf1274685a"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/prismarine_house_1.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "63422ba39fbdd47235f20ae488414c2b963804dbf26c6d840d397d52ba802ee9",
+      "sha256": "e27442e37b6ebc0e64f118dc0398df475406245f94707a19e7dde89c3e32b0b3"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/snowy_dog_hut.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "a3dadb6a2e54a06403aeabb7ecb09f3b8c40097021d47faee45466497dffbb7e",
+      "sha256": "e6e610d06ff1ba2287f33911fee67610dbf00b8e1f8c68af28f6625c941399ba"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/lil_house.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "960b88382563689fd857456a7df1447e8a9e5488ffc3c4ba0e6b00572567b644",
+      "sha256": "731c397217642458b3bea3cf192a34a0772cf4262d599040d752b4d20e5fd069"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/small_spruce_lantern.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "0b8ea095611afc537dafccb4e14af9ef38970decdeef34a4db41de49901e62cd",
+      "sha256": "a396e02208ec3e014003b2a46c0792952884a0a0be86ad2c058406b552245cd1"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/floating_islands.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "3a12937765e62d9d0843b6d91aad7479abbc7d38f0f7d645ddd05b597bb55fd9",
+      "sha256": "cbcf1e73ecd4847e3e69129279400340009c24418b3b71ca1df887c12b4e6ab4"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/small_swamp_house.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "eac372972bbd4c79ec63dab1a25bbc9a739b75bf9f71c457d94917366fe7105a",
+      "sha256": "3968a2736b2c31704a850ec52d38a6629cae381ed965033fd7e7a8ff5aa830dc"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/pile.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "26cddccb5cbd89f6b616bc826e2df5fb20857227af4e4da6c2aea1ab47719b8c",
+      "sha256": "145daae9468e28324d8cfa033ab46f763ca5dba00a636e009ff17cc7bef54879"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/mushroom_statue.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "c222f62a50d18e21e3681bebae9c52c2c5b26ab664fd82ab50c8eeb27459a3a6",
+      "sha256": "1d4157b46d9dede99a85c6fd5d59ad3905e9cbc6f309a28641901b3d6475f908"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/horse_pen.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "bf90b29344ee68f4f66af192fb03c9104def8ef9cf800b034d4bea1c6968bcde",
+      "sha256": "ca7c3d9047cbc25e1ec89a9fc1b3e618a751bf3f5f67a0b8e5f3b89f0aaf01a1"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/diorite_and_deepslate_house.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "89fd427e321e538a0aac04a7dcf4502e3f26fff1264e985dce551bd12ee45aad",
+      "sha256": "9bcb3d08f91a28144431cc6f6416b6d1b7d720444ffd3a4f4fcdb77b9e23be6a"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/small_pillager_tower.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "fd91ee11bc19c8420917a953db41db3b8b40341a8ef63336bdd4cd5f356d6eeb",
+      "sha256": "7565539d2f16c47e0782767d8790cd5f638f0a2c9f51356bee6302d16353536e"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/acacia_log_pile.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "7ae646282d29bd4499f661b4922beec6948a8de9801fddf9074bd7d9d1674a67",
+      "sha256": "0b29acc640451dafe9a86202ff5170cc475910996e17f10ea395930db0ea3cbf"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/deepslate_house.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "ab582da34f37a5476e001c79d9aa4ce01577c1fd446042f0dd92cc33341a227e",
+      "sha256": "0552287246a788c5f2292980ca186e1e7d63cf8ff663af617055983ac602452c"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/desert_pump.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "d7612e64eafdf80a174bcdbeb92bc5b4e0b2ba6d1bcde7808b2e97e14cab6d15",
+      "sha256": "7c7d520c99baed2232261f40870c84d5174fc85c8bc8e6919ceb66eacdbcddb6"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/crimson_enchanting_table.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "8fcf4e2cdd5552a7f494ecfffe70416ca2f1b6c17363744069bd44ea31bba269",
+      "sha256": "2491052e0727bdad2ce4a357df02ff160226f9218bebe62ddd5ab75a4487fada"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/small_oak_pond.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "eb13db5db6c94d4b1260c79828a6d18d561de76731372085d0495d0be118a7ba",
+      "sha256": "59b443e9392c03c71d4107a5e18f37700ece5d88cc60b59770e04bea2ea0c8f7"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/jungle_tower.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "cd6718cfba1b6d4919b5fb6d1413754bb8d7ecd198c1c3e1b8ad9741f713bec9",
+      "sha256": "f64a3aee09e5478ad5307cc47d4ea7789ebec2bc3a55b915798262e2f8916263"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/horse_campsite.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "914a6ba36b30608dcdef88328d8b17744621815b6cdd50047385803b42edc6bf",
+      "sha256": "fd58c926144f923325d839ee2370033fa8010c489d5a1f227591956eed3f4021"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/stalls.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "c723240d9cd3af68c2cbf133e88cd18cd3619b116bc356c12bb613bd739667e1",
+      "sha256": "de0241975a5ad10bb18b5229c138dd4c817182fbad97bb04f23d945eeffd32ef"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/dead_tree_mangrove.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "cdaf5c255a963edd749cede6b2e7dc948d317dbe0aaf05cc0769167320f04ee4",
+      "sha256": "c2ce056ddc98b1fb2d43dd93aa3c613575eed00ba99f4e2c4b3baf0449f614f5"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/nether_devil.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "05e44d06a8b150da400965e0fb11f7df80fa1c548e33e2442bea7fc0bf48bfc3",
+      "sha256": "7d969cc50f763a6482b248beb4feba44af58247ab3f78ee1c6e0078ca3851d08"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/small_ship.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "114276b9ea4a1f296cc4dc11836071868f66efb935e763d4ca3bf55c92372622",
+      "sha256": "8109e145be1a7279a0aaa0c025ac4c075e2d69617a764fd9536e9e000ff51775"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/dark_oak_log_pile.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "0026022f04bc948a2fd423c6611bf31a3dfd956dcb691c3d0e83c9e2b8c4ef54",
+      "sha256": "4fee4fca6c4a232cb2e747eb94ab447831e13fad7cd42eb63015f815b92e8f50"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/red_tower.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "e53761c3f0c3f7b240ce21298a8fbe2a2aa8f45ff7e7f18a44f5a4bf2af802dc",
+      "sha256": "149f254bdec2380f888659d39679e112f3de89b95bc4c4fb4d30d189e6da2170"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/birch_tree.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "e249b327a114fa7f172f1dc13a0d479693ea61c04ba320014e79580a268f1bad",
+      "sha256": "1deaafa65d5fb756f3a3c7fb8c9cdc35b10c0ffff8c475458fc5dbf57969b84b"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/medium_igloo_1.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "5fbf079b282107b84efc8769585c81f285e45b7e05f6fe9b62f60bf190301a06",
+      "sha256": "be3d30f731cd6d23009cfd4138d514c54c7fdc91d68f216903aa4ca9e676d143"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/large_mushroom.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "cdf5429afc3eb1102428fe081c69b15372b0eca573e20dd88d8c07c132dccab1",
+      "sha256": "7e2e96fed6e17aea4377372560f9b30bbc5ba8d99a493b2775f0da221dc66115"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/cartographer_tower.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "6412a88f5d0b065bcd3013bb71b9af135318bc856d03a0028c57c7ab3d0b441b",
+      "sha256": "1dda1b0877a0e0ede80b61b85b872dd3d4ba6b4ad908dfec76b39724a88b4d54"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/cherry_tree.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "2888f372ddf047c3f930e3c99765862117180152e727ed0b1c671f4af1909096",
+      "sha256": "a9c1d9faa0e3a8fed7f069023e3870626ea8dfae6c056757a6087900cf37f2cf"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/dead_tree_acacia.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "4f8f3e3912ae3f614635477a8d59d1bcbf29312e8f792e7a863db2abd006dca3",
+      "sha256": "cd91dd29656c1d667b96d69c340e833e1876a02880e0b4f0562ea256cc6b792f"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/cathedral.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "37e4c872f0fa7bca7615484782eaa5a4457d02c1138af394fc623045b12217b2",
+      "sha256": "4e5744c28520abdeb28d6a27315dbb970e4a18bc38641f187290b7b677bda147"
+    },
+    {
+      "path": "data/mvs/worldgen/structure_set/crystal.json",
+      "source_jar": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+      "source_sha256": "4c875f02fc06b0da955617baa715bde764cd330c1fb3098b1b6f433f3e5e7267",
+      "sha256": "2476e82f4034457241e8368f38241e88166ea7f0a19285fc35c811898a51c90a"
+    },
+    {
+      "path": "data/dungeons_arise/advancement/find_fishing_hut.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "54ad01b7729578353f2d9a6eb66f788f3d68997e7194372cc351fe7d4ffdb218",
+      "sha256": "c23ca8ecc9e2cb545c1f960ea5fb7d774212424c728d24786a8efdb7d5177aba"
+    },
+    {
+      "path": "data/dungeons_arise/advancement/find_thornborn_towers.json",
+      "source_jar": "DungeonsArise-1.21.1-2.1.68-release.jar",
+      "source_sha256": "1abc11d790e1d4bfbd87b85c14adc959b42f3579867a1d9fe8e7a1c30aea3cc8",
+      "sha256": "2125330f074efcacc03b19d2474482da6833c72bd706a746e547d3b4a2e10ac8"
+    }
+  ],
+  "retired_files": [
+    {
+      "path": "data/minecraft/recipe/diamond_axe.json",
+      "sha256": "21b11674b18c3fb0d8292095cf7c12bca82ef4054ec3f1cd8d1e0222d1655629",
+      "reason": "Overgeared removed; restore vanilla diamond crafting"
+    },
+    {
+      "path": "data/minecraft/recipe/diamond_boots.json",
+      "sha256": "21b11674b18c3fb0d8292095cf7c12bca82ef4054ec3f1cd8d1e0222d1655629",
+      "reason": "Overgeared removed; restore vanilla diamond crafting"
+    },
+    {
+      "path": "data/minecraft/recipe/diamond_chestplate.json",
+      "sha256": "21b11674b18c3fb0d8292095cf7c12bca82ef4054ec3f1cd8d1e0222d1655629",
+      "reason": "Overgeared removed; restore vanilla diamond crafting"
+    },
+    {
+      "path": "data/minecraft/recipe/diamond_helmet.json",
+      "sha256": "21b11674b18c3fb0d8292095cf7c12bca82ef4054ec3f1cd8d1e0222d1655629",
+      "reason": "Overgeared removed; restore vanilla diamond crafting"
+    },
+    {
+      "path": "data/minecraft/recipe/diamond_hoe.json",
+      "sha256": "21b11674b18c3fb0d8292095cf7c12bca82ef4054ec3f1cd8d1e0222d1655629",
+      "reason": "Overgeared removed; restore vanilla diamond crafting"
+    },
+    {
+      "path": "data/minecraft/recipe/diamond_leggings.json",
+      "sha256": "21b11674b18c3fb0d8292095cf7c12bca82ef4054ec3f1cd8d1e0222d1655629",
+      "reason": "Overgeared removed; restore vanilla diamond crafting"
+    },
+    {
+      "path": "data/minecraft/recipe/diamond_pickaxe.json",
+      "sha256": "21b11674b18c3fb0d8292095cf7c12bca82ef4054ec3f1cd8d1e0222d1655629",
+      "reason": "Overgeared removed; restore vanilla diamond crafting"
+    },
+    {
+      "path": "data/minecraft/recipe/diamond_shovel.json",
+      "sha256": "21b11674b18c3fb0d8292095cf7c12bca82ef4054ec3f1cd8d1e0222d1655629",
+      "reason": "Overgeared removed; restore vanilla diamond crafting"
+    },
+    {
+      "path": "data/minecraft/recipe/diamond_sword.json",
+      "sha256": "21b11674b18c3fb0d8292095cf7c12bca82ef4054ec3f1cd8d1e0222d1655629",
+      "reason": "Overgeared removed; restore vanilla diamond crafting"
+    }
+  ]
+}

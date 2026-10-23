@@ -1,0 +1,49 @@
+# JavaScript
+node_modules/
+apps/backend/src/generated/
+dist/
+coverage/
+*.tsbuildinfo
+
+# Rust / Tauri
+target/
+apps/launcher/src-tauri/gen/
+
+# Java / Gradle
+.gradle/
+build/
+*.class
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.jks
+
+# Runtime data
+data/
+# Source datapack resources are not runtime world data.
+!/minecraft/modpack/balance-pack/data/
+!/minecraft/modpack/balance-pack/data/**
+!/minecraft/server/world-config/worldgen-pack/data/
+!/minecraft/server/world-config/worldgen-pack/data/**
+world/
+world_nether/
+world_the_end/
+logs/
+crash-reports/
+backups/
+.animeoncraft/
+.tools/
+
+# Editors / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Do not nest the former checkout again
+/AnimeOnCraft/

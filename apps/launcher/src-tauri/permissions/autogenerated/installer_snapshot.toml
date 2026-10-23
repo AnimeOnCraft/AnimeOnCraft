@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-installer-snapshot"
+description = "Enables the installer_snapshot command without any pre-configured scope."
+commands.allow = ["installer_snapshot"]
+
+[[permission]]
+identifier = "deny-installer-snapshot"
+description = "Denies the installer_snapshot command without any pre-configured scope."
+commands.deny = ["installer_snapshot"]

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "bundle": {
+    "active": true,
+    "targets": ["nsis"],
+    "createUpdaterArtifacts": false,
+    "resources": {"./windows/LICENSE-tauri-MIT.txt": "LICENSE-tauri-MIT.txt", "../../../.tools/launcher-bootstrap/": "bootstrap/"},
+    "windows": {
+      "allowDowngrades": false,
+      "webviewInstallMode": {"type": "downloadBootstrapper", "silent": true},
+      "nsis": {
+        "template": "./windows/installer.nsi",
+        "installerHooks": "./windows/installer-hooks.nsh",
+        "installMode": "currentUser",
+        "languages": ["Russian", "English"],
+        "displayLanguageSelector": true,
+        "installerIcon": "./icons/icon.ico",
+        "uninstallerIcon": "./icons/icon.ico",
+        "compression": "lzma"
+      }
+    }
+  }
+}

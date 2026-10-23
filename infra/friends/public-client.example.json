@@ -1,0 +1,7 @@
+{
+  "format_version": 1,
+  "api_origin": "https://api.example.invalid",
+  "server_host": "game.example.invalid",
+  "server_port": 25565,
+  "server_id": "REPLACE_WITH_REGISTERED_SERVER_UUID"
+}

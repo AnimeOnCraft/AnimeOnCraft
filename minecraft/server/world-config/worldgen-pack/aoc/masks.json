@@ -1,0 +1,307 @@
+{
+ "format_version": 1,
+ "origin_x": -10000,
+ "origin_z": -10000,
+ "pixel": 16,
+ "masks": {
+  "continents": "continents.png",
+  "continents_detail": "continents_detail.png",
+  "erosion": "erosion.png",
+  "erosion_detail": "erosion_detail.png",
+  "temperature": "temperature.png",
+  "temperature_detail": "temperature_detail.png",
+  "vegetation": "vegetation.png",
+  "vegetation_detail": "vegetation_detail.png"
+ },
+ "regions": {
+  "file": "regions.png",
+  "profiles": [
+   {
+    "index": 0,
+    "code": "sea.ocean",
+    "multipliers": {
+     "FERROUS": 1.0,
+     "NONFERROUS": 1.0,
+     "PRECIOUS": 1.0,
+     "ARCANE": 1.0,
+     "TECH": 1.0
+    }
+   },
+   {
+    "index": 1,
+    "code": "sea.gulf",
+    "multipliers": {
+     "FERROUS": 1.0,
+     "NONFERROUS": 1.0,
+     "PRECIOUS": 1.0,
+     "ARCANE": 1.0,
+     "TECH": 1.0
+    }
+   },
+   {
+    "index": 2,
+    "code": "core",
+    "multipliers": {
+     "FERROUS": 1.0,
+     "NONFERROUS": 1.0,
+     "PRECIOUS": 1.0,
+     "ARCANE": 1.0,
+     "TECH": 1.0
+    }
+   },
+   {
+    "index": 3,
+    "code": "border.ring",
+    "multipliers": {
+     "FERROUS": 1.0,
+     "NONFERROUS": 1.0,
+     "PRECIOUS": 1.0,
+     "ARCANE": 1.0,
+     "TECH": 1.0
+    }
+   },
+   {
+    "index": 4,
+    "code": "state.scam",
+    "multipliers": {
+     "FERROUS": 1.8,
+     "NONFERROUS": 1.3,
+     "PRECIOUS": 1.3,
+     "ARCANE": 0.0,
+     "TECH": 1.3
+    }
+   },
+   {
+    "index": 5,
+    "code": "state.nya",
+    "multipliers": {
+     "FERROUS": 0.2,
+     "NONFERROUS": 0.55,
+     "PRECIOUS": 0.55,
+     "ARCANE": 1.3,
+     "TECH": 0.55
+    }
+   },
+   {
+    "index": 6,
+    "code": "state.zxc",
+    "multipliers": {
+     "FERROUS": 1.3,
+     "NONFERROUS": 1.8,
+     "PRECIOUS": 0.55,
+     "ARCANE": 0.55,
+     "TECH": 1.8
+    }
+   },
+   {
+    "index": 7,
+    "code": "state.akuma",
+    "multipliers": {
+     "FERROUS": 0.55,
+     "NONFERROUS": 0.1,
+     "PRECIOUS": 1.0,
+     "ARCANE": 1.8,
+     "TECH": 1.0
+    }
+   },
+   {
+    "index": 8,
+    "code": "state.yakuza",
+    "multipliers": {
+     "FERROUS": 0.55,
+     "NONFERROUS": 0.55,
+     "PRECIOUS": 1.8,
+     "ARCANE": 0.0,
+     "TECH": 0.55
+    }
+   },
+   {
+    "index": 9,
+    "code": "border.w1",
+    "multipliers": {
+     "FERROUS": 1.0,
+     "NONFERROUS": 1.0,
+     "PRECIOUS": 1.0,
+     "ARCANE": 1.0,
+     "TECH": 1.0
+    }
+   },
+   {
+    "index": 10,
+    "code": "border.w2",
+    "multipliers": {
+     "FERROUS": 1.0,
+     "NONFERROUS": 1.0,
+     "PRECIOUS": 1.0,
+     "ARCANE": 1.0,
+     "TECH": 1.0
+    }
+   },
+   {
+    "index": 11,
+    "code": "border.w3",
+    "multipliers": {
+     "FERROUS": 1.0,
+     "NONFERROUS": 1.0,
+     "PRECIOUS": 1.0,
+     "ARCANE": 1.0,
+     "TECH": 1.0
+    }
+   },
+   {
+    "index": 12,
+    "code": "border.w4",
+    "multipliers": {
+     "FERROUS": 1.0,
+     "NONFERROUS": 1.0,
+     "PRECIOUS": 1.0,
+     "ARCANE": 1.0,
+     "TECH": 1.0
+    }
+   },
+   {
+    "index": 13,
+    "code": "border.w5",
+    "multipliers": {
+     "FERROUS": 1.0,
+     "NONFERROUS": 1.0,
+     "PRECIOUS": 1.0,
+     "ARCANE": 1.0,
+     "TECH": 1.0
+    }
+   },
+   {
+    "index": 14,
+    "code": "rim",
+    "multipliers": {
+     "FERROUS": 1.0,
+     "NONFERROUS": 1.0,
+     "PRECIOUS": 1.0,
+     "ARCANE": 1.0,
+     "TECH": 1.0
+    }
+   },
+   {
+    "index": 15,
+    "code": "frontier.wild",
+    "multipliers": {
+     "FERROUS": 1.0,
+     "NONFERROUS": 1.0,
+     "PRECIOUS": 1.0,
+     "ARCANE": 1.0,
+     "TECH": 1.0
+    }
+   },
+   {
+    "index": 16,
+    "code": "frontier.slot.a",
+    "multipliers": {
+     "FERROUS": 1.0,
+     "NONFERROUS": 1.0,
+     "PRECIOUS": 1.0,
+     "ARCANE": 1.0,
+     "TECH": 1.0
+    }
+   },
+   {
+    "index": 17,
+    "code": "frontier.slot.b",
+    "multipliers": {
+     "FERROUS": 1.0,
+     "NONFERROUS": 1.0,
+     "PRECIOUS": 1.8,
+     "ARCANE": 1.0,
+     "TECH": 1.0
+    }
+   },
+   {
+    "index": 18,
+    "code": "frontier.slot.c",
+    "multipliers": {
+     "FERROUS": 1.0,
+     "NONFERROUS": 1.8,
+     "PRECIOUS": 1.0,
+     "ARCANE": 1.0,
+     "TECH": 1.0
+    }
+   },
+   {
+    "index": 19,
+    "code": "frontier.slot.d",
+    "multipliers": {
+     "FERROUS": 0.2,
+     "NONFERROUS": 1.0,
+     "PRECIOUS": 1.0,
+     "ARCANE": 1.0,
+     "TECH": 1.0
+    }
+   },
+   {
+    "index": 20,
+    "code": "frontier.slot.e",
+    "multipliers": {
+     "FERROUS": 1.0,
+     "NONFERROUS": 1.0,
+     "PRECIOUS": 1.0,
+     "ARCANE": 1.8,
+     "TECH": 1.0
+    }
+   },
+   {
+    "index": 21,
+    "code": "frontier.slot.f",
+    "multipliers": {
+     "FERROUS": 1.8,
+     "NONFERROUS": 1.0,
+     "PRECIOUS": 1.0,
+     "ARCANE": 1.0,
+     "TECH": 1.0
+    }
+   },
+   {
+    "index": 22,
+    "code": "frontier.slot.g",
+    "multipliers": {
+     "FERROUS": 1.0,
+     "NONFERROUS": 0.1,
+     "PRECIOUS": 1.0,
+     "ARCANE": 1.0,
+     "TECH": 1.0
+    }
+   },
+   {
+    "index": 23,
+    "code": "frontier.slot.h",
+    "multipliers": {
+     "FERROUS": 1.0,
+     "NONFERROUS": 1.0,
+     "PRECIOUS": 1.0,
+     "ARCANE": 1.0,
+     "TECH": 1.8
+    }
+   },
+   {
+    "index": 24,
+    "code": "frontier.slot.i",
+    "multipliers": {
+     "FERROUS": 1.0,
+     "NONFERROUS": 1.0,
+     "PRECIOUS": 1.8,
+     "ARCANE": 1.0,
+     "TECH": 1.0
+    }
+   },
+   {
+    "index": 25,
+    "code": "frontier.slot.j",
+    "multipliers": {
+     "FERROUS": 0.2,
+     "NONFERROUS": 1.0,
+     "PRECIOUS": 1.0,
+     "ARCANE": 1.0,
+     "TECH": 1.0
+    }
+   }
+  ]
+ }
+}

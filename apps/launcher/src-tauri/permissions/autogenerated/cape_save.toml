@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-cape-save"
+description = "Enables the cape_save command without any pre-configured scope."
+commands.allow = ["cape_save"]
+
+[[permission]]
+identifier = "deny-cape-save"
+description = "Denies the cape_save command without any pre-configured scope."
+commands.deny = ["cape_save"]

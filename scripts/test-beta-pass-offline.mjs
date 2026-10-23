@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';import {readNbt,writeNbt,grantBetaPass} from './lib/nbt-saved-data.mjs';
+const id='12345678-1234-4000-8000-123456789abc',other='abcdef01-1234-4000-8000-123456789abc';
+const root={name:'',data:{DataVersion:{type:3,value:3955},data:{type:10,value:{}}}};
+grantBetaPass(root,other);root.data.data.value.players.value.items[0].xp.value=120;
+const previous=writeNbt(root.data.data.value.players.value.items.length?{name:'other',data:root.data.data.value.players.value.items[0]}:root);
+const result=grantBetaPass(root,id);assert.equal(result.other_players,1);assert.equal(result.after.rewards,1023);
+assert.deepEqual(writeNbt({name:'other',data:root.data.data.value.players.value.items[0]}),previous);
+const roundtrip=readNbt(writeNbt(root));assert.deepEqual(roundtrip,root);assert.deepEqual(grantBetaPass(roundtrip,id).before,{xp:1000,rewards:1023});assert.equal(roundtrip.data.data.value.players.value.items.length,2);
+assert.throws(()=>readNbt(Buffer.from('bad')));assert.throws(()=>grantBetaPass(root,'invalid'));
+console.log('PASS offline beta grant: exact UUID, all ten rewards, other players preserved, idempotent NBT roundtrip.');

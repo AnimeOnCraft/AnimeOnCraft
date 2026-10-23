@@ -1,0 +1,26 @@
+// Extract and verify a local candidate. Does not install, sign, publish or change the VPS.
+import assert from 'node:assert/strict';import fs from 'node:fs';import path from 'node:path';import {createHash} from 'node:crypto';import {execFileSync} from 'node:child_process';
+const version=process.argv[2];assert.match(version,/^\d+\.\d+\.\d+$/);
+const hash=b=>createHash('sha256').update(b).digest('hex'),root=process.cwd();
+const candidate=JSON.parse(fs.readFileSync(`.tools/installer-candidate-${version}.json`));assert.equal(candidate.version,version);
+const bytes=fs.readFileSync(candidate.installer.path);assert.equal(bytes.length,candidate.installer.bytes);assert.equal(hash(bytes),candidate.installer.sha256);assert.ok(bytes.length<=64*1024**2);
+const fixture=fs.mkdtempSync(path.join(root,`.tools/local-${version}-payload-`));
+execFileSync('C:/Program Files/7-Zip/7z.exe',['x','-y','-o'+fixture,candidate.installer.path],{windowsHide:true,stdio:'pipe',timeout:120000});
+const executable=fs.readFileSync(path.join(fixture,'animeoncraft-launcher.exe'));assert.equal(hash(executable),candidate.payload.sha256);
+const list=(dir,relative='')=>fs.readdirSync(path.join(dir,relative),{withFileTypes:true}).flatMap(e=>e.isDirectory()?list(dir,path.join(relative,e.name)):[path.join(relative,e.name)]);
+const source=path.join(root,'.tools/launcher-bootstrap'),shipped=path.join(fixture,'bootstrap'),files=list(source).sort();assert.deepEqual(list(shipped).sort(),files);
+for(const file of files)assert.equal(hash(fs.readFileSync(path.join(shipped,file))),hash(fs.readFileSync(path.join(source,file))),file);
+const config=JSON.parse(fs.readFileSync(path.join(shipped,'bootstrap.json'))),publicConfig=config.public_config;
+assert.equal(publicConfig.api_origin,'https://193.178.158.117');assert.equal(publicConfig.server_host,'193.178.158.117');
+assert.ok(executable.includes(Buffer.from('friends-'+hash(Buffer.from(publicConfig.api_origin)))),'Native public account environment');
+const updater=JSON.parse(fs.readFileSync('apps/launcher/src-tauri/simple-update.json'));
+assert.equal(updater.endpoint,'https://charizma1337.github.io/animeoncraft-updates/latest.json');
+assert.ok(executable.includes(Buffer.from(updater.endpoint)),'Published updater source embedded');
+assert.ok(executable.includes(Buffer.from('x-aoc-launcher-version')),'Native ticket version header embedded');
+const jar='minecraft/integration/neoforge/build/libs/animeoncraft-admission-0.3.0-friends-dev.jar',jarHash=hash(fs.readFileSync(jar));assert.equal(hash(fs.readFileSync(path.join(shipped,jar))),jarHash);assert.equal(config.admission_sha256,jarHash);
+const jarFiles=execFileSync('C:/Program Files/7-Zip/7z.exe',['l','-slt',path.join(shipped,jar)],{windowsHide:true,encoding:'utf8'});
+assert.ok(!/assets[/\\]animeoncraft[/\\]atlas[/\\][^\r\n]*\.(?:jpg|png)/i.test(jarFiles),'No map image in shipped JAR');
+assert.ok(!/WorldAtlasRaster|WorldAtlasOverview|XaeroAtlasWriterMixin|XaeroClanHighlighter/.test(jarFiles),'No image renderer or frozen map writer');
+const profile=fs.readFileSync(path.join(shipped,'minecraft/modpack/profile.json')),profileHash=hash(profile);assert.ok(executable.includes(Buffer.from(profileHash)),'Compiled pack must match shipped pack');assert.ok(JSON.parse(profile).pack_version.startsWith(version+'-'));
+const result={passed:true,version,local_only:true,published:false,checked_at:new Date().toISOString(),installer:candidate.installer.path,installer_bytes:bytes.length,installer_sha256:hash(bytes),bootstrap_files:files.length,payload_matches:true,bootstrap_matches:true,public_api_origin:publicConfig.api_origin,compiled_public_api_verified:true,compiled_profile_matches:true,native_xaero:true,map_image_absent:true,frozen_writer_absent:true,profile_sha256:profileHash,jar_sha256:jarHash,fixture};
+fs.writeFileSync(`.tools/local-installer-${version}-result.json`,JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result));

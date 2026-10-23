@@ -1,0 +1,1574 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "AnimeOnCraft Authentication Development API",
+    "version": "0.7.20-friends-dev",
+    "description": "Friends MVP: login/password, registration contact email without verification; manual OWNER recovery. Launcher uses bearer tokens; web administration retains HTTPS cookies/CSRF/MFA. Existing accounts may sign in with their previous email."
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:3000/api/v1/auth"
+    }
+  ],
+  "paths": {
+    "/csrf": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Client"
+        }
+      ],
+      "get": {
+        "operationId": "getAuthCsrf",
+        "responses": {
+          "200": {
+            "description": "Web-only pre-session cookie or session-bound CSRF value.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Csrf"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    },
+    "/register": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Client"
+        }
+      ],
+      "post": {
+        "operationId": "registerAccount",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Registration"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Account created without sending mail; sign in with login/password.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Accepted"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    },
+    "/login": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Client"
+        }
+      ],
+      "post": {
+        "operationId": "loginAccount",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Login"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Native token pair, web cookie result, or a pending MFA challenge with no session.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/NativeTokenPair"
+                    },
+                    {
+                      "$ref": "#/components/schemas/WebAuthenticated"
+                    },
+                    {
+                      "$ref": "#/components/schemas/MfaChallenge"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    },
+    "/mfa/login": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Client"
+        }
+      ],
+      "post": {
+        "operationId": "completeMfaLogin",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MfaLogin"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Native token pair or web cookies with a CSRF value.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/NativeTokenPair"
+                    },
+                    {
+                      "$ref": "#/components/schemas/WebAuthenticated"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    },
+    "/refresh": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Client"
+        }
+      ],
+      "post": {
+        "operationId": "rotateSessionRefresh",
+        "description": "Native uses body.token; web body is empty and reads refresh cookie. Any consumed-token reuse commits family revocation before 401, including simultaneous duplicates.",
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/TokenInput"
+                  },
+                  {
+                    "$ref": "#/components/schemas/Empty"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Native token pair or web cookies with a CSRF value.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/NativeTokenPair"
+                    },
+                    {
+                      "$ref": "#/components/schemas/WebAuthenticated"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    },
+    "/logout": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Client"
+        }
+      ],
+      "post": {
+        "operationId": "logoutSession",
+        "description": "Same transport/body as refresh. Clears web cookies even if the access token is expired; still requires Origin/CSRF.",
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/TokenInput"
+                  },
+                  {
+                    "$ref": "#/components/schemas/Empty"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Security action completed. No automatic session is issued."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    },
+    "/me": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Client"
+        }
+      ],
+      "get": {
+        "operationId": "getOwnProfile",
+        "security": [
+          {
+            "NativeAccess": []
+          },
+          {
+            "WebAccess": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Own profile and current DB clan management scopes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Profile"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    },
+    "/mfa/enroll": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Client"
+        }
+      ],
+      "post": {
+        "operationId": "startMfaEnrollment",
+        "security": [
+          {
+            "NativeAccess": []
+          },
+          {
+            "WebAccess": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PasswordInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Five-minute pending secret URI; no-store, only for the owning authenticated user after password reauthentication.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MfaEnrollment"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    },
+    "/mfa/confirm": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Client"
+        }
+      ],
+      "post": {
+        "operationId": "confirmMfaEnrollment",
+        "security": [
+          {
+            "NativeAccess": []
+          },
+          {
+            "WebAccess": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PasswordProof"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ten recovery codes returned once; all old sessions revoked.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecoveryCodes"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    },
+    "/step-up": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Client"
+        }
+      ],
+      "post": {
+        "operationId": "stepUpSession",
+        "security": [
+          {
+            "NativeAccess": []
+          },
+          {
+            "WebAccess": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PasswordProof"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Security action completed. No automatic session is issued."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    },
+    "/password": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Client"
+        }
+      ],
+      "post": {
+        "operationId": "changeAccountPassword",
+        "security": [
+          {
+            "NativeAccess": []
+          },
+          {
+            "WebAccess": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PasswordChange"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Security action completed. No automatic session is issued."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    },
+    "/sessions": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Client"
+        }
+      ],
+      "get": {
+        "operationId": "listOwnSessions",
+        "security": [
+          {
+            "NativeAccess": []
+          },
+          {
+            "WebAccess": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "At most 100 active own sessions; no tokens/IP/device secret.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionList"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    },
+    "/sessions/{id}/revoke": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Client"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      ],
+      "post": {
+        "operationId": "revokeOwnSession",
+        "security": [
+          {
+            "NativeAccess": []
+          },
+          {
+            "WebAccess": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Empty"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Security action completed. No automatic session is issued."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    },
+    "/minecraft/challenge": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Client"
+        }
+      ],
+      "post": {
+        "operationId": "startMinecraftBinding",
+        "security": [
+          {
+            "NativeAccess": []
+          },
+          {
+            "WebAccess": []
+          }
+        ],
+        "description": "Native only; closed with 503 until official application approval. Verified email and password reauthentication required.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PasswordInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Five-minute user/session-bound challenge.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BindingChallenge"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    },
+    "/minecraft/verify": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Client"
+        }
+      ],
+      "post": {
+        "operationId": "verifyMinecraftBinding",
+        "security": [
+          {
+            "NativeAccess": []
+          },
+          {
+            "WebAccess": []
+          }
+        ],
+        "description": "Native HTTPS only. Provider token is transient; server derives UUID/name from official ownership/profile APIs. No whitelist grant.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MinecraftProofInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Verified identity, old sessions revoked and an append-only outbox event committed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MinecraftIdentity"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    },
+    "/minecraft/unlink": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Client"
+        }
+      ],
+      "post": {
+        "operationId": "unlinkOwnMinecraftIdentity",
+        "security": [
+          {
+            "NativeAccess": []
+          },
+          {
+            "WebAccess": []
+          }
+        ],
+        "description": "Password and recent step-up if MFA enabled. UUID remains reserved; sessions/access epochs revoked, outbox committed.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PasswordInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Security action completed. No automatic session is issued."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    },
+    "/me/game-profile": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Client"
+        }
+      ],
+      "get": {
+        "operationId": "getOwnGameProfile",
+        "security": [
+          {
+            "NativeAccess": []
+          },
+          {
+            "WebAccess": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Own AnimeOnCraft game profile, or null before selection. Not an admission grant or Microsoft ownership proof.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GameProfileResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      },
+      "post": {
+        "operationId": "createOwnGameProfile",
+        "security": [
+          {
+            "NativeAccess": []
+          },
+          {
+            "WebAccess": []
+          }
+        ],
+        "description": "One immutable game name per account, case-insensitive uniqueness. Exact repeated selection succeeds; rename returns 409. Revalidates session and requires temporary password change first. Web transport also requires the existing CSRF header and origin.",
+        "parameters": [
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Required for web-admin cookie transport."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GameProfileInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Own AnimeOnCraft game profile, or null before selection. Not an admission grant or Microsoft ownership proof.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GameProfileResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "NativeAccess": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "opaque aa_256bit"
+      },
+      "WebAccess": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "__Host-aoc-access"
+      }
+    },
+    "parameters": {
+      "Client": {
+        "name": "x-aoc-client",
+        "in": "header",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "launcher",
+            "web-admin"
+          ]
+        }
+      }
+    },
+    "responses": {
+      "Error": {
+        "description": "Generic validated error. RATE_LIMITED includes Retry-After; provider/SMTP/SQL/secrets are not returned.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "Empty": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "Accepted": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "accepted"
+        ],
+        "properties": {
+          "accepted": {
+            "const": true
+          }
+        }
+      },
+      "Csrf": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "csrf_token"
+        ],
+        "properties": {
+          "csrf_token": {
+            "type": "string"
+          }
+        }
+      },
+      "Email": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "email"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "maxLength": 320
+          }
+        }
+      },
+      "Login": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "login",
+          "password"
+        ],
+        "properties": {
+          "password": {
+            "type": "string",
+            "maxLength": 1024
+          },
+          "login": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 320
+          }
+        }
+      },
+      "Registration": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "login",
+          "email",
+          "password"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "maxLength": 320
+          },
+          "password": {
+            "type": "string",
+            "minLength": 15,
+            "maxLength": 128,
+            "description": "Unicode code points; at most 1024 UTF-8 bytes."
+          },
+          "login": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 64,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,63}$"
+          }
+        }
+      },
+      "TokenInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "token"
+        ],
+        "properties": {
+          "token": {
+            "type": "string",
+            "maxLength": 128
+          }
+        }
+      },
+      "EmailVerification": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "token",
+          "password"
+        ],
+        "properties": {
+          "token": {
+            "type": "string",
+            "maxLength": 128
+          },
+          "password": {
+            "type": "string",
+            "maxLength": 1024
+          }
+        }
+      },
+      "Reset": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "token",
+          "password"
+        ],
+        "properties": {
+          "token": {
+            "type": "string",
+            "maxLength": 128
+          },
+          "password": {
+            "type": "string",
+            "minLength": 15,
+            "maxLength": 128
+          }
+        }
+      },
+      "PasswordInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "password"
+        ],
+        "properties": {
+          "password": {
+            "type": "string",
+            "maxLength": 1024
+          }
+        }
+      },
+      "PasswordProof": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "password",
+          "proof"
+        ],
+        "properties": {
+          "password": {
+            "type": "string",
+            "maxLength": 1024
+          },
+          "proof": {
+            "type": "string",
+            "minLength": 6,
+            "maxLength": 128
+          }
+        }
+      },
+      "MfaLogin": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "token",
+          "proof"
+        ],
+        "properties": {
+          "token": {
+            "type": "string",
+            "maxLength": 128
+          },
+          "proof": {
+            "type": "string",
+            "minLength": 6,
+            "maxLength": 128
+          }
+        }
+      },
+      "PasswordChange": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "password",
+          "new_password"
+        ],
+        "properties": {
+          "password": {
+            "type": "string",
+            "maxLength": 1024
+          },
+          "new_password": {
+            "type": "string",
+            "minLength": 15,
+            "maxLength": 128
+          }
+        }
+      },
+      "NativeTokenPair": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "access_token",
+          "refresh_token",
+          "expires_in",
+          "session_id",
+          "absolute_expires_at"
+        ],
+        "properties": {
+          "access_token": {
+            "type": "string",
+            "pattern": "^aa_[A-Za-z0-9_-]{43}$"
+          },
+          "refresh_token": {
+            "type": "string",
+            "pattern": "^ar_[A-Za-z0-9_-]{43}$"
+          },
+          "expires_in": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 600
+          },
+          "session_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "absolute_expires_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "WebAuthenticated": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "authenticated",
+          "expires_in",
+          "csrf_token"
+        ],
+        "properties": {
+          "authenticated": {
+            "const": true
+          },
+          "expires_in": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 600
+          },
+          "csrf_token": {
+            "type": "string"
+          }
+        }
+      },
+      "MfaChallenge": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "mfa_required",
+          "challenge"
+        ],
+        "properties": {
+          "mfa_required": {
+            "const": true
+          },
+          "challenge": {
+            "type": "string",
+            "pattern": "^ac_[A-Za-z0-9_-]{43}$"
+          }
+        }
+      },
+      "MfaEnrollment": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "otpauth_uri",
+          "expires_in"
+        ],
+        "properties": {
+          "otpauth_uri": {
+            "type": "string",
+            "pattern": "^otpauth://"
+          },
+          "expires_in": {
+            "const": 300
+          }
+        }
+      },
+      "RecoveryCodes": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "recovery_codes",
+          "reauthentication_required"
+        ],
+        "properties": {
+          "recovery_codes": {
+            "type": "array",
+            "minItems": 10,
+            "maxItems": 10,
+            "items": {
+              "type": "string",
+              "pattern": "^rc_[A-Za-z0-9_-]{43}$"
+            }
+          },
+          "reauthentication_required": {
+            "const": true
+          }
+        }
+      },
+      "Profile": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "email",
+          "email_verified",
+          "system_role",
+          "clan_management",
+          "session_id",
+          "client_kind",
+          "login",
+          "password_change_required"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "email_verified": {
+            "type": "boolean",
+            "description": "Historical verification state only; not a login/access prerequisite."
+          },
+          "system_role": {
+            "type": "string",
+            "enum": [
+              "PLAYER",
+              "OWNER"
+            ]
+          },
+          "clan_management": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "clan_id",
+                "can_remove_members"
+              ],
+              "properties": {
+                "clan_id": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "can_remove_members": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "session_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "client_kind": {
+            "type": "string",
+            "enum": [
+              "LAUNCHER",
+              "WEB_ADMIN"
+            ]
+          },
+          "login": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 64
+          },
+          "password_change_required": {
+            "type": "boolean"
+          }
+        }
+      },
+      "SessionList": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "maxItems": 100,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "id",
+                "client_kind",
+                "created_at",
+                "absolute_expires_at",
+                "current"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "client_kind": {
+                  "type": "string",
+                  "enum": [
+                    "LAUNCHER",
+                    "WEB_ADMIN"
+                  ]
+                },
+                "created_at": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "absolute_expires_at": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "current": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      },
+      "BindingChallenge": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "challenge",
+          "expires_in"
+        ],
+        "properties": {
+          "challenge": {
+            "type": "string",
+            "pattern": "^ac_[A-Za-z0-9_-]{43}$"
+          },
+          "expires_in": {
+            "const": 300
+          }
+        }
+      },
+      "MinecraftProofInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "challenge",
+          "minecraft_access_token"
+        ],
+        "properties": {
+          "challenge": {
+            "type": "string",
+            "maxLength": 128
+          },
+          "minecraft_access_token": {
+            "type": "string",
+            "maxLength": 8192
+          }
+        }
+      },
+      "MinecraftIdentity": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "minecraft_uuid",
+          "nickname",
+          "state",
+          "reauthentication_required"
+        ],
+        "properties": {
+          "minecraft_uuid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "nickname": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_]{3,16}$"
+          },
+          "state": {
+            "const": "VERIFIED"
+          },
+          "reauthentication_required": {
+            "const": true
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "error"
+        ],
+        "properties": {
+          "error": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "code",
+              "message",
+              "request_id"
+            ],
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "request_id": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          }
+        }
+      },
+      "GameProfile": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "game_name",
+          "minecraft_uuid",
+          "created_at"
+        ],
+        "properties": {
+          "game_name": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 16,
+            "pattern": "^[A-Za-z0-9_]{3,16}(?![\\s\\S])"
+          },
+          "minecraft_uuid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "GameProfileResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "profile"
+        ],
+        "properties": {
+          "profile": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/GameProfile"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "GameProfileInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "game_name"
+        ],
+        "properties": {
+          "game_name": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 16,
+            "pattern": "^[A-Za-z0-9_]{3,16}(?![\\s\\S])"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,186 @@
+import {launcherOwnerClanCases} from './launcher-owner-clan-cases.js';
+import {betaCapeCases} from './beta-cape-cases.js';
+import '../src/environment.js';
+import 'reflect-metadata';
+import assert from 'node:assert/strict';
+import {randomBytes,randomUUID} from 'node:crypto';
+import {spawnSync} from 'node:child_process';
+import {cpSync,mkdirSync,mkdtempSync,readFileSync,writeFileSync,rmSync,realpathSync,readdirSync} from 'node:fs';
+import {createRequire} from 'node:module';
+import path from 'node:path';
+import {fileURLToPath,pathToFileURL} from 'node:url';
+import {Test} from '@nestjs/testing';
+import {FastifyAdapter,type NestFastifyApplication} from '@nestjs/platform-fastify';
+import {PrismaPg} from '@prisma/adapter-pg';
+import {PrismaClient} from '../src/generated/prisma/client.js';
+import {Redis} from 'ioredis';
+import {InfrastructureModule} from '../src/infrastructure/infrastructure.module.js';
+import {DatabaseService} from '../src/infrastructure/database.service.js';
+import {AuthModule} from '../src/modules/auth/auth.module.js';
+import {AuthService,type TokenPair} from '../src/modules/auth/auth.service.js';
+import {AuthHttp} from '../src/modules/auth/auth-http.js';
+import {AuthCrypto} from '../src/modules/auth/auth-crypto.js';
+import {GameProfileService,offlinePlayerUuid} from '../src/modules/auth/game-profile.service.js';
+import {ownerCommand} from '../src/modules/auth/owner-governance.js';
+import {CommunityModule} from '../src/modules/community/community.module.js';
+import {AllExceptionsFilter} from '../src/http/all-exceptions.filter.js';
+import {gameTicketCases} from './game-ticket-cases.js';
+import {gameNativeProbe} from './game-native-probe.js';
+
+const backend=fileURLToPath(new URL('../',import.meta.url));
+const rootMigration=process.env.MIGRATION_DATABASE_URL!,rootRuntime=process.env.DATABASE_URL!;
+for(const value of [rootMigration,rootRuntime]){const u=new URL(value);assert.equal(u.hostname,'127.0.0.1');assert.equal(u.port,'54329');assert.equal(u.pathname,'/animeoncraft');}
+const redisUrl=new URL(process.env.VALKEY_URL!);assert.equal(redisUrl.hostname,'127.0.0.1');assert.equal(redisUrl.port,'56379');
+const namespace=`aoc:friends:test:${randomUUID()}`;
+Object.assign(process.env,{NODE_ENV:'test',PUBLIC_HOST:'127.0.0.1',AOC_AUTH_ENABLED:'true',AOC_AUTH_ORIGIN:'https://localhost',AOC_AUTH_MAIL_MODE:'disabled',AOC_AUTH_RATE_NAMESPACE:namespace,AOC_MFA_KEY:randomBytes(32).toString('hex'),AOC_MFA_KEY_ID:'test-v1',AOC_AUTH_PRIVACY_KEY:randomBytes(32).toString('hex'),AOC_CSRF_KEY:randomBytes(32).toString('hex')});
+const name=`animeoncraft_friends_test_${randomUUID().replaceAll('-','')}`;assert.match(name,/^animeoncraft_friends_test_[a-f0-9]{32}$/);
+const urlFor=(value:string)=>{const url=new URL(value);url.pathname=`/${name}`;return url.toString();};
+const client=(value:string)=>new PrismaClient({adapter:new PrismaPg({connectionString:value,connectionTimeoutMillis:2000,query_timeout:5000})});
+const admin=client(rootMigration),migration=client(urlFor(rootMigration)),runtime=client(urlFor(rootRuntime));
+const redis=new Redis(redisUrl.toString(),{lazyConnect:true,enableOfflineQueue:false,maxRetriesPerRequest:0,retryStrategy:()=>null});redis.on('error',()=>{});
+const tools=path.join(backend,'.tools');mkdirSync(tools,{recursive:true});const temporary=mkdtempSync(path.join(tools,'friends-'));assert.equal(path.dirname(realpathSync(temporary)),realpathSync(tools));
+cpSync(path.join(backend,'db/migrations'),path.join(temporary,'migrations'),{recursive:true});writeFileSync(path.join(temporary,'schema.prisma'),readFileSync(path.join(backend,'db/schema.prisma')));
+const require=createRequire(import.meta.url),config=path.join(temporary,'prisma.config.mjs');
+writeFileSync(config,`import {defineConfig} from ${JSON.stringify(pathToFileURL(require.resolve('prisma/config')).href)};\nexport default defineConfig({schema:'./schema.prisma',migrations:{path:'./migrations'},datasource:{url:process.env.TEST_DATABASE_URL}});\n`);
+const last='20261015000000_friends_accounts';const held=path.join(temporary,last);
+// Apply the historical schema first to prove real migration of existing accounts.
+const {renameSync}=await import('node:fs');renameSync(path.join(temporary,'migrations',last),held);
+const later=readdirSync(path.join(temporary,'migrations')).filter(entry=>entry>last && /^\d{14}_/.test(entry));
+for(const entry of later)renameSync(path.join(temporary,'migrations',entry),path.join(temporary,entry));
+let created=false,app:NestFastifyApplication|undefined;
+const password='Friends-Fixture-Password-2026!',next='Friends-Changed-Password-2026!';
+function deploy(){const result=spawnSync(process.execPath,[path.join(backend,'node_modules/prisma/build/index.js'),'migrate','deploy','--config',config],{cwd:backend,env:{...process.env,TEST_DATABASE_URL:urlFor(rootMigration)},encoding:'utf8',timeout:60000});assert.equal(result.status,0,`Own migration failed: ${result.stderr}`);}
+try{
+ await admin.$executeRawUnsafe(`CREATE DATABASE "${name}"`);created=true;deploy();
+ const crypto=new AuthCrypto(),hash=await crypto.hash(password),legacy=randomUUID();
+ await migration.$executeRaw`INSERT INTO users(id,email,email_key,password_hash) VALUES(${legacy}::uuid,'legacyfriend@example.test','legacyfriend@example.test',${hash})`;
+ for(const domain of ['one.test','two.test'])await migration.$executeRaw`INSERT INTO users(id,email,email_key,password_hash) VALUES(${randomUUID()}::uuid,${'collision@'+domain},${'collision@'+domain},${hash})`;
+ renameSync(held,path.join(temporary,'migrations',last));deploy();
+ for(const entry of later)renameSync(path.join(temporary,entry),path.join(temporary,'migrations',entry));
+ deploy();deploy();
+ const old=await migration.user.findUniqueOrThrow({where:{id:legacy}});assert.equal(old.login,'legacyfriend');assert.equal(old.loginKey,'legacyfriend');assert.equal(old.passwordHash,hash);assert.equal(old.emailVerifiedAt,null);assert.equal(old.passwordChangeRequired,false);
+ const collisions=await migration.user.findMany({where:{emailKey:{startsWith:'collision@'}}});assert.equal(collisions.length,2);assert.ok(collisions.every(row=>row.login.startsWith('legacy_')));assert.notEqual(collisions[0]!.login,collisions[1]!.login);
+ const module=await Test.createTestingModule({imports:[InfrastructureModule,AuthModule,CommunityModule]}).overrideProvider(DatabaseService).useValue({client:runtime}).compile();
+ app=module.createNestApplication<NestFastifyApplication>(new FastifyAdapter({logger:false,genReqId:()=>randomUUID()}));app.useGlobalFilters(new AllExceptionsFilter());
+ let nativeReset:(()=>Promise<unknown>)|undefined;
+ if(process.env.AOC_FRIENDS_NATIVE_PROBE==='true')app.getHttpAdapter().getInstance().post('/__fixture__/friends-reset',async()=>{assert.ok(nativeReset);return nativeReset();});
+ await app.init();await app.getHttpAdapter().getInstance().ready();
+ const auth=module.get(AuthService),http=module.get(AuthHttp);
+ let ip=1;const request=(method:'GET'|'POST',route:string,body?:object,headers:Record<string,string>={})=>app!.inject({method,url:`/api/v1/${route}`,headers:{'x-aoc-client':'launcher',...headers},...body?{payload:body}:{},remoteAddress:`127.0.0.${++ip}`});
+ const signed=(pair:TokenPair)=>({authorization:`Bearer ${pair.access_token}`});
+ const signIn=async(login:string,pwd=password)=>{const reply=await request('POST','auth/login',{login,password:pwd});assert.equal(reply.statusCode,200);assert.ok(reply.json<TokenPair>().access_token);return reply.json<TokenPair>();};
+ await signIn('LEGACYFRIEND');await signIn(old.email);
+ assert.equal((await request('POST','auth/register',{login:'NewFriend',email:'friend@example.test',password})).statusCode,202);
+ const user=await migration.user.findUniqueOrThrow({where:{loginKey:'newfriend'}});assert.equal(user.emailVerifiedAt,null);
+ let pair=await signIn('newFRIEND');let profile=(await request('GET','auth/me',undefined,signed(pair))).json<{login:string;email_verified:boolean;password_change_required:boolean}>();assert.equal(profile.login,'NewFriend');assert.equal(profile.email_verified,false);assert.equal(profile.password_change_required,false);
+ // Own game identity is independent of account login and historical Microsoft binding.
+ const gameRoute='auth/me/game-profile';
+ assert.equal(await migration.game_profiles.count(),0);
+ assert.equal((await request('GET',gameRoute)).statusCode,401);
+ assert.deepEqual((await request('GET',gameRoute,undefined,signed(pair))).json(),{profile:null});
+ for(const game_name of ['ab','abcdefghijklmnopq','Bad.Name','Bad-Name','Игрок',' Player','Player\n'])assert.equal((await request('POST',gameRoute,{game_name},signed(pair))).statusCode,400);
+ assert.equal((await request('POST',gameRoute,{game_name:'Friend_One',user_id:legacy},signed(pair))).statusCode,400);
+ const gameCreated=await request('POST',gameRoute,{game_name:'Friend_One'},signed(pair));assert.equal(gameCreated.statusCode,200);assert.equal(gameCreated.headers['cache-control'],'no-store');
+ const gameProfile=gameCreated.json<{profile:{game_name:string;minecraft_uuid:string;created_at:string}}>();assert.equal(gameProfile.profile.game_name,'Friend_One');
+ assert.equal(gameProfile.profile.minecraft_uuid,offlinePlayerUuid('Friend_One'));
+ assert.equal(offlinePlayerUuid('Notch'),'b50ad385-829d-3141-a216-7e7d7539ba7f');
+ assert.notEqual(offlinePlayerUuid('friend_one'),gameProfile.profile.minecraft_uuid);
+ assert.deepEqual((await request('POST',gameRoute,{game_name:'Friend_One'},signed(pair))).json(),gameProfile);
+ for(const game_name of ['friend_one','Other_Name'])assert.equal((await request('POST',gameRoute,{game_name},signed(pair))).statusCode,409);
+ assert.deepEqual((await request('GET',gameRoute,undefined,signed(pair))).json(),gameProfile);
+ assert.equal(await migration.minecraft_accounts.count({where:{user_id:user.id}}),0);
+ const gameActors:{user:{id:string;login:string};pair:TokenPair}[]=[];
+ for(let n=0;n<3;n++){
+   const actor=await migration.user.create({data:{login:`GameFriend${n}`,email:`game${n}@example.test`,emailKey:`game${n}@example.test`,passwordHash:hash}});
+   gameActors.push({user:actor,pair:await signIn(actor.login)});
+ }
+ const nameRace=await Promise.all(gameActors.slice(0,2).map((actor,n)=>request('POST',gameRoute,{game_name:n?'shared_nick':'Shared_Nick'},signed(actor.pair))));assert.deepEqual(nameRace.map(r=>r.statusCode).sort(),[200,409]);
+ const ownRace=await Promise.all(['Fixed_One','Fixed_Two'].map(game_name=>request('POST',gameRoute,{game_name},signed(gameActors[2]!.pair))));assert.deepEqual(ownRace.map(r=>r.statusCode).sort(),[200,409]);
+ const stalePair=await signIn(old.login),stale=await auth.access(stalePair.access_token,'LAUNCHER');
+ await migration.sessions.update({where:{id:stalePair.session_id},data:{revoked_at:new Date()}});
+ await assert.rejects(module.get(GameProfileService).create(stale,'RevokedName',randomUUID()));
+ assert.equal(await migration.game_profiles.count({where:{user_id:legacy}}),0);
+ // Runtime cannot rename or remove an identity (and thereby detach player saves).
+ await assert.rejects(runtime.game_profiles.update({where:{user_id:user.id},data:{game_name:'LostInventory'}}));
+ await assert.rejects(runtime.game_profiles.delete({where:{user_id:user.id}}));
+ console.log('Game profiles: real PG/HTTP name validation, stable offline UUID, case-insensitive uniqueness/races, immutable identity, revoked-session refusal, no Microsoft binding: passed');
+ for(const route of ['auth/verify-email','auth/recover','auth/reset-password'])assert.equal((await request('POST',route,{email:user.email,password})).statusCode,404);
+ assert.equal(await migration.auth_challenges.count({where:{kind:{in:['EMAIL_VERIFY','PASSWORD_RESET']}}}),0);
+ const before=await migration.user.findUniqueOrThrow({where:{id:user.id}});
+ for(const body of [{login:'OtherFriend',email:user.email,password:next},{login:'newfriend',email:'other@example.test',password:next}])assert.equal((await request('POST','auth/register',body)).statusCode,409);
+ assert.equal((await migration.user.findUniqueOrThrow({where:{id:user.id}})).passwordHash,before.passwordHash);await signIn('NewFriend');
+ assert.equal((await request('POST','auth/register',{login:'bad login',email:'bad@example.test',password})).statusCode,400);
+ assert.equal((await request('POST','auth/register',{login:'HiddenOwner',email:'hidden@example.test',password,system_role:'OWNER'})).statusCode,400);
+ const race=await Promise.all([1,2].map(n=>request('POST','auth/register',{login:'RaceFriend',email:`race${n}@example.test`,password})));assert.deepEqual(race.map(r=>r.statusCode).sort(),[202,409]);
+ // Existing player MFA does not turn ordinary launcher sign-in into a second-factor flow.
+ await migration.mfa_credentials.create({data:{user_id:user.id,enabled:true,key_id:crypto.keyId,secret_ciphertext:crypto.encrypt(randomBytes(20).toString('hex'),user.id)}});pair=await signIn(user.login);
+ const initialOwner=await migration.user.create({data:{login:'FixtureOwner',email:'owner@example.test',emailKey:'owner@example.test',passwordHash:hash}});
+ await assert.rejects(ownerCommand(auth,{action:'bootstrap',user_id:initialOwner.id,password:'Incorrect-Fixture-Password!',proof:''}));
+ await ownerCommand(auth,{action:'bootstrap',user_id:initialOwner.id,password,proof:''});
+ await assert.rejects(ownerCommand(auth,{action:'bootstrap',user_id:legacy,password,proof:''}));
+ const owner=await migration.user.findUniqueOrThrow({where:{id:initialOwner.id}});assert.equal(owner.systemRole,'OWNER');
+ const ownerTotp=crypto.totp();await migration.mfa_credentials.create({data:{user_id:owner.id,enabled:true,key_id:crypto.keyId,secret_ciphertext:crypto.encrypt(ownerTotp.secret.base32,owner.id)}});
+ const webStart=await request('GET','auth/csrf',undefined,{'x-aoc-client':'web-admin'});assert.equal(webStart.statusCode,200);
+ const cookies=webStart.headers['set-cookie'];const pre=Array.isArray(cookies)?cookies[0]!:String(cookies);const preCookie=pre.split(';')[0]!;
+ const challenge=await request('POST','auth/login',{login:owner.login,password},{'x-aoc-client':'web-admin',cookie:preCookie,origin:'https://localhost','x-csrf-token':webStart.json<{csrf_token:string}>().csrf_token});assert.equal(challenge.statusCode,200);assert.equal(challenge.json<{mfa_required:boolean}>().mfa_required,true);
+ const ownerPair=await auth.transaction(async tx=>auth.newSession(tx,await tx.user.findUniqueOrThrow({where:{id:owner.id}}),'WEB_ADMIN',true,randomUUID()));
+ const web={'x-aoc-client':'web-admin',cookie:`__Host-aoc-access=${ownerPair.access_token}; __Host-aoc-refresh=${ownerPair.refresh_token}`,origin:'https://localhost','x-csrf-token':http.sign(`session:${ownerPair.session_id}`)};
+ const route=`management/users/${user.id}/password-reset`,reason={reason:'Fixture manual recovery'},key=randomUUID(),version=before.version.toString();
+ assert.equal((await request('POST',route,reason,{...signed(pair),'if-match':`"${version}"`,'idempotency-key':key})).statusCode,403);
+ assert.equal((await request('POST',route,reason,{...web,'if-match':`"${version}"`,'idempotency-key':key})).statusCode,403);
+ await migration.sessions.update({where:{id:ownerPair.session_id},data:{last_step_up_at:new Date()}});
+ assert.equal((await request('POST',route,{...reason,email:'impostor@example.test'},{...web,'if-match':`"${version}"`,'idempotency-key':key})).statusCode,400);
+ const result=await request('POST',route,reason,{...web,'if-match':`"${version}"`,'idempotency-key':key});assert.equal(result.statusCode,201);
+ const reset=result.json<{temporary_password:string;delivery_email:string;version:string}>();assert.equal(reset.delivery_email,user.email);assert.equal(reset.temporary_password.length,24);
+ const repeated=await request('POST',route,reason,{...web,'if-match':`"${version}"`,'idempotency-key':key});assert.equal(repeated.statusCode,201);assert.equal(repeated.json<{temporary_password:null}>().temporary_password,null);
+ const stored=JSON.stringify(await migration.idempotency_keys.findMany({where:{principal_id:owner.id}}));assert.equal(stored.includes(reset.temporary_password),false);
+ const audit=JSON.stringify(await migration.audit_logs.findMany());assert.equal(audit.includes(reset.temporary_password),false);assert.equal(audit.includes(password),false);
+ assert.equal((await request('GET','auth/me',undefined,signed(pair))).statusCode,401);
+ assert.equal((await request('POST','auth/login',{login:user.login,password})).statusCode,401);
+ const tempPair=await signIn(user.login,reset.temporary_password);
+ assert.equal((await request('POST',gameRoute,{game_name:'TemporaryName'},signed(tempPair))).statusCode,403);
+ profile=(await request('GET','auth/me',undefined,signed(tempPair))).json<typeof profile>();assert.equal(profile.password_change_required,true);
+ const blocked=await request('GET','me/access',undefined,signed(tempPair));assert.equal(blocked.statusCode,403);assert.equal(blocked.json<{error:{code:string}}>().error.code,'PASSWORD_CHANGE_REQUIRED');
+ assert.equal((await request('POST','auth/password',{password:reset.temporary_password,new_password:next},signed(tempPair))).statusCode,204);
+ assert.equal((await request('GET','auth/me',undefined,signed(tempPair))).statusCode,401);
+ assert.equal((await migration.user.findUniqueOrThrow({where:{id:user.id}})).passwordChangeRequired,false);
+ assert.equal((await request('POST','auth/login',{login:user.login,password:reset.temporary_password})).statusCode,401);pair=await signIn(user.login,next);
+ assert.equal((await request('GET','me/access',undefined,signed(pair))).statusCode,200);
+ assert.deepEqual((await request('GET',gameRoute,undefined,signed(pair))).json(),gameProfile);
+ assert.equal((await request('POST',`management/users/${owner.id}/password-reset`,reason,{...web,'if-match':'"0"','idempotency-key':randomUUID()})).statusCode,403);
+ const current=await migration.user.findUniqueOrThrow({where:{id:user.id}});assert.equal(current.email,user.email);assert.equal(current.emailVerifiedAt,null);assert.equal(current.systemRole,'PLAYER');
+ const replay=await request('POST',route,reason,{...web,'if-match':`"${version}"`,'idempotency-key':randomUUID()});assert.equal(replay.statusCode,412);
+ await gameTicketCases(app,migration,auth,owner.id,hash);
+ await launcherOwnerClanCases(app,migration,auth,owner.id,hash,password);
+ await betaCapeCases(app,migration,auth,owner.id,hash);
+ // Exercise the operator CLI only against this disposable database, never the live campaign.
+ const campaignCli=(args:string[])=>spawnSync(process.execPath,[require.resolve('tsx/cli'),'db/beta-campaign.ts',...args],{cwd:backend,env:{...process.env,MIGRATION_DATABASE_URL:urlFor(rootMigration)},encoding:'utf8',timeout:30000});
+ const opening=new Date(Date.now()+3600000).toISOString(),scheduled=campaignCli(['schedule',opening]);assert.equal(scheduled.status,0,'Fixture beta schedule CLI failed');
+ const schedule=JSON.parse(scheduled.stdout);assert.equal(schedule.starts_at,opening);assert.equal(Date.parse(schedule.ends_at)-Date.parse(opening),7*86400000);
+ assert.equal(campaignCli(['cancel']).status,0);
+ assert.equal((await migration.beta_campaign.findUniqueOrThrow({where:{id:'beta'}})).starts_at,null);
+ await migration.beta_campaign.update({where:{id:'beta'},data:{starts_at:new Date(Date.now()-3600000),ends_at:new Date(Date.now()-3600000+7*86400000)}});
+ assert.notEqual(campaignCli(['cancel']).status,0,'Started beta must not be rewritten by the CLI');
+ await migration.beta_campaign.update({where:{id:'beta'},data:{starts_at:null,ends_at:null}});
+ console.log('Beta operator CLI: real disposable PG future schedule, exact seven-day window, cancel, immutable started campaign and audit: passed');
+ if(process.env.AOC_GAME_NATIVE_PROBE==='true')await gameNativeProbe(app,migration,auth,owner.id,hash,password);
+ if(process.env.AOC_FRIENDS_NATIVE_PROBE==='true'){
+   const fixture={login:'NativeFriend',email:'native-friend@example.test',password:'Native-Friends-Fixture-Password!',newPassword:'Native-Friends-Changed-Password!'};
+   nativeReset=async()=>{const target=await migration.user.findUniqueOrThrow({where:{loginKey:fixture.login.toLowerCase()}});const result=await request('POST',`management/users/${target.id}/password-reset`,{reason:'Own native fixture manual recovery'},{...web,'if-match':`"${target.version}"`,'idempotency-key':randomUUID()});assert.equal(result.statusCode,201);return result.json();};
+   await app.listen(39431,'127.0.0.1');
+   const file=path.join(temporary,'native-ui.json');writeFileSync(file,JSON.stringify(fixture));
+   const {spawn}=await import('node:child_process');
+   const probe=spawn('powershell.exe',['-NoProfile','-ExecutionPolicy','Bypass','-File',path.resolve(backend,'../../scripts/native-friends-smoke.ps1'),'-FixtureFile',file,...process.env.AOC_FRIENDS_NATIVE_EXECUTABLE?['-FixtureExecutable',process.env.AOC_FRIENDS_NATIVE_EXECUTABLE]:[]],{cwd:path.resolve(backend,'../..'),windowsHide:true,stdio:['ignore','pipe','pipe']});
+   probe.stdout.on('data',data=>process.stdout.write(data));probe.stderr.on('data',data=>process.stderr.write(data));
+   const exit=await new Promise<number|null>((resolve,reject)=>{probe.once('exit',resolve);probe.once('error',reject);});assert.equal(exit,0,'Own native friends acceptance failed');
+   const nativeUser=await migration.user.findUniqueOrThrow({where:{loginKey:fixture.login.toLowerCase()}});assert.equal(nativeUser.emailVerifiedAt,null);assert.equal(nativeUser.passwordChangeRequired,false);assert.equal(await crypto.verify(nativeUser.passwordHash,fixture.newPassword),true);
+   assert.equal((await migration.game_profiles.findUniqueOrThrow({where:{user_id:nativeUser.id}})).game_name,'NativeBuilder');
+   assert.equal(await migration.minecraft_accounts.count({where:{user_id:nativeUser.id}}),0);
+ }
+ console.log('Friends accounts: real PG migration/preservation, login/password without mail/MFA, duplicate/race protection, OWNER-only manual recovery to stored email, no cleartext cache/audit, temporary-password change/session revoke: passed');
+}finally{
+ await app?.close();try{await redis.connect();let cursor='0';do{const batch=await redis.scan(cursor,'MATCH',`${namespace}:*`,'COUNT',100);cursor=batch[0];if(batch[1].length)await redis.del(...batch[1]);}while(cursor!=='0');}finally{redis.disconnect();}
+ await Promise.all([runtime.$disconnect(),migration.$disconnect()]);
+ if(created){assert.match(name,/^animeoncraft_friends_test_[a-f0-9]{32}$/);await admin.$executeRawUnsafe(`DROP DATABASE "${name}" WITH (FORCE)`);}
+ await admin.$disconnect();assert.equal(path.dirname(realpathSync(temporary)),realpathSync(tools));assert.ok(path.basename(temporary).startsWith('friends-'));rmSync(temporary,{recursive:true,force:true});
+}

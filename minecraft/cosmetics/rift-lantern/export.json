@@ -1,0 +1,14 @@
+{
+  "code": "RIFT_LANTERN",
+  "source": "minecraft\\cosmetics\\rift-lantern\\rift-lantern.bbmodel",
+  "source_sha256": "a76f4435b2dc2e26d478c07c4a20cea1dc906fef767059ea4050135fea4a0a48",
+  "geometry": "minecraft/integration/neoforge/src/main/resources/assets/animeoncraft/cosmetics/rift_lantern.json",
+  "texture": "minecraft/integration/neoforge/src/main/resources/assets/animeoncraft/textures/cosmetics/rift_lantern.png",
+  "faces": 164,
+  "triangles": 44,
+  "emissive_faces": 6,
+  "parts": [
+    "lantern_swing"
+  ],
+  "reference_head_exported": false
+}

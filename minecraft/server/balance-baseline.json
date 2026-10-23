@@ -1,0 +1,29 @@
+{
+  "format_version": 1,
+  "minecraft": "1.21.1",
+  "loader": "NeoForge 21.1.262",
+  "targets": {
+    "early_progression_hours": {
+      "min": 2,
+      "max": 6
+    },
+    "first_boss_hours": {
+      "min": 6,
+      "max": 12
+    },
+    "clan_level_one_xp": 100,
+    "boss_kill_xp": 100,
+    "territory_capture_xp": 500,
+    "territory_capture_reputation": 20
+  },
+  "review_required": [
+    "Iron's Spells early/mid/end progression",
+    "Create ore and power generation speed",
+    "Dungeons and Taverns loot density",
+    "boss health and reward tables",
+    "recipe unlock order and duplication paths"
+  ],
+  "status": "candidate_profile_v1_playtest_required",
+  "applied_profile": "balance-profile.json",
+  "datapack": "../modpack/balance-pack"
+}

@@ -1,0 +1,15 @@
+{
+  "code": "STAR_CHAIN",
+  "source": "minecraft\\cosmetics\\star-chain\\star-chain.bbmodel",
+  "source_sha256": "fcedaf415b32c5ef530b9bc153f33d25b137166c82b260d1a1c155795bc880fc",
+  "geometry": "minecraft/integration/neoforge/src/main/resources/assets/animeoncraft/cosmetics/star_chain.json",
+  "texture": "minecraft/integration/neoforge/src/main/resources/assets/animeoncraft/textures/cosmetics/star_chain.png",
+  "faces": 390,
+  "triangles": 20,
+  "emissive_faces": 16,
+  "parts": [
+    "static",
+    "chain_star"
+  ],
+  "reference_head_exported": false
+}

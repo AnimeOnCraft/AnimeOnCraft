@@ -1,0 +1,115 @@
+{
+  "format_version": 1,
+  "world_name": "clan-world-20261016",
+  "seed": "20261016",
+  "level_type": "minecraft:large_biomes",
+  "protection": {
+    "spawn_radius_blocks": 16
+  },
+  "common": {
+    "x": -257,
+    "y": 72,
+    "z": 1535
+  },
+  "clans": {
+    "SCAM": {
+      "x": -384,
+      "y": 0,
+      "z": 1024
+    },
+    "NYA": {
+      "x": 256,
+      "y": 0,
+      "z": 3200
+    },
+    "AKUMA": {
+      "x": 144,
+      "y": 0,
+      "z": 1920
+    },
+    "ZXC": {
+      "x": 2047,
+      "y": 88,
+      "z": -1
+    },
+    "YAKUZA": {
+      "x": 1152,
+      "y": 0,
+      "z": 4096
+    }
+  },
+  "territories": {
+    "width_blocks": 768,
+    "colors": {
+      "SCAM": "E84A5F",
+      "NYA": "F47DCB",
+      "AKUMA": "A970FF",
+      "ZXC": "4DA8FF",
+      "YAKUZA": "FFB347"
+    }
+  },
+  "survey": {
+    "minecraft": "1.21.1",
+    "loader": "NeoForge 21.1.262",
+    "sample_radius_blocks": 96,
+    "samples_per_site": 9,
+    "minimum_clan_distance_blocks": 1000,
+    "SCAM": {
+      "biome": "plains",
+      "min_y": 66,
+      "max_y": 83
+    },
+    "NYA": {
+      "biome": "plains",
+      "min_y": 68,
+      "max_y": 85
+    },
+    "AKUMA": {
+      "biome": "forest",
+      "min_y": 64,
+      "max_y": 81
+    },
+    "ZXC": {
+      "biome": "forest",
+      "min_y": 89,
+      "max_y": 99
+    },
+    "YAKUZA": {
+      "biome": "plains",
+      "min_y": 64,
+      "max_y": 78
+    }
+  },
+  "castle_palettes": {
+    "SCAM": {
+      "wall": "minecraft:deepslate_bricks",
+      "roof": "minecraft:red_concrete",
+      "accent": "minecraft:red_wool",
+      "floor": "minecraft:polished_deepslate"
+    },
+    "NYA": {
+      "wall": "minecraft:polished_blackstone_bricks",
+      "roof": "minecraft:magenta_concrete",
+      "accent": "minecraft:pink_wool",
+      "floor": "minecraft:polished_blackstone"
+    },
+    "AKUMA": {
+      "wall": "minecraft:deepslate_bricks",
+      "roof": "minecraft:purple_concrete",
+      "accent": "minecraft:purple_wool",
+      "floor": "minecraft:polished_deepslate"
+    },
+    "ZXC": {
+      "wall": "minecraft:stone_bricks",
+      "roof": "minecraft:blue_concrete",
+      "accent": "minecraft:light_blue_wool",
+      "floor": "minecraft:polished_andesite"
+    },
+    "YAKUZA": {
+      "wall": "minecraft:deepslate_bricks",
+      "roof": "minecraft:orange_concrete",
+      "accent": "minecraft:orange_wool",
+      "floor": "minecraft:polished_deepslate"
+    }
+  }
+}

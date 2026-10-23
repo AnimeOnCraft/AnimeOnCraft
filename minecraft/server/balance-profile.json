@@ -1,0 +1,96 @@
+{
+  "format_version": 1,
+  "minecraft": "1.21.1",
+  "id": "clan-beta-v1",
+  "toml": {
+    "irons_spellbooks-server.toml": {
+      "Misc": {
+        "manaRegenMultiplier": 0.9,
+        "swordsCooldownMultiplier": 0.75,
+        "maxUpgrades": 2,
+        "scrollRecycleChance": 0.35,
+        "spellGriefing": false
+      }
+    },
+    "create-server.toml": {
+      "kinetics.contraptions": {
+        "maxBlocksMoved": 512,
+        "movableSpawners": "UNMOVABLE",
+        "amethystMovement": "UNMOVABLE"
+      }
+    },
+    "createaddition-common.toml": {
+      "alternator": {
+        "generator_efficiency": 0.75
+      }
+    },
+    "cataclysm-common.toml": {
+      "mobs.ender_guardian.ignore_mobgriefing_config": {
+        "ignore_mobgriefing": false
+      },
+      "mobs.ender_golem.ignore_mobgriefing_config": {
+        "ignore_mobgriefing": false
+      },
+      "mobs.netherite_monstrosity.ignore_mobgriefing_config": {
+        "ignore_mobgriefing": false
+      },
+      "mobs.ignis.ignore_mobgriefing_config": {
+        "ignore_mobgriefing": false
+      },
+      "mobs.harbinger.ignore_mobgriefing_config": {
+        "ignore_mobgriefing": false
+      },
+      "mobs.leviathan.ignore_mobgriefing_config": {
+        "ignore_mobgriefing": false
+      },
+      "mobs.ancient_remnant.ignore_mobgriefing_config": {
+        "ignore_mobgriefing": false
+      },
+      "mobs.kobolediator.ignore_mobgriefing_config": {
+        "ignore_mobgriefing": false
+      },
+      "mobs.maledictus.ignore_mobgriefing_config": {
+        "ignore_mobgriefing": false
+      },
+      "mobs.scylla.ignore_mobgriefing_config": {
+        "ignore_mobgriefing": false
+      },
+      "mobs.clawdian.ignore_mobgriefing_config": {
+        "ignore_mobgriefing": false
+      }
+    }
+  },
+  "json": {
+    "irons_spellbooks_spell_config/global_config.json": {
+      "irons_spellbooks:power_multiplier": 0.9,
+      "irons_spellbooks:mana_cost_multiplier": 1.1
+    }
+  },
+  "server_toml": {
+    "essential-core/config.toml": {
+      "\"General Settings\"": {
+        "maxPlayerInventories": 10,
+        "maxChunkBackups": 2,
+        "inventorySaveHours": 3,
+        "chunkSaveHours": 24,
+        "queueThreadCount": 2,
+        "maxLogFileSizeMB": 5,
+        "logRetentionDays": 7,
+        "cleaningChunks": 7,
+        "cleaningInventory": 7
+      },
+      "\"Logging Settings\"": {
+        "logBlockBreak": true,
+        "logBlockPlace": true,
+        "logContainers": true,
+        "logInteractions": false,
+        "logChat": false,
+        "logCommands": false,
+        "logConsoleCommands": false,
+        "logItemPickups": false,
+        "logEntityDeath": false,
+        "logEntityKills": false
+      }
+    }
+  }
+}

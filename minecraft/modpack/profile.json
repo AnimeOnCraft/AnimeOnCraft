@@ -1,0 +1,4197 @@
+{
+  "schema_version": 1,
+  "name": "AnimeOnCraft Friends",
+  "pack_version": "0.8.7-client-sync",
+  "status": "friends-tested-release-candidate",
+  "checked_on": "2026-10-23",
+  "client_map_defaults": {
+    "revision": "surface-caves-v2"
+  },
+  "minecraft": "1.21.1",
+  "java_major": 21,
+  "loader": {
+    "id": "neoforge",
+    "version": "21.1.262",
+    "installer_url": "https://maven.neoforged.net/releases/net/neoforged/neoforge/21.1.262/neoforge-21.1.262-installer.jar",
+    "installer_sha256": "e86f5d78ed310465bd1ecf79823abcbc58782699b068ac776f4c5e226d994a8f"
+  },
+  "distribution": "Download original files from the pinned author/platform URLs; do not rehost JARs in the updater repository.",
+  "compatibility_data_pack": {
+    "id": "animeoncraft-compat",
+    "source_directory": "minecraft/modpack/compat-pack",
+    "data_pack_format": 48,
+    "purpose": "Provide the missing minecraft:root advancement parent used by Dungeons and Taverns v4.4.4"
+  },
+  "beta_exceptions": [
+    {
+      "mod_id": "playeranimator",
+      "reason": "The required 1.21.1 NeoForge builds are marked beta upstream; pin 2.0.4 and verify actual client/server startup in stage 9."
+    },
+    {
+      "mod_id": "jeresources",
+      "reason": "Official 1.21.1 NeoForge JER build is beta; pinned and requires actual client plugin startup review."
+    },
+    {
+      "mod_id": "biomesoplenty",
+      "reason": "Author NeoForge 1.21.1 build is beta; requested by owner, pinned and requires full isolated runtime validation."
+    },
+    {
+      "mod_id": "glitchcore",
+      "reason": "Author NeoForge 1.21.1 build is beta; requested by owner, pinned and requires full isolated runtime validation."
+    },
+    {
+      "mod_id": "sereneseasons",
+      "reason": "Author NeoForge 1.21.1 build is beta; requested by owner, pinned and requires full isolated runtime validation."
+    },
+    {
+      "mod_id": "terrablender",
+      "reason": "Author NeoForge 1.21.1 build is beta; requested by owner, pinned and requires full isolated runtime validation."
+    }
+  ],
+  "mods": [
+    {
+      "slug": "irons-spells-n-spellbooks",
+      "mod_id": "irons_spellbooks",
+      "title": "Iron's Spells 'n Spellbooks",
+      "project_id": "s4OWxYQQ",
+      "version_id": "slKLosTb",
+      "version": "1.21.1-3.16.3",
+      "release_type": "release",
+      "purpose": "Магия, школы заклинаний, снаряжение и боссы",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [
+        "geckolib",
+        "playeranimator",
+        "curios",
+        "irons_lib"
+      ],
+      "upstream_sides": {
+        "client": "required",
+        "server": "required"
+      },
+      "license": {
+        "id": "LicenseRef-All-Rights-Reserved",
+        "name": "",
+        "url": "https://github.com/iron431/Irons-Spells-n-Spellbooks#readme"
+      },
+      "project_url": "https://modrinth.com/mod/irons-spells-n-spellbooks",
+      "version_url": "https://modrinth.com/mod/irons-spells-n-spellbooks/version/slKLosTb",
+      "metadata_url": "https://api.modrinth.com/v2/version/slKLosTb",
+      "file": {
+        "name": "irons_spellbooks-1.21.1-3.16.3.jar",
+        "url": "https://cdn.modrinth.com/data/s4OWxYQQ/versions/slKLosTb/irons_spellbooks-1.21.1-3.16.3.jar",
+        "size": 13890045,
+        "sha512": "fd782f98c6c59b193c4832f33775291d2a7e639e1e23dd47510bfb494d99d182bec1253566b9394f96c733a0d0108be34bd729614b82dc29e55e096fdeb96f5b",
+        "sha1": "e8832385c01db56b9fcb19c48fcedc76a3a70d92"
+      },
+      "manifest_path": "META-INF/neoforge.mods.toml",
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.0.0-beta,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21.1,1.21.2)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "geckolib",
+          "type": "required",
+          "version_range": "[4.7.5.1,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "playeranimator",
+          "type": "required",
+          "version_range": "[2.0.1+1.21.1,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "curios",
+          "type": "required",
+          "version_range": "[9.0.5+1.21.0,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "irons_lib",
+          "type": "required",
+          "version_range": "[1.21.1-2,1.21.1-3)",
+          "side": "BOTH"
+        }
+      ]
+    },
+    {
+      "slug": "dungeons-and-taverns",
+      "mod_id": "mr_dungeons_andtaverns",
+      "title": "Dungeons and Taverns",
+      "project_id": "tpehi7ww",
+      "version_id": "BYUUUeZA",
+      "version": "v4.4.4+mod",
+      "release_type": "release",
+      "purpose": "Структуры и награда за исследование; клиент для одиночного мира и ресурсов",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [],
+      "upstream_sides": {
+        "client": "optional",
+        "server": "required"
+      },
+      "license": {
+        "id": "LicenseRef-All-Rights-Reserved",
+        "name": "",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/dungeons-and-taverns",
+      "version_url": "https://modrinth.com/mod/dungeons-and-taverns/version/BYUUUeZA",
+      "metadata_url": "https://api.modrinth.com/v2/version/BYUUUeZA",
+      "file": {
+        "name": "dungeons-and-taverns-v4.4.4.jar",
+        "url": "https://cdn.modrinth.com/data/tpehi7ww/versions/BYUUUeZA/dungeons-and-taverns-v4.4.4.jar",
+        "size": 24859622,
+        "sha512": "83069dc336bcc212059f753923373d9522aa5953bf4b4fe2a8cfa666b4e28d2d017daa66c4b35e315c3be8d1ad60c2872879dd47cc1f47665ebbfd102da76976",
+        "sha1": "249a5bdd0e8622b8a11f88758e6f5fd5fda036a3"
+      },
+      "manifest_path": "META-INF/neoforge.mods.toml",
+      "manifest_constraints": []
+    },
+    {
+      "slug": "handcrafted",
+      "mod_id": "handcrafted",
+      "title": "Handcrafted",
+      "project_id": "pJmCFF0p",
+      "version_id": "JfqnpP2Z",
+      "version": "4.0.3",
+      "release_type": "release",
+      "purpose": "Мебель и декоративное строительство",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [
+        "resourcefullib"
+      ],
+      "upstream_sides": {
+        "client": "required",
+        "server": "required"
+      },
+      "license": {
+        "id": "LicenseRef-Terrarium-Licence",
+        "name": "",
+        "url": "https://github.com/terrarium-earth/Handcrafted/blob/1.19.2/LICENSE"
+      },
+      "project_url": "https://modrinth.com/mod/handcrafted",
+      "version_url": "https://modrinth.com/mod/handcrafted/version/JfqnpP2Z",
+      "metadata_url": "https://api.modrinth.com/v2/version/JfqnpP2Z",
+      "file": {
+        "name": "handcrafted-neoforge-1.21.1-4.0.3.jar",
+        "url": "https://cdn.modrinth.com/data/pJmCFF0p/versions/JfqnpP2Z/handcrafted-neoforge-1.21.1-4.0.3.jar",
+        "size": 7132842,
+        "sha512": "4ff5fb2aa9582b886d03f647fe9b8c12a828d29a1787e9c9b463be18192ea798e6a4ac83479623042791bce0bacbf6e3e2c2e9ef086640aeeb6970d3404e7ee4",
+        "sha1": "8ecd27f1d66f9b742cfae3c8ffa773765f574b52"
+      },
+      "manifest_path": "META-INF/neoforge.mods.toml",
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "resourcefullib",
+          "type": "required",
+          "version_range": "[3.0.0,)",
+          "side": "BOTH"
+        }
+      ]
+    },
+    {
+      "slug": "jade",
+      "mod_id": "jade",
+      "title": "Jade 🔍",
+      "project_id": "nvQzSEkH",
+      "version_id": "eYz2YBGT",
+      "version": "15.10.6+neoforge",
+      "release_type": "release",
+      "purpose": "Подсказки о блоках и сущностях",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [],
+      "upstream_sides": {
+        "client": "optional",
+        "server": "optional"
+      },
+      "license": {
+        "id": "CC-BY-NC-SA-4.0",
+        "name": "Creative Commons Attribution Non Commercial Share Alike 4.0 International",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/jade",
+      "version_url": "https://modrinth.com/mod/jade/version/eYz2YBGT",
+      "metadata_url": "https://api.modrinth.com/v2/version/eYz2YBGT",
+      "file": {
+        "name": "Jade-1.21.1-NeoForge-15.10.6.jar",
+        "url": "https://cdn.modrinth.com/data/nvQzSEkH/versions/eYz2YBGT/Jade-1.21.1-NeoForge-15.10.6.jar",
+        "size": 726853,
+        "sha512": "dad9755dce8d85d914fc4df2baa0211f13e5839a71c1925fdd01f69081a95e30a2934e6273f8b01f0169adebe7a9dae57a8d904de0c4cb36dc17369bb474f0f2",
+        "sha1": "88ee316e68900080b017f60c12162e2731924cf8"
+      },
+      "manifest_path": "META-INF/neoforge.mods.toml",
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.0.143, )",
+          "side": "BOTH"
+        }
+      ]
+    },
+    {
+      "slug": "ferrite-core",
+      "mod_id": "ferritecore",
+      "title": "FerriteCore",
+      "project_id": "uXXizFIs",
+      "version_id": "x7kQWVju",
+      "version": "7.0.3-neoforge",
+      "release_type": "release",
+      "purpose": "Сокращение использования памяти",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [],
+      "upstream_sides": {
+        "client": "optional",
+        "server": "optional"
+      },
+      "license": {
+        "id": "MIT",
+        "name": "MIT License",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/ferrite-core",
+      "version_url": "https://modrinth.com/mod/ferrite-core/version/x7kQWVju",
+      "metadata_url": "https://api.modrinth.com/v2/version/x7kQWVju",
+      "file": {
+        "name": "ferritecore-7.0.3-neoforge.jar",
+        "url": "https://cdn.modrinth.com/data/uXXizFIs/versions/x7kQWVju/ferritecore-7.0.3-neoforge.jar",
+        "size": 121559,
+        "sha512": "19af89a2075bb10a63884fa853ebf84b02c79dc3242430ecdad056fd764fdcde367a7303276b329df01b0736e2ef264c5d80c7dc92c6aebd244f556a230bb417",
+        "sha1": "9563692efb708b6b568df27a01ec52f6311928ef"
+      },
+      "manifest_path": "META-INF/neoforge.mods.toml",
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.1.218,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21.1,1.22)",
+          "side": "BOTH"
+        }
+      ]
+    },
+    {
+      "slug": "playeranimator",
+      "mod_id": "playeranimator",
+      "title": "playerAnimator",
+      "project_id": "gedNE4y2",
+      "version_id": "HJZB6bmA",
+      "version": "2.0.4+1.21.1-forge",
+      "release_type": "beta",
+      "purpose": "Анимации игрока для магического мода",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [],
+      "upstream_sides": {
+        "client": "required",
+        "server": "required"
+      },
+      "license": {
+        "id": "MIT",
+        "name": "MIT License",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/playeranimator",
+      "version_url": "https://modrinth.com/mod/playeranimator/version/HJZB6bmA",
+      "metadata_url": "https://api.modrinth.com/v2/version/HJZB6bmA",
+      "file": {
+        "name": "player-animation-lib-forge-2.0.4+1.21.1.jar",
+        "url": "https://cdn.modrinth.com/data/gedNE4y2/versions/HJZB6bmA/player-animation-lib-forge-2.0.4%2B1.21.1.jar",
+        "size": 203149,
+        "sha512": "fc00450fb6c95ec1779021bdc726122dacb5915c6baddaacc981cd221b01b8db35f2a0dfde5d6fa6766d877266dc82f58854f571ea53cc5c4d468b80e1548a5f",
+        "sha1": "05be8ddcc78532b9a5520c718edc6c971cd0057c"
+      },
+      "manifest_path": "META-INF/neoforge.mods.toml",
+      "manifest_constraints": [
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21,1.21.2)",
+          "side": "BOTH"
+        }
+      ]
+    },
+    {
+      "slug": "curios",
+      "mod_id": "curios",
+      "title": "Curios API",
+      "project_id": "vvuO3ImH",
+      "version_id": "yohfFbgD",
+      "version": "9.5.1+1.21.1",
+      "release_type": "release",
+      "purpose": "Слоты аксессуаров для магического мода",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [],
+      "upstream_sides": {
+        "client": "required",
+        "server": "required"
+      },
+      "license": {
+        "id": "LGPL-3.0-or-later",
+        "name": "GNU Lesser General Public License v3.0 or later",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/curios",
+      "version_url": "https://modrinth.com/mod/curios/version/yohfFbgD",
+      "metadata_url": "https://api.modrinth.com/v2/version/yohfFbgD",
+      "file": {
+        "name": "curios-neoforge-9.5.1+1.21.1.jar",
+        "url": "https://cdn.modrinth.com/data/vvuO3ImH/versions/yohfFbgD/curios-neoforge-9.5.1%2B1.21.1.jar",
+        "size": 410690,
+        "sha512": "5981a267686b744e7e3c227f78cbcd5267c14ac6979a28e814695f4589273998563147207fef4a5cdb7cdbdc39797cd95d9e4abadb55869f18e02a38d0654ae5",
+        "sha1": "418fcd42e3a7844c9bdc71c9b6401fdb3894e0c4"
+      },
+      "manifest_path": "META-INF/neoforge.mods.toml",
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.1.60,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21, 1.22)",
+          "side": "BOTH"
+        }
+      ]
+    },
+    {
+      "slug": "irons-lib",
+      "mod_id": "irons_lib",
+      "title": "Iron's Lib",
+      "project_id": "9nfaJPtX",
+      "version_id": "lUwUKYPl",
+      "version": "1.21.1-2.2.0",
+      "release_type": "release",
+      "purpose": "Обязательная библиотека Iron's Spells",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [
+        "geckolib"
+      ],
+      "upstream_sides": {
+        "client": "required",
+        "server": "required"
+      },
+      "license": {
+        "id": "LicenseRef-All-Rights-Reserved",
+        "name": "",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/irons-lib",
+      "version_url": "https://modrinth.com/mod/irons-lib/version/lUwUKYPl",
+      "metadata_url": "https://api.modrinth.com/v2/version/lUwUKYPl",
+      "file": {
+        "name": "irons_lib-1.21.1-2.2.0.jar",
+        "url": "https://cdn.modrinth.com/data/9nfaJPtX/versions/lUwUKYPl/irons_lib-1.21.1-2.2.0.jar",
+        "size": 462255,
+        "sha512": "2a7c61843b57a93d80f963469c4c4cad027a0bf11bc39112112444a41da2283704547037254cd732f12d781a3b8a3f17f3d0d45c965f3ebc5fe8d63adbe6a1ab",
+        "sha1": "33ca1a58dc0b384a6de26171f34b3bf608aaeeb2"
+      },
+      "manifest_path": "META-INF/neoforge.mods.toml",
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.1.221,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21.1]",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "geckolib",
+          "type": "required",
+          "version_range": "4.7.5.1",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "irons_patreon_lib",
+          "type": "incompatible",
+          "version_range": "*",
+          "side": "BOTH"
+        }
+      ]
+    },
+    {
+      "slug": "resourceful-lib",
+      "mod_id": "resourcefullib",
+      "title": "Resourceful Lib",
+      "project_id": "G1hIVOrD",
+      "version_id": "x99nCLTm",
+      "version": "3.0.12",
+      "release_type": "release",
+      "purpose": "Обязательная библиотека Handcrafted",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [],
+      "upstream_sides": {
+        "client": "required",
+        "server": "required"
+      },
+      "license": {
+        "id": "MIT",
+        "name": "MIT License",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/resourceful-lib",
+      "version_url": "https://modrinth.com/mod/resourceful-lib/version/x99nCLTm",
+      "metadata_url": "https://api.modrinth.com/v2/version/x99nCLTm",
+      "file": {
+        "name": "resourcefullib-neoforge-1.21-3.0.12.jar",
+        "url": "https://cdn.modrinth.com/data/G1hIVOrD/versions/x99nCLTm/resourcefullib-neoforge-1.21-3.0.12.jar",
+        "size": 484332,
+        "sha512": "a9d20e345faa9bcb297bd95ac9524205834804d1bb13518397dd4f7f62b352b08c3339ee7f7870d3669078ceeb33d5c31ea527aecce4b31d62ec1ff7d8b562c8",
+        "sha1": "24389c8e48ff0e8594e4686b750c494c66a5f8df"
+      },
+      "manifest_path": "META-INF/neoforge.mods.toml",
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.0.0-beta,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21,)",
+          "side": "BOTH"
+        }
+      ]
+    },
+    {
+      "slug": "create",
+      "mod_id": "create",
+      "title": "Create",
+      "project_id": "LNytGWDc",
+      "version_id": "UjX6dr61",
+      "version": "6.0.10+mc1.21.1",
+      "release_type": "release",
+      "purpose": "Автоматизация, механизмы, конвейеры и поезда",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [],
+      "upstream_sides": {
+        "client": "required",
+        "server": "required"
+      },
+      "license": {
+        "id": "LicenseRef-Create-Mod-License",
+        "name": "Create Mod License",
+        "url": "https://github.com/Creators-of-Create/Create/blob/mc1.21.1/LICENSE"
+      },
+      "project_url": "https://modrinth.com/mod/create",
+      "version_url": "https://modrinth.com/mod/create/version/UjX6dr61",
+      "metadata_url": "https://api.modrinth.com/v2/version/UjX6dr61",
+      "file": {
+        "name": "create-1.21.1-6.0.10.jar",
+        "url": "https://cdn.modrinth.com/data/LNytGWDc/versions/UjX6dr61/create-1.21.1-6.0.10.jar",
+        "size": 19123767,
+        "sha512": "11cc8fc049d2f67f6548c7abfada6b82a3adb5c7ca410a742de04bbca76e03862c518721b88d806f6e6d768a4d68531fdb903a85859b25d1484d550cc7bafd4b",
+        "sha1": "0e97e49837bed766e6f28a4c95b04885d6acc353"
+      },
+      "manifest_path": "META-INF/neoforge.mods.toml",
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.1.219,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21.1]",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "flywheel",
+          "type": "required",
+          "version_range": "[1.0.0,2.0)",
+          "side": "CLIENT"
+        },
+        {
+          "mod_id": "ponder",
+          "type": "required",
+          "version_range": "[1.0.82,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "sodium",
+          "type": "optional",
+          "version_range": "[0.6.9,)",
+          "side": "CLIENT"
+        },
+        {
+          "mod_id": "lithium",
+          "type": "optional",
+          "version_range": "[0.14.7,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "journeymap",
+          "type": "optional",
+          "version_range": "[1.21.1-6.0.0-beta.46,)",
+          "side": "CLIENT"
+        },
+        {
+          "mod_id": "xaeroworldmap",
+          "type": "optional",
+          "version_range": "[1.40.2,)",
+          "side": "CLIENT"
+        },
+        {
+          "mod_id": "radium",
+          "type": "incompatible",
+          "version_range": "[0,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "palladium",
+          "type": "incompatible",
+          "version_range": "[0,)",
+          "side": "BOTH"
+        }
+      ],
+      "bundled_dependencies": [
+        {
+          "mod_id": "flywheel",
+          "version": "1.0.6",
+          "jar_path": "META-INF/jarjar/flywheel-neoforge-1.21.1-1.0.6.jar",
+          "sha512": "475f7a6d3dfd0cf6279188425c3f04f95b76ebfb8628b38be45480d977c8b7ec543512cee370cafa70631e964b511140a5760e245f482751dc8edc3eeb2a9d34"
+        },
+        {
+          "mod_id": "ponder",
+          "version": "1.0.82",
+          "jar_path": "META-INF/jarjar/ponder-neoforge-1.0.82+mc1.21.1.jar",
+          "sha512": "d335337031fcef2b2d87f5d2d54b1dfecd024851c9d9892dd52060172186b2fc98703e8bd20df5c18dadb2b634a74578302b618d104b817279f50c6ae2575546"
+        },
+        {
+          "mod_id": "registrate",
+          "version": "1.3.0",
+          "jar_path": "META-INF/jarjar/Registrate-MC1.21-1.3.0+67.jar",
+          "sha512": "f6916f59065297b86684f67a573b3fabff07034ec5f1ea260f211423f9e0c5f370bc25a67b52b6cfe0ba4698ddc4ab569e7e4c9533e1e71f7189b38892e348bb"
+        }
+      ]
+    },
+    {
+      "slug": "create-crafts-additions",
+      "mod_id": "createaddition",
+      "title": "Create Crafts & Additions",
+      "project_id": "kU1G12Nn",
+      "version_id": "qPr8V4G2",
+      "version": "neoforge-1.21.1-1.6.0",
+      "release_type": "release",
+      "purpose": "Электричество и связь кинетической энергии Create",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [
+        "create"
+      ],
+      "upstream_sides": {
+        "client": "required",
+        "server": "required"
+      },
+      "license": {
+        "id": "MIT",
+        "name": "MIT",
+        "url": "https://github.com/mrh0/createaddition/blob/1.21/LICENSE"
+      },
+      "project_url": "https://modrinth.com/mod/createaddition",
+      "version_url": "https://modrinth.com/mod/createaddition/version/qPr8V4G2",
+      "metadata_url": "https://api.modrinth.com/v2/version/qPr8V4G2",
+      "file": {
+        "name": "createaddition-1.6.0.jar",
+        "url": "https://cdn.modrinth.com/data/kU1G12Nn/versions/qPr8V4G2/createaddition-1.6.0.jar",
+        "size": 1661802,
+        "sha512": "e3a31eefb15d37bd1a2ba9012d0c00ec92f7c9e57b7a35c993676ea0cc85ba4f35a055a9f98d57636f24a0562d6da18b4e90713f4f46d47959666a097a6a5cea",
+        "sha1": "87b539d41ed238e98b26c607c0c81a973323147e"
+      },
+      "manifest_path": "META-INF/neoforge.mods.toml",
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.1.219,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "create",
+          "type": "required",
+          "version_range": "[6.0.7,6.1.0)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "jei",
+          "type": "optional",
+          "version_range": "[15.0.0.0,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "computercraft",
+          "type": "optional",
+          "version_range": "[0,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "simulated",
+          "type": "optional",
+          "version_range": "[0,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21.1]",
+          "side": "BOTH"
+        }
+      ],
+      "bundled_dependencies": [
+        {
+          "mod_id": "sable_companion",
+          "version": "1.6.0",
+          "jar_path": "META-INF/jarjar/sable-companion-common-1.21.1-1.6.0.jar",
+          "sha512": "af2be02329a9140fd36ca0396d2cf0302a263b085815a7309584b2734993660afd52597572b1367d3fc9cb152496fd98eb628b2d8af7a3d5268b2cc23f49a8d7"
+        }
+      ]
+    },
+    {
+      "slug": "simple-voice-chat",
+      "mod_id": "voicechat",
+      "title": "Simple Voice Chat",
+      "project_id": "9eGKb6K1",
+      "version_id": "2s7zUspF",
+      "version": "neoforge-1.21.1-2.6.22",
+      "release_type": "release",
+      "purpose": "Proximity voice chat and private group voice channels",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [],
+      "upstream_sides": {
+        "client": "required",
+        "server": "required"
+      },
+      "license": {
+        "id": "LicenseRef-All-Rights-Reserved",
+        "name": "All rights reserved",
+        "url": "https://modrepo.de/minecraft/voicechat/overview"
+      },
+      "project_url": "https://modrinth.com/plugin/simple-voice-chat",
+      "version_url": "https://modrinth.com/plugin/simple-voice-chat/version/2s7zUspF",
+      "metadata_url": "https://api.modrinth.com/v2/version/2s7zUspF",
+      "file": {
+        "name": "voicechat-neoforge-1.21.1-2.6.22.jar",
+        "url": "https://cdn.modrinth.com/data/9eGKb6K1/versions/2s7zUspF/voicechat-neoforge-1.21.1-2.6.22.jar",
+        "size": 4918442,
+        "sha512": "309e3b18e299b2bccf9128dbb05c2603a9860f7cd68858d23f8fdb8265ea85ec7fb1655c95b87c0a9522ae1fd6380b26e4a4c31207f9c7af80870fcc6207abad",
+        "sha1": "3b2001d8df61fe6dc03dcd5f5cd4a8f49821feb0"
+      },
+      "manifest_path": "META-INF/neoforge.mods.toml",
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.0.0-beta,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21,1.21.1]",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "cloth_config",
+          "type": "optional",
+          "version_range": "[15.0.127,)",
+          "side": "BOTH"
+        }
+      ]
+    },
+    {
+      "slug": "towns-and-towers",
+      "mod_id": "t_and_t",
+      "title": "Towns and Towers",
+      "project_id": "DjLobEOy",
+      "version_id": "DZxwgj6V",
+      "version": "1.13.11",
+      "release_type": "release",
+      "purpose": "Дополнительные деревни, аванпосты и корабли в новых чанках",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [
+        "cristellib"
+      ],
+      "upstream_sides": {
+        "client": "optional",
+        "server": "required"
+      },
+      "license": {
+        "id": "CC-BY-NC-SA-4.0",
+        "name": "Creative Commons Attribution Non Commercial Share Alike 4.0 International",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/towns-and-towers",
+      "version_url": "https://modrinth.com/mod/towns-and-towers/version/DZxwgj6V",
+      "metadata_url": "https://api.modrinth.com/v2/version/DZxwgj6V",
+      "file": {
+        "name": "t_and_t-fabric-neoforge-1.13.11.jar",
+        "url": "https://cdn.modrinth.com/data/DjLobEOy/versions/DZxwgj6V/t_and_t-fabric-neoforge-1.13.11.jar",
+        "size": 3553006,
+        "sha512": "7464b1556250ceee25b4b531e07f65568c98a9d26f97232c1f6016be63ff243891de8283e072981deb968ea7d8b83bdc1579ee842b6b792446f4c26a43af4b62",
+        "sha1": "8f00e36a11568c0b66bbdf5c0e9ee492e511b303"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.1.230,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21.1,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "cristellib",
+          "type": "required",
+          "version_range": "[3.1.7,)",
+          "side": "BOTH"
+        }
+      ]
+    },
+    {
+      "slug": "cristel-lib",
+      "mod_id": "cristellib",
+      "title": "Cristel Lib",
+      "project_id": "cl223EMc",
+      "version_id": "Sduz0AWP",
+      "version": "neoforge-1.21.1-3.1.7",
+      "release_type": "release",
+      "purpose": "Библиотека Towns and Towers",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [
+        "cloth_config"
+      ],
+      "upstream_sides": {
+        "client": "optional",
+        "server": "required"
+      },
+      "license": {
+        "id": "CC-BY-NC-ND-4.0",
+        "name": "Creative Commons Attribution Non Commercial No Derivatives 4.0 International",
+        "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/"
+      },
+      "project_url": "https://modrinth.com/mod/cristel-lib",
+      "version_url": "https://modrinth.com/mod/cristel-lib/version/Sduz0AWP",
+      "metadata_url": "https://api.modrinth.com/v2/version/Sduz0AWP",
+      "file": {
+        "name": "cristellib-neoforge-1.21.1-3.1.7.jar",
+        "url": "https://cdn.modrinth.com/data/cl223EMc/versions/Sduz0AWP/cristellib-neoforge-1.21.1-3.1.7.jar",
+        "size": 583525,
+        "sha512": "6d21ceb6cd91e63a248251ded3812208ed5ea4f36abb11e8c6e16aa119a95b0e714f59ec7689ae1b1248c9831e5e3e63aa681aa7dfa9b220d93741118466cbd6",
+        "sha1": "d250804b7ecea365bc736ec36ec6fc3f933917f1"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.1,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21.1,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "t_and_t",
+          "type": "incompatible",
+          "version_range": "(,1.13.3]",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "expanded_ecosphere",
+          "type": "incompatible",
+          "version_range": "[0,3.4.3]",
+          "side": "BOTH"
+        }
+      ]
+    },
+    {
+      "slug": "cloth-config",
+      "mod_id": "cloth_config",
+      "title": "Cloth Config API",
+      "project_id": "9s6osm5g",
+      "version_id": "izKINKFg",
+      "version": "15.0.140+neoforge",
+      "release_type": "release",
+      "purpose": "Библиотека настроек Cristel Lib",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [],
+      "upstream_sides": {
+        "client": "optional",
+        "server": "optional"
+      },
+      "license": {
+        "id": "LGPL-3.0-only",
+        "name": "GNU Lesser General Public License v3.0 only",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/cloth-config",
+      "version_url": "https://modrinth.com/mod/cloth-config/version/izKINKFg",
+      "metadata_url": "https://api.modrinth.com/v2/version/izKINKFg",
+      "file": {
+        "name": "cloth-config-15.0.140-neoforge.jar",
+        "url": "https://cdn.modrinth.com/data/9s6osm5g/versions/izKINKFg/cloth-config-15.0.140-neoforge.jar",
+        "size": 1163890,
+        "sha512": "aaf9b010955b8cd294e5a92f069985b18729fd5e2cf22d351f1dff9680f15488688803ec41e77e941cbde130ceb535014ca4c868047d80ab69c2d508e216654d",
+        "sha1": "c3e5733ba4503b102589a026000fd5ce0212f6f2"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.0.110-beta,)",
+          "side": "BOTH"
+        }
+      ]
+    },
+    {
+      "slug": "jei",
+      "mod_id": "jei",
+      "title": "Just Enough Items (JEI)",
+      "project_id": "u6dRKJwZ",
+      "version_id": "ufHUqt9b",
+      "version": "19.51.0.418",
+      "release_type": "release",
+      "purpose": "Основной просмотр предметов и рецептов",
+      "install_sides": [
+        "client"
+      ],
+      "requires": [],
+      "upstream_sides": {
+        "client": "optional",
+        "server": "optional"
+      },
+      "license": {
+        "id": "MIT",
+        "name": "MIT License",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/jei",
+      "version_url": "https://modrinth.com/mod/jei/version/ufHUqt9b",
+      "metadata_url": "https://api.modrinth.com/v2/version/ufHUqt9b",
+      "file": {
+        "name": "jei-1.21.1-neoforge-19.51.0.418.jar",
+        "url": "https://cdn.modrinth.com/data/u6dRKJwZ/versions/ufHUqt9b/jei-1.21.1-neoforge-19.51.0.418.jar",
+        "size": 1804792,
+        "sha512": "a6ca3abc3080f6f41033a77cb955fefe9f9ebae795c33546227f555b2d31e8d4131cc705126d14a3fbabb31097fc0e876dc0bbeb05ad907a1b796f21e57527bf",
+        "sha1": "d19552586f686eae4ef5e7199f31604d1d3cfca7"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.1.238,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21, 1.21.1)",
+          "side": "BOTH"
+        }
+      ]
+    },
+    {
+      "slug": "just-enough-resources-jer",
+      "mod_id": "jeresources",
+      "title": "Just Enough Resources (JER)",
+      "project_id": "uEfK2CXF",
+      "version_id": "XOsqpm0l",
+      "version": "1.6.0.12",
+      "release_type": "beta",
+      "purpose": "Информация о ресурсах и добыче через JEI",
+      "install_sides": [
+        "client"
+      ],
+      "requires": [
+        "jei"
+      ],
+      "upstream_sides": {
+        "client": "required",
+        "server": "unsupported"
+      },
+      "license": {
+        "id": "LicenseRef-Dont-Be-a-Jerk",
+        "name": "",
+        "url": "https://github.com/way2muchnoise/JustEnoughResources/blob/master/LICENSE.md"
+      },
+      "project_url": "https://modrinth.com/mod/just-enough-resources-jer",
+      "version_url": "https://modrinth.com/mod/just-enough-resources-jer/version/XOsqpm0l",
+      "metadata_url": "https://api.modrinth.com/v2/version/XOsqpm0l",
+      "file": {
+        "name": "JustEnoughResources-NeoForge-1.21.1-1.6.0.12.jar",
+        "url": "https://cdn.modrinth.com/data/uEfK2CXF/versions/XOsqpm0l/JustEnoughResources-NeoForge-1.21.1-1.6.0.12.jar",
+        "size": 286072,
+        "sha512": "276a335c917ccc76a0e18b93faf25d26cbfb4ca1136ee012077f1ca0fd7f7abff5f6bbc73939efa5511a0c2d92983f619b0ea9dcf8e3df830c60a2edfd9b18dd",
+        "sha1": "36dadee431118e7b7912cf8981d4afa7992dc93d"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "jei",
+          "type": "required",
+          "version_range": "[16.0.0,)",
+          "side": "BOTH"
+        }
+      ]
+    },
+    {
+      "slug": "the-twilight-forest",
+      "mod_id": "twilightforest",
+      "title": "The Twilight Forest",
+      "project_id": "227639",
+      "version_id": "7797302",
+      "version": "4.8.3345",
+      "release_type": "release",
+      "purpose": "Приключенческое измерение с последовательностью боссов и данжами",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [],
+      "upstream_sides": {
+        "client": "required",
+        "server": "required"
+      },
+      "license": {
+        "id": "LGPL-2.1",
+        "url": "https://github.com/TeamTwilight/twilightforest/blob/1.21.x/LICENSE"
+      },
+      "distribution_platform": "curseforge",
+      "project_url": "https://www.curseforge.com/minecraft/mc-mods/the-twilight-forest",
+      "version_url": "https://www.curseforge.com/minecraft/mc-mods/the-twilight-forest/files/7797302",
+      "metadata_url": "https://www.curseforge.com/minecraft/mc-mods/the-twilight-forest/files/7797302",
+      "file": {
+        "name": "twilightforest-1.21.1-4.8.3345-universal.jar",
+        "url": "https://mediafilez.forgecdn.net/files/7797/302/twilightforest-1.21.1-4.8.3345-universal.jar",
+        "size": 27154121,
+        "sha512": "371dd7079b174091363327df70ed64c84e8e36fcab49b4c33bbcbe39650f6bccc12d3e14818cdfbbaa519a999f64a0a92c03ec981f55a315b044dc7cb5c27ef4",
+        "sha1": "9cfd4154928433e2f1f6cfc3deb48c284debb580"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.1.209,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21.1]",
+          "side": "BOTH"
+        }
+      ]
+    },
+    {
+      "slug": "ftb-library-forge",
+      "mod_id": "ftblibrary",
+      "title": "FTB Library",
+      "project_id": "404465",
+      "version_id": "9008089",
+      "version": "2101.1.37",
+      "release_type": "release",
+      "purpose": "Зависимость личной книги заданий",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [
+        "architectury"
+      ],
+      "upstream_sides": {
+        "client": "required",
+        "server": "required"
+      },
+      "license": {
+        "id": "LicenseRef-All-Rights-Reserved",
+        "url": "https://www.curseforge.com/minecraft/mc-mods/ftb-library-forge"
+      },
+      "distribution_platform": "curseforge",
+      "project_url": "https://www.curseforge.com/minecraft/mc-mods/ftb-library-forge",
+      "version_url": "https://www.curseforge.com/minecraft/mc-mods/ftb-library-forge/files/9008089",
+      "metadata_url": "https://www.curseforge.com/minecraft/mc-mods/ftb-library-forge/files/9008089",
+      "file": {
+        "name": "ftb-library-neoforge-2101.1.37.jar",
+        "url": "https://mediafilez.forgecdn.net/files/9008/89/ftb-library-neoforge-2101.1.37.jar",
+        "size": 1439881,
+        "sha512": "36f7e2fd41de638b044ad2b391f69f276ab28df3d86cf9d83638a2e0432ef151e1737ce60d671901d0a3b49424c9ba1a09c0293fc0c6637871020b46feae9159",
+        "sha1": "b6e503587afcd678ec257e4abdc6362ff18c2fef"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.1.0,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21.1,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "architectury",
+          "type": "required",
+          "version_range": "[13.0.6,)",
+          "side": "BOTH"
+        }
+      ]
+    },
+    {
+      "slug": "ftb-teams-forge",
+      "mod_id": "ftbteams",
+      "title": "FTB Teams",
+      "project_id": "404468",
+      "version_id": "8724782",
+      "version": "2101.1.11",
+      "release_type": "release",
+      "purpose": "Зависимость личной книги заданий",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [
+        "ftblibrary",
+        "architectury"
+      ],
+      "upstream_sides": {
+        "client": "required",
+        "server": "required"
+      },
+      "license": {
+        "id": "LicenseRef-All-Rights-Reserved",
+        "url": "https://www.curseforge.com/minecraft/mc-mods/ftb-teams-forge"
+      },
+      "distribution_platform": "curseforge",
+      "project_url": "https://www.curseforge.com/minecraft/mc-mods/ftb-teams-forge",
+      "version_url": "https://www.curseforge.com/minecraft/mc-mods/ftb-teams-forge/files/8724782",
+      "metadata_url": "https://www.curseforge.com/minecraft/mc-mods/ftb-teams-forge/files/8724782",
+      "file": {
+        "name": "ftb-teams-neoforge-2101.1.11.jar",
+        "url": "https://mediafilez.forgecdn.net/files/8724/782/ftb-teams-neoforge-2101.1.11.jar",
+        "size": 308236,
+        "sha512": "21c9350c6c7ec54ee54b74f2bdc0a44f91005bedda3caf27d673b2f2bcad1dbef5aec970201ec8e959db2a1743ceb2e24ae99a9e36744dce740a0ab1dad01c52",
+        "sha1": "62b65f752d0326edd13244e58d5f2aec035da4e9"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.1.0,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21.1,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "architectury",
+          "type": "required",
+          "version_range": "[13.0.8,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "ftblibrary",
+          "type": "required",
+          "version_range": "[2101.1.30,)",
+          "side": "BOTH"
+        }
+      ]
+    },
+    {
+      "slug": "ftb-quests-forge",
+      "mod_id": "ftbquests",
+      "title": "FTB Quests",
+      "project_id": "289412",
+      "version_id": "8885017",
+      "version": "2101.1.36",
+      "release_type": "release",
+      "purpose": "Личная книга заданий AnimeOnCraft",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [
+        "ftblibrary",
+        "ftbteams",
+        "architectury"
+      ],
+      "upstream_sides": {
+        "client": "required",
+        "server": "required"
+      },
+      "license": {
+        "id": "LicenseRef-All-Rights-Reserved",
+        "url": "https://www.curseforge.com/minecraft/mc-mods/ftb-quests-forge"
+      },
+      "distribution_platform": "curseforge",
+      "project_url": "https://www.curseforge.com/minecraft/mc-mods/ftb-quests-forge",
+      "version_url": "https://www.curseforge.com/minecraft/mc-mods/ftb-quests-forge/files/8885017",
+      "metadata_url": "https://www.curseforge.com/minecraft/mc-mods/ftb-quests-forge/files/8885017",
+      "file": {
+        "name": "ftb-quests-neoforge-2101.1.36.jar",
+        "url": "https://mediafilez.forgecdn.net/files/8885/17/ftb-quests-neoforge-2101.1.36.jar",
+        "size": 1609984,
+        "sha512": "35298874f77fc15d1b66478092ec447db73ddaf699431e1529e41a5b4c421abf9cddc0d491385e45862eec816ade0bfbb92f267a035bfe2587b2b82683b61ad1",
+        "sha1": "b2ede29b98a3022c22065fbe9b1761e385a28683"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.1.0,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21.1,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "architectury",
+          "type": "required",
+          "version_range": "[13.0.8,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "ftblibrary",
+          "type": "required",
+          "version_range": "[2101.1.36,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "ftbteams",
+          "type": "required",
+          "version_range": "[2101.1.9,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "ftbxmodcompat",
+          "type": "optional",
+          "version_range": "[21.1.7,)",
+          "side": "BOTH"
+        }
+      ]
+    },
+    {
+      "slug": "architectury-api",
+      "mod_id": "architectury",
+      "title": "Architectury API",
+      "project_id": "lhGA9TYQ",
+      "version_id": "1IiqEQGl",
+      "version": "13.0.11+neoforge",
+      "release_type": "release",
+      "purpose": "Библиотека FTB",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [],
+      "upstream_sides": {
+        "client": "required",
+        "server": "required"
+      },
+      "license": {
+        "id": "LGPL-3.0-only",
+        "name": "GNU Lesser General Public License v3.0 only",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/architectury-api",
+      "version_url": "https://modrinth.com/mod/architectury-api/version/1IiqEQGl",
+      "metadata_url": "https://api.modrinth.com/v2/version/1IiqEQGl",
+      "file": {
+        "name": "architectury-13.0.11-neoforge.jar",
+        "url": "https://cdn.modrinth.com/data/lhGA9TYQ/versions/1IiqEQGl/architectury-13.0.11-neoforge.jar",
+        "size": 584734,
+        "sha512": "d9f7c3bb8162577dfb461ffdf04bd6a3563c7586934a0e2a744c14421beffb8286f0d88d4c758317003f20f99fe8072a39b9d675af061e036970d36db36027f0",
+        "sha1": "008656a0702801174b8ec245ed7aad1921d6e9f1"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.0.110-beta,)",
+          "side": "BOTH"
+        }
+      ]
+    },
+    {
+      "slug": "sophisticated-core",
+      "mod_id": "sophisticatedcore",
+      "title": "Sophisticated Core",
+      "project_id": "nmoqTijg",
+      "version_id": "oTvXRMtK",
+      "version": "1.21.1-1.5.14.2413",
+      "release_type": "release",
+      "purpose": "Общая библиотека рюкзаков и хранилищ",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [],
+      "upstream_sides": {
+        "client": "required",
+        "server": "required"
+      },
+      "license": {
+        "id": "LicenseRef-All-Rights-Reserved",
+        "name": "",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/sophisticated-core",
+      "version_url": "https://modrinth.com/mod/sophisticated-core/version/oTvXRMtK",
+      "metadata_url": "https://api.modrinth.com/v2/version/oTvXRMtK",
+      "file": {
+        "name": "sophisticatedcore-1.21.1-1.5.14.2413.jar",
+        "url": "https://cdn.modrinth.com/data/nmoqTijg/versions/oTvXRMtK/sophisticatedcore-1.21.1-1.5.14.2413.jar",
+        "size": 1818280,
+        "sha512": "16acfd3553eacfa8d8a98751e5156ba445da0ae8759d7dd6521a101f94e09bfbaf01aa8e04577059b05be296a8fb20a5959191b86402d1989c11451f001af0d5",
+        "sha1": "cd3ae95c07e2e25222eaeb2815f1b1a2450edfb4"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "jei",
+          "type": "optional",
+          "version_range": "[19.32.0.359,)",
+          "side": "CLIENT"
+        },
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.1.229,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21.1,1.21.2)",
+          "side": "BOTH"
+        }
+      ]
+    },
+    {
+      "slug": "sophisticated-backpacks",
+      "mod_id": "sophisticatedbackpacks",
+      "title": "Sophisticated Backpacks",
+      "project_id": "TyCTlI4b",
+      "version_id": "QkVLEgt1",
+      "version": "1.21.1-3.26.12.2208",
+      "release_type": "release",
+      "purpose": "Рюкзаки для исследований",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [
+        "sophisticatedcore"
+      ],
+      "upstream_sides": {
+        "client": "required",
+        "server": "required"
+      },
+      "license": {
+        "id": "LicenseRef-All-Rights-Reserved",
+        "name": "",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/sophisticated-backpacks",
+      "version_url": "https://modrinth.com/mod/sophisticated-backpacks/version/QkVLEgt1",
+      "metadata_url": "https://api.modrinth.com/v2/version/QkVLEgt1",
+      "file": {
+        "name": "sophisticatedbackpacks-1.21.1-3.26.12.2208.jar",
+        "url": "https://cdn.modrinth.com/data/TyCTlI4b/versions/QkVLEgt1/sophisticatedbackpacks-1.21.1-3.26.12.2208.jar",
+        "size": 1247030,
+        "sha512": "19b503080d0bd0e522e0934fda0b4922f2f0d5ad946103e5daf86be86e01e5e8ec6744f34e915b41fc4d1578fc6cacf004cca5d10ab8bdf76d2f26831e07bb65",
+        "sha1": "36c1a14f2dc47c890df9b6b74387e731355d37a6"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "sophisticatedcore",
+          "type": "required",
+          "version_range": "[1.5.9,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.1.229,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21.1,1.21.2)",
+          "side": "BOTH"
+        }
+      ]
+    },
+    {
+      "slug": "sophisticated-storage",
+      "mod_id": "sophisticatedstorage",
+      "title": "Sophisticated Storage",
+      "project_id": "hMlaZH8f",
+      "version_id": "6B0lbqeG",
+      "version": "1.21.1-1.6.7.2184",
+      "release_type": "release",
+      "purpose": "Улучшаемые клановые склады",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [
+        "sophisticatedcore"
+      ],
+      "upstream_sides": {
+        "client": "required",
+        "server": "required"
+      },
+      "license": {
+        "id": "LicenseRef-All-Rights-Reserved",
+        "name": "",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/sophisticated-storage",
+      "version_url": "https://modrinth.com/mod/sophisticated-storage/version/6B0lbqeG",
+      "metadata_url": "https://api.modrinth.com/v2/version/6B0lbqeG",
+      "file": {
+        "name": "sophisticatedstorage-1.21.1-1.6.7.2184.jar",
+        "url": "https://cdn.modrinth.com/data/hMlaZH8f/versions/6B0lbqeG/sophisticatedstorage-1.21.1-1.6.7.2184.jar",
+        "size": 1932850,
+        "sha512": "3bacf60d993fb63dd437af047d392e452f126a1f3c2ec227e03469b457bd7a15d638f9f076fefaeec5705d0e62b923e1bf202aa9fd5288b55c381ecc3f5e0a6c",
+        "sha1": "936b7edfb9e47612345990cc9440e043809120e1"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "sophisticatedcore",
+          "type": "required",
+          "version_range": "[1.5.12,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "jei",
+          "type": "optional",
+          "version_range": "[19.9.0,)",
+          "side": "CLIENT"
+        },
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.1.229,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21.1,1.21.2)",
+          "side": "BOTH"
+        }
+      ]
+    },
+    {
+      "slug": "mouse-tweaks",
+      "mod_id": "mousetweaks",
+      "title": "Mouse Tweaks",
+      "project_id": "aC3cM3Vq",
+      "version_id": "9I21YYxf",
+      "version": "1.21-2.26.1-neoforge",
+      "release_type": "release",
+      "purpose": "Удобный перенос предметов мышью",
+      "install_sides": [
+        "client"
+      ],
+      "requires": [],
+      "upstream_sides": {
+        "client": "required",
+        "server": "unsupported"
+      },
+      "license": {
+        "id": "BSD-3-Clause",
+        "name": "BSD 3-Clause \"New\" or \"Revised\" License",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/mouse-tweaks",
+      "version_url": "https://modrinth.com/mod/mouse-tweaks/version/9I21YYxf",
+      "metadata_url": "https://api.modrinth.com/v2/version/9I21YYxf",
+      "file": {
+        "name": "MouseTweaks-neoforge-mc1.21-2.26.1.jar",
+        "url": "https://cdn.modrinth.com/data/aC3cM3Vq/versions/9I21YYxf/MouseTweaks-neoforge-mc1.21-2.26.1.jar",
+        "size": 73938,
+        "sha512": "f95c0cc881211ee0442434976775e07aae40b4a2ba4e3a85455bc57ca9d3c991e239cd98374a8abd442dc9c378dcd9001e2caa1bf69991d424b5652dd7f3483b",
+        "sha1": "6dae57f4f50f7808d2ed9a18f6cd1c0d4640c6bc"
+      },
+      "manifest_constraints": []
+    },
+    {
+      "slug": "farmers-delight",
+      "mod_id": "farmersdelight",
+      "title": "Farmer's Delight",
+      "project_id": "R2OftAxM",
+      "version_id": "XTVZDOol",
+      "version": "1.21.1-1.3.4",
+      "release_type": "release",
+      "purpose": "Фермерство и приготовление еды",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [],
+      "upstream_sides": {
+        "client": "required",
+        "server": "required"
+      },
+      "license": {
+        "id": "MIT",
+        "name": "MIT License",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/farmers-delight",
+      "version_url": "https://modrinth.com/mod/farmers-delight/version/XTVZDOol",
+      "metadata_url": "https://api.modrinth.com/v2/version/XTVZDOol",
+      "file": {
+        "name": "FarmersDelight-1.21.1-1.3.4.jar",
+        "url": "https://cdn.modrinth.com/data/R2OftAxM/versions/XTVZDOol/FarmersDelight-1.21.1-1.3.4.jar",
+        "size": 3160490,
+        "sha512": "1f6f8796469f747cff36f477b4f589a3d69613882399f9ee7f86db36c7bca9aa4828731f43db15dc6c7f5a4c1bbe3d4092a232e8cef010b09cec0581848fda90",
+        "sha1": "27675ddfcb8cc37e6ea1ab6c15051c7949d94657"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.1.219,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21.1]",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "crafttweaker",
+          "type": "optional",
+          "version_range": "[14.0.6,)",
+          "side": "BOTH"
+        }
+      ]
+    },
+    {
+      "slug": "copycats",
+      "mod_id": "copycats",
+      "title": "Create: Copycats+",
+      "project_id": "UT2M39wf",
+      "version_id": "bPYeUWZx",
+      "version": "3.0.9+mc.1.21.1-neoforge",
+      "release_type": "release",
+      "purpose": "Строительные формы из выбранных материалов",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [
+        "create"
+      ],
+      "upstream_sides": {
+        "client": "required",
+        "server": "required"
+      },
+      "license": {
+        "id": "LicenseRef-All-Rights-Reserved",
+        "name": "",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/copycats",
+      "version_url": "https://modrinth.com/mod/copycats/version/bPYeUWZx",
+      "metadata_url": "https://api.modrinth.com/v2/version/bPYeUWZx",
+      "file": {
+        "name": "copycats-3.0.9+mc.1.21.1-neoforge.jar",
+        "url": "https://cdn.modrinth.com/data/UT2M39wf/versions/bPYeUWZx/copycats-3.0.9%2Bmc.1.21.1-neoforge.jar",
+        "size": 1799381,
+        "sha512": "432b5cde473976476b0729172710d32805576d0c3a5fd66d21f882d96cef0c4eef1b85e4e3a1a316e2adc473784b11e156b0265b0f62bcfd5b035a6ff7dfcc6e",
+        "sha1": "74de17876c43f5f780bac478b9f9eb11e687b8d7"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.1.200,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21.1,1.22)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "create",
+          "type": "required",
+          "version_range": "[6.0.8,)",
+          "side": "BOTH"
+        }
+      ]
+    },
+    {
+      "slug": "create-new-furnitures",
+      "mod_id": "create_furnitures",
+      "title": "Create: New Furnitures",
+      "project_id": "1162995",
+      "version_id": "6678349",
+      "version": "1.1.2",
+      "release_type": "release",
+      "purpose": "Промышленная мебель в стиле Create",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [
+        "create"
+      ],
+      "upstream_sides": {
+        "client": "required",
+        "server": "required"
+      },
+      "license": {
+        "id": "LicenseRef-All-Rights-Reserved"
+      },
+      "distribution_platform": "curseforge",
+      "project_url": "https://www.curseforge.com/minecraft/mc-mods/create-new-furnitures",
+      "version_url": "https://www.curseforge.com/minecraft/mc-mods/create-new-furnitures/files/6678349",
+      "metadata_url": "https://www.curseforge.com/minecraft/mc-mods/create-new-furnitures/files/6678349",
+      "file": {
+        "name": "create_furnitures-1.1.2-neoforge-1.21.1.jar",
+        "url": "https://mediafilez.forgecdn.net/files/6678/349/create_furnitures-1.1.2-neoforge-1.21.1.jar",
+        "size": 514394,
+        "sha512": "bd9b6e1d02e280bd9798d85844fcac8cd913d8ba66a36209cb34420b1b087e9367f82b89cd7cc4472c58a3a88bccf839f9e25e312090bcaa5b38882efc34a9ea",
+        "sha1": "0c10c3a0aac7b095b295d89aca6f76399d9e035f"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.1.65,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21.1]",
+          "side": "BOTH"
+        }
+      ]
+    },
+    {
+      "slug": "balm",
+      "mod_id": "balm",
+      "title": "Balm",
+      "project_id": "MBAkmtvl",
+      "version_id": "CquiaiDj",
+      "version": "21.0.66+neoforge-1.21.1",
+      "release_type": "release",
+      "purpose": "Abstraction Layer for Multi-Loader Mods",
+      "manifest_version": "21.0.66",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [],
+      "upstream_sides": {
+        "client": "optional",
+        "server": "optional"
+      },
+      "license": {
+        "id": "LicenseRef-All-Rights-Reserved",
+        "name": "",
+        "url": "https://mods.twelveiterations.com/permissions"
+      },
+      "project_url": "https://modrinth.com/mod/balm",
+      "version_url": "https://modrinth.com/mod/balm/version/CquiaiDj",
+      "metadata_url": "https://api.modrinth.com/v2/version/CquiaiDj",
+      "file": {
+        "name": "balm-neoforge-1.21.1-21.0.66.jar",
+        "url": "https://cdn.modrinth.com/data/MBAkmtvl/versions/CquiaiDj/balm-neoforge-1.21.1-21.0.66.jar",
+        "size": 783793,
+        "sha512": "0262d51c0e931d10c3dccefb3b5426a1622edecab243d4b15dce07a23309641370184776739765067d292d808242d088c6fbf249762689824eff9ba42c2d1e63",
+        "sha1": "dd3606a349f4a3c8fb5bd0ab22905675c02b0d74"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.0.82-beta,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21.1,)",
+          "side": "BOTH"
+        }
+      ],
+      "bundled_dependencies": [
+        {
+          "mod_id": "kuma_api",
+          "version": "21.0.8",
+          "jar_path": "META-INF/jarjar/kuma-api-neoforge-21.0.8+1.21.jar",
+          "sha512": "1db164614b84426d2e51acee535655acb14c0b7308c2a339a7665fac6a95f3baae743e8dc5e275ca36b4e48beceeff0fefca30a6ba10bf402fdbb31a5c8bee92"
+        }
+      ]
+    },
+    {
+      "slug": "biomes-o-plenty",
+      "mod_id": "biomesoplenty",
+      "title": "Biomes O' Plenty",
+      "project_id": "HXF82T3G",
+      "version_id": "BtZKRp69",
+      "version": "21.1.0.14",
+      "release_type": "beta",
+      "purpose": "Adds 50+ unique biomes to enhance your world, with new trees, flowers, and more!",
+      "manifest_version": "21.1.0.14",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [
+        "glitchcore",
+        "terrablender"
+      ],
+      "upstream_sides": {
+        "client": "required",
+        "server": "required"
+      },
+      "license": {
+        "id": "LicenseRef-All-Rights-Reserved",
+        "name": "",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/biomes-o-plenty",
+      "version_url": "https://modrinth.com/mod/biomes-o-plenty/version/BtZKRp69",
+      "metadata_url": "https://api.modrinth.com/v2/version/BtZKRp69",
+      "file": {
+        "name": "BiomesOPlenty-neoforge-1.21.1-21.1.0.14.jar",
+        "url": "https://cdn.modrinth.com/data/HXF82T3G/versions/BtZKRp69/BiomesOPlenty-neoforge-1.21.1-21.1.0.14.jar",
+        "size": 22338156,
+        "sha512": "1569d9ed5b619f99d61a7cf1b2d886b278df2905b3ce9324f8e7a17c5c960312ec681cc06f1ad96644bde2cdc60440d8be9952f0ee0f84f7937210f46fbb21d7",
+        "sha1": "294ae397c011980623bf155f9dfce82bb81865a0"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.1,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "glitchcore",
+          "type": "required",
+          "version_range": "[2.1.0.0,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "terrablender",
+          "type": "required",
+          "version_range": "[4.1.0.0,)",
+          "side": "BOTH"
+        }
+      ],
+      "bundled_dependencies": []
+    },
+    {
+      "slug": "cerbons-api",
+      "mod_id": "cerbons_api",
+      "title": "CERBON's API",
+      "project_id": "GkIc6rRo",
+      "version_id": "5wbxkBQ1",
+      "version": "1.3.0",
+      "release_type": "release",
+      "purpose": "A library mod for CERBON's Minecraft Mods",
+      "manifest_version": "1.3.0",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [],
+      "upstream_sides": {
+        "client": "required",
+        "server": "required"
+      },
+      "license": {
+        "id": "LGPL-3.0-only",
+        "name": "GNU Lesser General Public License v3.0 only",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/cerbons-api",
+      "version_url": "https://modrinth.com/mod/cerbons-api/version/5wbxkBQ1",
+      "metadata_url": "https://api.modrinth.com/v2/version/5wbxkBQ1",
+      "file": {
+        "name": "CerbonsAPI-NeoForge-1.21-1.3.0.jar",
+        "url": "https://cdn.modrinth.com/data/GkIc6rRo/versions/5wbxkBQ1/CerbonsAPI-NeoForge-1.21-1.3.0.jar",
+        "size": 250545,
+        "sha512": "6bd24b718d532cdd0c49150eefc223b4d7c3550bbc81d5c65ed84b704bf3c8e20d3cb3524082688383cc4aba38e190921976b056b84d5755670c5399a7c7e627",
+        "sha1": "3f0d3eed4633d9ef3a713de4b39ee4e683aa9389"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.0,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21,1.22)",
+          "side": "BOTH"
+        }
+      ],
+      "bundled_dependencies": []
+    },
+    {
+      "slug": "create-steam-n-rails-1.21.1",
+      "mod_id": "railways",
+      "title": "Steam 'n' Rails Neoforge",
+      "project_id": "L3Jv0QZI",
+      "version_id": "HOPX5oro",
+      "version": "0.2.1+neoforge-mc1.21.1",
+      "release_type": "release",
+      "purpose": "An unofficial port of Create: Steam 'n' Rails to 1.21.1.",
+      "manifest_version": "0.2.1+neoforge-mc1.21.1",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [
+        "create"
+      ],
+      "upstream_sides": {
+        "client": "required",
+        "server": "required"
+      },
+      "license": {
+        "id": "LGPL-3.0-or-later",
+        "name": "GNU Lesser General Public License v3.0 or later",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/create-steam-n-rails-1.21.1",
+      "version_url": "https://modrinth.com/mod/create-steam-n-rails-1.21.1/version/HOPX5oro",
+      "metadata_url": "https://api.modrinth.com/v2/version/HOPX5oro",
+      "file": {
+        "name": "railways-0.2.1+neoforge-mc1.21.1.jar",
+        "url": "https://cdn.modrinth.com/data/L3Jv0QZI/versions/HOPX5oro/railways-0.2.1%2Bneoforge-mc1.21.1.jar",
+        "size": 12118736,
+        "sha512": "dac8efb7c8b4b525114c2548bd2a8254d3b1e9e44664ba84b0f4e8467e1584029f8a219dd1ddf4389ab0a94e525183ee7753d33babdf319926cd63d2fc9cdffd",
+        "sha1": "f2d71927ef504b597a6c992d02118c1e6ee6e369"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.1.233,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21.1]",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "create",
+          "type": "required",
+          "version_range": "[6.0.7,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "hexcasting",
+          "type": "optional",
+          "version_range": "[0,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "voicechat",
+          "type": "optional",
+          "version_range": "[0,)",
+          "side": "BOTH"
+        }
+      ],
+      "bundled_dependencies": []
+    },
+    {
+      "slug": "ct-overhaul-village",
+      "mod_id": "ctov",
+      "title": "ChoiceTheorem's Overhauled Village",
+      "project_id": "fgmhI8kH",
+      "version_id": "ztzRUnQ7",
+      "version": "3.6.3",
+      "release_type": "release",
+      "purpose": "Enhances and creates new villages and pillager outposts, that perfectly fit into your Minecraft world.",
+      "manifest_version": "3.6.3",
+      "install_sides": [
+        "server"
+      ],
+      "requires": [
+        "lithostitched"
+      ],
+      "upstream_sides": {
+        "client": "unsupported",
+        "server": "required"
+      },
+      "license": {
+        "id": "CC-BY-NC-ND-4.0",
+        "name": "Creative Commons Attribution Non Commercial No Derivatives 4.0 International",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/ct-overhaul-village",
+      "version_url": "https://modrinth.com/mod/ct-overhaul-village/version/ztzRUnQ7",
+      "metadata_url": "https://api.modrinth.com/v2/version/ztzRUnQ7",
+      "file": {
+        "name": "[Neoforge]ctov-3.6.3.jar",
+        "url": "https://cdn.modrinth.com/data/fgmhI8kH/versions/ztzRUnQ7/%5BNeoforge%5Dctov-3.6.3.jar",
+        "size": 7139609,
+        "sha512": "174125e619f935ca016efaf7d6794edc57fae39ca02295ce63618ae2b286535e4da2084fd7f0ff9506c32c0ea35ceb68659bd646f65e6fbadfdb8fda299dc832",
+        "sha1": "c5fe733d743af20f84eb87dd75b5bb57684f3e05"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "lithostitched",
+          "type": "required",
+          "version_range": "[1.5,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.0.0,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21,)",
+          "side": "BOTH"
+        }
+      ],
+      "bundled_dependencies": []
+    },
+    {
+      "slug": "enderman-overhaul",
+      "mod_id": "endermanoverhaul",
+      "title": "Enderman Overhaul",
+      "project_id": "Lq6ojcWv",
+      "version_id": "TH9YXp9r",
+      "version": "2.0.3",
+      "release_type": "release",
+      "purpose": "Enderman Overhaul adds over 20 new enderman variants, each with their own sounds, models, and animations!",
+      "manifest_version": "2.0.3",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [
+        "resourcefullib",
+        "resourcefulconfig",
+        "geckolib"
+      ],
+      "upstream_sides": {
+        "client": "required",
+        "server": "required"
+      },
+      "license": {
+        "id": "LicenseRef-All-Rights-Reserved",
+        "name": "",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/enderman-overhaul",
+      "version_url": "https://modrinth.com/mod/enderman-overhaul/version/TH9YXp9r",
+      "metadata_url": "https://api.modrinth.com/v2/version/TH9YXp9r",
+      "file": {
+        "name": "endermanoverhaul-neoforge-1.21.1-2.0.3.jar",
+        "url": "https://cdn.modrinth.com/data/Lq6ojcWv/versions/TH9YXp9r/endermanoverhaul-neoforge-1.21.1-2.0.3.jar",
+        "size": 1330403,
+        "sha512": "d2032b35ed5dcf028a35a1d3da16a48b71d182fab1203bbf0f9f9123b99bb725730c60cdd8a9f48431c91f7ac9e04fa958aed842ee94114ade3a9418392ee6ab",
+        "sha1": "f71aa503738f2e23a8d939b7ea9f96f2fe203f11"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21.1,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "resourcefullib",
+          "type": "required",
+          "version_range": "[3.0.11,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "resourcefulconfig",
+          "type": "required",
+          "version_range": "[3.0.7,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "geckolib",
+          "type": "required",
+          "version_range": "[4.7,)",
+          "side": "BOTH"
+        }
+      ],
+      "bundled_dependencies": []
+    },
+    {
+      "slug": "fzzy-config",
+      "mod_id": "fzzy_config",
+      "title": "Fzzy Config",
+      "project_id": "hYykXjDp",
+      "version_id": "uG7oHgw6",
+      "version": "0.7.7+1.21+neoforge",
+      "release_type": "release",
+      "purpose": "Config API with automatic GUIs, powerful validation options, server-client sync, and more!",
+      "manifest_version": "0.7.7+1.21+neoforge",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [
+        "kotlinforforge"
+      ],
+      "upstream_sides": {
+        "client": "required",
+        "server": "required"
+      },
+      "license": {
+        "id": "LicenseRef-TDL-M",
+        "name": "",
+        "url": "https://github.com/fzzyhmstrs/Timefall-Development-Licence-Modified"
+      },
+      "project_url": "https://modrinth.com/mod/fzzy-config",
+      "version_url": "https://modrinth.com/mod/fzzy-config/version/uG7oHgw6",
+      "metadata_url": "https://api.modrinth.com/v2/version/uG7oHgw6",
+      "file": {
+        "name": "fzzy_config-0.7.7+1.21+neoforge.jar",
+        "url": "https://cdn.modrinth.com/data/hYykXjDp/versions/uG7oHgw6/fzzy_config-0.7.7%2B1.21%2Bneoforge.jar",
+        "size": 2392693,
+        "sha512": "ef03b411b0e1b241a9952e1a8fdac61979665953eb5f28116aac06530964e7378eb20a78594a47ba4d942c74dfa20d550c292014b5de8e63c42b882a33aef5a5",
+        "sha1": "518eadc53c065a74a49207769209c116e77d1849"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.0.0-beta,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "kotlinforforge",
+          "type": "required",
+          "version_range": "[5.3.0,)",
+          "side": "BOTH"
+        }
+      ],
+      "bundled_dependencies": []
+    },
+    {
+      "slug": "geckolib",
+      "mod_id": "geckolib",
+      "title": "Geckolib",
+      "project_id": "8BmcQJ2H",
+      "version_id": "Grwn5rUB",
+      "version": "4.9.3",
+      "release_type": "release",
+      "purpose": "A 3D animation library for entities, blocks, items, armor, and more!",
+      "manifest_version": "4.9.3",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [],
+      "upstream_sides": {
+        "client": "required",
+        "server": "optional"
+      },
+      "license": {
+        "id": "MIT",
+        "name": "MIT License",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/geckolib",
+      "version_url": "https://modrinth.com/mod/geckolib/version/Grwn5rUB",
+      "metadata_url": "https://api.modrinth.com/v2/version/Grwn5rUB",
+      "file": {
+        "name": "geckolib-neoforge-1.21.1-4.9.3.jar",
+        "url": "https://cdn.modrinth.com/data/8BmcQJ2H/versions/Grwn5rUB/geckolib-neoforge-1.21.1-4.9.3.jar",
+        "size": 634531,
+        "sha512": "8dfa5f8c57224a5e34e5098367ea9819ca6dc9c11357cd3062c16da3455c8bd1a483098af7383debc4b9ce8e4d7ab3fdc799b415644eb829da83eb72a7335dfd",
+        "sha1": "5cfe835472a5c5457ae9ac192d9d7b317454d5ac"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.1.150,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "geckoanimfix",
+          "type": "incompatible",
+          "version_range": "[0,)",
+          "side": "BOTH"
+        }
+      ],
+      "bundled_dependencies": []
+    },
+    {
+      "slug": "glitchcore",
+      "mod_id": "glitchcore",
+      "title": "GlitchCore",
+      "project_id": "s3dmwKy5",
+      "version_id": "S2TfWrZR",
+      "version": "2.1.0.2",
+      "release_type": "beta",
+      "purpose": "A library mod aimed at abstracting mod loaders and providing various utilities for our mods.",
+      "manifest_version": "2.1.0.2",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [],
+      "upstream_sides": {
+        "client": "required",
+        "server": "required"
+      },
+      "license": {
+        "id": "LicenseRef-All-Rights-Reserved",
+        "name": "",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/glitchcore",
+      "version_url": "https://modrinth.com/mod/glitchcore/version/S2TfWrZR",
+      "metadata_url": "https://api.modrinth.com/v2/version/S2TfWrZR",
+      "file": {
+        "name": "GlitchCore-neoforge-1.21.1-2.1.0.2.jar",
+        "url": "https://cdn.modrinth.com/data/s3dmwKy5/versions/S2TfWrZR/GlitchCore-neoforge-1.21.1-2.1.0.2.jar",
+        "size": 90717,
+        "sha512": "7a009ed163d03536fdfaee7b37cb1ec3073204dffcb06a683369aa88da8dbc3780b0ac69d466bb32a3ad9394c97b698d0fda676e1b4dd4edfc50ac5aa2283c32",
+        "sha1": "e3d4bb80a06f619be989ab529d0cd4e33e076943"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.1,)",
+          "side": "BOTH"
+        }
+      ],
+      "bundled_dependencies": []
+    },
+    {
+      "slug": "kotlin-for-forge",
+      "mod_id": "kotlinforforge",
+      "title": "Kotlin for Forge",
+      "project_id": "ordsPcFz",
+      "version_id": "uhJhCT7X",
+      "version": "5.12.0",
+      "release_type": "release",
+      "purpose": "Adds a Kotlin language loader and provides some optional utilities.",
+      "manifest_version": "5.12.0",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [],
+      "upstream_sides": {
+        "client": "optional",
+        "server": "optional"
+      },
+      "license": {
+        "id": "LGPL-2.1-only",
+        "name": "GNU Lesser General Public License v2.1 only",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/kotlin-for-forge",
+      "version_url": "https://modrinth.com/mod/kotlin-for-forge/version/uhJhCT7X",
+      "metadata_url": "https://api.modrinth.com/v2/version/uhJhCT7X",
+      "file": {
+        "name": "kotlinforforge-5.12.0-all.jar",
+        "url": "https://cdn.modrinth.com/data/ordsPcFz/versions/uhJhCT7X/kotlinforforge-5.12.0-all.jar",
+        "size": 7279264,
+        "sha512": "b8c3942f4d33179edf3f102f3d870b99dd436f8b8236dbbd31aa51b888162c692cfd88927295f24dc8b4375232f4c6c17360c5d6c4823f93cbcd7cf4bdc8bd14",
+        "sha1": "d10d062caf1aad9aec82d7852f2fee1781735c1f"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.20.6,1.21.9)",
+          "side": "BOTH"
+        }
+      ],
+      "bundled_dependencies": [],
+      "manifest_note": "Primary mod metadata is nested in the bundled kffmod JAR; retain the original all JAR."
+    },
+    {
+      "slug": "lithostitched",
+      "mod_id": "lithostitched",
+      "title": "Lithostitched",
+      "project_id": "XaDC71GB",
+      "version_id": "cZu4cHY3",
+      "version": "1.8.1-neoforge-21.1",
+      "release_type": "release",
+      "purpose": "Library mod with new configurability and compatibility enhancements for worldgen",
+      "manifest_version": "1.8.1",
+      "install_sides": [
+        "server"
+      ],
+      "requires": [],
+      "upstream_sides": {
+        "client": "unsupported",
+        "server": "required"
+      },
+      "license": {
+        "id": "MIT",
+        "name": "MIT License",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/lithostitched",
+      "version_url": "https://modrinth.com/mod/lithostitched/version/cZu4cHY3",
+      "metadata_url": "https://api.modrinth.com/v2/version/cZu4cHY3",
+      "file": {
+        "name": "lithostitched-1.8.1-neoforge-21.1.jar",
+        "url": "https://cdn.modrinth.com/data/XaDC71GB/versions/cZu4cHY3/lithostitched-1.8.1-neoforge-21.1.jar",
+        "size": 1023751,
+        "sha512": "6c02b8b269269d5aa84cb03bf824a1b5d52838e806c2fec8727eb4049925592dac9bb65c996858751fbb722f22ac59c4be09860e1f01e8f7b97c95be3faf7a57",
+        "sha1": "88cdded5b617e19b4d2676948b5550699de23578"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21, 1.21.1]",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "apollib",
+          "type": "required",
+          "version_range": "[1.2.0,)",
+          "side": "BOTH"
+        }
+      ],
+      "bundled_dependencies": [
+        {
+          "mod_id": "apollib",
+          "version": "1.2.0",
+          "jar_path": "META-INF/jarjar/apollib-1.2.0-neoforge-21.1.jar",
+          "sha512": "cd047ad08832826995ebeeb6fa5e2bede8eeabe28a06676b1e11c6fc2bc9f61d84c54714433505b7cdcfc9be9422e7f3afa7565f9aa38223d2a95661551f980e"
+        }
+      ]
+    },
+    {
+      "slug": "mowzies-mobs",
+      "mod_id": "mowziesmobs",
+      "title": "Mowzie's Mobs",
+      "project_id": "BFbX9xcm",
+      "version_id": "xgAXTl17",
+      "version": "1.8.2",
+      "release_type": "release",
+      "purpose": "Mowzie's Mobs adds a variety of fictional creatures to Minecraft, priding itself in unique AI, rich atmosphere, and fluid animations. Prove your might against new bosses and enemies and claim their magical abilities as your own.",
+      "manifest_version": "1.8.2",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [
+        "geckolib"
+      ],
+      "upstream_sides": {
+        "client": "required",
+        "server": "required"
+      },
+      "license": {
+        "id": "LicenseRef-Mowzies-Mobs-License",
+        "name": "",
+        "url": "https://legacy.curseforge.com/project/250498/license"
+      },
+      "project_url": "https://modrinth.com/mod/mowzies-mobs",
+      "version_url": "https://modrinth.com/mod/mowzies-mobs/version/xgAXTl17",
+      "metadata_url": "https://api.modrinth.com/v2/version/xgAXTl17",
+      "file": {
+        "name": "mowziesmobs-1.21.1-1.8.2.jar",
+        "url": "https://cdn.modrinth.com/data/BFbX9xcm/versions/xgAXTl17/mowziesmobs-1.21.1-1.8.2.jar",
+        "size": 36042925,
+        "sha512": "ab10d2f759df613d5094bac26c5a8bbe144786699018f7e4ae027fc4a86632aa7f96206f2c8be9970338eadef42539614a19b41d0d70b6216c3ed1c4c4421f0a",
+        "sha1": "d64475cd77444b056ece6472c79d40293dc63c6c"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.1.1,21.2)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21, 1.21.2)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "geckolib",
+          "type": "required",
+          "version_range": "[4.8.3,)",
+          "side": "BOTH"
+        }
+      ],
+      "bundled_dependencies": []
+    },
+    {
+      "slug": "particle-rain",
+      "mod_id": "particlerain",
+      "title": "Particle Rain",
+      "project_id": "nrikgvxm",
+      "version_id": "RxfaR4ud",
+      "version": "v4.0.2+1.21.1-neoforge",
+      "release_type": "release",
+      "purpose": "Replaces weather with prettier particle effects",
+      "manifest_version": "4.0.2",
+      "install_sides": [
+        "client"
+      ],
+      "requires": [],
+      "upstream_sides": {
+        "client": "required",
+        "server": "unsupported"
+      },
+      "license": {
+        "id": "MIT",
+        "name": "MIT License",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/particle-rain",
+      "version_url": "https://modrinth.com/mod/particle-rain/version/RxfaR4ud",
+      "metadata_url": "https://api.modrinth.com/v2/version/RxfaR4ud",
+      "file": {
+        "name": "particlerain-4.0.2+1.21.1-neoforge.jar",
+        "url": "https://cdn.modrinth.com/data/nrikgvxm/versions/RxfaR4ud/particlerain-4.0.2%2B1.21.1-neoforge.jar",
+        "size": 623257,
+        "sha512": "dc5fd6224dbd58079d9c82ef318ba2b945e5aa58f3476daea371ca86bb9ce976db5f4893a7093a990c0c1a8ddb7716089b24cced176f30cb253c2696b0cfd5b2",
+        "sha1": "444c6f221e57cca8e433702b18c4643faa82545a"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[0,)",
+          "side": "CLIENT"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21.1]",
+          "side": "BOTH"
+        }
+      ],
+      "bundled_dependencies": []
+    },
+    {
+      "slug": "reeses-sodium-options",
+      "mod_id": "reeses_sodium_options",
+      "title": "Reese's Sodium Options",
+      "project_id": "Bh37bMuy",
+      "version_id": "xAiCe6w8",
+      "version": "mc1.21.4-1.8.3+neoforge",
+      "release_type": "release",
+      "purpose": "Alternative Options Menu for Sodium",
+      "manifest_version": "1.8.3+mc1.21.4",
+      "install_sides": [
+        "client"
+      ],
+      "requires": [],
+      "upstream_sides": {
+        "client": "required",
+        "server": "unsupported"
+      },
+      "license": {
+        "id": "MIT",
+        "name": "MIT License",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/reeses-sodium-options",
+      "version_url": "https://modrinth.com/mod/reeses-sodium-options/version/xAiCe6w8",
+      "metadata_url": "https://api.modrinth.com/v2/version/xAiCe6w8",
+      "file": {
+        "name": "reeses-sodium-options-neoforge-1.8.3+mc1.21.4.jar",
+        "url": "https://cdn.modrinth.com/data/Bh37bMuy/versions/xAiCe6w8/reeses-sodium-options-neoforge-1.8.3%2Bmc1.21.4.jar",
+        "size": 78451,
+        "sha512": "d66b5d30e1bb8316cb75d52ba8485c6c1cfb0d03624288f39c1826b92de9da9c3d79351be9d7303ca3226176255921f35063139da118c755cf9a709186129744",
+        "sha1": "b03d05495be28d8cef7a34872941bb8d703d60e6"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21,)",
+          "side": "CLIENT"
+        },
+        {
+          "mod_id": "sodium",
+          "type": "required",
+          "version_range": "[0.6.5,)",
+          "side": "CLIENT"
+        }
+      ],
+      "bundled_dependencies": [],
+      "client_requires": [
+        "sodium"
+      ]
+    },
+    {
+      "slug": "resourceful-config",
+      "mod_id": "resourcefulconfig",
+      "title": "Resourceful Config",
+      "project_id": "M1953qlQ",
+      "version_id": "lSbyRD6v",
+      "version": "3.0.11",
+      "release_type": "release",
+      "purpose": "Resourceful Config is a mod that allows for developers to make cross-platform configs",
+      "manifest_version": "3.0.11",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [],
+      "upstream_sides": {
+        "client": "optional",
+        "server": "optional"
+      },
+      "license": {
+        "id": "MIT",
+        "name": "MIT License",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/resourceful-config",
+      "version_url": "https://modrinth.com/mod/resourceful-config/version/lSbyRD6v",
+      "metadata_url": "https://api.modrinth.com/v2/version/lSbyRD6v",
+      "file": {
+        "name": "resourcefulconfig-neoforge-1.21-3.0.11.jar",
+        "url": "https://cdn.modrinth.com/data/M1953qlQ/versions/lSbyRD6v/resourcefulconfig-neoforge-1.21-3.0.11.jar",
+        "size": 341009,
+        "sha512": "8e4ccc37732b3f5190e7e98df34dbc1339fe614494fcabf1aeaeab9ad8e5993522964b51be31882000c08c48a6d0096b5458364415bb81f2b2b775a7daf2eb87",
+        "sha1": "6bf2b6ea9c071c00a2abcdc552667fb6f7d21031"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[20.5,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.20.5,)",
+          "side": "BOTH"
+        }
+      ],
+      "bundled_dependencies": []
+    },
+    {
+      "slug": "serene-seasons",
+      "mod_id": "sereneseasons",
+      "title": "Serene Seasons",
+      "project_id": "e0bNACJD",
+      "version_id": "pHEgQQUE",
+      "version": "10.1.0.9",
+      "release_type": "beta",
+      "purpose": "Seasons with changing colors, shifting temperatures, and more!",
+      "manifest_version": "10.1.0.9",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [
+        "glitchcore"
+      ],
+      "upstream_sides": {
+        "client": "required",
+        "server": "required"
+      },
+      "license": {
+        "id": "LicenseRef-All-Rights-Reserved",
+        "name": "",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/serene-seasons",
+      "version_url": "https://modrinth.com/mod/serene-seasons/version/pHEgQQUE",
+      "metadata_url": "https://api.modrinth.com/v2/version/pHEgQQUE",
+      "file": {
+        "name": "SereneSeasons-neoforge-1.21.1-10.1.0.9.jar",
+        "url": "https://cdn.modrinth.com/data/e0bNACJD/versions/pHEgQQUE/SereneSeasons-neoforge-1.21.1-10.1.0.9.jar",
+        "size": 163020,
+        "sha512": "a85209de65af7999b29af850e05ad3a045c208a005ec3a7e4e66a58f1c9d90fda501ba80a6245209a4aad856ee053c21c4f679efe8c02981746e907915e31fe1",
+        "sha1": "6b98eb4e64344bb8aba424187ed08bf04e59dccf"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.1,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "glitchcore",
+          "type": "required",
+          "version_range": "[2.1.0.0,)",
+          "side": "BOTH"
+        }
+      ],
+      "bundled_dependencies": []
+    },
+    {
+      "slug": "simply-swords",
+      "mod_id": "simplyswords",
+      "title": "Simply Swords",
+      "project_id": "bK3Ubu9p",
+      "version_id": "nS0Yahr5",
+      "version": "1.70.2-1.21.1",
+      "release_type": "release",
+      "purpose": "Adds Spears, Glaives, Chakrams, Katanas, Greathammer/axes, Rapiers, and many more weapons!",
+      "manifest_version": "1.70.2-1.21.1",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [
+        "architectury",
+        "fzzy_config"
+      ],
+      "upstream_sides": {
+        "client": "required",
+        "server": "required"
+      },
+      "license": {
+        "id": "LicenseRef-Custom",
+        "name": "",
+        "url": "https://legacy.curseforge.com/project/659887/license"
+      },
+      "project_url": "https://modrinth.com/mod/simply-swords",
+      "version_url": "https://modrinth.com/mod/simply-swords/version/nS0Yahr5",
+      "metadata_url": "https://api.modrinth.com/v2/version/nS0Yahr5",
+      "file": {
+        "name": "simplyswords-neoforge-1.70.2-1.21.1.jar",
+        "url": "https://cdn.modrinth.com/data/bK3Ubu9p/versions/nS0Yahr5/simplyswords-neoforge-1.70.2-1.21.1.jar",
+        "size": 16282660,
+        "sha512": "9a231c0068318e7f62e3d5dfd81660b3f8efdcae9bcf83cfc3637c897fed29aac1941ef8007e8b29f0badfdce0c8047cfb73cd1ea486f25c69197384adfc8dcd",
+        "sha1": "05b074ff774467f1fe9fb5592151b7845c321cbc"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[4,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21, 1.22)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "architectury",
+          "type": "required",
+          "version_range": "[13.0.11,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "fzzy_config",
+          "type": "required",
+          "version_range": "[0.6.6,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "simplytooltips",
+          "type": "required",
+          "version_range": "[0.1,)",
+          "side": "CLIENT"
+        }
+      ],
+      "bundled_dependencies": [],
+      "client_requires": [
+        "simplytooltips"
+      ]
+    },
+    {
+      "slug": "simply-tooltips",
+      "mod_id": "simplytooltips",
+      "title": "Simply Tooltips",
+      "project_id": "6avVoBVB",
+      "version_id": "Zb6dytvm",
+      "version": "0.1.5",
+      "release_type": "release",
+      "purpose": "Modern data driven tooltip rendering",
+      "manifest_version": "0.1.5",
+      "install_sides": [
+        "client"
+      ],
+      "requires": [
+        "architectury",
+        "fzzy_config"
+      ],
+      "upstream_sides": {
+        "client": "required",
+        "server": "unsupported"
+      },
+      "license": {
+        "id": "LicenseRef-Timefall-Development-License-1.2",
+        "name": "",
+        "url": "https://github.com/Sweenus/simplytooltips/blob/master/LICENSE.txt"
+      },
+      "project_url": "https://modrinth.com/mod/simply-tooltips",
+      "version_url": "https://modrinth.com/mod/simply-tooltips/version/Zb6dytvm",
+      "metadata_url": "https://api.modrinth.com/v2/version/Zb6dytvm",
+      "file": {
+        "name": "SimplyTooltips-neoforge-0.1.5.jar",
+        "url": "https://cdn.modrinth.com/data/6avVoBVB/versions/Zb6dytvm/SimplyTooltips-neoforge-0.1.5.jar",
+        "size": 5512986,
+        "sha512": "7be6beb5f72c03b7c9f44568c11577f2ba50aec8d16af34d860294718cd2ab550691a8e82756d96c6f0bdd1111e2de8aa68db970c5762be659ad4aec69940ebd",
+        "sha1": "6227453d5b628b1009d6ec516a0da5b588849744"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21.1,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "architectury",
+          "type": "required",
+          "version_range": "[13.0.8,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "fzzy_config",
+          "type": "required",
+          "version_range": "[0.6.6,)",
+          "side": "BOTH"
+        }
+      ],
+      "bundled_dependencies": []
+    },
+    {
+      "slug": "sodium-dynamic-lights",
+      "mod_id": "sodiumdynamiclights",
+      "title": "Sodium Dynamic Lights",
+      "project_id": "PxQSWIcD",
+      "version_id": "XI0WLXdn",
+      "version": "neoforge-1.21.1-1.0.10",
+      "release_type": "release",
+      "purpose": "Multiloader port of LambDynLights that adds Sodium options integration",
+      "manifest_version": "1.0.9",
+      "install_sides": [
+        "client"
+      ],
+      "requires": [],
+      "upstream_sides": {
+        "client": "required",
+        "server": "unsupported"
+      },
+      "license": {
+        "id": "MIT",
+        "name": "MIT License",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/sodium-dynamic-lights",
+      "version_url": "https://modrinth.com/mod/sodium-dynamic-lights/version/XI0WLXdn",
+      "metadata_url": "https://api.modrinth.com/v2/version/XI0WLXdn",
+      "file": {
+        "name": "sodiumdynamiclights-neoforge-1.0.10-1.21.1.jar",
+        "url": "https://cdn.modrinth.com/data/PxQSWIcD/versions/XI0WLXdn/sodiumdynamiclights-neoforge-1.0.10-1.21.1.jar",
+        "size": 299353,
+        "sha512": "ec19a81cf2dfde255990a457d8f6d7375df53cb94190dce71c4bfe5d5263f4862027ce4aa0af20cb11d56c7c031d5e149b3bdf95bec6343e5bd4552450b14c0a",
+        "sha1": "02e9bc7ba28147cdf2d608ecf4f2c1eab34b4652"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21.1,)",
+          "side": "BOTH"
+        }
+      ],
+      "bundled_dependencies": []
+    },
+    {
+      "slug": "sodium-extras",
+      "mod_id": "sodiumextras",
+      "title": "Sodium Extras",
+      "project_id": "vqqx0QiE",
+      "version_id": "qDEGbszS",
+      "version": "neoforge-1.21.1-1.0.8",
+      "release_type": "release",
+      "purpose": "An add-on mod for Sodium that adds new features and customization.",
+      "manifest_version": "1.0.7",
+      "install_sides": [
+        "client"
+      ],
+      "requires": [],
+      "upstream_sides": {
+        "client": "required",
+        "server": "unsupported"
+      },
+      "license": {
+        "id": "LGPL-3.0-only",
+        "name": "GNU Lesser General Public License v3.0 only",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/sodium-extras",
+      "version_url": "https://modrinth.com/mod/sodium-extras/version/qDEGbszS",
+      "metadata_url": "https://api.modrinth.com/v2/version/qDEGbszS",
+      "file": {
+        "name": "sodiumextras-neoforge-1.0.8-1.21.1.jar",
+        "url": "https://cdn.modrinth.com/data/vqqx0QiE/versions/qDEGbszS/sodiumextras-neoforge-1.0.8-1.21.1.jar",
+        "size": 276988,
+        "sha512": "1bab2a7651b628a04066ce5221cd2df9bbbd8811da41a1f1c30c367b0a92bd5b42c5c13c9c45b961330d156836f367daf6225c72ba4f6acc7e42e9b44df3f419",
+        "sha1": "d678f6eb28fec11f3e99bc7f17f5e385703bc44a"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21.1,)",
+          "side": "BOTH"
+        }
+      ],
+      "bundled_dependencies": []
+    },
+    {
+      "slug": "sodium-options-api",
+      "mod_id": "sodiumoptionsapi",
+      "title": "Sodium Options API",
+      "project_id": "Es5v4eyq",
+      "version_id": "lrsX3TMS",
+      "version": "neoforge-1.21.1-1.0.10",
+      "release_type": "release",
+      "purpose": "Config API for adding Sodium options with a better categories menu",
+      "manifest_version": "1.0.10",
+      "install_sides": [
+        "client"
+      ],
+      "requires": [
+        "reeses_sodium_options"
+      ],
+      "upstream_sides": {
+        "client": "required",
+        "server": "unsupported"
+      },
+      "license": {
+        "id": "LGPL-3.0-only",
+        "name": "GNU Lesser General Public License v3.0 only",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/sodium-options-api",
+      "version_url": "https://modrinth.com/mod/sodium-options-api/version/lrsX3TMS",
+      "metadata_url": "https://api.modrinth.com/v2/version/lrsX3TMS",
+      "file": {
+        "name": "sodiumoptionsapi-neoforge-1.0.10-1.21.1.jar",
+        "url": "https://cdn.modrinth.com/data/Es5v4eyq/versions/lrsX3TMS/sodiumoptionsapi-neoforge-1.0.10-1.21.1.jar",
+        "size": 309122,
+        "sha512": "f2f022183f300961d7d0503461daa59e3e606c32f189f1cb3307edaf765986c541929205b7bf6f40c4c88319696e9d863c1bf711bd441dc9b7081c198ddb445b",
+        "sha1": "5d014d031fa77ab600e07835b032ef4dcb79b442"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21.1,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "reeses_sodium_options",
+          "type": "required",
+          "version_range": "*",
+          "side": "BOTH"
+        }
+      ],
+      "bundled_dependencies": []
+    },
+    {
+      "slug": "sodium",
+      "mod_id": "sodium",
+      "title": "Sodium",
+      "project_id": "AANobbMI",
+      "version_id": "Pb3OXVqC",
+      "version": "mc1.21.1-0.6.13-neoforge",
+      "release_type": "release",
+      "purpose": "A high-performance rendering engine replacement for Minecraft, which greatly improves frame rates and reduces micro-stutter.",
+      "manifest_version": "0.6.13+mc1.21.1",
+      "install_sides": [
+        "client"
+      ],
+      "requires": [],
+      "upstream_sides": {
+        "client": "required",
+        "server": "unsupported"
+      },
+      "license": {
+        "id": "LicenseRef-Polyform-Shield-1.0.0",
+        "name": "",
+        "url": "https://github.com/CaffeineMC/sodium/blob/dev/LICENSE.md"
+      },
+      "project_url": "https://modrinth.com/mod/sodium",
+      "version_url": "https://modrinth.com/mod/sodium/version/Pb3OXVqC",
+      "metadata_url": "https://api.modrinth.com/v2/version/Pb3OXVqC",
+      "file": {
+        "name": "sodium-neoforge-0.6.13+mc1.21.1.jar",
+        "url": "https://cdn.modrinth.com/data/AANobbMI/versions/Pb3OXVqC/sodium-neoforge-0.6.13%2Bmc1.21.1.jar",
+        "size": 1162994,
+        "sha512": "ce58f34d05d96c0a109a5cea23c741f6bdb2e6be31fc087c5989274cefca5f10ba0c08c62083cf554a51f2c7667bf46e4164383f675c844e77633aef2659996b",
+        "sha1": "38af70fa4dc4b2aaac636e92fdba3bedd5a025e1"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "1.21.1",
+          "side": "CLIENT"
+        },
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.1.82,)",
+          "side": "CLIENT"
+        },
+        {
+          "mod_id": "embeddium",
+          "type": "incompatible",
+          "version_range": "[0.0.1,)",
+          "side": "CLIENT"
+        }
+      ],
+      "bundled_dependencies": [
+        {
+          "mod_id": "fabric_api_base",
+          "version": "${file.jarVersion}",
+          "jar_path": "META-INF/jarjar/fabric-api-base-0.4.42+d1308ded19.jar",
+          "sha512": "d99639b452cc50edc06353588c8ee509ed79a405f1caf138e6c8387c09a87179e1e9049afd0d0fbf0205c0559e791ab1f5c4f11dcb50529b1405deb65cdbe05f"
+        },
+        {
+          "mod_id": "fabric_block_view_api_v2",
+          "version": "${file.jarVersion}",
+          "jar_path": "META-INF/jarjar/fabric-block-view-api-v2-1.0.10+9afaaf8c19.jar",
+          "sha512": "12231755c1f36e31b45acff827e8fc43eb0381f91afb6194cbd7c7fdebc8c13991e049aa1061ee91141aa8d730b660ad8c04742a344a1fd11c51b2401fcc4dc1"
+        },
+        {
+          "mod_id": "fabric_renderer_api_v1",
+          "version": "${file.jarVersion}",
+          "jar_path": "META-INF/jarjar/fabric-renderer-api-v1-3.4.0+9c40919e19.jar",
+          "sha512": "cd8a50d592d1e52fe75c54e09be23ac6f867e1bb2c15d167df87de8b0d0945a56040756dec2d0715ba066d3d7f6a36f62dffd5301d662975379504682dc426b4"
+        },
+        {
+          "mod_id": "fabric_rendering_data_attachment_v1",
+          "version": "${file.jarVersion}",
+          "jar_path": "META-INF/jarjar/fabric-rendering-data-attachment-v1-0.3.48+73761d2e19.jar",
+          "sha512": "572b87f742b8bae0a35a5f40197e7a3a9b8328d35c620a111417fb37ea6d581a7a1d271c8d5a689833089a964b49c83393c6d6503aaa9ecd39c883676cc40f97"
+        }
+      ]
+    },
+    {
+      "slug": "terrablender",
+      "mod_id": "terrablender",
+      "title": "TerraBlender",
+      "project_id": "kkmrDlKT",
+      "version_id": "6e8GCrLb",
+      "version": "4.1.0.8",
+      "release_type": "beta",
+      "purpose": "A library mod for adding biomes in a simple and compatible manner!",
+      "manifest_version": "${file.jarVersion}",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [],
+      "upstream_sides": {
+        "client": "required",
+        "server": "required"
+      },
+      "license": {
+        "id": "LGPL-3.0-only",
+        "name": "GNU Lesser General Public License v3.0 only",
+        "url": "https://github.com/Glitchfiend/TerraBlender/blob/TB-1.19.3-2.1.x/LICENSE"
+      },
+      "project_url": "https://modrinth.com/mod/terrablender",
+      "version_url": "https://modrinth.com/mod/terrablender/version/6e8GCrLb",
+      "metadata_url": "https://api.modrinth.com/v2/version/6e8GCrLb",
+      "file": {
+        "name": "TerraBlender-neoforge-1.21.1-4.1.0.8.jar",
+        "url": "https://cdn.modrinth.com/data/kkmrDlKT/versions/6e8GCrLb/TerraBlender-neoforge-1.21.1-4.1.0.8.jar",
+        "size": 120365,
+        "sha512": "9d4b2a1be5139c0fb2fad92ed21805b17d9e83b6ea48e637e018bb14063c1823a206390755dbfe8d025c20fd62ac11cdd84db53ddb956dabaeda01bff57bac50",
+        "sha1": "744394d979b422be560babf9df7a6800ede9ac5b"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[20.4,)",
+          "side": "BOTH"
+        }
+      ],
+      "bundled_dependencies": []
+    },
+    {
+      "slug": "waystones",
+      "mod_id": "waystones",
+      "title": "Waystones",
+      "project_id": "LOpKHB2A",
+      "version_id": "6Z6MQ6os",
+      "version": "21.1.46+neoforge-1.21.1",
+      "release_type": "release",
+      "purpose": "Teleport from waystone to waystone or craft magical scrolls to warp.",
+      "manifest_version": "21.1.46",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [
+        "balm"
+      ],
+      "upstream_sides": {
+        "client": "required",
+        "server": "required"
+      },
+      "license": {
+        "id": "LicenseRef-All-Rights-Reserved",
+        "name": "",
+        "url": "https://mods.twelveiterations.com/permissions"
+      },
+      "project_url": "https://modrinth.com/mod/waystones",
+      "version_url": "https://modrinth.com/mod/waystones/version/6Z6MQ6os",
+      "metadata_url": "https://api.modrinth.com/v2/version/6Z6MQ6os",
+      "file": {
+        "name": "waystones-neoforge-1.21.1-21.1.46.jar",
+        "url": "https://cdn.modrinth.com/data/LOpKHB2A/versions/6Z6MQ6os/waystones-neoforge-1.21.1-21.1.46.jar",
+        "size": 1223229,
+        "sha512": "ca90b58d884d4bc2b08a870484ae7ede397e71d31eaaf01ff2603ad498d584763e099c2094e57031522385339705d2c011ed4910bf36efae688e64935b49ece9",
+        "sha1": "75718161662d9ec957ba22e10e497788ec1687ba"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21-beta,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "balm",
+          "type": "required",
+          "version_range": "[21.0.39,)",
+          "side": "BOTH"
+        }
+      ],
+      "bundled_dependencies": []
+    },
+    {
+      "slug": "xaeros-minimap",
+      "mod_id": "xaerominimap",
+      "title": "Xaero's Minimap",
+      "project_id": "1bokaNcj",
+      "version_id": "irjR7dHk",
+      "version": "neoforge-1.21.1-26.6.0",
+      "release_type": "release",
+      "purpose": "Displays a map of the nearby world terrain, players, mobs, entities in the corner of your screen. Lets you create waypoints which help you find the locations you've marked.",
+      "manifest_version": "26.6.0",
+      "install_sides": [
+        "client"
+      ],
+      "requires": [],
+      "upstream_sides": {
+        "client": "required",
+        "server": "optional"
+      },
+      "license": {
+        "id": "LicenseRef-All-Rights-Reserved",
+        "name": "",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/xaeros-minimap",
+      "version_url": "https://modrinth.com/mod/xaeros-minimap/version/irjR7dHk",
+      "metadata_url": "https://api.modrinth.com/v2/version/irjR7dHk",
+      "file": {
+        "name": "xaerominimap-neoforge-1.21.1-26.6.0.jar",
+        "url": "https://cdn.modrinth.com/data/1bokaNcj/versions/irjR7dHk/xaerominimap-neoforge-1.21.1-26.6.0.jar",
+        "size": 2186351,
+        "sha512": "d56b93ddb921285624b491d6a85aba23748bec9974867399c881c257eb25a746df92a735473adf3a6875e0928a56ff78245d5238eb9207b0e45c3fec20c896dc",
+        "sha1": "551e8e2aa3498b506cc949a74606cdc0380e5e00"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.0.110-beta,21.2.0)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "1.21.1",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "openpartiesandclaims",
+          "type": "optional",
+          "version_range": "[0.32.4,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "xaeroworldmap",
+          "type": "optional",
+          "version_range": "[1.44.0,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "xaerolib",
+          "type": "required",
+          "version_range": "[1.0,)",
+          "side": "BOTH"
+        }
+      ],
+      "bundled_dependencies": [
+        {
+          "mod_id": "xaerolib",
+          "version": "1.7.3",
+          "jar_path": "META-INF/jarjar/xaerolib-neoforge-1.21.1-1.7.3.jar",
+          "sha512": "f6db2bddb0ea9f9b0023cf0a960e80f9cf40461c9c07adebf9ed408113bfb165199c0202a28652786515261ceb81e6a1039ab0d5916ea542b32b15fbe9c2b579"
+        }
+      ]
+    },
+    {
+      "slug": "xaeros-world-map",
+      "mod_id": "xaeroworldmap",
+      "title": "Xaero's World Map",
+      "project_id": "NcUtCpym",
+      "version_id": "SnQ4SoDe",
+      "version": "neoforge-1.21.1-1.47.0",
+      "release_type": "release",
+      "purpose": "Adds a full screen world map which shows you what you have explored in the world. Works great together with Xaero's Minimap.",
+      "manifest_version": "1.47.0",
+      "install_sides": [
+        "client"
+      ],
+      "requires": [],
+      "upstream_sides": {
+        "client": "required",
+        "server": "optional"
+      },
+      "license": {
+        "id": "LicenseRef-All-Rights-Reserved",
+        "name": "",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/xaeros-world-map",
+      "version_url": "https://modrinth.com/mod/xaeros-world-map/version/SnQ4SoDe",
+      "metadata_url": "https://api.modrinth.com/v2/version/SnQ4SoDe",
+      "file": {
+        "name": "xaeroworldmap-neoforge-1.21.1-1.47.0.jar",
+        "url": "https://cdn.modrinth.com/data/NcUtCpym/versions/SnQ4SoDe/xaeroworldmap-neoforge-1.21.1-1.47.0.jar",
+        "size": 1427078,
+        "sha512": "4d2d78bc85afa002f682ef344b7284cf1baa4903cc5a11cd1d7bd260ac63952580ae717bab47079540ead633cdd5d8e4fdf230dc99a68bcb7a269500e7dada13",
+        "sha1": "2936c9cb9dfbdab145fe6f1e8ae2c68915246a5f"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.0.110-beta, 21.2.0)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21, 1.21.2)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "openpartiesandclaims",
+          "type": "optional",
+          "version_range": "[0.32.4,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "xaerominimap",
+          "type": "optional",
+          "version_range": "[26.4.0,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "xaerobetterpvp",
+          "type": "optional",
+          "version_range": "[26.4.0,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "xaerolib",
+          "type": "required",
+          "version_range": "[1.0,)",
+          "side": "BOTH"
+        }
+      ],
+      "bundled_dependencies": [
+        {
+          "mod_id": "xaerolib",
+          "version": "1.7.3",
+          "jar_path": "META-INF/jarjar/xaerolib-neoforge-1.21.1-1.7.3.jar",
+          "sha512": "f6db2bddb0ea9f9b0023cf0a960e80f9cf40461c9c07adebf9ed408113bfb165199c0202a28652786515261ceb81e6a1039ab0d5916ea542b32b15fbe9c2b579"
+        }
+      ]
+    },
+    {
+      "slug": "bosses-of-mass-destruction-forge",
+      "mod_id": "bosses_of_mass_destruction",
+      "title": "bosses-of-mass-destruction-forge",
+      "project_id": "941573",
+      "version_id": "8448640",
+      "version": "1.3.3",
+      "release_type": "release",
+      "purpose": "Расширение приключений из согласованного списка",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [
+        "cerbons_api",
+        "cloth_config",
+        "geckolib"
+      ],
+      "upstream_sides": {
+        "client": "required",
+        "server": "required"
+      },
+      "license": {
+        "id": "LicenseRef-See-Upstream"
+      },
+      "distribution_platform": "curseforge",
+      "project_url": "https://www.curseforge.com/minecraft/mc-mods/bosses-of-mass-destruction-forge",
+      "version_url": "https://www.curseforge.com/minecraft/mc-mods/bosses-of-mass-destruction-forge/files/8448640",
+      "metadata_url": "https://www.curseforge.com/minecraft/mc-mods/bosses-of-mass-destruction-forge/files/8448640",
+      "file": {
+        "name": "BOMD-NeoForge-1.21-1.3.3.jar",
+        "url": "https://mediafilez.forgecdn.net/files/8448/640/BOMD-NeoForge-1.21-1.3.3.jar",
+        "size": 1952017,
+        "sha512": "29a35ed7ce6d0832614b526295f33c3b92a136c1c235ccea3ce0312543e05ee7353d22e4814cbad884824e4381d32a7835e73d72d06c0fed53a9f5fc6b275951",
+        "sha1": "446ff63afb858ad49149d24b72541739de83d38d"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.0,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21,1.22)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "cerbons_api",
+          "type": "required",
+          "version_range": "[1.2.0,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "cloth_config",
+          "type": "required",
+          "version_range": "[15.0.140,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "geckolib",
+          "type": "required",
+          "version_range": "[4.5.8,)",
+          "side": "BOTH"
+        }
+      ],
+      "bundled_dependencies": []
+    },
+    {
+      "slug": "lendercataclysm",
+      "mod_id": "cataclysm",
+      "title": "lendercataclysm",
+      "project_id": "551586",
+      "version_id": "8931182",
+      "version": "3.33",
+      "release_type": "release",
+      "purpose": "Расширение приключений из согласованного списка",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [
+        "curios",
+        "lionfishapi"
+      ],
+      "upstream_sides": {
+        "client": "required",
+        "server": "required"
+      },
+      "license": {
+        "id": "LicenseRef-See-Upstream"
+      },
+      "distribution_platform": "curseforge",
+      "project_url": "https://www.curseforge.com/minecraft/mc-mods/lendercataclysm",
+      "version_url": "https://www.curseforge.com/minecraft/mc-mods/lendercataclysm/files/8931182",
+      "metadata_url": "https://www.curseforge.com/minecraft/mc-mods/lendercataclysm/files/8931182",
+      "file": {
+        "name": "L_Ender's Cataclysm 1.21.1-3.33.jar",
+        "url": "https://mediafilez.forgecdn.net/files/8931/182/L_Ender's%20Cataclysm%201.21.1-3.33.jar",
+        "size": 73375667,
+        "sha512": "289f6e8364a6e432f34803a47cff8381899a1df0fdc675170323b43fd1c09579b1320d8b4e0de5df65c609b738d450c13c89e240d6d79f607888da26b7724947",
+        "sha1": "f0310277167c82fd16a5c2bab220b5c5c262f133"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.1.0,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "1.21.1",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "curios",
+          "type": "required",
+          "version_range": "[9.2.2+1.21.1,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "lionfishapi",
+          "type": "required",
+          "version_range": "3.1",
+          "side": "BOTH"
+        }
+      ],
+      "bundled_dependencies": []
+    },
+    {
+      "slug": "lionfish-api",
+      "mod_id": "lionfishapi",
+      "title": "lionfish-api",
+      "project_id": "1001614",
+      "version_id": "8345326",
+      "version": "3.1",
+      "release_type": "release",
+      "purpose": "Расширение приключений из согласованного списка",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [],
+      "upstream_sides": {
+        "client": "required",
+        "server": "required"
+      },
+      "license": {
+        "id": "LicenseRef-See-Upstream"
+      },
+      "distribution_platform": "curseforge",
+      "project_url": "https://www.curseforge.com/minecraft/mc-mods/lionfish-api",
+      "version_url": "https://www.curseforge.com/minecraft/mc-mods/lionfish-api/files/8345326",
+      "metadata_url": "https://www.curseforge.com/minecraft/mc-mods/lionfish-api/files/8345326",
+      "file": {
+        "name": "lionfishapi-3.1.jar",
+        "url": "https://mediafilez.forgecdn.net/files/8345/326/lionfishapi-3.1.jar",
+        "size": 91596,
+        "sha512": "fdd90f19d0424c3a837111291d6ac1547d62cbcedd43b74d3a8946912f9c5212a5ea239a6969eccf678289bcb77cbb9a937db01fdaf60e57826f9a99893d19cb",
+        "sha1": "353ca00ed118eb67cf11085abbbd699884722326"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.1.219,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "1.21.1",
+          "side": "BOTH"
+        }
+      ],
+      "bundled_dependencies": []
+    },
+    {
+      "slug": "moogs-voyager-structures",
+      "mod_id": "mvs",
+      "title": "MVS - Moog's Voyager Structures",
+      "project_id": "OQAgZMH1",
+      "version_id": "PiFoSPXI",
+      "version": "5.1.3",
+      "release_type": "release",
+      "purpose": "Небольшие и средние структуры для исследований",
+      "install_sides": [
+        "server"
+      ],
+      "requires": [
+        "moogs_structures"
+      ],
+      "upstream_sides": {
+        "client": "unsupported",
+        "server": "required"
+      },
+      "license": {
+        "id": "MIT",
+        "name": "MIT License",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/moogs-voyager-structures",
+      "version_url": "https://modrinth.com/mod/moogs-voyager-structures/version/PiFoSPXI",
+      "metadata_url": "https://api.modrinth.com/v2/version/PiFoSPXI",
+      "file": {
+        "name": "MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+        "url": "https://cdn.modrinth.com/data/OQAgZMH1/versions/PiFoSPXI/MoogsVoyagerStructures-universal-1.21-5.1.3.jar",
+        "size": 2234287,
+        "sha512": "80e9e4a6543e8fc7d24d7e1fb4d4245d1d30f9aaf02ae2ba1098956106bea411a4502ce1d4b8fa97b935c9421a0eebf42226a46c8172cbbf621cc8ca16a50457",
+        "sha1": "6759fa57891f731e54f865c13ffa0601a829b76a"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "moogs_structures",
+          "version_range": "[3.0.0,)",
+          "type": "required",
+          "side": "BOTH",
+          "ordering": "NONE"
+        }
+      ]
+    },
+    {
+      "slug": "when-dungeons-arise",
+      "mod_id": "dungeons_arise",
+      "title": "When Dungeons Arise",
+      "project_id": "8DfbfASn",
+      "version_id": "XIRJSFQ0",
+      "version": "2.1.68",
+      "release_type": "release",
+      "purpose": "Редкие большие данжи для групповых вылазок",
+      "install_sides": [
+        "server"
+      ],
+      "requires": [],
+      "upstream_sides": {
+        "client": "unsupported",
+        "server": "required"
+      },
+      "license": {
+        "id": "LicenseRef-All-Rights-Reserved",
+        "name": "",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/when-dungeons-arise",
+      "version_url": "https://modrinth.com/mod/when-dungeons-arise/version/XIRJSFQ0",
+      "metadata_url": "https://api.modrinth.com/v2/version/XIRJSFQ0",
+      "file": {
+        "name": "DungeonsArise-1.21.1-2.1.68-release.jar",
+        "url": "https://cdn.modrinth.com/data/8DfbfASn/versions/XIRJSFQ0/DungeonsArise-1.21.1-2.1.68-release.jar",
+        "size": 11842679,
+        "sha512": "cf87e06c8a49c9147fac2cf4d218d0e0eb56bb75819ab85f84ed7ae775bb3e259e2ebd5c423696d4d9026f6a69698babf5e7c82c74e480fbbf107359ef30a97e",
+        "sha1": "c651339154da7b9e9cf47a80fdef22c4d59cad5c"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "version_range": "[21.0.0-beta,)",
+          "type": "required",
+          "side": "BOTH",
+          "ordering": "NONE"
+        },
+        {
+          "mod_id": "minecraft",
+          "version_range": "[1.21,1.21.1)",
+          "type": "required",
+          "side": "BOTH",
+          "ordering": "NONE"
+        }
+      ]
+    },
+    {
+      "slug": "yungs-api",
+      "mod_id": "yungsapi",
+      "title": "YUNG's API",
+      "project_id": "Ua7DFN59",
+      "version_id": "2prKITKh",
+      "version": "1.21.1-NeoForge-5.1.9",
+      "release_type": "release",
+      "purpose": "Общая библиотека YUNG",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [],
+      "upstream_sides": {
+        "client": "required",
+        "server": "required"
+      },
+      "license": {
+        "id": "LGPL-3.0-only",
+        "name": "GNU Lesser General Public License v3.0 only",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/yungs-api",
+      "version_url": "https://modrinth.com/mod/yungs-api/version/2prKITKh",
+      "metadata_url": "https://api.modrinth.com/v2/version/2prKITKh",
+      "file": {
+        "name": "YungsApi-1.21.1-NeoForge-5.1.9.jar",
+        "url": "https://cdn.modrinth.com/data/Ua7DFN59/versions/2prKITKh/YungsApi-1.21.1-NeoForge-5.1.9.jar",
+        "size": 413763,
+        "sha512": "7e3cf0b429e8a1c51dca094c2d8eabf12245bb42cbcd8b6e3e54959f931bef93201b81a08d200b417059aaa438e8eb445c3978a09568597bfb588199b7775967",
+        "sha1": "2c4b740c8ad27bbcb2a21b85b64f011b809aed91"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "minecraft",
+          "version_range": "[1.21, 1.22)",
+          "type": "required",
+          "side": "BOTH",
+          "ordering": "NONE"
+        },
+        {
+          "mod_id": "neoforge",
+          "version_range": "[21.0.0,)",
+          "type": "required",
+          "side": "BOTH",
+          "ordering": "NONE"
+        }
+      ]
+    },
+    {
+      "slug": "yungs-better-caves",
+      "mod_id": "bettercaves",
+      "title": "YUNG's Better Caves",
+      "project_id": "Dfu00ggU",
+      "version_id": "Feo6YOjN",
+      "version": "1.21.1-NeoForge-3.1.6",
+      "release_type": "release",
+      "purpose": "Разнообразные системы пещер в новых чанках",
+      "install_sides": [
+        "server"
+      ],
+      "requires": [
+        "yungsapi"
+      ],
+      "upstream_sides": {
+        "client": "unsupported",
+        "server": "required"
+      },
+      "license": {
+        "id": "LGPL-3.0-only",
+        "name": "GNU Lesser General Public License v3.0 only",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/yungs-better-caves",
+      "version_url": "https://modrinth.com/mod/yungs-better-caves/version/Feo6YOjN",
+      "metadata_url": "https://api.modrinth.com/v2/version/Feo6YOjN",
+      "file": {
+        "name": "YungsBetterCaves-1.21.1-NeoForge-3.1.6.jar",
+        "url": "https://cdn.modrinth.com/data/Dfu00ggU/versions/Feo6YOjN/YungsBetterCaves-1.21.1-NeoForge-3.1.6.jar",
+        "size": 400316,
+        "sha512": "a5fa3881a32a96c25c8012aac347221363792d68491ae1f6e26d345264f7acff7c7562d6c96e0ee2f00c63ad50351742763a740f0965cc9ca0b97808f8847bba",
+        "sha1": "6420fdb345b5e33b3a51254799dc281c9c53d3c5"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "minecraft",
+          "version_range": "[1.21, 1.22)",
+          "type": "required",
+          "side": "BOTH",
+          "ordering": "NONE"
+        },
+        {
+          "mod_id": "neoforge",
+          "version_range": "[21.0.0,)",
+          "type": "required",
+          "side": "BOTH",
+          "ordering": "NONE"
+        },
+        {
+          "mod_id": "yungsapi",
+          "version_range": "[1.21.1-NeoForge-5.1.5,)",
+          "type": "required",
+          "side": "BOTH",
+          "ordering": "NONE"
+        }
+      ]
+    },
+    {
+      "slug": "yungs-better-desert-temples",
+      "mod_id": "betterdeserttemples",
+      "title": "YUNG's Better Desert Temples",
+      "project_id": "XNlO7sBv",
+      "version_id": "GQ9iNWkI",
+      "version": "1.21.1-NeoForge-4.1.5",
+      "release_type": "release",
+      "purpose": "Пустынные храмы с ловушками",
+      "install_sides": [
+        "server"
+      ],
+      "requires": [
+        "yungsapi"
+      ],
+      "upstream_sides": {
+        "client": "unsupported",
+        "server": "required"
+      },
+      "license": {
+        "id": "LGPL-3.0-only",
+        "name": "GNU Lesser General Public License v3.0 only",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/yungs-better-desert-temples",
+      "version_url": "https://modrinth.com/mod/yungs-better-desert-temples/version/GQ9iNWkI",
+      "metadata_url": "https://api.modrinth.com/v2/version/GQ9iNWkI",
+      "file": {
+        "name": "YungsBetterDesertTemples-1.21.1-NeoForge-4.1.5.jar",
+        "url": "https://cdn.modrinth.com/data/XNlO7sBv/versions/GQ9iNWkI/YungsBetterDesertTemples-1.21.1-NeoForge-4.1.5.jar",
+        "size": 905839,
+        "sha512": "6454c955f75f66104810e967a59ae032ddf1ccc5a854346af6bfba6e44cd456e755cd8feb1e0968be4e9132ea6c5d1cb2126fe5e85d3eb18c8d3ea3c81ffdf9a",
+        "sha1": "90529257dbd92558998c65178294bc7b2fd16a64"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "minecraft",
+          "version_range": "[1.21, 1.22)",
+          "type": "required",
+          "side": "BOTH",
+          "ordering": "NONE"
+        },
+        {
+          "mod_id": "neoforge",
+          "version_range": "[21.0.0,)",
+          "type": "required",
+          "side": "BOTH",
+          "ordering": "NONE"
+        },
+        {
+          "mod_id": "yungsapi",
+          "version_range": "[1.21.1-NeoForge-5.1.4,)",
+          "type": "required",
+          "side": "BOTH",
+          "ordering": "NONE"
+        }
+      ]
+    },
+    {
+      "slug": "yungs-better-dungeons",
+      "mod_id": "betterdungeons",
+      "title": "YUNG's Better Dungeons",
+      "project_id": "o1C1Dkj5",
+      "version_id": "D6aZn0Em",
+      "version": "1.21.1-NeoForge-5.1.4",
+      "release_type": "release",
+      "purpose": "Расширенные подземелья",
+      "install_sides": [
+        "server"
+      ],
+      "requires": [
+        "yungsapi"
+      ],
+      "upstream_sides": {
+        "client": "unsupported",
+        "server": "required"
+      },
+      "license": {
+        "id": "LGPL-3.0-only",
+        "name": "GNU Lesser General Public License v3.0 only",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/yungs-better-dungeons",
+      "version_url": "https://modrinth.com/mod/yungs-better-dungeons/version/D6aZn0Em",
+      "metadata_url": "https://api.modrinth.com/v2/version/D6aZn0Em",
+      "file": {
+        "name": "YungsBetterDungeons-1.21.1-NeoForge-5.1.4.jar",
+        "url": "https://cdn.modrinth.com/data/o1C1Dkj5/versions/D6aZn0Em/YungsBetterDungeons-1.21.1-NeoForge-5.1.4.jar",
+        "size": 782160,
+        "sha512": "40513bacd13fa9860abcab507b1fc09dc51649af4b615ce466e0ec361557f02d35e6e44bea1cc17cb4120805f862aad01394eb185f46611e7be63dfd97f272df",
+        "sha1": "73a660c13063450e555e5e2c015ae24d606b32b4"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "minecraft",
+          "version_range": "[1.21, 1.22)",
+          "type": "required",
+          "side": "BOTH",
+          "ordering": "NONE"
+        },
+        {
+          "mod_id": "neoforge",
+          "version_range": "[21.0.0,)",
+          "type": "required",
+          "side": "BOTH",
+          "ordering": "NONE"
+        },
+        {
+          "mod_id": "yungsapi",
+          "version_range": "[1.21.1-NeoForge-5.1.3,)",
+          "type": "required",
+          "side": "BOTH",
+          "ordering": "NONE"
+        }
+      ]
+    },
+    {
+      "slug": "yungs-better-end-island",
+      "mod_id": "betterendisland",
+      "title": "YUNG's Better End Island",
+      "project_id": "2BwBOmBQ",
+      "version_id": "I52NZ1qK",
+      "version": "1.21.1-NeoForge-3.1.2",
+      "release_type": "release",
+      "purpose": "Новый главный остров Края и бой с драконом",
+      "install_sides": [
+        "server"
+      ],
+      "requires": [
+        "yungsapi"
+      ],
+      "upstream_sides": {
+        "client": "unsupported",
+        "server": "required"
+      },
+      "license": {
+        "id": "LGPL-3.0-only",
+        "name": "GNU Lesser General Public License v3.0 only",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/yungs-better-end-island",
+      "version_url": "https://modrinth.com/mod/yungs-better-end-island/version/I52NZ1qK",
+      "metadata_url": "https://api.modrinth.com/v2/version/I52NZ1qK",
+      "file": {
+        "name": "YungsBetterEndIsland-1.21.1-NeoForge-3.1.2.jar",
+        "url": "https://cdn.modrinth.com/data/2BwBOmBQ/versions/I52NZ1qK/YungsBetterEndIsland-1.21.1-NeoForge-3.1.2.jar",
+        "size": 398130,
+        "sha512": "02923a1a97eb81ec13d69bdc6b7e8b36dfb9e6f1a98adfcf103707ec3afde35831ccd4b210e9b3a9c7662541c38ea593a3d94c12171b4072ea7feafa75c95f96",
+        "sha1": "832f2c17425debe74a9f267f4136f1a0f0221d19"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "minecraft",
+          "version_range": "[1.21, 1.22)",
+          "type": "required",
+          "side": "BOTH",
+          "ordering": "NONE"
+        },
+        {
+          "mod_id": "neoforge",
+          "version_range": "[21.0.0,)",
+          "type": "required",
+          "side": "BOTH",
+          "ordering": "NONE"
+        },
+        {
+          "mod_id": "yungsapi",
+          "version_range": "[1.21.1-NeoForge-5.1.4,)",
+          "type": "required",
+          "side": "BOTH",
+          "ordering": "NONE"
+        }
+      ]
+    },
+    {
+      "slug": "yungs-better-jungle-temples",
+      "mod_id": "betterjungletemples",
+      "title": "YUNG's Better Jungle Temples",
+      "project_id": "z9Ve58Ih",
+      "version_id": "P00i2hJn",
+      "version": "1.21.1-NeoForge-3.1.2",
+      "release_type": "release",
+      "purpose": "Храмы джунглей с испытаниями",
+      "install_sides": [
+        "server"
+      ],
+      "requires": [
+        "yungsapi"
+      ],
+      "upstream_sides": {
+        "client": "unsupported",
+        "server": "required"
+      },
+      "license": {
+        "id": "LGPL-3.0-only",
+        "name": "GNU Lesser General Public License v3.0 only",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/yungs-better-jungle-temples",
+      "version_url": "https://modrinth.com/mod/yungs-better-jungle-temples/version/P00i2hJn",
+      "metadata_url": "https://api.modrinth.com/v2/version/P00i2hJn",
+      "file": {
+        "name": "YungsBetterJungleTemples-1.21.1-NeoForge-3.1.2.jar",
+        "url": "https://cdn.modrinth.com/data/z9Ve58Ih/versions/P00i2hJn/YungsBetterJungleTemples-1.21.1-NeoForge-3.1.2.jar",
+        "size": 795839,
+        "sha512": "eca4233e874a55886c63d2111b8685d479771d3627bad2922582e65b78c51ba74733dc4624aabf91f2a2178a940a72d9209ae33eef74e34f84f07d62256709d9",
+        "sha1": "d6b7ce6cf351b09cbd23147ff166c35cfdc572e8"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "minecraft",
+          "version_range": "[1.21, 1.22)",
+          "type": "required",
+          "side": "BOTH",
+          "ordering": "NONE"
+        },
+        {
+          "mod_id": "neoforge",
+          "version_range": "[21.0.0,)",
+          "type": "required",
+          "side": "BOTH",
+          "ordering": "NONE"
+        },
+        {
+          "mod_id": "yungsapi",
+          "version_range": "[1.21.1-NeoForge-5.1.3,)",
+          "type": "required",
+          "side": "BOTH",
+          "ordering": "NONE"
+        }
+      ]
+    },
+    {
+      "slug": "yungs-better-mineshafts",
+      "mod_id": "bettermineshafts",
+      "title": "YUNG's Better Mineshafts",
+      "project_id": "HjmxVlSr",
+      "version_id": "Go3nbneL",
+      "version": "1.21.1-NeoForge-5.1.1",
+      "release_type": "release",
+      "purpose": "Большие заброшенные шахты",
+      "install_sides": [
+        "server"
+      ],
+      "requires": [
+        "yungsapi"
+      ],
+      "upstream_sides": {
+        "client": "unsupported",
+        "server": "required"
+      },
+      "license": {
+        "id": "LGPL-3.0-only",
+        "name": "GNU Lesser General Public License v3.0 only",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/yungs-better-mineshafts",
+      "version_url": "https://modrinth.com/mod/yungs-better-mineshafts/version/Go3nbneL",
+      "metadata_url": "https://api.modrinth.com/v2/version/Go3nbneL",
+      "file": {
+        "name": "YungsBetterMineshafts-1.21.1-NeoForge-5.1.1.jar",
+        "url": "https://cdn.modrinth.com/data/HjmxVlSr/versions/Go3nbneL/YungsBetterMineshafts-1.21.1-NeoForge-5.1.1.jar",
+        "size": 493967,
+        "sha512": "8b01b386f53feeaa55f0c62697578b82e00501e45e428b2a68df6bda34efb6a4b3b4e3582abf13fe767ebcb61aef9368186f53c03999958bef38f31c41a7f8b2",
+        "sha1": "6a14e1d8201f068ca87ef8333e471c5378955906"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "minecraft",
+          "version_range": "[1.21, 1.22)",
+          "type": "required",
+          "side": "BOTH",
+          "ordering": "NONE"
+        },
+        {
+          "mod_id": "neoforge",
+          "version_range": "[21.0.0,)",
+          "type": "required",
+          "side": "BOTH",
+          "ordering": "NONE"
+        },
+        {
+          "mod_id": "yungsapi",
+          "version_range": "[1.21.1-NeoForge-5.1.2,)",
+          "type": "required",
+          "side": "BOTH",
+          "ordering": "NONE"
+        }
+      ]
+    },
+    {
+      "slug": "yungs-better-nether-fortresses",
+      "mod_id": "betterfortresses",
+      "title": "YUNG's Better Nether Fortresses",
+      "project_id": "Z2mXHnxP",
+      "version_id": "iopJiJQp",
+      "version": "1.21.1-NeoForge-3.1.5",
+      "release_type": "release",
+      "install_sides": [
+        "server"
+      ],
+      "requires": [
+        "yungsapi"
+      ],
+      "upstream_sides": {
+        "client": "unsupported",
+        "server": "required"
+      },
+      "license": {
+        "id": "LGPL-3.0-only",
+        "name": "GNU Lesser General Public License v3.0 only",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/yungs-better-nether-fortresses",
+      "version_url": "https://modrinth.com/mod/yungs-better-nether-fortresses/version/iopJiJQp",
+      "metadata_url": "https://api.modrinth.com/v2/version/iopJiJQp",
+      "file": {
+        "name": "YungsBetterNetherFortresses-1.21.1-NeoForge-3.1.5.jar",
+        "url": "https://cdn.modrinth.com/data/Z2mXHnxP/versions/iopJiJQp/YungsBetterNetherFortresses-1.21.1-NeoForge-3.1.5.jar",
+        "size": 609639,
+        "sha512": "18b461298d3df1215fa3b4d2c0cb2ef1c7ed76701d8a0bb140277b21923e31abd939f0fd9b400c5bd676d739f1cda31c43b4dc753f9187251542223f3424d336",
+        "sha1": "4061ece2141475227646649046fc14c2da505922"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "minecraft",
+          "version_range": "[1.21, 1.22)",
+          "type": "required",
+          "side": "BOTH",
+          "ordering": "NONE"
+        },
+        {
+          "mod_id": "neoforge",
+          "version_range": "[21.0.0,)",
+          "type": "required",
+          "side": "BOTH",
+          "ordering": "NONE"
+        },
+        {
+          "mod_id": "yungsapi",
+          "version_range": "[1.21.1-NeoForge-5.1.4,)",
+          "type": "required",
+          "side": "BOTH",
+          "ordering": "NONE"
+        }
+      ],
+      "purpose": "Переработанные крепости Незера для исследований и боевых вылазок"
+    },
+    {
+      "slug": "yungs-better-ocean-monuments",
+      "mod_id": "betteroceanmonuments",
+      "title": "YUNG's Better Ocean Monuments",
+      "project_id": "3dT9sgt4",
+      "version_id": "yFjEcj2g",
+      "version": "1.21.1-NeoForge-4.1.2",
+      "release_type": "release",
+      "purpose": "Расширенные океанские монументы",
+      "install_sides": [
+        "server"
+      ],
+      "requires": [
+        "yungsapi"
+      ],
+      "upstream_sides": {
+        "client": "unsupported",
+        "server": "required"
+      },
+      "license": {
+        "id": "LGPL-3.0-only",
+        "name": "GNU Lesser General Public License v3.0 only",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/yungs-better-ocean-monuments",
+      "version_url": "https://modrinth.com/mod/yungs-better-ocean-monuments/version/yFjEcj2g",
+      "metadata_url": "https://api.modrinth.com/v2/version/yFjEcj2g",
+      "file": {
+        "name": "YungsBetterOceanMonuments-1.21.1-NeoForge-4.1.2.jar",
+        "url": "https://cdn.modrinth.com/data/3dT9sgt4/versions/yFjEcj2g/YungsBetterOceanMonuments-1.21.1-NeoForge-4.1.2.jar",
+        "size": 1025571,
+        "sha512": "77c864da36f1d2173e6460dc335996893a804954b8a5c274173fc95dfdbf437e80d9dce32f6060306a662fc35322566eecf5dfe24e2d3fab79bf7e0ff9fa4db6",
+        "sha1": "fba629defdb92ad99ec4f411895afb6e19555a18"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "minecraft",
+          "version_range": "[1.21, 1.22)",
+          "type": "required",
+          "side": "BOTH",
+          "ordering": "NONE"
+        },
+        {
+          "mod_id": "neoforge",
+          "version_range": "[21.0.0,)",
+          "type": "required",
+          "side": "BOTH",
+          "ordering": "NONE"
+        },
+        {
+          "mod_id": "yungsapi",
+          "version_range": "[1.21.1-NeoForge-5.1.3,)",
+          "type": "required",
+          "side": "BOTH",
+          "ordering": "NONE"
+        }
+      ]
+    },
+    {
+      "slug": "yungs-better-strongholds",
+      "mod_id": "betterstrongholds",
+      "title": "YUNG's Better Strongholds",
+      "project_id": "kidLKymU",
+      "version_id": "8U0dIfSM",
+      "version": "1.21.1-NeoForge-5.1.3",
+      "release_type": "release",
+      "purpose": "Разветвлённые крепости с порталом в Край",
+      "install_sides": [
+        "server"
+      ],
+      "requires": [
+        "yungsapi"
+      ],
+      "upstream_sides": {
+        "client": "unsupported",
+        "server": "required"
+      },
+      "license": {
+        "id": "LGPL-3.0-only",
+        "name": "GNU Lesser General Public License v3.0 only",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/yungs-better-strongholds",
+      "version_url": "https://modrinth.com/mod/yungs-better-strongholds/version/8U0dIfSM",
+      "metadata_url": "https://api.modrinth.com/v2/version/8U0dIfSM",
+      "file": {
+        "name": "YungsBetterStrongholds-1.21.1-NeoForge-5.1.3.jar",
+        "url": "https://cdn.modrinth.com/data/kidLKymU/versions/8U0dIfSM/YungsBetterStrongholds-1.21.1-NeoForge-5.1.3.jar",
+        "size": 461244,
+        "sha512": "385d67e07f2c67af5ea387d92d92949d8f671e8f99204457b6396dbe987ac3b14c2bff765df5fcbaa68016604f82a1fc6ec5a69c012ca22ad088d1a7c9bc135d",
+        "sha1": "5d06a5850af7c577612d4592706a8e156bbe1cbf"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "minecraft",
+          "version_range": "[1.21, 1.22)",
+          "type": "required",
+          "side": "BOTH",
+          "ordering": "NONE"
+        },
+        {
+          "mod_id": "neoforge",
+          "version_range": "[21.0.0,)",
+          "type": "required",
+          "side": "BOTH",
+          "ordering": "NONE"
+        },
+        {
+          "mod_id": "yungsapi",
+          "version_range": "[1.21.1-NeoForge-5.1.4,)",
+          "type": "required",
+          "side": "BOTH",
+          "ordering": "NONE"
+        }
+      ]
+    },
+    {
+      "slug": "yungs-cave-biomes",
+      "mod_id": "yungscavebiomes",
+      "title": "YUNG's Cave Biomes",
+      "project_id": "cs7iGVq1",
+      "version_id": "HYGqXWqQ",
+      "version": "1.21.1-NeoForge-3.1.1",
+      "release_type": "release",
+      "purpose": "Подземные биомы, новые блоки и обитатели пещер",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [
+        "yungsapi",
+        "terrablender",
+        "geckolib"
+      ],
+      "upstream_sides": {
+        "client": "required",
+        "server": "required"
+      },
+      "license": {
+        "id": "LicenseRef-All-Rights-Reserved",
+        "name": "",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/yungs-cave-biomes",
+      "version_url": "https://modrinth.com/mod/yungs-cave-biomes/version/HYGqXWqQ",
+      "metadata_url": "https://api.modrinth.com/v2/version/HYGqXWqQ",
+      "file": {
+        "name": "YungsCaveBiomes-1.21.1-NeoForge-3.1.1.jar",
+        "url": "https://cdn.modrinth.com/data/cs7iGVq1/versions/HYGqXWqQ/YungsCaveBiomes-1.21.1-NeoForge-3.1.1.jar",
+        "size": 13006621,
+        "sha512": "9e88b5109e06c791f27c23df16ebd2c535b5b27cf9b748ee6a439dccf3e560d32110b81ace5ea7dcca2992394b439223c20e4f2688e80e263efa103e2b154024",
+        "sha1": "bcab81f578b3cb31e599ae327c6634b9fa8d0f04"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "minecraft",
+          "version_range": "[1.21, 1.22)",
+          "type": "required",
+          "side": "BOTH",
+          "ordering": "NONE"
+        },
+        {
+          "mod_id": "neoforge",
+          "version_range": "[21.0.0,)",
+          "type": "required",
+          "side": "BOTH",
+          "ordering": "NONE"
+        },
+        {
+          "mod_id": "yungsapi",
+          "version_range": "[1.21.1-NeoForge-5.1.6,)",
+          "type": "required",
+          "side": "BOTH",
+          "ordering": "NONE"
+        },
+        {
+          "mod_id": "terrablender",
+          "version_range": "[4.1.0.8,)",
+          "type": "required",
+          "side": "BOTH",
+          "ordering": "NONE"
+        },
+        {
+          "mod_id": "geckolib",
+          "version_range": "[4.7.6,)",
+          "type": "required",
+          "side": "BOTH",
+          "ordering": "NONE"
+        }
+      ]
+    },
+    {
+      "slug": "moogs-structure-lib",
+      "mod_id": "moogs_structures",
+      "title": "Moog's Structure Lib (moogs_structures)",
+      "project_id": "1oUDhxuy",
+      "version_id": "wcg4mE4e",
+      "version": "3.4.2-neoforge-1.21.1",
+      "release_type": "release",
+      "purpose": "Генерация структур Moog",
+      "install_sides": [
+        "server"
+      ],
+      "requires": [],
+      "upstream_sides": {
+        "client": "unsupported",
+        "server": "required"
+      },
+      "license": {
+        "id": "LGPL-3.0-only",
+        "name": "GNU Lesser General Public License v3.0 only",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/moogs-structure-lib",
+      "version_url": "https://modrinth.com/mod/moogs-structure-lib/version/wcg4mE4e",
+      "metadata_url": "https://api.modrinth.com/v2/version/wcg4mE4e",
+      "file": {
+        "name": "MoogsStructureLib-neoforge-1.21.1-3.4.2.jar",
+        "url": "https://cdn.modrinth.com/data/1oUDhxuy/versions/wcg4mE4e/MoogsStructureLib-neoforge-1.21.1-3.4.2.jar",
+        "size": 1094979,
+        "sha512": "378d5da579e65e8c37d81aee510302f99b3097f0c6a4245f3621478f741fac3b55a3715227d9408153a66c98624f8fcb5f93e98027212e0f0a82b768315d0651",
+        "sha1": "c379b8d5dc1a4b1e8987da1052d6b4de81354d72"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "minecraft",
+          "version_range": "[1.21,1.21.2)",
+          "type": "required",
+          "side": "BOTH",
+          "ordering": "NONE"
+        },
+        {
+          "mod_id": "neoforge",
+          "version_range": "[21.0.0-beta,)",
+          "type": "required",
+          "side": "BOTH",
+          "ordering": "NONE"
+        }
+      ]
+    },
+    {
+      "slug": "essential-core",
+      "mod_id": "nightcore",
+      "title": "Essential Core",
+      "project_id": "1388058",
+      "version_id": "8940893",
+      "version": "7.0.0",
+      "release_type": "release",
+      "purpose": "Серверная история блоков и инвентарей, инспектор и административный откат",
+      "install_sides": [
+        "server"
+      ],
+      "requires": [],
+      "upstream_sides": {
+        "client": "unsupported",
+        "server": "required"
+      },
+      "license": {
+        "id": "LicenseRef-All-Rights-Reserved",
+        "name": "All Rights Reserved",
+        "url": null
+      },
+      "project_url": "https://www.curseforge.com/minecraft/mc-mods/essential-core",
+      "version_url": "https://www.curseforge.com/minecraft/mc-mods/essential-core/files/8940893",
+      "metadata_url": "https://www.curseforge.com/minecraft/mc-mods/essential-core/files/8940893",
+      "file": {
+        "name": "EssentialCore-1.21.1-7.0.0.jar",
+        "url": "https://mediafilez.forgecdn.net/files/8940/893/EssentialCore-1.21.1-7.0.0.jar",
+        "size": 145365,
+        "sha512": "3e808d1a9f5b62e88915cf9d458aef480d77bc237c2429d62ed0928057dc65cd5ebd6c9b310c6a45bc2cc64c541049be989bf69841995d0b999d88fccb3c726b",
+        "sha1": "c95c787c55f99de74925c6d6cee7e9658f71128c"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "version_range": "[21,)",
+          "type": "required",
+          "side": "BOTH",
+          "ordering": "NONE"
+        },
+        {
+          "mod_id": "minecraft",
+          "version_range": "[1.21.1,1.22)",
+          "type": "required",
+          "side": "BOTH",
+          "ordering": "NONE"
+        }
+      ],
+      "distribution_platform": "curseforge"
+    }
+  ]
+}

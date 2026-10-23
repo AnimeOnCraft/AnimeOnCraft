@@ -1,0 +1,25 @@
+{
+  "name": "@animeoncraft/contracts",
+  "version": "0.7.20-friends-dev",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./dist/index.js",
+    "./generated": "./dist/generated/api.js"
+  },
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "generate": "openapi-typescript openapi/openapi.yaml -o src/generated/api.ts && openapi-typescript openapi/development.yaml -o src/generated/development.ts && openapi-typescript openapi/auth.yaml -o src/generated/auth.ts && openapi-typescript openapi/community.yaml -o src/generated/community.ts && openapi-typescript openapi/administration.yaml -o src/generated/administration.ts && openapi-typescript openapi/game.yaml -o src/generated/game.ts",
+    "build": "corepack pnpm generate && tsc -p tsconfig.json",
+    "typecheck": "corepack pnpm generate && tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1",
+    "openapi-typescript": "7.13.0",
+    "typescript": "5.9.3",
+    "vitest": "5.0.3",
+    "yaml": "2.9.1"
+  }
+}

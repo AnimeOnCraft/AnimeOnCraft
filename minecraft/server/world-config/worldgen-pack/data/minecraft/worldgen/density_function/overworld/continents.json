@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:flat_cache",
+  "argument": {
+    "type": "minecraft:add",
+    "argument1": {
+      "type": "animeoncraft:mask",
+      "mask": "continents",
+      "min": -1.2,
+      "max": 1.0
+    },
+    "argument2": {
+      "type": "minecraft:mul",
+      "argument1": {
+        "type": "animeoncraft:mask",
+        "mask": "continents_detail",
+        "min": 0.0,
+        "max": 1.0
+      },
+      "argument2": {
+        "type": "minecraft:shifted_noise",
+        "noise": "minecraft:continentalness",
+        "shift_x": "minecraft:shift_x",
+        "shift_y": 0.0,
+        "shift_z": "minecraft:shift_z",
+        "xz_scale": 0.25,
+        "y_scale": 0.0
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "source": "WorldgenProbe inventory, .tools/worldgen-results/states/worldgen-inventory.json (2026-10-20)",
+  "families": {
+    "NONFERROUS": ["create:zinc_ore"],
+    "ARCANE": ["irons_spellbooks:ore_mithril_placement"]
+  },
+  "not_weighted": {
+    "create:striated_ores_overworld": "Create stone layers (asurine/crimsite/ochrum/veridium) feed several families through crushing; left as generated"
+  }
+}

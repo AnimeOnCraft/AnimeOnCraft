@@ -1,0 +1,17 @@
+[Unit]
+Description=AnimeOnCraft Minecraft server
+After=animeoncraft-api.service
+Requires=animeoncraft-api.service
+
+[Service]
+User=animeoncraft
+WorkingDirectory=/srv/animeoncraft
+EnvironmentFile=/srv/animeoncraft/.env
+ExecStart=/usr/bin/node scripts/start-friends-server.mjs
+Restart=on-failure
+RestartSec=10
+KillMode=mixed
+TimeoutStopSec=120
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,448 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "AnimeOnCraft Friends Game Admission Development API",
+    "version": "0.7.20-friends-dev",
+    "description": "Backend foundation only. NeoForge handshake and launcher PLAY are not implemented. One configured server, 60-second opaque single-use tickets; no Microsoft binding required."
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:3000/api/v1/game"
+    }
+  ],
+  "paths": {
+    "/tickets": {
+      "post": {
+        "operationId": "issueGameTicket",
+        "description": "Launcher only. Requires X-AOC-Client: launcher, no browser origin/cookies, current session, game profile, active grant and no ban. Production requires X-AOC-Launcher-Version (or launcher_version body field) at least the published release; it is checked again on redemption. Native clients retain the legacy empty body for compatibility with the previous API. Outdated or missing versions return 426 LAUNCHER_UPDATE_REQUIRED. The server is selected by backend configuration, not by input. New issue replaces any pending ticket for this account/server.",
+        "security": [
+          {
+            "NativeAccess": []
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TicketInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response; Cache-Control: no-store.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ticket"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request rejected or dependency unavailable. No admission granted.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request rejected or dependency unavailable. No admission granted.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Request rejected or dependency unavailable. No admission granted.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "426": {
+            "description": "Launcher update required. No admission granted.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "code",
+                    "minimum_launcher_version",
+                    "message"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "const": "LAUNCHER_UPDATE_REQUIRED"
+                    },
+                    "minimum_launcher_version": {
+                      "type": "string",
+                      "maxLength": 20,
+                      "pattern": "^(0|[1-9][0-9]{0,5})\\.(0|[1-9][0-9]{0,5})\\.(0|[1-9][0-9]{0,5})(?![\\s\\S])"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Request rejected or dependency unavailable. No admission granted.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Request rejected or dependency unavailable. No admission granted.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-AOC-Client",
+            "required": true,
+            "schema": {
+              "const": "launcher"
+            }
+          },
+          {
+            "name": "X-AOC-Launcher-Version",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "maxLength": 20,
+              "pattern": "^(0|[1-9][0-9]{0,5})\\.(0|[1-9][0-9]{0,5})\\.(0|[1-9][0-9]{0,5})(?![\\s\\S])"
+            }
+          }
+        ]
+      }
+    },
+    "/admission/redeem": {
+      "post": {
+        "operationId": "redeemGameTicket",
+        "description": "Trusted server only. No browser transport. Validates exact game name/UUID, configured server and current account/session/grant/ban/maintenance state again. Consumes atomically; retries/replays fail. Echoes the server-supplied connection ID. Never log the ticket or server credential.",
+        "security": [
+          {
+            "GameServerKey": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RedeemInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response; Cache-Control: no-store.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Admission"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request rejected or dependency unavailable. No admission granted.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request rejected or dependency unavailable. No admission granted.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Request rejected or dependency unavailable. No admission granted.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "426": {
+            "description": "Launcher update required. No admission granted.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "code",
+                    "minimum_launcher_version",
+                    "message"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "const": "LAUNCHER_UPDATE_REQUIRED"
+                    },
+                    "minimum_launcher_version": {
+                      "type": "string",
+                      "maxLength": 20,
+                      "pattern": "^(0|[1-9][0-9]{0,5})\\.(0|[1-9][0-9]{0,5})\\.(0|[1-9][0-9]{0,5})(?![\\s\\S])"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Request rejected or dependency unavailable. No admission granted.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Request rejected or dependency unavailable. No admission granted.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "NativeAccess": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Ordinary launcher access token; cannot redeem a ticket."
+      },
+      "GameServerKey": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Private 64-hex server credential AOC_GAME_SERVER_KEY. Never distribute in client/launcher/configuration exposed to players."
+      }
+    },
+    "schemas": {
+      "TicketInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [],
+        "properties": {
+          "launcher_version": {
+            "type": "string",
+            "maxLength": 20,
+            "pattern": "^(0|[1-9][0-9]{0,5})\\.(0|[1-9][0-9]{0,5})\\.(0|[1-9][0-9]{0,5})(?![\\s\\S])",
+            "description": "Native package version, alternatively sent as X-AOC-Launcher-Version. Required in production."
+          }
+        }
+      },
+      "Ticket": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "ticket",
+          "server_id",
+          "game_name",
+          "minecraft_uuid",
+          "expires_at"
+        ],
+        "properties": {
+          "ticket": {
+            "type": "string",
+            "pattern": "^gt_[A-Za-z0-9_-]{43}(?![\\s\\S])"
+          },
+          "server_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "game_name": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 16,
+            "pattern": "^[A-Za-z0-9_]{3,16}(?![\\s\\S])"
+          },
+          "minecraft_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-3[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}(?![\\s\\S])"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "RedeemInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "ticket",
+          "game_name",
+          "minecraft_uuid",
+          "connection_id"
+        ],
+        "properties": {
+          "ticket": {
+            "type": "string",
+            "pattern": "^gt_[A-Za-z0-9_-]{43}(?![\\s\\S])"
+          },
+          "game_name": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 16,
+            "pattern": "^[A-Za-z0-9_]{3,16}(?![\\s\\S])"
+          },
+          "minecraft_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-3[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}(?![\\s\\S])"
+          },
+          "connection_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}(?![\\s\\S])"
+          }
+        }
+      },
+      "Admission": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "accepted",
+          "connection_id",
+          "user_id",
+          "game_name",
+          "minecraft_uuid",
+          "clan"
+        ],
+        "properties": {
+          "accepted": {
+            "const": true
+          },
+          "connection_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}(?![\\s\\S])"
+          },
+          "user_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "game_name": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 16,
+            "pattern": "^[A-Za-z0-9_]{3,16}(?![\\s\\S])"
+          },
+          "minecraft_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-3[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}(?![\\s\\S])"
+          },
+          "clan": {
+            "anyOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "id",
+                  "short_code"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "short_code": {
+                    "type": "string",
+                    "maxLength": 12
+                  }
+                }
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "error"
+        ],
+        "properties": {
+          "error": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "code",
+              "message",
+              "request_id"
+            ],
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "request_id": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

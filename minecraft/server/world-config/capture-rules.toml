@@ -1,0 +1,102 @@
+# AnimeOnCraft capture rules — World Design stage 4 (docs/CAPTURE_SYSTEM.md, docs/RESOURCE_SYSTEM.md).
+# Imported together with the world profile (`capture_rules = "capture-rules.toml"` in world*.toml) by
+# `world:import`; the backend keeps the active copy in world_catalog.capture_rules and hands the
+# in-game part to the server mod. Every number here is a starting value for playtests, not code.
+format_version = 1
+timezone = "Asia/Yekaterinburg"
+
+# Captures may be declared only inside these local-time windows. Protection and lease timers keep
+# running outside them, so a sleeping clan does not lose a point at night. "23:30"-"02:00" also works.
+[window]
+daily = [["15:00", "23:30"]]
+
+[declare]
+roles = ["MEMBER"]            # MEMBER = any clan member; MANAGER = clan managers only
+min_players = 2               # declaring clan members inside the zone
+min_players_t1 = 1            # T1 resource sites need only one
+max_active_per_clan = 2       # simultaneous running declarations of one clan
+failed_cooldown_seconds = 7200  # same clan, same point, after a failed attempt (resource sites use their own cooldown)
+
+[timing]
+preparation_seconds = 300
+preparation_weak_defence_seconds = 900  # owner has fewer than min_defenders_online members online
+renewal_preparation_seconds = 120       # owner renews its own AVAILABLE point
+min_defenders_online = 1
+battle_seconds = 900
+overtime_seconds = 180
+protection_seconds = 21600    # PROTECTED after a capture
+lease_seconds = 86400         # CONTROLLED until lease end (counted from the capture)
+available_seconds = 86400     # AVAILABLE without renewal -> NEUTRAL
+resume_grace_seconds = 300    # restart or API outage longer than this voids a running capture
+
+[presence]
+height = 12                   # cylinder: point radius, +-height around the point Y
+join_grace_seconds = 10       # after login or a teleport a player does not count
+teleport_blocks = 32          # movement of more than this in one second counts as a teleport
+
+[score]
+exponent = 0.7                # clan strength s = players^exponent
+defence_bonus = 1.15          # CONTROLLED owner strength multiplier (none while AVAILABLE)
+dominance_ratio = 1.25        # leader must be this much stronger than the runner-up
+full_capture_seconds = 360    # uncontested 0 -> 100 %
+decay_seconds = 600           # non-leaders lose 100 % in this time while someone dominates
+kill_bonus = 3.0
+kill_penalty = 2.0
+kill_radius_extra = 16
+kill_repeat_seconds = 60      # the same victim again within this time does not count
+kill_max_per_victim = 5       # per capture event
+win_progress = 50.0           # at the end of the battle
+win_margin = 10.0
+snapshot_seconds = 10
+
+[influence]
+strategic_weight = 1          # capturable points without a resource yield
+tier_weights = [1, 2, 3, 4]   # T1..T4
+base_capacity = 8
+levels_per_bonus = 25
+max_capacity = 12
+
+[yield]
+rank_multipliers = [1.0, 1.0, 0.85, 0.7, 0.55, 0.4]  # by order of acquisition; the last value repeats
+available_multiplier = 0.5
+pit_blocks = [64, 160, 256, 384]                     # T1..T4 template size of a seeded pit
+cache_slots = 4                                      # a cache keeps at most this many refreshes
+
+# Rewards go to clan_gameplay_events / clan_progression (the same ledger as wars and bosses).
+[rewards]
+tiers = [{ xp = 150, reputation = 5 }, { xp = 250, reputation = 10 }, { xp = 400, reputation = 15 }, { xp = 500, reputation = 20 }]
+strategic = { xp = 200, reputation = 10 }
+defended = { xp = 50, reputation = 2 }
+
+# Blocks a PIT restores. The first refresh records the matching blocks already inside the zone as
+# the pit template; ore families with too few blocks get a seeded vein from `seed` (weights).
+# Unknown ids (mod missing) are skipped with a log line, never a crash.
+[families.FERROUS]
+blocks = ["minecraft:iron_ore", "minecraft:deepslate_iron_ore", "minecraft:coal_ore", "minecraft:deepslate_coal_ore", "minecraft:raw_iron_block"]
+seed = [["minecraft:iron_ore", 6], ["minecraft:coal_ore", 4]]
+[families.NONFERROUS]
+blocks = ["minecraft:copper_ore", "minecraft:deepslate_copper_ore", "create:zinc_ore", "create:deepslate_zinc_ore"]
+seed = [["minecraft:copper_ore", 5], ["create:zinc_ore", 5]]
+[families.PRECIOUS]
+blocks = ["minecraft:gold_ore", "minecraft:deepslate_gold_ore", "minecraft:diamond_ore", "minecraft:deepslate_diamond_ore", "minecraft:emerald_ore", "minecraft:deepslate_emerald_ore"]
+seed = [["minecraft:gold_ore", 7], ["minecraft:diamond_ore", 2], ["minecraft:emerald_ore", 1]]
+[families.ARCANE]
+blocks = ["minecraft:lapis_ore", "minecraft:deepslate_lapis_ore", "minecraft:amethyst_block", "minecraft:budding_amethyst", "irons_spellbooks:mithril_ore", "irons_spellbooks:deepslate_mithril_ore"]
+seed = [["minecraft:lapis_ore", 6], ["minecraft:amethyst_block", 3], ["irons_spellbooks:mithril_ore", 1]]
+[families.TECH]
+blocks = ["minecraft:redstone_ore", "minecraft:deepslate_redstone_ore"]
+seed = [["minecraft:redstone_ore", 1]]
+[families.TIMBER]
+blocks = ["minecraft:oak_log", "minecraft:spruce_log", "minecraft:birch_log", "minecraft:jungle_log", "minecraft:acacia_log", "minecraft:dark_oak_log", "minecraft:mangrove_log", "minecraft:cherry_log", "minecraft:bamboo_block"]
+[families.AGRARIAN]
+blocks = ["minecraft:hay_block", "minecraft:pumpkin", "minecraft:melon", "minecraft:sugar_cane", "minecraft:beehive"]
+[families.ALCHEMY]
+blocks = ["minecraft:brown_mushroom_block", "minecraft:red_mushroom_block", "minecraft:sweet_berry_bush", "minecraft:glow_lichen"]
+[families.MARINE]
+blocks = ["minecraft:prismarine", "minecraft:sponge", "minecraft:wet_sponge", "minecraft:sea_lantern"]
+
+# CACHE sites fill a stash instead of restoring blocks; only the owner clan can collect it.
+[caches.MARINE]
+items = [["minecraft:cod", 24], ["minecraft:salmon", 16], ["minecraft:prismarine_shard", 12], ["minecraft:nautilus_shell", 1]]
+[caches.TECH]
+items = [["minecraft:redstone", 32], ["minecraft:copper_ingot", 12], ["minecraft:iron_nugget", 24], ["minecraft:quartz", 8]]

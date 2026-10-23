@@ -1,0 +1,15 @@
+{
+  "code": "CYAN_VISOR",
+  "anchor": "head_top",
+  "emissive_tiles": [
+    3,
+    5
+  ],
+  "parts": {
+    "static": [
+      0,
+      0,
+      0
+    ]
+  }
+}

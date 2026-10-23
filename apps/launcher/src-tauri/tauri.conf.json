@@ -1,0 +1,54 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "AnimeOnCraft",
+  "version": "0.8.7",
+  "identifier": "ru.animeoncraft.launcher",
+  "build": {
+    "beforeDevCommand": "corepack pnpm prepare:bootstrap && corepack pnpm dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "corepack pnpm prepare:bootstrap && corepack pnpm build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "security": {
+      "csp": "default-src 'self'; connect-src 'self' ipc: http://ipc.localhost; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'",
+      "capabilities": [
+        "main"
+      ]
+    },
+    "windows": [
+      {
+        "label": "main",
+        "title": "AnimeOnCraft",
+        "theme": "Dark",
+        "width": 1180,
+        "height": 760,
+        "minWidth": 920,
+        "minHeight": 620,
+        "resizable": true
+      }
+    ]
+  },
+  "plugins": {
+    "updater": {
+      "pubkey": "",
+      "requireSignedVersion": true,
+      "windows": {
+        "installMode": "passive"
+      }
+    }
+  },
+  "bundle": {
+    "active": false,
+    "resources": {
+      "../../../.tools/launcher-bootstrap/": "bootstrap/"
+    },
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ]
+  }
+}

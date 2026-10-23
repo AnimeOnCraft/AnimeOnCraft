@@ -1,0 +1,5 @@
+Roboto Condensed Regular and Bold, unmodified.
+Copyright 2011 Google Inc. Licensed under the Apache License, Version 2.0.
+Source: https://github.com/googlefonts/roboto-2/blob/main/src/hinted/RobotoCondensed-Regular.ttf
+License: roboto-license.txt
+SHA256: a9603db0f52e244064de480253ab7f48e6c21c22e24528207cab06d39abc7bb7

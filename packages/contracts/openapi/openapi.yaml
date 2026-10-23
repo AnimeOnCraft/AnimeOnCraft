@@ -1,0 +1,429 @@
+openapi: 3.1.0
+info:
+  title: AnimeOnCraft Public API
+  version: 0.4.0-auth-dev
+  description: Implemented read-only public endpoints. Local opt-in CRUD has a separate contract.
+servers:
+  - url: /api/v1
+paths:
+  /health/live:
+    get:
+      operationId: getLiveHealth
+      responses:
+        '200':
+          description: The process is alive.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/LiveResponse' }
+  /health/ready:
+    get:
+      operationId: getReadyHealth
+      responses:
+        '200':
+          description: Mandatory dependencies are ready.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ReadyResponse' }
+        '503':
+          description: One or more mandatory dependencies are unavailable.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ReadyResponse' }
+  /clans:
+    get:
+      operationId: listClans
+      parameters:
+        - { $ref: '#/components/parameters/Limit' }
+        - { $ref: '#/components/parameters/Cursor' }
+      responses:
+        '200':
+          description: Enabled, non-archived clans. Skeleton seeds are disabled, so this starts empty.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ClanListResponse' }
+        '503':
+          description: Database unavailable.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+  /clans/{id}:
+    get:
+      operationId: getClan
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Enabled, non-archived clan; unknown counts remain null.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ClanSummary' }
+        '404': { $ref: '#/components/responses/Rejected' }
+        '400': { $ref: '#/components/responses/Rejected' }
+        '503': { $ref: '#/components/responses/Rejected' }
+  /world/map:
+    get:
+      operationId: getWorldMap
+      responses:
+        '200':
+          description: Active world regions (clan colour from the registry), connections and public markers. No technical codes.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/WorldMapResponse' }
+        '404': { $ref: '#/components/responses/Rejected' }
+        '503': { $ref: '#/components/responses/Rejected' }
+  /world/points:
+    get:
+      operationId: getWorldPoints
+      responses:
+        '200':
+          description: Enabled strategic points and resource sites of the active world with owner, state and timers.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/WorldPointsResponse' }
+        '404': { $ref: '#/components/responses/Rejected' }
+        '503': { $ref: '#/components/responses/Rejected' }
+  /world/events:
+    get:
+      operationId: getWorldEvents
+      responses:
+        '200':
+          description: Latest public capture events of the active world (declarations, captures, defences, releases), newest first.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/WorldEventsResponse' }
+        '404': { $ref: '#/components/responses/Rejected' }
+        '503': { $ref: '#/components/responses/Rejected' }
+  /world/relief:
+    get:
+      operationId: getWorldRelief
+      responses:
+        '200':
+          description: Relief underlay of the active world map (top-down render of the pregenerated world) as a base64 JPEG or PNG with its block bounds.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/WorldReliefResponse' }
+        '404': { $ref: '#/components/responses/Rejected' }
+        '503': { $ref: '#/components/responses/Rejected' }
+  /news:
+    get:
+      operationId: listNews
+      parameters:
+        - { $ref: '#/components/parameters/Limit' }
+        - { $ref: '#/components/parameters/Cursor' }
+      responses:
+        '200':
+          description: Published, non-archived news; scheduled future articles excluded.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/NewsListResponse' }
+        '400': { $ref: '#/components/responses/Rejected' }
+        '503': { $ref: '#/components/responses/Rejected' }
+  /news/{slug}:
+    get:
+      operationId: getNews
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema: { type: string, maxLength: 100, pattern: '^[a-z0-9]+(-[a-z0-9]+)*$' }
+      responses:
+        '200':
+          description: Published Markdown article. UI must sanitize rendered Markdown.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/NewsDetail' }
+        '404': { $ref: '#/components/responses/Rejected' }
+        '400': { $ref: '#/components/responses/Rejected' }
+        '503': { $ref: '#/components/responses/Rejected' }
+  /launcher/compatibility:
+    get:
+      operationId: getLauncherCompatibility
+      responses:
+        '200':
+          description: Protocol information; launcher release remains unavailable in skeleton.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/CompatibilityResponse' }
+components:
+  parameters:
+    Limit:
+      name: limit
+      in: query
+      schema: { type: integer, minimum: 1, maximum: 100, default: 20 }
+    Cursor:
+      name: cursor
+      in: query
+      schema: { type: string, maxLength: 512 }
+  responses:
+    Rejected:
+      description: Controlled error; no database or private account data.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorResponse' }
+  schemas:
+    NewsSummary:
+      type: object
+      additionalProperties: false
+      required: [id, slug, title, published_at, version]
+      properties:
+        id: { type: string, format: uuid }
+        slug: { type: string, maxLength: 100, pattern: '^[a-z0-9]+(-[a-z0-9]+)*$' }
+        title: { type: string, minLength: 1, maxLength: 160 }
+        published_at: { type: string, format: date-time }
+        version: { type: string, pattern: '^(0|[1-9][0-9]*)$' }
+    NewsDetail:
+      type: object
+      additionalProperties: false
+      required: [id, slug, title, published_at, version, body_markdown]
+      properties:
+        id: { type: string, format: uuid }
+        slug: { type: string, maxLength: 100, pattern: '^[a-z0-9]+(-[a-z0-9]+)*$' }
+        title: { type: string, minLength: 1, maxLength: 160 }
+        published_at: { type: string, format: date-time }
+        version: { type: string, pattern: '^(0|[1-9][0-9]*)$' }
+        body_markdown: { type: string, maxLength: 20000 }
+    NewsListResponse:
+      type: object
+      additionalProperties: false
+      required: [items, next_cursor]
+      properties:
+        items:
+          type: array
+          maxItems: 100
+          items: { $ref: '#/components/schemas/NewsSummary' }
+        next_cursor: { type: [string, 'null'], maxLength: 512 }
+    LiveResponse:
+      type: object
+      additionalProperties: false
+      required: [status, service, version]
+      properties:
+        status: { const: ok }
+        service: { const: animeoncraft-backend }
+        version: { type: string, minLength: 1 }
+    DependencyStatus:
+      type: object
+      additionalProperties: false
+      required: [database, rate_limits]
+      properties:
+        database: { enum: [ok, degraded, unavailable] }
+        rate_limits: { enum: [ok, degraded, unavailable] }
+    ReadyResponse:
+      type: object
+      additionalProperties: false
+      required: [status, dependencies]
+      properties:
+        status: { enum: [ok, degraded, unavailable] }
+        dependencies: { $ref: '#/components/schemas/DependencyStatus' }
+    ClanSummary:
+      type: object
+      additionalProperties: false
+      required: [id, name, short_code, description, logo_url, discord_url, member_count, online_count, online_updated_at]
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string, minLength: 2, maxLength: 64 }
+        short_code: { type: string, pattern: '^[A-Z0-9]{2,12}$' }
+        description: { type: string, maxLength: 4000 }
+        logo_url: { type: [string, 'null'] }
+        discord_url: { type: [string, 'null'] }
+        color: { type: [string, 'null'], pattern: '^[0-9A-F]{6}$', description: 'Registry colour RRGGBB; null = neutral fallback' }
+        member_count: { type: [integer, 'null'], minimum: 0 }
+        online_count: { type: [integer, 'null'], minimum: 0 }
+        online_updated_at: { type: [string, 'null'], format: date-time }
+    WorldClanRef:
+      type: [object, 'null']
+      additionalProperties: false
+      required: [id, name, short_code, color]
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string }
+        short_code: { type: string, pattern: '^[A-Z0-9]{2,12}$' }
+        color: { type: [string, 'null'], pattern: '^[0-9A-F]{6}$' }
+    WorldVec:
+      type: array
+      minItems: 2
+      maxItems: 2
+      items: { type: integer }
+    WorldReliefBounds:
+      type: object
+      additionalProperties: false
+      required: [revision, x0, z0, width_blocks, height_blocks]
+      properties:
+        revision: { type: string, pattern: '^[1-9][0-9]*$' }
+        x0: { type: integer }
+        z0: { type: integer }
+        width_blocks: { type: integer, minimum: 256, maximum: 60000 }
+        height_blocks: { type: integer, minimum: 256, maximum: 60000 }
+    WorldReliefResponse:
+      type: object
+      additionalProperties: false
+      required: [revision, x0, z0, width_blocks, height_blocks, mime, width_px, height_px, sha256, image_base64]
+      properties:
+        revision: { type: string, pattern: '^[1-9][0-9]*$' }
+        x0: { type: integer }
+        z0: { type: integer }
+        width_blocks: { type: integer, minimum: 256, maximum: 60000 }
+        height_blocks: { type: integer, minimum: 256, maximum: 60000 }
+        mime: { enum: [image/jpeg, image/png] }
+        width_px: { type: integer, minimum: 64, maximum: 8192 }
+        height_px: { type: integer, minimum: 64, maximum: 8192 }
+        sha256: { type: string, pattern: '^[0-9a-f]{64}$' }
+        image_base64: { type: string, minLength: 4, maxLength: 4194304, pattern: "^[A-Za-z0-9+/]+={0,2}$" }
+    WorldMapResponse:
+      type: object
+      additionalProperties: false
+      required: [world, regions, connections, markers, relief]
+      properties:
+        relief:
+          oneOf:
+            - { type: 'null' }
+            - { $ref: '#/components/schemas/WorldReliefBounds' }
+        world:
+          type: object
+          additionalProperties: false
+          required: [display_name, version, border_half]
+          properties:
+            display_name: { type: string }
+            version: { type: string, pattern: '^[1-9][0-9]*$' }
+            border_half: { type: [integer, 'null'] }
+        regions:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            required: [id, display_name, kind, clan, color, polygon, pvp_policy, build_policy]
+            properties:
+              id: { type: string, format: uuid }
+              display_name: { type: string }
+              kind: { enum: [CORE, STATE, BORDERLAND, RIM, FRONTIER_SLOT, FRONTIER_WILD, SEA] }
+              clan: { $ref: '#/components/schemas/WorldClanRef' }
+              color: { type: [string, 'null'], pattern: '^[0-9A-F]{6}$' }
+              polygon: { type: array, minItems: 3, items: { $ref: '#/components/schemas/WorldVec' } }
+              pvp_policy: { enum: ['OFF', WAR_ONLY, 'ON'] }
+              build_policy: { enum: [MEMBERS, OPEN, NONE, OWNER_ZONE] }
+        connections:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            required: [id, kind, polyline]
+            properties:
+              id: { type: string, format: uuid }
+              kind: { enum: [ROAD, BRIDGE, PASS, PORT, RAIL] }
+              polyline: { type: array, minItems: 2, items: { $ref: '#/components/schemas/WorldVec' } }
+        markers:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            required: [id, layer, kind, label, icon, x, z]
+            properties:
+              id: { type: string, format: uuid }
+              layer: { enum: [capitals, points, sites, roads, events, labels] }
+              kind: { type: string }
+              label: { type: string }
+              icon: { type: string }
+              x: { type: integer }
+              z: { type: integer }
+    WorldPointsResponse:
+      type: object
+      additionalProperties: false
+      required: [version, items]
+      properties:
+        version: { type: string, pattern: '^[1-9][0-9]*$' }
+        items:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            required: [id, name, type, x, z, radius, capturable, region_id, owner, state, protection_until, lease_until, map_icon, resource, event]
+            properties:
+              id: { type: string, format: uuid }
+              name: { type: string }
+              type: { enum: [CAPITAL, CLAN_CAPITAL, FORT, MINE, VILLAGE, PORT, BRIDGE, PASS, WATCHTOWER, RUINS, RESOURCE_SITE, OUTPOST, EVENT_ZONE, BOSS_LAIR] }
+              x: { type: integer }
+              z: { type: integer }
+              radius: { type: integer }
+              capturable: { type: boolean }
+              region_id: { type: [string, 'null'], format: uuid }
+              owner: { $ref: '#/components/schemas/WorldClanRef' }
+              state: { enum: [NEUTRAL, CONTESTED, CAPTURING, CONTROLLED, PROTECTED, AVAILABLE] }
+              protection_until: { type: [string, 'null'], format: date-time }
+              lease_until: { type: [string, 'null'], format: date-time }
+              map_icon: { type: string }
+              resource:
+                type: [object, 'null']
+                additionalProperties: false
+                required: [family, tier, kind, next_refresh]
+                properties:
+                  family: { enum: [FERROUS, NONFERROUS, PRECIOUS, ARCANE, TECH, TIMBER, AGRARIAN, ALCHEMY, MARINE] }
+                  tier: { type: integer, minimum: 1, maximum: 4 }
+                  kind: { enum: [PIT, CACHE] }
+                  next_refresh: { type: [string, 'null'], format: date-time }
+              event:
+                description: The running capture of this point, if any.
+                type: [object, 'null']
+                additionalProperties: false
+                required: [phase, active_start, active_end, declared_by]
+                properties:
+                  phase: { enum: [PREPARING, ACTIVE, OVERTIME] }
+                  active_start: { type: string, format: date-time }
+                  active_end: { type: string, format: date-time }
+                  declared_by: { $ref: '#/components/schemas/WorldClanRef' }
+    WorldEventsResponse:
+      type: object
+      additionalProperties: false
+      required: [items]
+      properties:
+        items:
+          type: array
+          maxItems: 50
+          items:
+            type: object
+            additionalProperties: false
+            required: [id, at, kind, point, clan]
+            properties:
+              id: { type: string, pattern: '^[1-9][0-9]*$' }
+              at: { type: string, format: date-time }
+              kind: { enum: [DECLARED, CAPTURED, RENEWED, DEFENDED, NEUTRALIZED, RELEASED, ADMIN_TRANSFER, ADMIN_RESET] }
+              point:
+                type: object
+                additionalProperties: false
+                required: [id, name]
+                properties:
+                  id: { type: string, format: uuid }
+                  name: { type: string }
+              clan: { $ref: '#/components/schemas/WorldClanRef' }
+    ClanListResponse:
+      type: object
+      additionalProperties: false
+      required: [items, next_cursor]
+      properties:
+        items:
+          type: array
+          items: { $ref: '#/components/schemas/ClanSummary' }
+        next_cursor: { type: [string, 'null'] }
+    CompatibilityResponse:
+      type: object
+      additionalProperties: false
+      required: [public_api_major, integration_protocol_major, launcher_status, reason]
+      properties:
+        public_api_major: { const: 1 }
+        integration_protocol_major: { const: 1 }
+        launcher_status: { const: UNAVAILABLE }
+        reason: { const: SKELETON_ONLY }
+    ErrorResponse:
+      type: object
+      additionalProperties: false
+      required: [error]
+      properties:
+        error:
+          type: object
+          additionalProperties: false
+          required: [code, message, request_id]
+          properties:
+            code: { type: string }
+            message: { type: string }
+            request_id: { type: string }

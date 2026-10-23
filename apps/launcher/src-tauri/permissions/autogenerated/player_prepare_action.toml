@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-player-prepare-action"
+description = "Enables the player_prepare_action command without any pre-configured scope."
+commands.allow = ["player_prepare_action"]
+
+[[permission]]
+identifier = "deny-player-prepare-action"
+description = "Denies the player_prepare_action command without any pre-configured scope."
+commands.deny = ["player_prepare_action"]

@@ -1,0 +1,16 @@
+[Unit]
+Description=AnimeOnCraft friends API
+After=network-online.target docker.service
+Requires=docker.service
+
+[Service]
+User=animeoncraft
+WorkingDirectory=/srv/animeoncraft
+EnvironmentFile=/srv/animeoncraft/.env
+ExecStart=/usr/bin/node apps/backend/dist/main.js
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=45
+
+[Install]
+WantedBy=multi-user.target

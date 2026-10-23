@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-player-submit-action"
+description = "Enables the player_submit_action command without any pre-configured scope."
+commands.allow = ["player_submit_action"]
+
+[[permission]]
+identifier = "deny-player-submit-action"
+description = "Denies the player_submit_action command without any pre-configured scope."
+commands.deny = ["player_submit_action"]

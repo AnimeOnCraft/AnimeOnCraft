@@ -1,0 +1,24 @@
+import assert from 'node:assert/strict';
+import {execFileSync} from 'node:child_process';
+import {appendFileSync,copyFileSync,readFileSync,writeFileSync} from 'node:fs';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {privateIPv4} from './gameplay-lan-relay.mjs';
+
+const root=fileURLToPath(new URL('../',import.meta.url)),address=process.argv[2];
+assert.ok(process.argv.length===3&&privateIPv4(address),'Provide the host PC private LAN IPv4.');
+const version=JSON.parse(readFileSync(path.join(root,'apps/launcher/src-tauri/tauri.conf.json'),'utf8')).version;
+execFileSync(process.execPath,['scripts/verify-gameplay-candidate.mjs',version],{cwd:root,stdio:'inherit',windowsHide:true});
+const config=JSON.parse(readFileSync(path.join(root,'.tools/launcher-bootstrap/bootstrap.json'),'utf8')).public_config;
+assert.equal(config.api_origin,'http://127.0.0.1:3000');assert.equal(config.server_host,'127.0.0.1');
+const configPath=path.join(root,'.tools/gameplay-lan-public.json');
+writeFileSync(configPath,JSON.stringify(config,null,2)+'\n');
+const output=execFileSync(process.execPath,['scripts/build-friends-client-kit.mjs',configPath,'--local-test'],{cwd:root,encoding:'utf8',windowsHide:true});
+const result=JSON.parse(output.trim().split(/\r?\n/).at(-1)),directory=result.directory;
+copyFileSync(path.join(root,'scripts/gameplay-lan-relay.mjs'),path.join(directory,'scripts/gameplay-lan-relay.mjs'));
+writeFileSync(path.join(directory,'Start-LAN-Connection.cmd'),`@echo off\r\ncd /d "%~dp0"\r\n"runtime\\node\\node.exe" "scripts\\gameplay-lan-relay.mjs" client ${address}\r\npause\r\n`);
+writeFileSync(path.join(directory,'README.txt'),`AnimeOnCraft ${version} — ONLY local network test\nHost PC: ${address}\n\n1. Extract the ENTIRE folder to a permanent location.\n2. Close any local API/Minecraft server on this friend's PC (ports 3000 / 25565).\n3. Run Start-LAN-Connection.cmd; keep that window open.\n4. Run Start-AnimeOnCraft.cmd. It prepares the game and opens the portable test launcher.\n   WebView2 must already be installed. Install-AnimeOnCraft.exe is included but installing replaces the installed launcher; use the portable executable for this review.\n5. Register a LOCAL test account, choose a nickname and ask Y2K to accept your clan application.\n   The VPS account database is separate. Use a separate test password; this trusted LAN test uses HTTP.\n6. Press Play. The embedded 127.0.0.1 address is deliberate: the bridge forwards it to the host.\n\nDo not share this folder publicly. No server keys, passwords, world or database are included.\nThis preparation backs up then changes this Windows user's launcher game-runtime.json.\nTo return to the installed public version: close the test launcher/bridge, restore the newest game-runtime.json.before-client-kit-*.bak in %USERPROFILE%\\.animeoncraft\\launcher as game-runtime.json, then open the public launcher.\nVoice chat UDP is NOT supported by this TCP test bridge; do not count it as a voice acceptance test.\nNo need to configure your router or expose ports to the internet.\n`);
+const receipt={...result,lan_host:address,local_test:true,published:false,voice_test_supported:false};
+appendFileSync(path.join(directory,'README.txt'),'\nWorld boss local candidate: /aoc-bossrace 30 announces one shared boss, 2 minutes gathering then 30 minutes fighting. Clan scores are actual damage. Early shutdown and restoration were verified in a separate world with the full modpack. This build is for local review; publication and real two-player acceptance are still pending.\n');
+writeFileSync(path.join(root,'.tools/gameplay-lan-kit.json'),JSON.stringify(receipt,null,2)+'\n');
+console.log(JSON.stringify(receipt));

@@ -1,0 +1,8 @@
+{
+  "version": 13,
+  "title": "AnimeOnCraft — книга приключений",
+  "fallback_locale": "ru_ru",
+  "default_reward_team": false,
+  "default_consume_items": false,
+  "default_autoclaim_rewards": "disabled"
+}

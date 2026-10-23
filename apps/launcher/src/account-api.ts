@@ -1,0 +1,36 @@
+import {vpnHint} from './connection-hint.js';
+import { invoke } from '@tauri-apps/api/core';
+import { native } from './native.js';
+export interface Profile { id:string;login:string;password_change_required:boolean;email:string;email_verified:boolean;system_role:'PLAYER'|'OWNER';session_id:string;client_kind:'LAUNCHER';clan_management:{clan_id:string;can_remove_members:boolean}[] }
+export interface AccountSnapshot {state:'SIGNED_OUT'|'SIGNED_IN'|'AUTHENTICATING'|'MFA_REQUIRED'|'REFRESHING'|'RESTORING'|'REAUTH_REQUIRED'|'STORAGE_UNAVAILABLE';profile:Profile|null;remembered:boolean;operation_id:string|null;notice:string|null;retry_after_seconds:number}
+export type AccountAction = {action:'login';login:string;password:string;remember:boolean}|{action:'mfa';operation_id:string;proof:string}|{action:'cancel'|'logout'}|{action:'register';login:string;email:string;password:string};
+export interface Membership {id:string;user_id:string;clan_id:string;joined_at:string;version:string}
+export interface OwnClan {clan:{id:string;name:string;short_code:string;description:string;enabled:boolean;version:string}|null;membership:Membership|null}
+export interface Access {effective_access:'ALLOWED'|'DENIED';reason:'ALLOWED'|'BANNED'|'GAME_PROFILE_REQUIRED'|'GRANT_REQUIRED';membership:Membership|null;sync_status:string;checked_at:string;game_admission_available:false}
+export interface Application {nickname?:string;id:string;user_id:string;clan_id:string;message:string;status:string;version:string;created_at:string;reason:string|null}
+export interface Applications {items:Application[];next_cursor:string|null}
+export type PlayerAction={action:'owner_join';clan_id:string;version:string}|{action:'owner_approve'|'owner_reject';application_id:string;version:string}|{action:'apply';clan_id:string;message:string}|{action:'withdraw';application_id:string;version:string;reason:string}|{action:'leave';version:string;reason:string};
+export interface ActionResult {operation_id:string;status:'PREPARED'|'COMPLETED'|'REJECTED'|'UNKNOWN_OUTCOME';error:string|null}
+export const signedOut:AccountSnapshot={state:'SIGNED_OUT',profile:null,remembered:false,operation_id:null,notice:null,retry_after_seconds:0};
+function requireNative(){if(!native)throw new Error('WINDOWS_REQUIRED');}
+export async function accountSnapshot():Promise<AccountSnapshot>{requireNative();return invoke('account_snapshot');}
+export async function accountAction(input:AccountAction):Promise<AccountSnapshot>{requireNative();const result=await invoke<AccountSnapshot>('account_action',{input});if(typeof window!=='undefined')window.dispatchEvent(new Event('animeoncraft-account-changed'));return result;}
+export async function playerRead<T>(resource:'access'|'clan'|'applications',cursor?:string):Promise<T>{requireNative();return invoke('player_read',{input:{resource,...resource==='applications'?{cursor:cursor??null}:{}}});}
+export async function playerPrepare(input:PlayerAction):Promise<ActionResult>{requireNative();return invoke('player_prepare_action',{input});}
+export async function playerSubmit(operation_id:string,retry=false):Promise<ActionResult>{requireNative();return invoke('player_submit_action',{operationId:operation_id,retry});}
+const errors:Record<string,string>={PASSWORD_CHANGE_REQUIRED:'Смените временный пароль в настройках.',SECURITY_ACTION_REJECTED:'Изменение не выполнено. Для продолжения войдите заново.',SECURITY_OUTCOME_UNKNOWN:'Ответ на изменение безопасности не получен. Результат неизвестен. Проверьте вход и сессии перед новым действием.',SECURITY_LOGIN_REQUIRED:'Настройки безопасности изменились. Войдите заново.',PRECONDITION_REQUIRED:'Подключение MFA истекло или отменено. Начните подключение заново.',WINDOWS_REQUIRED:'Вход доступен в Windows-приложении.',ACCOUNT_SERVICE_UNAVAILABLE:'Вход и регистрация на сервере сейчас недоступны. Запустите сервер с включённым сервисом аккаунтов.',NOT_FOUND:'Запрошенные данные больше недоступны. Обновите страницу.',AUTHENTICATION_REQUIRED:'Неверные данные или сессия больше не действует.',REAUTH_REQUIRED:'Нужно войти заново.',VALIDATION_ERROR:'Проверьте заполненные поля. Пароль: 15–128 символов.',FORBIDDEN:'Действие недоступно этому аккаунту.',RESOURCE_CONFLICT:'Состояние изменилось или условия действия не выполнены. Обновите данные.',STALE_VERSION:'Данные изменились. Обновите их перед новым действием.',RATE_LIMITED:'Слишком много попыток. Подождите перед повторным запросом.',NETWORK_UNCERTAIN:`Ответ не получен. Результат запроса неизвестен. ${vpnHint}`,SERVICE_UNAVAILABLE:`Сервис сейчас недоступен. ${vpnHint}`,INVALID_RESPONSE:'Получен неподдерживаемый ответ сервиса.',STORAGE_UNAVAILABLE:'Не удалось безопасно сохранить или очистить сессию Windows. Вход остановлен.',BUSY:'Дождитесь завершения текущего действия.',CANCELLED:'Действие отменено.',REMOTE_LOGOUT_UNCONFIRMED:'Локальный выход выполнен; отзыв сессии на сервисе не подтверждён.'};
+export function accountError(error:unknown):string{return typeof error==='string'?errors[error]??'Не удалось выполнить действие.':error instanceof Error?errors[error.message]??'Не удалось выполнить действие.':'Не удалось выполнить действие.';}
+export function accountNotice(value:string|null):string {return value==='REQUEST_ACCEPTED'?'Запрос принят. Если адрес подходит, инструкция будет отправлена на почту.':value==='COMPLETED_LOGIN_REQUIRED'?'Действие завершено. Теперь войдите с паролем.':value==='SIGNED_OUT'?'Вы вышли из аккаунта.':value?accountError(value):'';}
+
+export interface Sessions {items:{id:string;client_kind:'LAUNCHER'|'WEB_ADMIN';created_at:string;absolute_expires_at:string;current:boolean}[]}
+export type SecurityAction={action:'enroll';password:string}|{action:'confirm';operation_id:string;password:string;proof:string}|{action:'cancel_enrollment'}|{action:'password';password:string;new_password:string;proof:string|null}|{action:'revoke';session_id:string};
+export type SecurityReply={kind:'provisioning';operation_id:string;secret:string;expires_in:number}|{kind:'recovery';codes:string[];account:AccountSnapshot}|{kind:'completed';account:AccountSnapshot};
+export async function securitySessions():Promise<Sessions>{requireNative();return invoke('security_sessions');}
+export async function securityAction(input:SecurityAction):Promise<SecurityReply>{requireNative();const result=await invoke<SecurityReply>('security_action',{input});if(typeof window!=='undefined')window.dispatchEvent(new Event('animeoncraft-account-changed'));return result;}
+
+export interface OwnerClans {items:NonNullable<OwnClan['clan']>[]}
+export async function ownerClans():Promise<OwnerClans>{requireNative();return invoke('player_read',{input:{resource:'owner_clans'}});}
+export async function ownerApplications(clan_id:string,cursor?:string):Promise<Applications>{requireNative();return invoke('player_read',{input:{resource:'owner_applications',clan_id,cursor:cursor??null}});}
+
+export interface ClanRoster {items:{nickname:string|null;joined_at:string;role:'MEMBER'|'MANAGER';online:boolean|null;online_updated_at:string|null}[];next_cursor:string|null}
+export async function clanRoster(clan_id:string,cursor?:string):Promise<ClanRoster>{requireNative();return invoke('player_read',{input:{resource:'roster',clan_id,cursor:cursor??null}});}

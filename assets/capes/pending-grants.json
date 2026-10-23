@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "status": "granted-0.7.37",
+  "include_active_owner": true,
+  "owner_game_name": "Y2K",
+  "grants": [
+    {
+      "cape_id": "ayaa-cobblestone",
+      "game_name": "Ayaa"
+    },
+    {
+      "cape_id": "trickyowl-owl",
+      "game_name": "TrickyOwl"
+    },
+    {
+      "cape_id": "akuma-violet",
+      "game_name": "depressedInChina"
+    }
+  ],
+  "applied_at": "2026-10-19T18:15:00.821Z"
+}

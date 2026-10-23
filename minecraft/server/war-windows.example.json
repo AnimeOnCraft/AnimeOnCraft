@@ -1,0 +1,13 @@
+{
+  "format_version": 1,
+  "timezone": "UTC",
+  "windows": [
+    {
+      "attacker": "SCAM",
+      "defender": "NYA",
+      "starts_at": "2026-11-01T17:00:00Z",
+      "ends_at": "2026-11-01T19:00:00Z",
+      "cooldown_until": "2026-11-02T19:00:00Z"
+    }
+  ]
+}

@@ -1,0 +1,314 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://animeoncraft.invalid/contracts/game-wardrobe.schema.json",
+  "$ref": "#/$defs/Request",
+  "$defs": {
+    "Choice": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "code"
+          ],
+          "properties": {
+            "kind": {
+              "const": "NONE"
+            },
+            "code": {
+              "const": ""
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "code"
+          ],
+          "properties": {
+            "kind": {
+              "const": "CAPE"
+            },
+            "code": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9-]{0,31}$"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "code"
+          ],
+          "properties": {
+            "kind": {
+              "const": "BETA"
+            },
+            "code": {
+              "const": "RIFT_MANTLE"
+            }
+          }
+        }
+      ]
+    },
+    "Request": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "server_id",
+            "connection_id",
+            "minecraft_uuid",
+            "action"
+          ],
+          "properties": {
+            "server_id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "connection_id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "minecraft_uuid": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "action": {
+              "const": "READ"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "server_id",
+            "connection_id",
+            "minecraft_uuid",
+            "action",
+            "kind",
+            "code",
+            "expected_revision"
+          ],
+          "properties": {
+            "server_id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "connection_id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "minecraft_uuid": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "action": {
+              "const": "BACK"
+            },
+            "kind": {
+              "const": "NONE"
+            },
+            "code": {
+              "const": ""
+            },
+            "expected_revision": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]{0,17})$"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "server_id",
+            "connection_id",
+            "minecraft_uuid",
+            "action",
+            "kind",
+            "code",
+            "expected_revision"
+          ],
+          "properties": {
+            "server_id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "connection_id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "minecraft_uuid": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "action": {
+              "const": "BACK"
+            },
+            "kind": {
+              "const": "CAPE"
+            },
+            "code": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9-]{0,31}$"
+            },
+            "expected_revision": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]{0,17})$"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "server_id",
+            "connection_id",
+            "minecraft_uuid",
+            "action",
+            "kind",
+            "code",
+            "expected_revision"
+          ],
+          "properties": {
+            "server_id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "connection_id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "minecraft_uuid": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "action": {
+              "const": "BACK"
+            },
+            "kind": {
+              "const": "BETA"
+            },
+            "code": {
+              "const": "RIFT_MANTLE"
+            },
+            "expected_revision": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]{0,17})$"
+            }
+          }
+        }
+      ]
+    },
+    "Response": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "back",
+        "capes"
+      ],
+      "properties": {
+        "back": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "code",
+                "revision"
+              ],
+              "properties": {
+                "kind": {
+                  "const": "NONE"
+                },
+                "code": {
+                  "const": ""
+                },
+                "revision": {
+                  "type": "string",
+                  "pattern": "^(0|[1-9][0-9]{0,17})$"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "code",
+                "revision"
+              ],
+              "properties": {
+                "kind": {
+                  "const": "CAPE"
+                },
+                "code": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9-]{0,31}$"
+                },
+                "revision": {
+                  "type": "string",
+                  "pattern": "^(0|[1-9][0-9]{0,17})$"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "code",
+                "revision"
+              ],
+              "properties": {
+                "kind": {
+                  "const": "BETA"
+                },
+                "code": {
+                  "const": "RIFT_MANTLE"
+                },
+                "revision": {
+                  "type": "string",
+                  "pattern": "^(0|[1-9][0-9]{0,17})$"
+                }
+              }
+            }
+          ]
+        },
+        "capes": {
+          "type": "array",
+          "maxItems": 32,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "name"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9-]{0,31}$"
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 80,
+                "pattern": "^[^\\p{Cc}\\p{Cf}§]+$"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

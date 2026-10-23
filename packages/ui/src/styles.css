@@ -1,0 +1,60 @@
+:root {
+  color-scheme: dark;
+  --aoc-bg: #090d18;
+  --aoc-surface: #111827;
+  --aoc-surface-raised: #182235;
+  --aoc-border: #29374e;
+  --aoc-text: #f4f7fb;
+  --aoc-muted: #9baac0;
+  --aoc-accent: #a879ff;
+  --aoc-accent-strong: #c4a6ff;
+  --aoc-warning: #f4b860;
+  --aoc-success: #55d6a7;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: var(--aoc-bg);
+  color: var(--aoc-text);
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; min-height: 100vh; background: radial-gradient(circle at 80% 10%, #21183c 0, transparent 34%), var(--aoc-bg); }
+button, input, textarea, select { font: inherit; }
+.product-shell { min-height: 100vh; display: grid; grid-template-columns: 268px 1fr; }
+.product-sidebar { padding: 32px 24px; border-right: 1px solid var(--aoc-border); background: rgb(9 13 24 / 88%); backdrop-filter: blur(18px); }
+.product-sidebar h1 { margin: 4px 0 32px; font-size: 1.25rem; letter-spacing: .01em; }
+.brand-mark { width: 48px; height: 48px; margin-bottom: 24px; display: grid; place-items: center; border-radius: 16px; background: linear-gradient(135deg, var(--aoc-accent), #5b65f5); box-shadow: 0 14px 40px rgb(103 68 214 / 30%); font-weight: 800; }
+.eyebrow { margin: 0; color: var(--aoc-accent-strong); font-size: .72rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+.product-sidebar nav { display: grid; gap: 8px; }
+.nav-item { display: block; padding: 11px 12px; border: 1px solid transparent; border-radius: 10px; color: var(--aoc-muted); text-decoration: none; }
+.nav-item[aria-current="page"] { border-color: var(--aoc-border); color: var(--aoc-text); background: var(--aoc-surface); }
+.product-main { width: min(100%, 1120px); padding: 64px clamp(24px, 6vw, 80px); }
+.page-heading { margin: 0 0 12px; font-size: clamp(2rem, 5vw, 4.3rem); line-height: .98; letter-spacing: -.045em; }
+.page-intro { max-width: 700px; margin: 0 0 36px; color: var(--aoc-muted); font-size: 1.05rem; line-height: 1.65; }
+.status-panel { display: grid; grid-template-columns: 12px 1fr; gap: 16px; padding: 24px; border: 1px solid var(--aoc-border); border-radius: 18px; background: linear-gradient(135deg, rgb(24 34 53 / 95%), rgb(17 24 39 / 92%)); }
+.status-panel h2 { margin: -2px 0 8px; font-size: 1rem; }
+.status-copy { color: var(--aoc-muted); line-height: 1.55; }
+.status-dot { width: 10px; height: 10px; margin-top: 4px; border-radius: 999px; background: var(--aoc-muted); box-shadow: 0 0 16px currentColor; }
+.status-panel--warning .status-dot { background: var(--aoc-warning); color: var(--aoc-warning); }
+.status-panel--success .status-dot { background: var(--aoc-success); color: var(--aoc-success); }
+.button { margin-top: 20px; padding: 11px 18px; border: 0; border-radius: 10px; background: var(--aoc-accent); color: #100b1b; font-weight: 750; cursor: pointer; }
+.button:disabled { cursor: not-allowed; opacity: .45; }
+.button:focus-visible, .nav-item:focus-visible { outline: 3px solid var(--aoc-accent-strong); outline-offset: 3px; }
+
+@media (max-width: 760px) {
+  .product-shell { grid-template-columns: 1fr; }
+  .product-sidebar { border-right: 0; border-bottom: 1px solid var(--aoc-border); }
+  .product-sidebar nav { grid-template-columns: repeat(3, 1fr); }
+  .product-main { padding-top: 40px; }
+}
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+.clan-section { margin-top: 40px; }
+.clan-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; }
+.clan-card { margin: 16px 0; padding: 20px; border: 1px solid var(--aoc-border); border-radius: 14px; background: var(--aoc-surface); overflow-wrap: anywhere; }
+.clan-card h3, .clan-card h4 { margin-top: 0; }
+.clan-card p { white-space: pre-wrap; }
+.field { display: grid; gap: 8px; margin: 16px 0; }
+.field input, .field textarea, .field select { width: 100%; padding: 10px; color: var(--aoc-text); background: var(--aoc-bg); border: 1px solid var(--aoc-border); border-radius: 8px; }
+.field textarea { min-height: 100px; resize: vertical; }
+.field :focus-visible { outline: 2px solid var(--aoc-accent); outline-offset: 2px; }
+fieldset { margin: 0; padding: 0; border: 0; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; }

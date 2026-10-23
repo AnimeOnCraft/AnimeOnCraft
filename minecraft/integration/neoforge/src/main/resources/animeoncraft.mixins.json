@@ -1,0 +1,42 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "ru.animeoncraft.integration.neoforge.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "PlayerSkinMixin",
+    "PlayerTitleMixin",
+    "CapeLayerMixin",
+    "PlayerEmoteMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "mixins": [
+    "HealthAttributeAccess",
+    "ChunkMapAccess",
+    "SpellAreaTargetMixin",
+    "SpellBlizzardEffectMixin",
+    "HopperTransferMixin",
+    "CreateAssemblyOriginMixin",
+    "CreateControllerLossMixin",
+    "CreateContraptionMixin",
+    "CreateMovingActorMixin",
+    "CreateStationaryBreakerMixin",
+    "CreateDisassemblyMixin",
+    "CreateLinearControllerMixin",
+    "CreateBearingControllerMixin",
+    "CreateTrainDisassemblyMixin",
+    "CreateInventoryBoundaryMixin",
+    "CreateFluidBoundaryMixin",
+    "FluidBoundaryMixin",
+    "ProtectedFireMixin",
+    "ProtectedFirePlacementMixin",
+    "PlayerIgnitionMixin",
+    "PlayerFireChargeMixin",
+    "CreateSchematicannonMixin",
+    "CreateHoseDrainMixin",
+    "CreateHoseFillMixin",
+    "StructureExclusionMixin"
+  ]
+}

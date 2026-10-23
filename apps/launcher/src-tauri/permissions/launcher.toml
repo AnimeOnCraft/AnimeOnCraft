@@ -1,0 +1,4 @@
+[[permission]]
+identifier = "launcher-ui"
+description = "Typed public/settings/account/player commands for the local main launcher window only."
+commands.allow = ["native_health", "validate_launcher_settings", "load_launcher_settings", "save_launcher_settings", "read_public_resource", "account_snapshot", "account_action", "game_stop", "game_snapshot", "game_server_status", "game_launch", "game_prepare", "game_preparation_snapshot", "skin_read", "skin_save", "cape_read", "cape_save", "game_profile_read", "game_profile_create", "player_read", "player_prepare_action", "player_submit_action", "security_sessions", "security_action", "pack_availability", "installer_snapshot", "installer_action", "installer_local_state", "launcher_update_snapshot", "launcher_update_action", "simple_update_snapshot", "simple_update_action"]

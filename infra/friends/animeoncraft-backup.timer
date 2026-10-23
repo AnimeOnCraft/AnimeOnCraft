@@ -1,0 +1,13 @@
+[Unit]
+Description=AnimeOnCraft backup every two days at 07:00 Yekaterinburg
+
+[Timer]
+# Wake daily; the persisted calendar-day guard runs maintenance every two days.
+# Persistent=false avoids disconnecting players after an overdue daytime boot.
+OnCalendar=*-*-* 07:00:00 Asia/Yekaterinburg
+Persistent=false
+AccuracySec=1min
+Unit=animeoncraft-backup.service
+
+[Install]
+WantedBy=timers.target

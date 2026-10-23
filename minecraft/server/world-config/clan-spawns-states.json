@@ -1,0 +1,73 @@
+{
+  "format_version": 1,
+  "world_name": "states-20261020",
+  "seed": "20261020",
+  "level_type": "minecraft:normal",
+  "protection": {
+    "spawn_radius_blocks": 16
+  },
+  "common": {
+    "x": 0,
+    "y": 0,
+    "z": 12
+  },
+  "clans": {
+    "SCAM": {
+      "x": 0,
+      "y": 0,
+      "z": -2704
+    },
+    "NYA": {
+      "x": 2560,
+      "y": 0,
+      "z": -832
+    },
+    "AKUMA": {
+      "x": -1584,
+      "y": 0,
+      "z": 2192
+    },
+    "ZXC": {
+      "x": 1584,
+      "y": 0,
+      "z": 2192
+    },
+    "YAKUZA": {
+      "x": -2560,
+      "y": 0,
+      "z": -832
+    }
+  },
+  "castle_palettes": {
+    "SCAM": {
+      "wall": "minecraft:deepslate_bricks",
+      "roof": "minecraft:red_concrete",
+      "accent": "minecraft:red_wool",
+      "floor": "minecraft:polished_deepslate"
+    },
+    "NYA": {
+      "wall": "minecraft:polished_blackstone_bricks",
+      "roof": "minecraft:magenta_concrete",
+      "accent": "minecraft:pink_wool",
+      "floor": "minecraft:polished_blackstone"
+    },
+    "AKUMA": {
+      "wall": "minecraft:deepslate_bricks",
+      "roof": "minecraft:purple_concrete",
+      "accent": "minecraft:purple_wool",
+      "floor": "minecraft:polished_deepslate"
+    },
+    "ZXC": {
+      "wall": "minecraft:stone_bricks",
+      "roof": "minecraft:blue_concrete",
+      "accent": "minecraft:light_blue_wool",
+      "floor": "minecraft:polished_andesite"
+    },
+    "YAKUZA": {
+      "wall": "minecraft:deepslate_bricks",
+      "roof": "minecraft:orange_concrete",
+      "accent": "minecraft:orange_wool",
+      "floor": "minecraft:polished_deepslate"
+    }
+  }
+}

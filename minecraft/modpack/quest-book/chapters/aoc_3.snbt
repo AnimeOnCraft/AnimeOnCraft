@@ -1,0 +1,150 @@
+{
+  "id": "1000000000000003",
+  "filename": "aoc_3",
+  "group": "",
+  "order_index": 2,
+  "icon": "create:cogwheel",
+  "default_quest_shape": "square",
+  "default_repeatable_quest": false,
+  "consume_items": false,
+  "quests": [
+    {
+      "id": "2000000000000009",
+      "x": 0,
+      "y": 0,
+      "shape": "square",
+      "size": 1,
+      "can_repeat": false,
+      "tasks": [
+        {
+          "id": "3000000000000009",
+          "type": "item",
+          "item": "create:andesite_alloy",
+          "count": 8,
+          "consume_items": false
+        }
+      ],
+      "dependencies": [],
+      "rewards": [
+        {
+          "id": "4000000000000009",
+          "type": "item",
+          "item": "minecraft:bread",
+          "count": 3
+        }
+      ]
+    },
+    {
+      "id": "200000000000000A",
+      "x": 3,
+      "y": 0,
+      "shape": "square",
+      "size": 1,
+      "can_repeat": false,
+      "tasks": [
+        {
+          "id": "300000000000000A",
+          "type": "item",
+          "item": "create:shaft",
+          "count": 16,
+          "consume_items": false
+        }
+      ],
+      "dependencies": [
+        "2000000000000009"
+      ],
+      "rewards": [
+        {
+          "id": "400000000000000A",
+          "type": "item",
+          "item": "minecraft:bread",
+          "count": 3
+        }
+      ]
+    },
+    {
+      "id": "200000000000000B",
+      "x": 6,
+      "y": 0,
+      "shape": "square",
+      "size": 1,
+      "can_repeat": false,
+      "tasks": [
+        {
+          "id": "300000000000000B",
+          "type": "item",
+          "item": "create:cogwheel",
+          "count": 8,
+          "consume_items": false
+        }
+      ],
+      "dependencies": [
+        "200000000000000A"
+      ],
+      "rewards": [
+        {
+          "id": "400000000000000B",
+          "type": "item",
+          "item": "minecraft:bread",
+          "count": 3
+        }
+      ]
+    },
+    {
+      "id": "200000000000000C",
+      "x": 9,
+      "y": 0,
+      "shape": "square",
+      "size": 1,
+      "can_repeat": false,
+      "tasks": [
+        {
+          "id": "300000000000000C",
+          "type": "item",
+          "item": "create:water_wheel",
+          "count": 1,
+          "consume_items": false
+        }
+      ],
+      "dependencies": [
+        "200000000000000B"
+      ],
+      "rewards": [
+        {
+          "id": "400000000000000C",
+          "type": "item",
+          "item": "minecraft:bread",
+          "count": 3
+        }
+      ]
+    },
+    {
+      "id": "200000000000000D",
+      "x": 12,
+      "y": 0,
+      "shape": "square",
+      "size": 1,
+      "can_repeat": false,
+      "tasks": [
+        {
+          "id": "300000000000000D",
+          "type": "item",
+          "item": "create:mechanical_press",
+          "count": 1,
+          "consume_items": false
+        }
+      ],
+      "dependencies": [
+        "200000000000000C"
+      ],
+      "rewards": [
+        {
+          "id": "400000000000000D",
+          "type": "item",
+          "item": "minecraft:bread",
+          "count": 3
+        }
+      ]
+    }
+  ]
+}

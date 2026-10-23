@@ -1,0 +1,53 @@
+// Stage only public files in an existing checkout of the updater repository.
+import assert from 'node:assert/strict';
+import {readFileSync,writeFileSync,mkdirSync,copyFileSync,cpSync,existsSync} from 'node:fs';
+import {createHash,createPublicKey,verify} from 'node:crypto';
+import {execFileSync} from 'node:child_process';
+import path from 'node:path';
+
+const root=process.cwd(),checkout=path.resolve(process.argv[2]??'');
+assert.equal(process.argv.length,3,'Provide an existing updater Git checkout');
+const remote=execFileSync('git',['-C',checkout,'remote','get-url','origin'],{encoding:'utf8',windowsHide:true}).trim();
+assert.equal(remote,'https://github.com/charizma1337/animeoncraft-updates.git');
+const version=JSON.parse(readFileSync('apps/launcher/src-tauri/tauri.conf.json','utf8')).version;
+const release=path.join(root,'.tools/launcher-releases',version);
+const manifest=JSON.parse(readFileSync(path.join(release,'latest.json'),'utf8'));
+const source=JSON.parse(readFileSync('apps/launcher/src-tauri/simple-update.json','utf8'));
+const candidate=JSON.parse(readFileSync(`.tools/installer-candidate-${version}.json`,'utf8'));
+assert.equal(manifest.version,version);
+const filename=`AnimeOnCraft_${version}_x64-setup.exe`;
+const artifact=manifest.platforms['windows-x86_64-nsis'];
+assert.equal(artifact.url,new URL(`${version}/${filename}`,source.endpoint).href);
+const bytes=readFileSync(path.join(release,filename));
+const sha256=createHash('sha256').update(bytes).digest('hex');
+assert.equal(sha256,candidate.installer.sha256);
+assert.equal(artifact.signature,readFileSync(path.join(release,filename+'.sig'),'utf8').trim());
+const publicLines=Buffer.from(source.public_key,'base64').toString('utf8').trim().split(/\r?\n/);
+const lines=Buffer.from(artifact.signature,'base64').toString('utf8').trim().split(/\r?\n/);
+assert.equal(lines.length,4);assert.ok(lines[2].startsWith('trusted comment: '));
+const publicBytes=Buffer.from(publicLines[1],'base64');
+const signature=Buffer.from(lines[1],'base64'),globalSignature=Buffer.from(lines[3],'base64');
+assert.equal(publicBytes.length,42);assert.equal(signature.length,74);assert.equal(globalSignature.length,64);
+assert.deepEqual(publicBytes.subarray(2,10),signature.subarray(2,10));
+assert.equal(signature.subarray(0,2).toString(),'ED');
+const publicKey=createPublicKey({format:'der',type:'spki',key:Buffer.concat([Buffer.from('302a300506032b6570032100','hex'),publicBytes.subarray(10)])});
+assert.ok(verify(null,createHash('blake2b512').update(bytes).digest(),publicKey,signature.subarray(10)),'Installer signature invalid');
+const comment=lines[2].slice('trusted comment: '.length);
+assert.ok(verify(null,Buffer.concat([signature.subarray(10),Buffer.from(comment)]),publicKey,globalSignature),'Trusted comment invalid');
+assert.ok(comment.split(/\s+/).includes('version:'+version));
+const html=readFileSync('apps/download-site/index.html','utf8');
+assert.ok(html.includes(`href="${version}/${filename}"`));
+const target=path.join(checkout,version);mkdirSync(target,{recursive:true});
+for(const suffix of ['', '.sig']){
+  const destination=path.join(target,filename+suffix),input=path.join(release,filename+suffix);
+  if(existsSync(destination))assert.deepEqual(readFileSync(destination),readFileSync(input),'Preserve existing release files');
+  else copyFileSync(input,destination);
+}
+copyFileSync('apps/download-site/index.html',path.join(checkout,'index.html'));
+copyFileSync('apps/download-site/style.css',path.join(checkout,'style.css'));
+cpSync('apps/download-site/assets',path.join(checkout,'assets'),{recursive:true});
+copyFileSync(path.join(release,'latest.json'),path.join(checkout,'latest.json'));
+writeFileSync(path.join(checkout,'.nojekyll'),'');
+const report={version,installer_sha256:sha256,bytes:bytes.length,signature_valid:true,trusted_comment_valid:true,checkout,published:false};
+writeFileSync(`.tools/pages-stage-${version}.json`,JSON.stringify(report,null,2)+'\n');
+console.log(JSON.stringify(report));

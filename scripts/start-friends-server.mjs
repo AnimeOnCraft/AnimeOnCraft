@@ -1,0 +1,28 @@
+import assert from 'node:assert/strict';
+import {spawn,execFileSync} from 'node:child_process';
+import {once} from 'node:events';
+import {readFileSync} from 'node:fs';
+import path from 'node:path';
+import {root,server,portClosed} from './friends-backup-lib.mjs';
+const memory=Number(process.env.AOC_GAME_MEMORY_MIB??4096);
+assert.ok(Number.isInteger(memory)&&memory>=1024&&memory<=16384);
+const game=JSON.parse(readFileSync(path.join(root,'.tools/friends-game-server.json'),'utf8'));
+const profile=JSON.parse(readFileSync(path.join(root,'minecraft/modpack/profile.json'),'utf8'));
+const properties=readFileSync(path.join(server,'server.properties'),'utf8');
+// Missing/invalid JSON must not silently turn a prepared clan server into an unprotected world.
+JSON.parse(readFileSync(path.join(server,'config/animeoncraft-clan-spawns.json'),'utf8'));
+assert.match(readFileSync(path.join(server,'eula.txt'),'utf8'),/^eula=true\s*$/m,'Existing owner EULA agreement required');
+for(const line of ['server-ip=0.0.0.0','server-port=25565','online-mode=false','enforce-secure-profile=false','white-list=false','enforce-whitelist=false','max-players=2147483647'])assert.ok(properties.split(/\r?\n/).includes(line),`Prepare ${line} for the chosen host first`);
+assert.match(game.server_key,/^[a-f0-9]{64}$/);await portClosed(25565);
+assert.match(execFileSync('java',['--version'],{encoding:'utf8',windowsHide:true}),/^(?:openjdk|java) 21\./m);
+execFileSync(process.execPath,[path.join(root,'scripts/backup-friends-server.mjs')],{cwd:root,stdio:'inherit',windowsHide:true});
+const allowed=/^(PATH|SystemRoot|WINDIR|ComSpec|PATHEXT|TEMP|TMP|USERPROFILE|APPDATA|LOCALAPPDATA|JAVA_HOME|SystemDrive|ProgramFiles|ProgramFiles\(x86\)|LANG|HOME)$/i;
+const env=Object.fromEntries(Object.entries(process.env).filter(([name])=>allowed.test(name)));
+Object.assign(env,{AOC_GAME_SERVER_ID:game.server_id,AOC_GAME_SERVER_KEY:game.server_key,AOC_GAME_REDEEM_URL:'http://127.0.0.1:3000/api/v1/game/admission/redeem'});
+const argsFile=process.platform==='win32'?'win_args.txt':'unix_args.txt';
+const child=spawn('java',['-Xms512m',`-Xmx${memory}m`,`@libraries/net/neoforged/neoforge/${profile.loader.version}/${argsFile}`,'nogui'],{cwd:server,env,windowsHide:true,stdio:['pipe','inherit','inherit']});
+process.stdin.pipe(child.stdin,{end:false});const stop=()=>{child.stdin.write('stop\n');};process.once('SIGTERM',stop);process.once('SIGINT',stop);
+const [code]=await once(child,'exit');
+if(code!==0)throw Error('Minecraft exited unexpectedly; preserve logs and latest backup');
+execFileSync(process.execPath,[path.join(root,'scripts/backup-friends-server.mjs')],{cwd:root,stdio:'inherit',windowsHide:true});
+process.stdin.unpipe(child.stdin);process.stdin.pause();

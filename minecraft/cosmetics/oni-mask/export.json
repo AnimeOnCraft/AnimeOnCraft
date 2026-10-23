@@ -1,0 +1,14 @@
+{
+  "code": "ONI_MASK",
+  "source": "minecraft\\cosmetics\\oni-mask\\oni-mask.bbmodel",
+  "source_sha256": "da41a33f5bc7a9bf7397d9f98dbb9128731ea75f62e3cbff99c3a54540ada6c6",
+  "geometry": "minecraft/integration/neoforge/src/main/resources/assets/animeoncraft/cosmetics/oni_mask.json",
+  "texture": "minecraft/integration/neoforge/src/main/resources/assets/animeoncraft/textures/cosmetics/oni_mask.png",
+  "faces": 132,
+  "triangles": 52,
+  "emissive_faces": 24,
+  "parts": [
+    "static"
+  ],
+  "reference_head_exported": false
+}

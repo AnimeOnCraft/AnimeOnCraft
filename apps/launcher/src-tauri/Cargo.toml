@@ -1,0 +1,60 @@
+[package]
+name = "animeoncraft-launcher"
+version = "0.8.7"
+description = "AnimeOnCraft launcher native shell"
+authors = ["AnimeOnCraft"]
+license = "MIT"
+edition = "2021"
+rust-version = "1.99"
+
+[features]
+native-acceptance = []
+pack-acceptance = []
+installer-acceptance = []
+self-update-acceptance = ["installer-acceptance"]
+simple-update-acceptance = ["installer-acceptance"]
+
+[lib]
+name = "animeoncraft_launcher_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+sha2 = "=0.10.9"
+serde_json = "=1.0.151"
+tauri-build = { version = "=2.7.1", features = [] }
+
+[dependencies]
+serde = { version = "=1.0.229", features = ["derive"] }
+tauri = { version = "=2.12.2", features = [] }
+thiserror = "=2.0.21"
+serde_json = "=1.0.151"
+reqwest = { version = "=0.13.5", default-features = false, features = ["query", "rustls"] }
+tokio = { version = "=1.53.2", features = ["sync", "time", "macros", "net", "io-util", "process"] }
+uuid = { version = "=1.27.0", features = ["v4"] }
+chrono = { version = "=0.4.45", default-features = false, features = ["clock"] }
+zeroize = { version = "=1.9.0", features = ["serde"] }
+tough = { version = "=0.24.0", default-features = false }
+async-trait = "=0.1.92"
+bytes = "=1.12.1"
+futures = "=0.3.34"
+sha2 = "=0.10.9"
+semver = "=1.0.28"
+minisign-verify = "=0.3.0"
+base64 = "=0.22.1"
+tauri-plugin-updater = { version = "=2.13.3", default-features = false, features = ["rustls-tls"] }
+
+[dev-dependencies]
+aws-lc-rs = "=1.18.1"
+jiff = "=0.2.38"
+tempfile = "=3.27.0"
+minisign = "=0.10.0"
+
+[target.'cfg(windows)'.dependencies]
+windows-sys = { version = "=0.61.2", features = ["Win32_Foundation", "Win32_Security", "Win32_Security_Authorization", "Win32_Security_Credentials", "Win32_System_Threading", "Win32_System_Registry", "Win32_Storage_FileSystem", "Win32_System_IO", "Win32_System_WindowsProgramming", "Wdk_Foundation", "Wdk_Storage_FileSystem"] }
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = "s"
+panic = "abort"
+strip = true

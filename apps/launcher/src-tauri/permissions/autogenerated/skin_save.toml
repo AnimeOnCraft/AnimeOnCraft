@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-skin-save"
+description = "Enables the skin_save command without any pre-configured scope."
+commands.allow = ["skin_save"]
+
+[[permission]]
+identifier = "deny-skin-save"
+description = "Denies the skin_save command without any pre-configured scope."
+commands.deny = ["skin_save"]

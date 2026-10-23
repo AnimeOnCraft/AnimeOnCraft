@@ -1,0 +1,27 @@
+[Unit]
+Description=AnimeOnCraft owner mobile MFA onboarding
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=animeoncraft
+WorkingDirectory=/srv/animeoncraft
+EnvironmentFile=/srv/animeoncraft/.env
+Environment=AOC_MOBILE_SETUP_PORT=3012
+Environment=NODE_OPTIONS=--max-old-space-size=192
+ExecStart=/usr/bin/node apps/backend/dist/mobile/main.js
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=30
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+MemoryHigh=256M
+MemoryMax=512M
+CPUWeight=20
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

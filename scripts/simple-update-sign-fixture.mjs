@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import {spawnSync} from 'node:child_process';
+import {readFileSync,writeFileSync} from 'node:fs';
+import {fileURLToPath} from 'node:url';
+import path from 'node:path';
+const directory=path.resolve(process.argv[2]),workspace=fileURLToPath(new URL('../',import.meta.url));
+assert.equal(path.dirname(directory),path.join(workspace,'.tools'));assert.match(path.basename(directory),/^installer-acceptance-[a-f0-9]{32}$/);
+const cli=path.join(workspace,'apps/launcher/node_modules/@tauri-apps/cli/tauri.js'),key=path.join(directory,'updater.key');
+const run=args=>{const result=spawnSync(process.execPath,[cli,...args],{cwd:workspace,windowsHide:true,encoding:'utf8',timeout:20000});assert.equal(result.status,0,'Ephemeral fixture signing failed (output withheld)');};
+run(['signer','generate','--ci','--password','','--write-keys',key]);
+run(['signer','sign','--private-key-path',key,'--password','','--app-version','0.7.22',path.join(directory,'signed-installer.exe')]);
+writeFileSync(path.join(directory,'simple-update.json'),JSON.stringify({endpoint:'https://localhost:39447/aoc/latest.json',public_key:readFileSync(key+'.pub','utf8').trim()}));
+console.log('Own ephemeral updater key/signature and source prepared; secret output withheld.');

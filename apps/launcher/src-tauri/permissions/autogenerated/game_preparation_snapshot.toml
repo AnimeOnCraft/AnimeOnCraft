@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-game-preparation-snapshot"
+description = "Enables the game_preparation_snapshot command without any pre-configured scope."
+commands.allow = ["game_preparation_snapshot"]
+
+[[permission]]
+identifier = "deny-game-preparation-snapshot"
+description = "Denies the game_preparation_snapshot command without any pre-configured scope."
+commands.deny = ["game_preparation_snapshot"]

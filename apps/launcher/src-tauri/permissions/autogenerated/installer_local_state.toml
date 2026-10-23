@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-installer-local-state"
+description = "Enables the installer_local_state command without any pre-configured scope."
+commands.allow = ["installer_local_state"]
+
+[[permission]]
+identifier = "deny-installer-local-state"
+description = "Denies the installer_local_state command without any pre-configured scope."
+commands.deny = ["installer_local_state"]

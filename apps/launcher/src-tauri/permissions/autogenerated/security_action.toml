@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-security-action"
+description = "Enables the security_action command without any pre-configured scope."
+commands.allow = ["security_action"]
+
+[[permission]]
+identifier = "deny-security-action"
+description = "Denies the security_action command without any pre-configured scope."
+commands.deny = ["security_action"]

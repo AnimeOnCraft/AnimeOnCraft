@@ -1,0 +1,44 @@
+# AnimeOnCraft world catalog — current world (World Design stage 2).
+# Imported into the backend by `corepack pnpm --filter @animeoncraft/backend run world:import`.
+# The five state regions and clan capitals are derived from ../clan-world.json (the same file the game
+# server uses for territories and protection), so the map can never disagree with in-game rules.
+# Everything below is data: adding a clan, point or marker does not need a code change.
+format_version = 1
+world_id = "clan-world-20261016"
+display_name = "Клановый мир"
+layout = "clan-world"
+capture_rules = "capture-rules.toml"
+clan_world = "../clan-world.json"
+# No world border is configured on the current world yet (the new world uses 10000).
+# border_half = 10000
+
+[region_defaults]
+pvp_policy = "WAR_ONLY"
+build_policy = "MEMBERS"
+
+# Explicit catalog entries use the same format the new world blueprint will use:
+#
+# [[regions]]
+# code = "frontier.slot.a"
+# name = "Свободные земли"
+# kind = "FRONTIER_SLOT"
+# status = "RESERVED"
+# polygon = [[3000, -6000], [5000, -6000], [5000, -4000], [3000, -4000]]
+#
+# [[points]]
+# code = "site.w1.t2"
+# type = "RESOURCE_SITE"
+# name = "Железная жила перевала"
+# x = 1056
+# z = -1456
+# radius = 24
+# resource = { family = "FERROUS", tier = 2, kind = "PIT" }
+#
+# [[markers]]
+# code = "event.boss-arena"
+# layer = "events"
+# kind = "EVENT_ZONE"
+# label = "Арена мирового босса"
+# icon = "boss"
+# x = 0
+# z = 800

@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://animeoncraft.local/schemas/compatibility.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["public_api_major", "integration_protocol_major", "launcher_status", "reason"],
+  "properties": {
+    "public_api_major": { "const": 1 },
+    "integration_protocol_major": { "const": 1 },
+    "launcher_status": { "const": "UNAVAILABLE" },
+    "reason": { "const": "SKELETON_ONLY" }
+  }
+}

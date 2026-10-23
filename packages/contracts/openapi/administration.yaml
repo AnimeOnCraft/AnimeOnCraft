@@ -1,0 +1,2227 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "AnimeOnCraft administration — development",
+    "version": "0.6.0-admin-dev",
+    "description": "Default-off local development. Existing account suspension preserves clan/grant history but denies authentication and admission. React escapes news; raw HTML forbidden. Server health/online remain unknown until integration. OWNER transfer/recovery is offline CLI only."
+  },
+  "paths": {
+    "/api/v1/management/overview": {
+      "get": {
+        "description": "Current OWNER or scoped manager. Global counts are null for a manager.",
+        "security": [
+          {
+            "webSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "web-admin"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current authorized data or committed result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Overview"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled error envelope."
+          },
+          "401": {
+            "description": "Controlled error envelope."
+          },
+          "403": {
+            "description": "Controlled error envelope."
+          },
+          "404": {
+            "description": "Controlled error envelope."
+          },
+          "409": {
+            "description": "Controlled error envelope."
+          },
+          "412": {
+            "description": "Controlled error envelope."
+          },
+          "428": {
+            "description": "Controlled error envelope."
+          },
+          "429": {
+            "description": "Controlled error envelope."
+          },
+          "503": {
+            "description": "Controlled error envelope."
+          }
+        }
+      }
+    },
+    "/api/v1/management/users": {
+      "get": {
+        "description": "Current OWNER WEB_ADMIN session with enabled MFA. Mutations require step-up within ten minutes. No OWNER/user role editing.",
+        "security": [
+          {
+            "webSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "web-admin"
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "maxLength": 512
+            }
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "maxLength": 100
+            },
+            "description": "Login/contact email/AnimeOnCraft game name substring; normalized query is bound into the signed cursor."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current authorized data or committed result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Users"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled error envelope."
+          },
+          "401": {
+            "description": "Controlled error envelope."
+          },
+          "403": {
+            "description": "Controlled error envelope."
+          },
+          "404": {
+            "description": "Controlled error envelope."
+          },
+          "409": {
+            "description": "Controlled error envelope."
+          },
+          "412": {
+            "description": "Controlled error envelope."
+          },
+          "428": {
+            "description": "Controlled error envelope."
+          },
+          "429": {
+            "description": "Controlled error envelope."
+          },
+          "503": {
+            "description": "Controlled error envelope."
+          }
+        }
+      }
+    },
+    "/api/v1/management/users/{id}": {
+      "get": {
+        "description": "Current OWNER WEB_ADMIN session with enabled MFA. Mutations require step-up within ten minutes. No OWNER/user role editing.",
+        "security": [
+          {
+            "webSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "web-admin"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current authorized data or committed result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDetail"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled error envelope."
+          },
+          "401": {
+            "description": "Controlled error envelope."
+          },
+          "403": {
+            "description": "Controlled error envelope."
+          },
+          "404": {
+            "description": "Controlled error envelope."
+          },
+          "409": {
+            "description": "Controlled error envelope."
+          },
+          "412": {
+            "description": "Controlled error envelope."
+          },
+          "428": {
+            "description": "Controlled error envelope."
+          },
+          "429": {
+            "description": "Controlled error envelope."
+          },
+          "503": {
+            "description": "Controlled error envelope."
+          }
+        }
+      }
+    },
+    "/api/v1/management/users/{id}/state": {
+      "patch": {
+        "description": "Current OWNER WEB_ADMIN session with enabled MFA. Mutations require step-up within ten minutes. No OWNER/user role editing.",
+        "security": [
+          {
+            "webSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "web-admin"
+              ]
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"(0|[1-9][0-9]{0,18})\"$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current authorized data or committed result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Outcome"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled error envelope."
+          },
+          "401": {
+            "description": "Controlled error envelope."
+          },
+          "403": {
+            "description": "Controlled error envelope."
+          },
+          "404": {
+            "description": "Controlled error envelope."
+          },
+          "409": {
+            "description": "Controlled error envelope."
+          },
+          "412": {
+            "description": "Controlled error envelope."
+          },
+          "428": {
+            "description": "Controlled error envelope."
+          },
+          "429": {
+            "description": "Controlled error envelope."
+          },
+          "503": {
+            "description": "Controlled error envelope."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StateInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/management/users/{id}/password-reset": {
+      "post": {
+        "description": "Current OWNER WEB_ADMIN session with enabled MFA. Mutations require step-up within ten minutes. No OWNER/user role editing.",
+        "security": [
+          {
+            "webSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "web-admin"
+              ]
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"(0|[1-9][0-9]{0,18})\"$"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Current authorized data or committed result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PasswordReset"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled error envelope."
+          },
+          "401": {
+            "description": "Controlled error envelope."
+          },
+          "403": {
+            "description": "Controlled error envelope."
+          },
+          "404": {
+            "description": "Controlled error envelope."
+          },
+          "409": {
+            "description": "Controlled error envelope."
+          },
+          "412": {
+            "description": "Controlled error envelope."
+          },
+          "428": {
+            "description": "Controlled error envelope."
+          },
+          "429": {
+            "description": "Controlled error envelope."
+          },
+          "503": {
+            "description": "Controlled error envelope."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Reason"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/management/users/{id}/bans": {
+      "get": {
+        "description": "Current OWNER WEB_ADMIN session with enabled MFA. Mutations require step-up within ten minutes. No OWNER/user role editing.",
+        "security": [
+          {
+            "webSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "web-admin"
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "maxLength": 512
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current authorized data or committed result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Bans"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled error envelope."
+          },
+          "401": {
+            "description": "Controlled error envelope."
+          },
+          "403": {
+            "description": "Controlled error envelope."
+          },
+          "404": {
+            "description": "Controlled error envelope."
+          },
+          "409": {
+            "description": "Controlled error envelope."
+          },
+          "412": {
+            "description": "Controlled error envelope."
+          },
+          "428": {
+            "description": "Controlled error envelope."
+          },
+          "429": {
+            "description": "Controlled error envelope."
+          },
+          "503": {
+            "description": "Controlled error envelope."
+          }
+        }
+      }
+    },
+    "/api/v1/management/users/{id}/whitelist-grants": {
+      "get": {
+        "description": "Current OWNER WEB_ADMIN session with enabled MFA. Mutations require step-up within ten minutes. No OWNER/user role editing.",
+        "security": [
+          {
+            "webSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "web-admin"
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "maxLength": 512
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current authorized data or committed result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Grants"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled error envelope."
+          },
+          "401": {
+            "description": "Controlled error envelope."
+          },
+          "403": {
+            "description": "Controlled error envelope."
+          },
+          "404": {
+            "description": "Controlled error envelope."
+          },
+          "409": {
+            "description": "Controlled error envelope."
+          },
+          "412": {
+            "description": "Controlled error envelope."
+          },
+          "428": {
+            "description": "Controlled error envelope."
+          },
+          "429": {
+            "description": "Controlled error envelope."
+          },
+          "503": {
+            "description": "Controlled error envelope."
+          }
+        }
+      }
+    },
+    "/api/v1/management/news": {
+      "get": {
+        "description": "Current OWNER WEB_ADMIN session with enabled MFA. Mutations require step-up within ten minutes. No OWNER/user role editing.",
+        "security": [
+          {
+            "webSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "web-admin"
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "maxLength": 512
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current authorized data or committed result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NewsList"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled error envelope."
+          },
+          "401": {
+            "description": "Controlled error envelope."
+          },
+          "403": {
+            "description": "Controlled error envelope."
+          },
+          "404": {
+            "description": "Controlled error envelope."
+          },
+          "409": {
+            "description": "Controlled error envelope."
+          },
+          "412": {
+            "description": "Controlled error envelope."
+          },
+          "428": {
+            "description": "Controlled error envelope."
+          },
+          "429": {
+            "description": "Controlled error envelope."
+          },
+          "503": {
+            "description": "Controlled error envelope."
+          }
+        }
+      },
+      "post": {
+        "description": "Current OWNER WEB_ADMIN session with enabled MFA. Mutations require step-up within ten minutes. No OWNER/user role editing.",
+        "security": [
+          {
+            "webSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "web-admin"
+              ]
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Current authorized data or committed result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/News"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled error envelope."
+          },
+          "401": {
+            "description": "Controlled error envelope."
+          },
+          "403": {
+            "description": "Controlled error envelope."
+          },
+          "404": {
+            "description": "Controlled error envelope."
+          },
+          "409": {
+            "description": "Controlled error envelope."
+          },
+          "412": {
+            "description": "Controlled error envelope."
+          },
+          "428": {
+            "description": "Controlled error envelope."
+          },
+          "429": {
+            "description": "Controlled error envelope."
+          },
+          "503": {
+            "description": "Controlled error envelope."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewsInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/management/news/{id}": {
+      "patch": {
+        "description": "Current OWNER WEB_ADMIN session with enabled MFA. Mutations require step-up within ten minutes. No OWNER/user role editing.",
+        "security": [
+          {
+            "webSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "web-admin"
+              ]
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"(0|[1-9][0-9]{0,18})\"$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current authorized data or committed result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/News"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled error envelope."
+          },
+          "401": {
+            "description": "Controlled error envelope."
+          },
+          "403": {
+            "description": "Controlled error envelope."
+          },
+          "404": {
+            "description": "Controlled error envelope."
+          },
+          "409": {
+            "description": "Controlled error envelope."
+          },
+          "412": {
+            "description": "Controlled error envelope."
+          },
+          "428": {
+            "description": "Controlled error envelope."
+          },
+          "429": {
+            "description": "Controlled error envelope."
+          },
+          "503": {
+            "description": "Controlled error envelope."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewsInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/management/news/{id}/publish": {
+      "post": {
+        "description": "Current OWNER WEB_ADMIN session with enabled MFA. Mutations require step-up within ten minutes. No OWNER/user role editing.",
+        "security": [
+          {
+            "webSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "web-admin"
+              ]
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"(0|[1-9][0-9]{0,18})\"$"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Current authorized data or committed result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/News"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled error envelope."
+          },
+          "401": {
+            "description": "Controlled error envelope."
+          },
+          "403": {
+            "description": "Controlled error envelope."
+          },
+          "404": {
+            "description": "Controlled error envelope."
+          },
+          "409": {
+            "description": "Controlled error envelope."
+          },
+          "412": {
+            "description": "Controlled error envelope."
+          },
+          "428": {
+            "description": "Controlled error envelope."
+          },
+          "429": {
+            "description": "Controlled error envelope."
+          },
+          "503": {
+            "description": "Controlled error envelope."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Reason"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/management/news/{id}/unpublish": {
+      "post": {
+        "description": "Current OWNER WEB_ADMIN session with enabled MFA. Mutations require step-up within ten minutes. No OWNER/user role editing.",
+        "security": [
+          {
+            "webSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "web-admin"
+              ]
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"(0|[1-9][0-9]{0,18})\"$"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Current authorized data or committed result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/News"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled error envelope."
+          },
+          "401": {
+            "description": "Controlled error envelope."
+          },
+          "403": {
+            "description": "Controlled error envelope."
+          },
+          "404": {
+            "description": "Controlled error envelope."
+          },
+          "409": {
+            "description": "Controlled error envelope."
+          },
+          "412": {
+            "description": "Controlled error envelope."
+          },
+          "428": {
+            "description": "Controlled error envelope."
+          },
+          "429": {
+            "description": "Controlled error envelope."
+          },
+          "503": {
+            "description": "Controlled error envelope."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Reason"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/management/news/{id}/archive": {
+      "post": {
+        "description": "Current OWNER WEB_ADMIN session with enabled MFA. Mutations require step-up within ten minutes. No OWNER/user role editing.",
+        "security": [
+          {
+            "webSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "web-admin"
+              ]
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"(0|[1-9][0-9]{0,18})\"$"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Current authorized data or committed result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/News"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled error envelope."
+          },
+          "401": {
+            "description": "Controlled error envelope."
+          },
+          "403": {
+            "description": "Controlled error envelope."
+          },
+          "404": {
+            "description": "Controlled error envelope."
+          },
+          "409": {
+            "description": "Controlled error envelope."
+          },
+          "412": {
+            "description": "Controlled error envelope."
+          },
+          "428": {
+            "description": "Controlled error envelope."
+          },
+          "429": {
+            "description": "Controlled error envelope."
+          },
+          "503": {
+            "description": "Controlled error envelope."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Reason"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/management/audit": {
+      "get": {
+        "description": "Current OWNER WEB_ADMIN session with enabled MFA. Mutations require step-up within ten minutes. No OWNER/user role editing.",
+        "security": [
+          {
+            "webSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "web-admin"
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "maxLength": 512
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current authorized data or committed result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuditList"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled error envelope."
+          },
+          "401": {
+            "description": "Controlled error envelope."
+          },
+          "403": {
+            "description": "Controlled error envelope."
+          },
+          "404": {
+            "description": "Controlled error envelope."
+          },
+          "409": {
+            "description": "Controlled error envelope."
+          },
+          "412": {
+            "description": "Controlled error envelope."
+          },
+          "428": {
+            "description": "Controlled error envelope."
+          },
+          "429": {
+            "description": "Controlled error envelope."
+          },
+          "503": {
+            "description": "Controlled error envelope."
+          }
+        }
+      }
+    },
+    "/api/v1/management/servers": {
+      "get": {
+        "description": "Current OWNER WEB_ADMIN session with enabled MFA. Mutations require step-up within ten minutes. No OWNER/user role editing.",
+        "security": [
+          {
+            "webSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "web-admin"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current authorized data or committed result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Servers"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled error envelope."
+          },
+          "401": {
+            "description": "Controlled error envelope."
+          },
+          "403": {
+            "description": "Controlled error envelope."
+          },
+          "404": {
+            "description": "Controlled error envelope."
+          },
+          "409": {
+            "description": "Controlled error envelope."
+          },
+          "412": {
+            "description": "Controlled error envelope."
+          },
+          "428": {
+            "description": "Controlled error envelope."
+          },
+          "429": {
+            "description": "Controlled error envelope."
+          },
+          "503": {
+            "description": "Controlled error envelope."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PasswordReset": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "user_id",
+          "login",
+          "delivery_email",
+          "temporary_password",
+          "version"
+        ],
+        "properties": {
+          "user_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "login": {
+            "type": "string"
+          },
+          "delivery_email": {
+            "type": "string"
+          },
+          "temporary_password": {
+            "type": "string",
+            "nullable": true
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)$"
+          }
+        }
+      },
+      "Reason": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "reason"
+        ],
+        "properties": {
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          }
+        }
+      },
+      "StateInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "reason",
+          "state"
+        ],
+        "properties": {
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "ACTIVE",
+              "SUSPENDED"
+            ]
+          }
+        }
+      },
+      "NewsInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "reason",
+          "slug",
+          "title",
+          "body_markdown"
+        ],
+        "properties": {
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "slug": {
+            "type": "string",
+            "maxLength": 100,
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "body_markdown": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 20000,
+            "description": "Raw HTML forbidden. Render as escaped text or a separately audited Markdown renderer."
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "login",
+          "password_change_required",
+          "email",
+          "email_verified",
+          "system_role",
+          "state",
+          "version",
+          "created_at"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "login": {
+            "type": "string"
+          },
+          "password_change_required": {
+            "type": "boolean"
+          },
+          "email": {
+            "type": "string"
+          },
+          "email_verified": {
+            "type": "boolean"
+          },
+          "system_role": {
+            "type": "string",
+            "enum": [
+              "OWNER",
+              "PLAYER"
+            ]
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "ACTIVE",
+              "SUSPENDED"
+            ]
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)$"
+          },
+          "created_at": {
+            "type": "string"
+          }
+        }
+      },
+      "UserDetail": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "login",
+          "password_change_required",
+          "email",
+          "email_verified",
+          "system_role",
+          "state",
+          "version",
+          "created_at",
+          "minecraft",
+          "membership",
+          "managers",
+          "effective_access",
+          "access_reason",
+          "game_admission_available",
+          "sync_status",
+          "statistics"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "login": {
+            "type": "string"
+          },
+          "password_change_required": {
+            "type": "boolean"
+          },
+          "email": {
+            "type": "string"
+          },
+          "email_verified": {
+            "type": "boolean"
+          },
+          "system_role": {
+            "type": "string",
+            "enum": [
+              "OWNER",
+              "PLAYER"
+            ]
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "ACTIVE",
+              "SUSPENDED"
+            ]
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)$"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "minecraft": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "minecraft_uuid",
+              "nickname"
+            ],
+            "properties": {
+              "minecraft_uuid": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "nickname": {
+                "type": "string"
+              }
+            },
+            "nullable": true
+          },
+          "membership": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "clan_id",
+              "clan_name",
+              "joined_at"
+            ],
+            "properties": {
+              "clan_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "clan_name": {
+                "type": "string"
+              },
+              "joined_at": {
+                "type": "string"
+              }
+            },
+            "nullable": true
+          },
+          "managers": {
+            "type": "array",
+            "maxItems": 100,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "clan_id",
+                "can_remove_members"
+              ],
+              "properties": {
+                "clan_id": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "can_remove_members": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "effective_access": {
+            "type": "string",
+            "enum": [
+              "ALLOWED",
+              "DENIED"
+            ]
+          },
+          "access_reason": {
+            "type": "string",
+            "enum": [
+              "ALLOWED",
+              "SUSPENDED",
+              "BANNED",
+              "GAME_PROFILE_REQUIRED",
+              "GRANT_REQUIRED"
+            ]
+          },
+          "game_admission_available": {
+            "type": "boolean",
+            "enum": [
+              false
+            ]
+          },
+          "sync_status": {
+            "type": "string",
+            "enum": [
+              "UNKNOWN"
+            ]
+          },
+          "statistics": {
+            "type": "array",
+            "maxItems": 100,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "server_id",
+                "playtime_seconds",
+                "last_seen_at",
+                "updated_at"
+              ],
+              "properties": {
+                "server_id": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "playtime_seconds": {
+                  "type": "string",
+                  "pattern": "^(0|[1-9][0-9]*)$"
+                },
+                "last_seen_at": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "updated_at": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Ban": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "user_id",
+          "reason",
+          "created_at",
+          "expires_at",
+          "revoked_at",
+          "version",
+          "scope",
+          "message_public"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "user_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "expires_at": {
+            "type": "string",
+            "nullable": true
+          },
+          "revoked_at": {
+            "type": "string",
+            "nullable": true
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)$"
+          },
+          "scope": {
+            "type": "string",
+            "enum": [
+              "GAME",
+              "ACCOUNT"
+            ]
+          },
+          "message_public": {
+            "type": "string"
+          }
+        }
+      },
+      "Grant": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "user_id",
+          "reason",
+          "created_at",
+          "expires_at",
+          "revoked_at",
+          "version",
+          "kind"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "user_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "expires_at": {
+            "type": "string",
+            "nullable": true
+          },
+          "revoked_at": {
+            "type": "string",
+            "nullable": true
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)$"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "OWNER",
+              "MEMBERSHIP"
+            ]
+          }
+        }
+      },
+      "News": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "slug",
+          "title",
+          "body_markdown",
+          "published_at",
+          "archived_at",
+          "version",
+          "created_at"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "body_markdown": {
+            "type": "string"
+          },
+          "published_at": {
+            "type": "string",
+            "nullable": true
+          },
+          "archived_at": {
+            "type": "string",
+            "nullable": true
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)$"
+          },
+          "created_at": {
+            "type": "string"
+          }
+        }
+      },
+      "Audit": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "actor_kind",
+          "actor_user_id",
+          "action",
+          "target_type",
+          "target_id",
+          "reason",
+          "request_id",
+          "time",
+          "before",
+          "after"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "actor_kind": {
+            "type": "string",
+            "enum": [
+              "USER",
+              "SERVICE",
+              "OPERATOR",
+              "DEVELOPMENT"
+            ]
+          },
+          "actor_user_id": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "action": {
+            "type": "string"
+          },
+          "target_type": {
+            "type": "string"
+          },
+          "target_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "request_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "time": {
+            "type": "string"
+          },
+          "before": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": true
+          },
+          "after": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": true
+          }
+        }
+      },
+      "Overview": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "system_role",
+          "clans",
+          "members",
+          "pending_applications",
+          "users",
+          "active_bans",
+          "news_drafts",
+          "online",
+          "game_admission_available",
+          "sync_status",
+          "checked_at"
+        ],
+        "properties": {
+          "system_role": {
+            "type": "string",
+            "enum": [
+              "OWNER",
+              "PLAYER"
+            ]
+          },
+          "clans": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "members": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "pending_applications": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "users": {
+            "type": "integer",
+            "minimum": 0,
+            "nullable": true
+          },
+          "active_bans": {
+            "type": "integer",
+            "minimum": 0,
+            "nullable": true
+          },
+          "news_drafts": {
+            "type": "integer",
+            "minimum": 0,
+            "nullable": true
+          },
+          "online": {
+            "type": "integer",
+            "minimum": 0,
+            "nullable": true
+          },
+          "game_admission_available": {
+            "type": "boolean",
+            "enum": [
+              false
+            ]
+          },
+          "sync_status": {
+            "type": "string",
+            "enum": [
+              "UNKNOWN"
+            ]
+          },
+          "checked_at": {
+            "type": "string"
+          }
+        }
+      },
+      "Servers": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "game_admission_available",
+          "sync_status"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "maxItems": 100,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "id",
+                "name",
+                "maintenance",
+                "online",
+                "status",
+                "last_observed_at"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "maintenance": {
+                  "type": "boolean"
+                },
+                "online": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "nullable": true
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "UNKNOWN"
+                  ]
+                },
+                "last_observed_at": {
+                  "type": "string",
+                  "nullable": true
+                }
+              }
+            }
+          },
+          "game_admission_available": {
+            "type": "boolean",
+            "enum": [
+              false
+            ]
+          },
+          "sync_status": {
+            "type": "string",
+            "enum": [
+              "UNKNOWN"
+            ]
+          }
+        }
+      },
+      "Outcome": {
+        "type": "object",
+        "additionalProperties": true,
+        "description": "Sanitized user/version result. No auth secrets. PENDING is an outbox enqueue, not acknowledged Minecraft delivery."
+      },
+      "Users": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "next_cursor"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "maxItems": 100,
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
+          },
+          "next_cursor": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "Bans": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "next_cursor"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "maxItems": 100,
+            "items": {
+              "$ref": "#/components/schemas/Ban"
+            }
+          },
+          "next_cursor": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "Grants": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "next_cursor"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "maxItems": 100,
+            "items": {
+              "$ref": "#/components/schemas/Grant"
+            }
+          },
+          "next_cursor": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "NewsList": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "next_cursor"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "maxItems": 100,
+            "items": {
+              "$ref": "#/components/schemas/News"
+            }
+          },
+          "next_cursor": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "AuditList": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "next_cursor"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "maxItems": 100,
+            "items": {
+              "$ref": "#/components/schemas/Audit"
+            }
+          },
+          "next_cursor": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "webSession": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "__Host-aoc-access"
+      }
+    }
+  }
+}
