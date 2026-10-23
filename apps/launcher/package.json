@@ -1,6 +1,6 @@
 {
   "name": "@animeoncraft/launcher",
-  "version": "0.8.7-client-sync",
+  "version": "0.8.8-emotes-capture",
   "private": true,
   "type": "module",
   "scripts": {

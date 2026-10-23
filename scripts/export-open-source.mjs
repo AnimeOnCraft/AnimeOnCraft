@@ -31,6 +31,6 @@ const readme=Buffer.from(fs.readFileSync('docs/PUBLIC_README.md','utf8').replace
 fs.mkdirSync(destination,{recursive:true});
 for(const file of selected){const out=path.join(destination,file);fs.mkdirSync(path.dirname(out),{recursive:true});fs.writeFileSync(out,contents.get(file));}
 fs.writeFileSync(path.join(destination,'README.md'),readme);
-const manifest={schema_version:1,kind:'current-development-source-snapshot',created_at:new Date().toISOString(),private_history_included:false,text_hashing:'UTF-8 text normalized to LF as stored by Git; binary files raw',release_binary_correspondence:'Not claimed for the existing 0.8.7 installer',files:manifests.sort((a,b)=>a.path.localeCompare(b.path))};
+const manifest={schema_version:1,kind:'current-source-snapshot',created_at:new Date().toISOString(),private_history_included:false,text_hashing:'UTF-8 text normalized to LF as stored by Git; binary files raw',release_binary_correspondence:'For release snapshots see RELEASE_BUILD.json and the matching version tag; bit-for-bit reproducibility is not guaranteed',files:manifests.sort((a,b)=>a.path.localeCompare(b.path))};
 fs.writeFileSync(path.join(destination,'SOURCE_SNAPSHOT.json'),JSON.stringify(manifest,null,2)+'\n');
 console.log(JSON.stringify({destination,files:manifests.length,bytes:manifests.reduce((n,f)=>n+f.bytes,0),published:false}));

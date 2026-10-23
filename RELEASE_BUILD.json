@@ -1,0 +1,13 @@
+{
+  "version": "0.8.8",
+  "source_tag": "v0.8.8",
+  "installer": {
+    "url": "https://charizma1337.github.io/animeoncraft-updates/0.8.8/AnimeOnCraft_0.8.8_x64-setup.exe",
+    "bytes": 51350946,
+    "sha256": "7150952e4c3338354e11c37ed52ae108abc7e8b19a88524612f766fc3039e6f4",
+    "signature_url": "https://charizma1337.github.io/animeoncraft-updates/0.8.8/AnimeOnCraft_0.8.8_x64-setup.exe.sig"
+  },
+  "game_mod_sha256": "2f867bb842c903a28d76a2c4c5216ca24746f5705cb59ded103729631f5ae61d",
+  "modpack_profile_sha256": "0ccd0a97926fcff8c1fba82552e43b3d5ea1b381d013ec2d3b5b6e17ddde6fd4",
+  "reproducibility": "Source used for this release. Independent builds are not guaranteed to be bit-for-bit identical; dependencies and build toolchains also affect binaries."
+}

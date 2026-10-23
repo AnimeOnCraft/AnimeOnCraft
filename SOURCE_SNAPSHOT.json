@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
-  "kind": "current-development-source-snapshot",
-  "created_at": "2026-10-23T07:42:58.497Z",
+  "kind": "release-source-snapshot",
+  "created_at": "2026-10-23T08:33:50.275Z",
   "private_history_included": false,
   "text_hashing": "UTF-8 text normalized to LF as stored by Git; binary files raw",
-  "release_binary_correspondence": "Not claimed for the existing 0.8.7 installer",
+  "release_binary_correspondence": "Source used to build 0.8.8. See RELEASE_BUILD.json; bit-for-bit reproducibility is not guaranteed.",
   "files": [
     {
       "path": ".dockerignore",
@@ -928,7 +928,7 @@
     },
     {
       "path": "apps/download-site/index.html",
-      "sha256": "edfa1f5820694f9fcb0979a1f7e61710aa13f5c9064c1267e5f8d5957b43ac76",
+      "sha256": "d72d5c324123e96680130da49d1de5d28ba1caa283c00c45715dee5e324313bd",
       "bytes": 4259
     },
     {
@@ -943,8 +943,8 @@
     },
     {
       "path": "apps/launcher/package.json",
-      "sha256": "4fc031921be42a36865aff61052b7e2085a7f1ac6716c602816fd5a09b175390",
-      "bytes": 819
+      "sha256": "d72ee23724e401603952242018fa5bdc8d54961e4a0fac4c997b966d85df9418",
+      "bytes": 822
     },
     {
       "path": "apps/launcher/public/brand/animeoncraft-avatar.png",
@@ -973,12 +973,12 @@
     },
     {
       "path": "apps/launcher/src-tauri/Cargo.lock",
-      "sha256": "8f3db6ecea59d9005c32c0a6eda52042489b005733808406e62fc96c9ecb5015",
+      "sha256": "b19d6b70e2ede62fa0c21c59a192abec242cd31f7d7e13c9bf075e30c6d4f2b1",
       "bytes": 127774
     },
     {
       "path": "apps/launcher/src-tauri/Cargo.toml",
-      "sha256": "f59797c1f1c963698c2459a9d04ab8ae0e3f0c3ead3c4c299f4debf3a8b0e205",
+      "sha256": "5aca54a402cc7830d810b02ed3075da78f2be6240006557c30b44c914975cf09",
       "bytes": 1983
     },
     {
@@ -1808,7 +1808,7 @@
     },
     {
       "path": "apps/launcher/src-tauri/tauri.conf.json",
-      "sha256": "0982d129cb7fb7f3770bccbaf86a8bd854de1bd97566114a18a1a03c58c6caee",
+      "sha256": "4a74e0fbcc2fd9f7116593d9f5e2e005b24569b83eed62d972eacf2d9d7116ad",
       "bytes": 1325
     },
     {
@@ -2253,13 +2253,18 @@
     },
     {
       "path": "docs/BUILD_FROM_SOURCE.md",
-      "sha256": "627070cf88740f3023614d6d312414e7aca05f3937dfc8678a68c5c7b2889474",
-      "bytes": 3143
+      "sha256": "d3e789d4756374ab59d76f7001189de417741f270b0bbc59159d05f53f1e8d2f",
+      "bytes": 3282
+    },
+    {
+      "path": "docs/PATCH_NOTES_0_8_8.md",
+      "sha256": "1ea0d8a09ade7b5006bc7164dadb6aad52be0bce2240d082fc912e13b99911c8",
+      "bytes": 3645
     },
     {
       "path": "docs/PUBLIC_README.md",
-      "sha256": "07e43de94c65df66773626e61d761eaeddedd1096f19cfb49ad77edfb63e5290",
-      "bytes": 3757
+      "sha256": "b2a347998b9303b03e0d0f840a398e41dbac03cf1f1f4f6cca6cdc3e2404f6c3",
+      "bytes": 3848
     },
     {
       "path": "eslint.config.mjs",
@@ -6038,8 +6043,8 @@
     },
     {
       "path": "minecraft/modpack/profile.json",
-      "sha256": "67716f6841a0ad744d32f20e4e94edb22a319643e6d47681852f7eebcd2934c9",
-      "bytes": 142473
+      "sha256": "0ccd0a97926fcff8c1fba82552e43b3d5ea1b381d013ec2d3b5b6e17ddde6fd4",
+      "bytes": 142476
     },
     {
       "path": "minecraft/modpack/quest-book/chapter_groups.snbt",
@@ -6248,8 +6253,8 @@
     },
     {
       "path": "package.json",
-      "sha256": "8785caa9ae5cfca2c2308b0fb4d9608b735545b8de9133184c5d01778d2158b1",
-      "bytes": 5558
+      "sha256": "7904a29b0fa7070e3847dd13e9ab59660a2556ed58e18bec824920b64cef281b",
+      "bytes": 5567
     },
     {
       "path": "packages/contracts/fixtures/clans-empty.json",
@@ -6418,8 +6423,13 @@
     },
     {
       "path": "README.md",
-      "sha256": "07e43de94c65df66773626e61d761eaeddedd1096f19cfb49ad77edfb63e5290",
-      "bytes": 3757
+      "sha256": "b2a347998b9303b03e0d0f840a398e41dbac03cf1f1f4f6cca6cdc3e2404f6c3",
+      "bytes": 3848
+    },
+    {
+      "path": "RELEASE_BUILD.json",
+      "sha256": "6c95a40251a98b0d95d135ffaf4eecb24952b10789737da54f98057a5166ee41",
+      "bytes": 763
     },
     {
       "path": "scripts/admin-https-smoke.mjs",
@@ -6578,8 +6588,8 @@
     },
     {
       "path": "scripts/export-open-source.mjs",
-      "sha256": "0d63d03e856cc6fc79dbff342703f60f3b278a30caee59d27ee2c2302c0341ae",
-      "bytes": 3413
+      "sha256": "88fdf3e7b0db47a98774b596790e633ec9c95d1cff6434643dc5e5f587d3de19",
+      "bytes": 3477
     },
     {
       "path": "scripts/fixtures/redesign-core.mjs",
@@ -7277,5 +7287,6 @@
       "bytes": 504
     }
   ],
-  "updated_at": "2026-10-23T07:52:16.020Z"
+  "version": "0.8.8",
+  "release_tag": "v0.8.8"
 }

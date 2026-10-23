@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "name": "AnimeOnCraft Friends",
-  "pack_version": "0.8.7-client-sync",
+  "pack_version": "0.8.8-emotes-capture",
   "status": "friends-tested-release-candidate",
   "checked_on": "2026-10-23",
   "client_map_defaults": {
