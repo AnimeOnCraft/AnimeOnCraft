@@ -3238,8 +3238,8 @@
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ServerEmotes.java",
-      "sha256": "bf200c19dd0654df699b406839bcd2061343b824a73a6dc1b0e6fb7913557d10",
-      "bytes": 5212
+      "sha256": "2c0e95cfd18f3388c5a1cf629e2afb73dfd2c553f09926272874e87830295a17",
+      "bytes": 5518
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ServerMenuData.java",
@@ -3658,8 +3658,8 @@
     },
     {
       "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/EmoteMultiplayerProbe.java",
-      "sha256": "3f7d4f67dae7bc9f86e8a22eea283841a08445c2f2ecff4c6d1a054b7c7a3389",
-      "bytes": 8409
+      "sha256": "05a31c5d94b83e07cacd184211cd8ee8128fd4e102d12c0852d68d2433ba37c9",
+      "bytes": 9041
     },
     {
       "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/EmotesTest.java",
@@ -7277,5 +7277,5 @@
       "bytes": 504
     }
   ],
-  "updated_at": "2026-10-23T07:44:39.885Z"
+  "updated_at": "2026-10-23T07:52:16.020Z"
 }

@@ -15,6 +15,7 @@ final class ServerEmotes {
     private static final Map<UUID,Active> active=new HashMap<>();
     private static final Map<UUID,List<String>> inventories=new HashMap<>();
     private static final Map<UUID,Integer> requested=new HashMap<>();
+    private static final Map<UUID,Integer> reads=new HashMap<>();
     private ServerEmotes(){}
     static void inventory(ServerPlayer p,JsonObject reply){
         var list=new ArrayList<String>();
@@ -29,9 +30,11 @@ final class ServerEmotes {
     static void request(ServerPlayer p,String code){
         if(!admitted(p))return;
         if(code.isEmpty()){stop(p);return;}
-        int now=p.server.getTickCount();if(now-requested.getOrDefault(p.getUUID(),Integer.MIN_VALUE/2)<10)return;requested.put(p.getUUID(),now);
+        int now=p.server.getTickCount();
         var owned=p.server.isDedicatedServer()?inventories.get(p.getUUID()):Emotes.starters();
-        if(code.equals("READ")){if(owned!=null)sendInventory(p,true,owned);else ServerWardrobe.request(p,new WardrobePayloads.Request("READ","",0));return;}
+        if(code.equals("READ")){if(now-reads.getOrDefault(p.getUUID(),Integer.MIN_VALUE/2)<40)return;reads.put(p.getUUID(),now);if(owned!=null)sendInventory(p,true,owned);else ServerWardrobe.request(p,new WardrobePayloads.Request("READ","",0));return;}
+        // A background inventory read must never swallow the player's next click.
+        if(now-requested.getOrDefault(p.getUUID(),Integer.MIN_VALUE/2)<10)return;requested.put(p.getUUID(),now);
         if(owned==null||!owned.contains(code)||Emotes.find(code)==null||blocked(p,0))return;
         active.put(p.getUUID(),new Active(code,now,p.position(),p.level().dimension()));broadcast(p);
     }
@@ -45,6 +48,6 @@ final class ServerEmotes {
         var server=e.getServer();for(var id:List.copyOf(active.keySet())){var p=server.getPlayerList().getPlayer(id);var a=active.get(id);if(p==null){active.remove(id);continue;}if(!admitted(p)||!p.level().dimension().equals(a.dimension())||blocked(p,p.position().distanceToSqr(a.anchor()))||server.getTickCount()-a.started()>=Emotes.find(a.code()).ticks())stop(p);}
         if(server.getTickCount()%100==0)for(var observer:server.getPlayerList().getPlayers())for(var target:server.getPlayerList().getPlayers())if(observer==target||observer.serverLevel()==target.serverLevel()&&observer.distanceToSqr(target)<128*128)send(observer,target);
     }
-    static void logout(PlayerEvent.PlayerLoggedOutEvent e){if(e.getEntity() instanceof ServerPlayer p)stop(p);inventories.remove(e.getEntity().getUUID());requested.remove(e.getEntity().getUUID());}
-    static void stopped(net.neoforged.neoforge.event.server.ServerStoppedEvent e){active.clear();inventories.clear();requested.clear();}
+    static void logout(PlayerEvent.PlayerLoggedOutEvent e){if(e.getEntity() instanceof ServerPlayer p)stop(p);inventories.remove(e.getEntity().getUUID());requested.remove(e.getEntity().getUUID());reads.remove(e.getEntity().getUUID());}
+    static void stopped(net.neoforged.neoforge.event.server.ServerStoppedEvent e){active.clear();inventories.clear();requested.clear();reads.clear();}
 }
