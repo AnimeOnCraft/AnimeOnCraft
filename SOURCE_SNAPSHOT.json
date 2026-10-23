@@ -7023,8 +7023,8 @@
     },
     {
       "path": "scripts/test-emote-multiplayer.mjs",
-      "sha256": "511f5f54c7bf16ddefe54f3824c09844dfab6a004cb68e7bcd31d4fc530c9452",
-      "bytes": 4494
+      "sha256": "c52c7090c388082293105db3a3f8d23e995e8ab6707a8956c7061c19109d6afd",
+      "bytes": 4495
     },
     {
       "path": "scripts/test-exploration.mjs",
@@ -7276,5 +7276,6 @@
       "sha256": "89d513318d4959d7f61efd97c59a2fa5539e1b489e60ca79a4b102b81241e197",
       "bytes": 504
     }
-  ]
+  ],
+  "updated_at": "2026-10-23T07:44:39.885Z"
 }

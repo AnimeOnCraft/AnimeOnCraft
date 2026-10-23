@@ -23,7 +23,7 @@ function launch(role){
  const java=path.join(root,'.tools/launcher-bootstrap/runtime/java/bin/java.exe');
  const plan=nativeLaunchPlan({serverId:randomUUID(),serverPort:25572,gameDirectory:game,java});
  const substitutions={'%AOC_NAME%':role==='host'?'AocWearer':'AocObserver','%AOC_UUID%':randomUUID().replaceAll('-',''),'%AOC_WIDTH%':'960','%AOC_HEIGHT%':'640','%AOC_RAM%':full?'2048':'1536'};
- const args=['-Daoc.emoteProbeRole='+role,'-Daoc.emoteProbeRoot='+directory,'-Daoc.emoteProbePort=25572,'-Daoc.emoteMenuOnly='+menuOnly];
+ const args=['-Daoc.emoteProbeRole='+role,'-Daoc.emoteProbeRoot='+directory,'-Daoc.emoteProbePort=25572','-Daoc.emoteMenuOnly='+menuOnly];
  for(let i=0;i<plan.args.length;i++){if(role==='host'&&['--quickPlayMultiplayer','--quickPlayPath'].includes(plan.args[i])){i++;continue;}let a=plan.args[i];for(const [k,v]of Object.entries(substitutions))a=a.replaceAll(k,v);args.push(a);}
  if(role==='host')args.push('--quickPlaySingleplayer','probe');
  const child=spawn(java,args,{cwd:game,windowsHide:true,env:{...process.env,TEMP:path.join(root,'.tools/work-temp'),TMP:path.join(root,'.tools/work-temp')},stdio:['ignore','pipe','pipe']});
