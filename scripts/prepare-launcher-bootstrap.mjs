@@ -28,8 +28,9 @@ assert.match(config.server_id,/^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0
 assert.ok(Number.isInteger(config.server_port)&&config.server_port>0&&config.server_port<=65535);
 assert.ok(typeof config.server_host==='string'&&config.server_host.length<=253&&config.server_host.split('.').every(p=>/^[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?$/.test(p)));
 const copy=(source,target=source)=>{const destination=path.join(output,target);mkdirSync(path.dirname(destination),{recursive:true});copyFileSync(path.join(root,source),destination);};
-for(const file of ['prepare-launcher-client.mjs','prepare-minecraft-client.mjs','minecraft-launch-plan.mjs','managed-client-download.mjs','client-map-defaults.mjs','jar-entry.mjs','game-balance.mjs'])copy('scripts/'+file);
+for(const file of ['prepare-launcher-client.mjs','prepare-minecraft-client.mjs','minecraft-launch-plan.mjs','managed-client-download.mjs','client-map-defaults.mjs','jar-entry.mjs','game-balance.mjs','game-economy.mjs'])copy('scripts/'+file);
 copy('minecraft/modpack/profile.json');copy('minecraft/server/balance-profile.json');copy('minecraft/server/balance-assets.json');
+copy('minecraft/server/economy-profile.json');
 copy('minecraft/server/quest-assets.json');
 for(const file of JSON.parse(readFileSync(path.join(root,'minecraft/server/quest-assets.json'),'utf8')).files)copy('minecraft/modpack/quest-book/'+file.path);
 const jar='minecraft/integration/neoforge/build/libs/animeoncraft-admission-0.3.0-friends-dev.jar';copy(jar);

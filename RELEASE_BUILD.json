@@ -1,13 +1,13 @@
 {
-  "version": "0.8.8",
-  "source_tag": "v0.8.8",
+  "version": "0.8.9",
+  "source_tag": "v0.8.9",
   "installer": {
-    "url": "https://charizma1337.github.io/animeoncraft-updates/0.8.8/AnimeOnCraft_0.8.8_x64-setup.exe",
-    "bytes": 51350946,
-    "sha256": "7150952e4c3338354e11c37ed52ae108abc7e8b19a88524612f766fc3039e6f4",
-    "signature_url": "https://charizma1337.github.io/animeoncraft-updates/0.8.8/AnimeOnCraft_0.8.8_x64-setup.exe.sig"
+    "url": "https://charizma1337.github.io/animeoncraft-updates/0.8.9/AnimeOnCraft_0.8.9_x64-setup.exe",
+    "bytes": 51380130,
+    "sha256": "e88849630ce4c6aa0aa123fb4a1787a9046ff8cf4592d0d6f06c5d74da9e7d7f",
+    "signature_url": "https://charizma1337.github.io/animeoncraft-updates/0.8.9/AnimeOnCraft_0.8.9_x64-setup.exe.sig"
   },
-  "game_mod_sha256": "2f867bb842c903a28d76a2c4c5216ca24746f5705cb59ded103729631f5ae61d",
-  "modpack_profile_sha256": "0ccd0a97926fcff8c1fba82552e43b3d5ea1b381d013ec2d3b5b6e17ddde6fd4",
+  "game_mod_sha256": "62924f3d930751cb94f369c75bbf663e2984405abc5bf73b3ce7e1f2390fcdef",
+  "modpack_profile_sha256": "6f7ee261b6054736f0f8caf0ff6f6a6d0bc88a3f29e86f297b34a0f36bc9d819",
   "reproducibility": "Source used for this release. Independent builds are not guaranteed to be bit-for-bit identical; dependencies and build toolchains also affect binaries."
 }

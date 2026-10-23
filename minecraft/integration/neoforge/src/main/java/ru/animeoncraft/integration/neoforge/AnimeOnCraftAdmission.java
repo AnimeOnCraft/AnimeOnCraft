@@ -124,6 +124,8 @@ public final class AnimeOnCraftAdmission {
 
     private static void payloads(RegisterPayloadHandlersEvent event) {
         var beta=event.registrar("1").optional();
+        beta.playToServer(EmotePairPayloads.Request.TYPE,EmotePairPayloads.Request.CODEC,ServerPairEmotes::request);
+        beta.playToClient(EmotePairPayloads.Notice.TYPE,EmotePairPayloads.Notice.CODEC,(p,c)->{if(net.neoforged.fml.loading.FMLEnvironment.dist==net.neoforged.api.distmarker.Dist.CLIENT)ClientRegistration.emotePair(p,c);});
         beta.playToServer(EmotePayloads.Request.TYPE,EmotePayloads.Request.CODEC,ServerEmotes::request);
         beta.playToClient(EmotePayloads.Inventory.TYPE,EmotePayloads.Inventory.CODEC,(p,c)->{if(net.neoforged.fml.loading.FMLEnvironment.dist==net.neoforged.api.distmarker.Dist.CLIENT)ClientRegistration.emoteInventory(p,c);});
         beta.playToClient(EmotePayloads.State.TYPE,EmotePayloads.State.CODEC,(p,c)->{if(net.neoforged.fml.loading.FMLEnvironment.dist==net.neoforged.api.distmarker.Dist.CLIENT)ClientRegistration.emoteState(p,c);});
@@ -168,6 +170,7 @@ public final class AnimeOnCraftAdmission {
     }
 
     private static final class ClientRegistration {
+        static void emotePair(EmotePairPayloads.Notice p,IPayloadContext c){ClientEmotes.notice(p,c);}
         static void emoteInventory(EmotePayloads.Inventory p,IPayloadContext c){ClientEmotes.inventory(p,c);}
         static void emoteState(EmotePayloads.State p,IPayloadContext c){ClientEmotes.state(p,c);}
         static void achievements(ClanAchievementPayload payload,IPayloadContext context){ClientClanAchievements.accept(payload,context);}
@@ -177,6 +180,7 @@ public final class AnimeOnCraftAdmission {
         static void profile(ProfilePayloads.Snapshot payload,IPayloadContext context){ClientProfiles.accept(payload,context);}
         static void title(ProfilePayloads.Title payload,IPayloadContext context){ClientProfiles.title(payload,context);}
         static void register(IEventBus bus){
+            bus.addListener(ClientEmoteMenu::register);
             var events=net.neoforged.neoforge.common.NeoForge.EVENT_BUS;
             events.addListener(ClientEmotes::logout);
             events.addListener(ClientWardrobe::logout);events.addListener(ClientBetaPass::logout);bus.addListener(BetaCosmeticRenderer::register);bus.addListener(DetailedCosmetics::reload);events.addListener(ClientClanAchievements::logout);events.addListener(ClientProfiles::logout);events.addListener(ClientServerMenu::key);events.addListener(ClientServerMenu::tick);events.addListener(ClientServerMenu::layer);events.addListener(ClientServerMenu::logout);

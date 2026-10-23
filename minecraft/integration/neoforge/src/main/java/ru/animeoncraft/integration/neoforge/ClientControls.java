@@ -48,9 +48,10 @@ final class ClientControls {
         }
         return "мод недоступен";
     }
-    static String guide(String body){return body.replace("{map}",label("gui.xaero_open_map")).replace("{voice}",label("key.voice_chat")).replace("{talk}",label("key.push_to_talk")).replace("{mute}",label("key.mute_microphone"));}
+    static String guide(String body){return body.replace("{map}",label("gui.xaero_open_map")).replace("{voice}",label("key.voice_chat")).replace("{talk}",label("key.push_to_talk")).replace("{mute}",label("key.mute_microphone")).replace("{emotes}",label("key.animeoncraft.emotes")).replace("{wallet}",label("key.lightmanscurrency.open_wallet"));}
     static void initialize(){
         if(checked)return;checked=true;var mc=Minecraft.getInstance();var config=mc.gameDirectory.toPath().resolve("config");var marker=config.resolve("animeoncraft-controls-v1.json");
+        initializeSocial(config);
         if(Files.exists(marker))return;
         try{
             Files.createDirectories(config);var options=mc.gameDirectory.toPath().resolve("options.txt");var backup=config.resolve("options.before-animeoncraft-controls-v1.txt");
@@ -61,6 +62,13 @@ final class ClientControls {
             KeyMapping.resetMapping();mc.options.save();
             Files.writeString(marker,new GsonBuilder().setPrettyPrinting().create().toJson(Map.of("revision",1,"changed",changed)));
         }catch(java.io.IOException ex){System.err.println("AnimeOnCraft: could not save control defaults: "+ex.getClass().getSimpleName());}
+    }
+    private static void initializeSocial(java.nio.file.Path config){
+        var marker=config.resolve("animeoncraft-controls-social-v1.json");if(Files.exists(marker))return;var mc=Minecraft.getInstance();
+        try{Files.createDirectories(config);var options=mc.gameDirectory.toPath().resolve("options.txt");var backup=config.resolve("options.before-animeoncraft-social-v1.txt");if(Files.exists(options)&&!Files.exists(backup))Files.copy(options,backup);
+            var changed=new LinkedHashMap<String,String>();for(var entry:Map.of("key.lightmanscurrency.open_wallet","f9","key.lightmanscurrency.portable_atm","f12","key.animeoncraft.emotes","j").entrySet())for(var key:mc.options.keyMappings)if(key.getName().equals(entry.getKey())&&key.isDefault()&&key.getKeyModifier()==KeyModifier.NONE){key.setKey(InputConstants.getKey("key.keyboard."+entry.getValue()));boolean conflict=java.util.Arrays.stream(mc.options.keyMappings).anyMatch(other->other!=key&&!other.isUnbound()&&key.same(other));if(conflict)key.setKey(InputConstants.UNKNOWN);changed.put(key.getName(),key.getKey().getName());}
+            KeyMapping.resetMapping();mc.options.save();Files.writeString(marker,new GsonBuilder().setPrettyPrinting().create().toJson(Map.of("revision",1,"changed",changed)));
+        }catch(java.io.IOException ex){System.err.println("AnimeOnCraft: could not save social key defaults: "+ex.getClass().getSimpleName());}
     }
     /** Native registry audit, including NeoForge contexts and modifier combinations. */
     static void audit(java.nio.file.Path file)throws java.io.IOException{

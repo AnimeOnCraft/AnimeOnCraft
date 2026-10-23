@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "player-economy-v1",
+  "lightmans_common": {
+    "crafting.coin_mint": {"canCraftCoinMint": false, "canMint": false, "canMelt": false},
+    "loot.entities": {"allowSpawnedDrops": false, "allowFakePlayerDrops": false},
+    "villagers.modification": {"changeVanillaTrades": false, "changeModdedTrades": false, "changeWanderingTrades": false},
+    "villagers": {"addCustomWanderingTrades": false, "addCashier": false},
+    "events": {"startingRewards": false},
+    "structures": {"villageHouses": false, "ancientCity": false}
+  },
+  "lightmans_client": {"quality": {"itemTraderRenderLimit": 16}},
+  "secure_trade": {
+    "general": {
+      "requestTimeoutSeconds": 30,
+      "maxTradeDistance": 16.0,
+      "allowCrossDimensionTrades": false,
+      "enableTradeLogging": true,
+      "countdownSeconds": 3,
+      "tradeCooldownSeconds": 10,
+      "maxHistoryEntries": 20,
+      "blacklistedItems": ["minecraft:bedrock", "minecraft:barrier", "minecraft:command_block", "minecraft:chain_command_block", "minecraft:repeating_command_block", "minecraft:structure_block", "minecraft:jigsaw"]
+    }
+  }
+}

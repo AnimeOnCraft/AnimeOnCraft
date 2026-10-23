@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "name": "AnimeOnCraft Friends",
-  "pack_version": "0.8.8-emotes-capture",
-  "status": "friends-tested-release-candidate",
+  "pack_version": "0.8.9-social-economy",
+  "status": "release-candidate",
   "checked_on": "2026-10-23",
   "client_map_defaults": {
     "revision": "surface-caves-v2"
@@ -4192,6 +4192,102 @@
         }
       ],
       "distribution_platform": "curseforge"
+    },
+    {
+      "slug": "lightmans-currency",
+      "mod_id": "lightmanscurrency",
+      "title": "Lightman's Currency",
+      "project_id": "wvMc8AJt",
+      "version_id": "XMHRtEIk",
+      "version": "1.21-2.3.0.6",
+      "release_type": "release",
+      "purpose": "Монеты, кошельки, банковские счета и магазины игроков",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [],
+      "upstream_sides": {
+        "client": "required",
+        "server": "required"
+      },
+      "license": {
+        "id": "Apache-2.0",
+        "name": "Apache License 2.0",
+        "url": null
+      },
+      "project_url": "https://modrinth.com/mod/lightmans-currency",
+      "version_url": "https://modrinth.com/mod/lightmans-currency/version/XMHRtEIk",
+      "metadata_url": "https://api.modrinth.com/v2/version/XMHRtEIk",
+      "file": {
+        "name": "lightmanscurrency-1.21-2.3.0.6.jar",
+        "url": "https://cdn.modrinth.com/data/wvMc8AJt/versions/XMHRtEIk/lightmanscurrency-1.21-2.3.0.6.jar",
+        "size": 8073221,
+        "sha512": "47ed278271e852ce76cee225b3c8dd762fce4c5a26c4351e449d5553578cd416c056627423597a9cac89228a240c2addf91748d2c5134b902d7da12e41e292a8",
+        "sha1": "bb16d428902b6d83c5203e9cf50984ef4b9f769a"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.1.197,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21.1,1.21.2)",
+          "side": "BOTH"
+        }
+      ]
+    },
+    {
+      "slug": "secure-trade",
+      "mod_id": "securetrade",
+      "title": "Secure Trade",
+      "project_id": "ptgA3PQG",
+      "version_id": "MZqWnCV1",
+      "version": "1.3.0-1.21.1",
+      "release_type": "release",
+      "purpose": "Обмен предметами и опытом между игроками с подтверждением",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [],
+      "upstream_sides": {
+        "client": "required",
+        "server": "required"
+      },
+      "license": {
+        "id": "MIT",
+        "name": "MIT License",
+        "url": "https://github.com/Navielon/SecureTrade?tab=MIT-1-ov-file"
+      },
+      "project_url": "https://modrinth.com/mod/secure-trade",
+      "version_url": "https://modrinth.com/mod/secure-trade/version/MZqWnCV1",
+      "metadata_url": "https://api.modrinth.com/v2/version/MZqWnCV1",
+      "file": {
+        "name": "securetrade-neoforge-1.3.0-1.21.1.jar",
+        "url": "https://cdn.modrinth.com/data/ptgA3PQG/versions/MZqWnCV1/securetrade-neoforge-1.3.0-1.21.1.jar",
+        "size": 324113,
+        "sha512": "3750b7b85e2b934563caf83fd0a4b4cbe16d1469b5c5912ab0106fd0f068758b445d7fef60897701af4079f0e2db68cb098d5339b64c9e4d8cf072e27fbf8b37",
+        "sha1": "715df08bd88a8bbc5bbf6b2e5dfc271f1b9d818e"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.1.219,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21.1]",
+          "side": "BOTH"
+        }
+      ]
     }
   ]
 }

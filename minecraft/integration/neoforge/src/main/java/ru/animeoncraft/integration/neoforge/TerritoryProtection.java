@@ -174,7 +174,7 @@ public final class TerritoryProtection {
     static void useBlock(PlayerInteractEvent.RightClickBlock event) {
         var state = event.getLevel().getBlockState(event.getPos());
         if (event.getLevel().getBlockEntity(event.getPos()) != null || state.getMenuProvider(event.getLevel(),event.getPos()) != null) {
-            if (denied(event.getLevel(), event.getEntity(), event.getPos())) {
+            if (!(net.neoforged.fml.ModList.get().isLoaded("lightmanscurrency")&&PublicShopAccess.allowed(event))&&denied(event.getLevel(), event.getEntity(), event.getPos())) {
                 event.setCancellationResult(InteractionResult.FAIL); event.setCanceled(true); return;
             }
         }

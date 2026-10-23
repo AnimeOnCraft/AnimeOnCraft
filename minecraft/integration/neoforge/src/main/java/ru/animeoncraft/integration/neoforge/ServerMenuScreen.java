@@ -190,11 +190,12 @@ final class ServerMenuScreen extends Screen {
         var inventory=ClientEmotes.inventory();
         if(!ClientEmotes.supported()){paragraph(g,"Эмоции появятся после установки обновления на сервер.",455,218,560,14,MUTED,4);return;}
         if(inventory==null||!inventory.available()){paragraph(g,"Получаем эмоции аккаунта… Если сервис недоступен, попробуй позже.",455,218,560,14,MUTED,4);return;}
-        for(int i=0;i<Emotes.ALL.size();i++){var entry=Emotes.ALL.get(i);int y=205+i*91;boolean owned=inventory.owned().contains(entry.code()),selected=ClientEmotes.current().equals(entry.code());round(g,455,y,590,80,6,0xb51d152c,selected?VIOLET:0xff48335d);
-            String symbol=entry.code().equals("NEON_DANCE")?"♪":entry.code().equals("HERO_POSE")?"★":"✦";center(g,symbol,492,y+23,27,VIOLET);text(g,entry.name(),522,y+13,15,owned?WHITE:MUTED);paragraph(g,entry.description(),522,y+35,375,10,MUTED,2);text(g,entry.starter()?"Стартовая · есть у каждого аккаунта":"Награда",522,y+61,9,MUTED);
-            if(owned)button(g,925,y+24,103,29,selected?"Остановить":"Исполнить",()->ClientEmotes.choose(selected?"":entry.code()),selected);else right(g,"Закрыто",1028,y+31,11,MUTED);
+        for(int i=0;i<Emotes.ALL.size();i++){var entry=Emotes.ALL.get(i);int y=195+i*57;boolean owned=inventory.owned().contains(entry.code()),selected=ClientEmotes.current().equals(entry.code());round(g,455,y,590,50,6,0xb51d152c,selected?VIOLET:0xff48335d);
+            String symbol=entry.code().equals("NEON_DANCE")?"♪":Emotes.paired(entry.code())?"↔":"✦";center(g,symbol,483,y+13,22,VIOLET);text(g,entry.name(),507,y+9,13,owned?WHITE:MUTED);text(g,Emotes.paired(entry.code())?"Совместная · по приглашению":"Стартовая · есть у каждого",507,y+30,9,MUTED);
+            button(g,843,y+10,70,29,"Смотреть",()->minecraft.setScreen(new EmoteMenuScreen(entry.code(),true)),false);
+            if(owned){button(g,799,y+10,34,29,ClientEmoteFavorites.contains(entry.code())?"★":"☆",()->ClientEmoteFavorites.toggle(entry.code()),ClientEmoteFavorites.contains(entry.code()));button(g,925,y+10,103,29,selected?"Стоп":Emotes.paired(entry.code())?"Пригласить":"Исполнить",()->ClientEmotes.choose(selected?"":entry.code()),selected);}else right(g,"Закрыто",1028,y+20,11,MUTED);
         }
-        text(g,"Шаг, прыжок, удар или урон прекращают эмоцию",455,501,11,MUTED);text(g,"Видна окружающим · Камера переключается на третье лицо",455,521,10,MUTED);
+        text(g,"Шаг, прыжок, удар или урон прекращают эмоцию",455,493,11,MUTED);button(g,455,519,300,25,"Избранное · меню "+ClientControls.label("key.animeoncraft.emotes"),()->minecraft.setScreen(new EmoteMenuScreen()),false);
     }
     private void backWardrobe(GuiGraphics g,BetaPassPayloads.Snapshot beta){
         var d=ClientWardrobe.data();boolean available=d!=null&&d.available();
@@ -226,14 +227,14 @@ final class ServerMenuScreen extends Screen {
         if(rows.isEmpty())text(g,ownOnly?"Соклановцев в сети нет":"Список игроков пока пуст",465,253,14,MUTED);scrollbar(g,1040,233,277,rows.size(),7);text(g,"Онлайн обновляется автоматически · Колесо мыши — прокрутка",455,535,10,MUTED);
     }
     private void guide(GuiGraphics g,boolean rules){
-        text(g,rules?"Территории и правила":"Что делать на сервере",455,108,20,WHITE);text(g,rules?"Основные игровые ограничения":"Развитие, экспедиции и общение",455,135,11,MUTED);if(!rules)for(int i=0;i<3;i++){final int index=i;button(g,455+i*129,157,117,29,List.of("Главное","Развитие","Чат").get(i),()->guideTab=index,guideTab==i);}
+        text(g,rules?"Территории и правила":"Что делать на сервере",455,108,20,WHITE);text(g,rules?"Основные игровые ограничения":"Развитие, экспедиции и общение",455,135,11,MUTED);if(!rules)for(int i=0;i<4;i++){final int index=i;button(g,455+i*129,157,117,29,List.of("Главное","Развитие","Чат","Торговля").get(i),()->guideTab=index,guideTab==i);}
         if(rules){
             var point=ClientServerMenu.capture();round(g,455,157,590,76,7,0x991d152c,0xff6e4897);
             paragraph(g,point==null?"Загружаем текущую точку…":point.name(),467,166,365,13,WHITE,1);
             paragraph(g,point==null?"Состояние точки появится после ответа сервера.":point.detail(),467,187,point!=null&&point.canDeclare()?365:564,11,MUTED,3);
             if(point!=null&&point.canDeclare())button(g,851,177,180,30,"Объявить / продлить",()->{var player=Minecraft.getInstance().player;if(player!=null){Minecraft.getInstance().setScreen(null);player.connection.sendCommand("aoc capture menu-declare");}},false);
         }
-        var cards=rules?ServerMenuGuide.RULES:guideTab==0?ServerMenuGuide.START:guideTab==1?ServerMenuGuide.DEVELOPMENT:ServerMenuGuide.CHAT;boolean compact=!rules&&guideTab==0;int start=rules?244:205,h=compact?94:rules?134:143;
+        var cards=rules?ServerMenuGuide.RULES:guideTab==0?ServerMenuGuide.START:guideTab==1?ServerMenuGuide.DEVELOPMENT:guideTab==2?ServerMenuGuide.CHAT:ServerMenuGuide.ECONOMY;boolean compact=!rules&&guideTab==0;int start=rules?244:205,h=compact?94:rules?134:143;
         for(int i=0;i<cards.size();i++){var c=cards.get(i);int x=455+(i%2)*302,y=start+(i/2)*(h+13);round(g,x,y,288,h,7,0x991d152c,0xff48335d);text(g,c.title(),x+13,y+14,14,WHITE);paragraph(g,ClientControls.guide(c.body()),x+13,y+40,262,11,MUTED,compact?3:7);}
         if(compact){text(g,"КАК ОБЩАТЬСЯ",455,427,12,WHITE);String[][] chat={{"Без префикса","Чат рядом · до 100 блоков"},{"!","Глобальный чат"},{"!!","Чат клана"}};for(int i=0;i<chat.length;i++){int y=449+i*25;badge(g,455,y,110,21,chat[i][0],0xbba4db);text(g,chat[i][1],578,y+6,11,MUTED);}}
         text(g,rules?"Ограничения и доступность захвата проверяются сервером.":"Карта: "+ClientControls.label("gui.xaero_open_map")+" · Голос и микрофон: "+ClientControls.label("key.voice_chat")+" · Клавиши: Настройки → Управление",455,539,10,MUTED);

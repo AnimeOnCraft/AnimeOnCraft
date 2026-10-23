@@ -3,6 +3,7 @@ import {createHash} from 'node:crypto';
 import {copyFileSync,existsSync,mkdirSync,readFileSync,renameSync,writeFileSync} from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
+import {applyEconomyConfig,installEconomyServerConfig} from './game-economy.mjs';
 
 const root=fileURLToPath(new URL('../',import.meta.url));
 export const balanceProfile=JSON.parse(readFileSync(path.join(root,'minecraft/server/balance-profile.json'),'utf8'));
@@ -42,6 +43,7 @@ function save(target,bytes){
   writeFileSync(target,bytes);
 }
 export function applyBalanceConfig(gameDirectory){
+  applyEconomyConfig(gameDirectory,patchToml);
   const config=path.join(gameDirectory,'config');
   for(const [relative,sections] of Object.entries(balanceProfile.toml)){
     const target=destination(config,relative);
@@ -60,6 +62,7 @@ export function applyBalanceConfig(gameDirectory){
 }
 export function installBalancePack(serverDirectory,worldName){
   assert.ok(worldName&&!['.','..'].includes(worldName)&&path.basename(worldName)===worldName);
+  installEconomyServerConfig(serverDirectory,worldName,patchToml);
   // NeoForge Type.SERVER reads world/serverconfig, independently of common config/ files.
   for(const [relative,sections] of Object.entries(balanceProfile.server_toml??{})){
     const target=destination(path.join(serverDirectory,worldName,'serverconfig'),relative);

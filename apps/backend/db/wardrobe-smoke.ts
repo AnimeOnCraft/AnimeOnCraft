@@ -27,12 +27,12 @@ try{
  const headers={authorization:'Bearer '+process.env.AOC_GAME_SERVER_KEY};const base={server_id:server,connection_id:connection,minecraft_uuid:mc};
  async function call(body:object={},status=200,extra:Record<string,string>={}){const r=await app!.inject({method:'POST',url:'/integration/v1/wardrobe',headers:{...headers,...extra},payload:{...base,action:'READ',...body}});assert.equal(r.statusCode,status,r.body);return r.json();}
  let state=await call();assert.equal(state.back.code,'beta');assert.equal(state.capes.length,2);assert.equal(state.back.revision,'0');note('Legacy equipped cape preserved');
- assert.deepEqual(state.emotes,['HERO_POSE','NEON_DANCE','ZEN_POSE']);
- assert.equal((await db.$queryRaw<Array<{n:bigint}>>`SELECT count(*) AS n FROM player_emote_grants WHERE user_id=${process.env.AOC_TEST_LEGACY_ID}::uuid`)[0]!.n,3n);
- await call();assert.equal((await db.$queryRaw<Array<{n:bigint}>>`SELECT count(*) AS n FROM player_emote_grants WHERE user_id=${user.id}::uuid`)[0]!.n,3n);
+ assert.deepEqual(state.emotes,['HANDSHAKE','HERO_POSE','HIGH_FIVE','NEON_DANCE','ZEN_POSE']);
+ assert.equal((await db.$queryRaw<Array<{n:bigint}>>`SELECT count(*) AS n FROM player_emote_grants WHERE user_id=${process.env.AOC_TEST_LEGACY_ID}::uuid`)[0]!.n,5n);
+ await call();assert.equal((await db.$queryRaw<Array<{n:bigint}>>`SELECT count(*) AS n FROM player_emote_grants WHERE user_id=${user.id}::uuid`)[0]!.n,5n);
  await db.$transaction(async tx=>{await grantEmote(tx,user.id,'HERO_POSE','future-pass-test');await grantEmote(tx,user.id,'HERO_POSE','future-pass-test');});
- assert.equal((await readEmotes(db,user.id)).length,3);await assert.rejects(()=>grantEmote(db,user.id,'UNRELEASED','fixture'));
- note('Three starter emotes for existing and new accounts; repeated reads/reward grants are idempotent; unknown reward rejected');
+ assert.equal((await readEmotes(db,user.id)).length,5);await assert.rejects(()=>grantEmote(db,user.id,'UNRELEASED','fixture'));
+ note('Five starter emotes for existing and new accounts; repeated reads/reward grants are idempotent; unknown reward rejected');
  await call({minecraft_uuid:randomUUID()},403);await call({connection_id:randomUUID()},403);await call({},401,{authorization:'Bearer '+'0'.repeat(64)});await call({},401,{origin:'https://example.invalid'});await call({},401,{cookie:'session=x'});await call({user_id:user.id},400);note('Server authentication, browser rejection and connection identity');
  await call({action:'BACK',kind:'CAPE',code:'trickyowl-owl',expected_revision:'0'},403);note('Unowned personal cape rejected');
  state=await call({action:'BACK',kind:'BETA',code:'RIFT_MANTLE',expected_revision:'0'});assert.equal(state.back.kind,'BETA');assert.equal(await db.player_capes.count({where:{user_id:user.id,equipped:true}}),0);const revision=state.back.revision;note('Mantle clears equipped capes without removing ownership');

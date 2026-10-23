@@ -20,6 +20,7 @@ dependencies {
     compileOnly("maven.modrinth:xaeros-world-map:SnQ4SoDe") { isTransitive = false }
     compileOnly("maven.modrinth:xaeros-minimap:irjR7dHk") { isTransitive = false }
     compileOnly("maven.modrinth:create:UjX6dr61") { isTransitive = false }
+    compileOnly("maven.modrinth:lightmans-currency:XMHRtEIk") { isTransitive = false }
     compileOnly("net.createmod.ponder:ponder-neoforge:1.0.82+mc1.21.1") { isTransitive = false }
     testImplementation("com.google.code.gson:gson:2.11.0")
 }
@@ -117,6 +118,21 @@ tasks.register<Jar>("emoteMultiplayerProbeJar") {
             modId="aocemoteprobe"
             version="1.0.0"
             displayName="AOC disposable emote multiplayer probe"
+        """.trimIndent())) { rename { "neoforge.mods.toml" } }
+    }
+}
+
+tasks.register<Jar>("socialEconomyProbeJar") {
+    archiveClassifier.set("social-economy-probe")
+    dependsOn(tasks.testClasses)
+    from(sourceSets.main.get().output) { exclude("META-INF/neoforge.mods.toml") }
+    from(sourceSets.test.get().output) { include("**/SocialEconomyProbe*.class") }
+    into("META-INF") {
+        from(resources.text.fromString(file("src/main/resources/META-INF/neoforge.mods.toml").readText()+"\n"+"""
+            [[mods]]
+            modId="aocsocialprobe"
+            version="1.0.0"
+            displayName="AOC disposable social and economy probe"
         """.trimIndent())) { rename { "neoforge.mods.toml" } }
     }
 }
