@@ -3,9 +3,10 @@
   "id": "player-economy-v1",
   "lightmans_common": {
     "crafting.coin_mint": {"canCraftCoinMint": false, "canMint": false, "canMelt": false},
-    "loot.entities": {"allowSpawnedDrops": false, "allowFakePlayerDrops": false},
+    "loot.entities": {"enabled": false, "allowSpawnedDrops": false, "allowFakePlayerDrops": false},
+    "loot.chests": {"enabled": false},
     "villagers.modification": {"changeVanillaTrades": false, "changeModdedTrades": false, "changeWanderingTrades": false},
-    "villagers": {"addCustomWanderingTrades": false, "addCashier": false},
+    "villagers": {"addCustomWanderingTrades": false, "addCashier": false, "piglinsBarterCoins": false},
     "events": {"startingRewards": false},
     "structures": {"villageHouses": false, "ancientCity": false}
   },

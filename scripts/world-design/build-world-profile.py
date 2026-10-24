@@ -100,12 +100,21 @@ for slot in BLUEPRINT["frontier_slots"]:
     regions.append(dict(code=f"frontier.slot.{letter}", name=f"Свободные земли {letter.upper()}", kind="FRONTIER_SLOT", status="RESERVED",
                         pvp="ON", build="OPEN", polygon=circle(slot["x"], slot["z"], slot["radius"], 48)))
 
-# Equal 24×24 plots between Sora's five radial streets, clear of the plaza, gate hall and walls.
+# Equal 36×36 plots, moved inward while keeping the public 24×24 plots and Sora's gate hall clear.
 # Only rights/overlays change in an existing world: never rebuild Sora or erase player blocks.
 for clan, row in clans.items():
-    sx, sz = xz(80, row["bearing"] + 180 / len(clans))
+    bearing = row["bearing"] + 180 / len(clans)
+    public_x, public_z = xz(80, bearing)
+    for distance in range(74, 81):
+        sx, sz = xz(distance, bearing)
+        contains_public = sx-18 <= public_x-12 and sx+18 >= public_x+12 and sz-18 <= public_z-12 and sz+18 >= public_z+12
+        touches_gate_hall = sx-18 <= 9 and sx+18 > -9 and sz-18 <= 60 and sz+18 > 45
+        if contains_public and not touches_gate_hall:
+            break
+    else:
+        raise ValueError(f"No safe market position for {clan}")
     regions.append(dict(code=f"market.{clan.lower()}", name=f"Торговый участок {clan}", kind="MARKET", clan=clan,
-                        pvp="OFF", build="MEMBERS", polygon=[(sx-12,sz-12),(sx+12,sz-12),(sx+12,sz+12),(sx-12,sz+12)]))
+                        pvp="OFF", build="MEMBERS", polygon=[(sx-18,sz-18),(sx+18,sz-18),(sx+18,sz+18),(sx-18,sz+18)]))
 
 
 def region_of(x: int, z: int) -> str | None:
@@ -273,6 +282,16 @@ layout = {
     "roads": [dict(code=r["code"], kind=r["kind"], style=r["style"], width=r["width"], points=r["points"]) for r in roads],
     "exclusions": [dict(code=p["code"], x=p["x"], z=p["z"], radius=CITY_R.get(p["type"], p["radius"]) + EXCLUSION_MARGIN) for p in points],
 }
+# Layout-only extensions of Sora (not catalog points: protection already comes from the core region). Built on an
+# existing world by their own codes, after core.capital, without rebuilding the old city: an outer wall at
+# SORA_RING_R with a ring street, and the Adventurers' Guild in the south of the ring (quest board planned there).
+SORA_RING_R = 160
+LAYOUT_EXTRA = [
+    dict(code="core.capital.expansion", type="CITY_EXPANSION", name="Сора — внешнее кольцо", x=0, z=0, radius=SORA_RING_R, palette="core"),
+    dict(code="core.guild", type="ADVENTURER_GUILD", name="Гильдия искателей приключений", x=0, z=142, radius=14, palette="core"),
+]
+layout["pois"] += LAYOUT_EXTRA
+layout["exclusions"] += [dict(code=p["code"], x=p["x"], z=p["z"], radius=p["radius"] + EXCLUSION_MARGIN) for p in LAYOUT_EXTRA]
 PACK_AOC = ROOT / "minecraft/server/world-config/worldgen-pack/aoc"
 if PACK_AOC.is_dir():
     (PACK_AOC / "layout.json").write_text(json.dumps(layout, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")

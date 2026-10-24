@@ -7,7 +7,7 @@ from PIL import Image, ImageDraw, ImageFont
 root = Path(__file__).resolve().parents[2]
 regions = json.loads((root / "minecraft/integration/neoforge/src/test/resources/regions-markets.json").read_text(encoding="utf-8"))["regions"]
 layout = json.loads((root / "minecraft/server/world-config/worldgen-pack/aoc/layout.json").read_text(encoding="utf-8"))
-out = root / ".tools/clan-markets-local-20261024"
+out = root / ".tools/sora-market-refinement-20261024"
 out.mkdir(parents=True, exist_ok=True)
 image = Image.new("RGB", (1080, 1040), "#100d1c")
 d = ImageDraw.Draw(image)
@@ -18,7 +18,7 @@ def text(at, value, fill="#eee8ff", size=20, bold=False, anchor="mm"):
 scale, cx, cz = 3.0, 540, 460
 def pos(x,z): return (cx+x*scale, cz+z*scale)
 text((540,45), "СОРА · КЛАНОВЫЙ РЫНОК", size=31, bold=True)
-text((540,86), "Схема размещения · одинаковые участки 24 × 24 блока", fill="#aaa0bf", size=20)
+text((540,86), "Схема размещения · одинаковые участки 36 × 36 блоков", fill="#aaa0bf", size=20)
 for line in range(-100,101,20):
     d.line([pos(line,-110),pos(line,110)],fill="#211b30")
     d.line([pos(-110,line),pos(110,line)],fill="#211b30")
@@ -42,7 +42,7 @@ for p in plots:
     d.rectangle([pos(min(xs),min(zs)),pos(max(xs),max(zs))],fill=rgb,outline=color,width=4)
     x=(min(xs)+max(xs))/2; z=(min(zs)+max(zs))/2
     text(pos(x,z-3),p["clan_code"],size=16,bold=True)
-    text(pos(x,z+5),"24 × 24",fill="#d2c7e6",size=13)
+    text(pos(x,z+5),f"{max(xs)-min(xs)} × {max(zs)-min(zs)}",fill="#d2c7e6",size=13)
 text((540,114),"СЕВЕР ↑",size=15,fill="#a69ab8")
 text((540,815),"Строит свой клан · покупают все · без PvP и рейдов",size=22,bold=True)
 for i,p in enumerate(sorted(plots,key=lambda r:r["code"])):

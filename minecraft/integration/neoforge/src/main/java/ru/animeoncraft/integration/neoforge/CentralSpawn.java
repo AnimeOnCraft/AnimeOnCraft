@@ -22,7 +22,7 @@ final class CentralSpawn {
         var common = ClanSpawns.read(event.getServer()).get("COMMON");
         fallback = common == null ? null : new CentralSpawnRules.Zone(common.getX(), common.getZ());
         var area = zone();
-        if (area != null) System.out.println("AOC central spawn: new mobs blocked at " + area.x() + ", " + area.z() + " radius=" + CentralSpawnRules.RADIUS);
+        if (area != null) System.out.println("AOC central spawn: new mobs blocked at " + area.x() + ", " + area.z() + " radius=" + area.radius());
     }
 
     static void stopped(ServerStoppedEvent event) { fallback = null; }

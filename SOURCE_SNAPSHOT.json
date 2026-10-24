@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "kind": "release-source-snapshot",
-  "created_at": "2026-10-24T04:44:49.798Z",
+  "created_at": "2026-10-24T14:09:46.084Z",
   "private_history_included": false,
   "text_hashing": "UTF-8 text normalized to LF as stored by Git; binary files raw",
-  "release_binary_correspondence": "Source used to build 0.8.10. See RELEASE_BUILD.json; bit-for-bit reproducibility is not guaranteed.",
+  "release_binary_correspondence": "Source used to build 0.8.11. See RELEASE_BUILD.json; bit-for-bit reproducibility is not guaranteed.",
   "files": [
     {
       "path": ".dockerignore",
@@ -868,7 +868,7 @@
     },
     {
       "path": "apps/backend/src/world-catalog/catalog.ts",
-      "sha256": "09359968a782e7195a64fbcca5091ebd127f9892e638c4c9e4d0a0781484741b",
+      "sha256": "ad3c4b9785f00de428516fe50f164f3d26ad852ed6423db2402c38308b7a345f",
       "bytes": 24830
     },
     {
@@ -913,8 +913,8 @@
     },
     {
       "path": "apps/backend/test/world-catalog.test.ts",
-      "sha256": "7fb4e667ec71a3bfc6fe669f63393c28c5aa9e53abeb5ef7a34c050bdf40d1e8",
-      "bytes": 8096
+      "sha256": "f09ddba03ef763292aafe503314b50d26f5d6690a814f67a576e34497790967f",
+      "bytes": 8306
     },
     {
       "path": "apps/backend/test/world-regions.test.ts",
@@ -943,7 +943,7 @@
     },
     {
       "path": "apps/download-site/index.html",
-      "sha256": "91db53b52dd59e793db548e5cca8f07302150da5433adc7bfbdcc58c5804e1f5",
+      "sha256": "153732a76b11443a75b247841ee4e26125a1d01b3256c149dea2309c4a1be500",
       "bytes": 4262
     },
     {
@@ -958,8 +958,8 @@
     },
     {
       "path": "apps/launcher/package.json",
-      "sha256": "26b8d53f833ed634ee720e6061b47a0b433bff3f8877621c49c7af56172df3b0",
-      "bytes": 821
+      "sha256": "3d27ea27fd36749d5722ad07d1d2c501241cd5b3e8ec026f01c9e3b6a054384c",
+      "bytes": 819
     },
     {
       "path": "apps/launcher/public/brand/animeoncraft-avatar.png",
@@ -988,12 +988,12 @@
     },
     {
       "path": "apps/launcher/src-tauri/Cargo.lock",
-      "sha256": "9a4c5c346a6bff29ebe8d0fcbd5a5e3ba845344e7f0209b67275f63437e1fd44",
+      "sha256": "cd16d08c40cf0021b6b31c490ba9d77ca223333fea1ffb5b12afe8bcc52a66b8",
       "bytes": 127775
     },
     {
       "path": "apps/launcher/src-tauri/Cargo.toml",
-      "sha256": "4ce1f13116b79cad2f8cff24f385ce17f7d39e278ba10576c4fbdf673bdf28f8",
+      "sha256": "2e473d71e63381cd7ea7255e3535ada956bb5cf6faa7b4139f2be72b66422ea7",
       "bytes": 1984
     },
     {
@@ -1823,7 +1823,7 @@
     },
     {
       "path": "apps/launcher/src-tauri/tauri.conf.json",
-      "sha256": "d601c3e05c128c350c873e0903e08ad1dda0e58804d0d43ed2e9cd681aceb420",
+      "sha256": "98d5c0889cb8d191d8079fa16b1b3b8cb0f46de0041e57fa937529877ae3ddcc",
       "bytes": 1326
     },
     {
@@ -2272,13 +2272,13 @@
       "bytes": 3282
     },
     {
-      "path": "docs/PATCH_NOTES_0_8_10.md",
-      "sha256": "6b93c43f6505609fbe44635b61c0748c43776a83e8637da5df148358081c1ae7",
-      "bytes": 2873
+      "path": "docs/PATCH_NOTES_0_8_11.md",
+      "sha256": "b3b5db61109d97fdfe221c11c02ee39953fd9a534d0aaaa22ef7585fcf9fcd49",
+      "bytes": 4021
     },
     {
       "path": "docs/PUBLIC_README.md",
-      "sha256": "8056919fd652598ae82af1d5df2c34cf3c6800792710007a6e6a56ca04f6f1db",
+      "sha256": "2f3e7aa363b4d6dd3c142c27492af43d67be0b6d89ddce6271b8adbe70d6906c",
       "bytes": 3850
     },
     {
@@ -2618,8 +2618,8 @@
     },
     {
       "path": "minecraft/integration/neoforge/build.gradle.kts",
-      "sha256": "5d5b63c5a1e6396d83c19cce037ce9949d4d7e164f34fee2ed47a04943e6e446",
-      "bytes": 7645
+      "sha256": "4cb7af22fc3363db851dec0485c2c9e66052b53ba367a1371052f350ffa41813",
+      "bytes": 8294
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/AdmissionHttpClient.java",
@@ -2637,9 +2637,14 @@
       "bytes": 5086
     },
     {
+      "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/AdventurerGuild.java",
+      "sha256": "75f0025ba821aa4be2f55193c9cc8082e9569c592d1015dae300c4c3ae684585",
+      "bytes": 12362
+    },
+    {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/AnimeOnCraftAdmission.java",
-      "sha256": "0ba9722cb05ad81bb817d299bfe9ec10228779c4fd6eb62612a4e626219080a5",
-      "bytes": 22483
+      "sha256": "05e17c0577eaaf9d152a72ea074dc22c5619ed0825251965a05e5e79fd61cd09",
+      "bytes": 24423
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ArenaChunkLifecycle.java",
@@ -2763,13 +2768,13 @@
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/CentralSpawn.java",
-      "sha256": "1a4258279f0d34139b19bf139fa021e3824440fc5942540613b14ba3769922d0",
-      "bytes": 2356
+      "sha256": "166129358278c88b2c497d55933ad12eb26b500c719bf9aa397537c3541360e6",
+      "bytes": 2345
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/CentralSpawnRules.java",
-      "sha256": "5e80a7064a7f260baa99b8ae4c86c1bbacd7ee4b40527b96fd4e68e8f883370e",
-      "bytes": 717
+      "sha256": "61057be192b7f0a1f90a1fc77c663c61f0f46004b9322f1d1e9eb002a548df32",
+      "bytes": 1068
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ChatChannels.java",
@@ -2882,9 +2887,14 @@
       "bytes": 7513
     },
     {
+      "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ClientGuild.java",
+      "sha256": "33ff7b10a955f4a340b44250164f498813aafd005942aa5b4d3afc08b8c89c4a",
+      "bytes": 3459
+    },
+    {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ClientNameTags.java",
-      "sha256": "ff947f2ac61a6d5f6bd3ee0500c89449fd85ba77aad22068a1d817dfbf5c968f",
-      "bytes": 902
+      "sha256": "553306f3735f0f78f1016c5d96e14aacbe0c3b3bfcd6fe023e4dae1b26486902",
+      "bytes": 1349
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ClientProfiles.java",
@@ -2898,8 +2908,8 @@
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ClientServerMenu.java",
-      "sha256": "ec7b77bb77d9a6f4ad267af7255f4335ffe8596e9e9df2646e7c13089eb51678",
-      "bytes": 4879
+      "sha256": "6b7c5f846fb929ef47cb550f874abdb2e69c366ccea5706722cdc73c278c88cc",
+      "bytes": 4931
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ClientSkins.java",
@@ -2925,6 +2935,16 @@
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ClientWorldAtlas.java",
       "sha256": "649f726600cbd499a1c6b1e466cbf38f408a71a6db1b2f52eb4eeeb5c982623b",
       "bytes": 1506
+    },
+    {
+      "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/CoinReset.java",
+      "sha256": "875421bcdeeda9f5dd94d7f97457830e32a3e3229eea2bc31082047a9af21bc2",
+      "bytes": 10967
+    },
+    {
+      "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/CoinResetLightman.java",
+      "sha256": "1dc9d82cf60160852fe28af91c95fb0fcbf7a269f8e20bb6948b6bb53de8ff39",
+      "bytes": 1880
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/CombatProtectionProbe.java",
@@ -3032,6 +3052,51 @@
       "bytes": 2515
     },
     {
+      "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/GuildCatalog.java",
+      "sha256": "5dcf0ce7e97663af64671ef2d36ce729e7a81efaa8aec735c7af0d6973240599",
+      "bytes": 7331
+    },
+    {
+      "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/GuildFlowProbe.java",
+      "sha256": "71b8cbf4718e0ba670cefe8796963992d38132f2b302ea4f03e0f079d9d86e26",
+      "bytes": 28446
+    },
+    {
+      "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/GuildParty.java",
+      "sha256": "129faf1a5dde28254c1b8575421c9928a7e694c0d60b2e7c0d5fc202a31f9bb3",
+      "bytes": 2923
+    },
+    {
+      "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/GuildPayloads.java",
+      "sha256": "506a6075c9a8d72b227b76200136d8f92ecbe2938dddbb74f6c00b09ecd9b687",
+      "bytes": 7651
+    },
+    {
+      "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/GuildRules.java",
+      "sha256": "2c0557a2cc63026025f3264d445df24759a90ec24d3bcfe324962ae0e4f8732e",
+      "bytes": 10592
+    },
+    {
+      "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/GuildScreen.java",
+      "sha256": "5cb38d20827b35110407d4f104b68c2536f4224a627221e3cc50c726c4539897",
+      "bytes": 19167
+    },
+    {
+      "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/GuildServer.java",
+      "sha256": "27adbe95951924a2224070e219c2c0a18756b38652e904801bc70dc044502c25",
+      "bytes": 40570
+    },
+    {
+      "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/GuildShotProbe.java",
+      "sha256": "2a9246ab1b9020d98b0e913d8b56a2004437848783d99b93c6296c56222993e7",
+      "bytes": 4436
+    },
+    {
+      "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/GuildStore.java",
+      "sha256": "477a6d3c3900fa2d7fa1b836fbbdda32f2cbb09915558af18c0667b7bc12588a",
+      "bytes": 11648
+    },
+    {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/HttpJson.java",
       "sha256": "58455e143d05bacc83e49a666c3f1abb0901e9864120288fb2b89baa3eb2156d",
       "bytes": 4389
@@ -3043,13 +3108,13 @@
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/LayoutJobs.java",
-      "sha256": "162511528a6388bc817b66d7fa524500a5bf93b8ace815d35be6625d94272c5f",
-      "bytes": 11274
+      "sha256": "3b748a68fb65100ad6b19c5f12d3cca71b3997af38392af31dbea2d47073524c",
+      "bytes": 11355
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/LayoutProbe.java",
-      "sha256": "9b384b9e24e32431f3df4ff534f6b14a4448089ba9769f18e69228446f5719ab",
-      "bytes": 7580
+      "sha256": "a3e77aab0f19e2fc050996527c06215acfda7ede01e55659557123957ac30605",
+      "bytes": 7640
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/MapRender.java",
@@ -3258,8 +3323,8 @@
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/PoiBuilder.java",
-      "sha256": "00ee1c0a43ef001cb5d3afb36bec9f1ca3a1d703b9692b0351f2c01a4e5b47db",
-      "bytes": 30469
+      "sha256": "fbec27a5b1205ade4797bda56089c48a4e8bd19f7828c7f1aace4f0c540af931",
+      "bytes": 30552
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ProfilePayloads.java",
@@ -3283,7 +3348,7 @@
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/RegionPolicy.java",
-      "sha256": "2b140cbe1c9f63e6d87638c4bb26676e4d9a3cf0758ee47954c435813f9dd7cc",
+      "sha256": "a6a1902e3dcbb9747aa0a0d2ddeac1098cb70bd95e3663215544a99c6a69c0f2",
       "bytes": 11436
     },
     {
@@ -3338,8 +3403,8 @@
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ServerMenuGuide.java",
-      "sha256": "344ceb50d662f9ad49b575d04707ea6a84d2529b0fd43e2e831faabcad2246e1",
-      "bytes": 5367
+      "sha256": "7e400cf352675122355b136748f7f49bd26790f1d503a316cc3e1e2e51c960ad",
+      "bytes": 7081
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ServerMenuLogic.java",
@@ -3353,8 +3418,8 @@
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ServerMenuScreen.java",
-      "sha256": "ebca896a4100470109c36dca90159f3a5aaee9ff7afd82c608522ce6235e757c",
-      "bytes": 39454
+      "sha256": "84ec7fe6541a8beb481e987ef771897e41f232aeb2f6303ab8e7e9cf42322c95",
+      "bytes": 42575
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ServerMenuSync.java",
@@ -3382,9 +3447,34 @@
       "bytes": 1072
     },
     {
+      "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/SoraExpansion.java",
+      "sha256": "dbcec5fbdac5e7efe7d2ff16ec5eab425e1149a23da6cfaf139b45ea4c99a831",
+      "bytes": 12793
+    },
+    {
+      "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/SoraRing.java",
+      "sha256": "5e47d2cfac6ce299e74782b22a8a4adbc401f1395b0d1723207d68b1c899e2c4",
+      "bytes": 4579
+    },
+    {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/SpawnRules.java",
       "sha256": "f6e110df563fc7cf1aff6ed908c434eed7cb6fd807dbd12c7cedb70ea5b00366",
       "bytes": 221
+    },
+    {
+      "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/SpawnTeleport.java",
+      "sha256": "49fb946da95606185c17a9f13d41eaa97e3a75280ce262cf944f7a4c99ef7b8a",
+      "bytes": 5135
+    },
+    {
+      "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/SpawnTeleportQueue.java",
+      "sha256": "8fdefddca12b58f141139b899470791feb5e1e893f81daab61353684403379ab",
+      "bytes": 2112
+    },
+    {
+      "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/SpawnTeleportStore.java",
+      "sha256": "20768dca9a616c0bf4e6443eacf128cc315420824325f2622f7ade6858d5b41c",
+      "bytes": 1472
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/SpellBalanceProbe.java",
@@ -3458,8 +3548,8 @@
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/WorldAtlas.java",
-      "sha256": "725986eec737a27d7224c7e9e155ea59ccca21a9ae0f8b266f30479eba797b2e",
-      "bytes": 3445
+      "sha256": "6a660999e7b679f4bea2e887c9cb2cfd509d6e90895c389c86d9f7f5c6924620",
+      "bytes": 3559
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/WorldAtlasAsset.java",
@@ -3468,8 +3558,8 @@
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/WorldAtlasData.java",
-      "sha256": "a2c7d2140272a42b9b050bab9acc3b08c2c1f22d937e17cd73904e416b14275f",
-      "bytes": 1971
+      "sha256": "bcfd6532bfce3e15be1ae6d45038483a393bfdcda20a6418124c9701621db9ab",
+      "bytes": 2003
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/WorldAtlasPayload.java",
@@ -3560,6 +3650,11 @@
       "path": "minecraft/integration/neoforge/src/main/resources/animeoncraft.mixins.json",
       "sha256": "0a5baed8c752f5f52ea405a517a89b58eb042a90018bf332f33ddecdd8097654",
       "bytes": 1238
+    },
+    {
+      "path": "minecraft/integration/neoforge/src/main/resources/animeoncraft/guild-quests.json",
+      "sha256": "bae3401fb5ae4b3bda43f012eaf104f50e7dea60fd64167ddbb314fd18cc0ff8",
+      "bytes": 23448
     },
     {
       "path": "minecraft/integration/neoforge/src/main/resources/assets/animeoncraft/atlas/manifest.json",
@@ -3753,8 +3848,8 @@
     },
     {
       "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/CentralSpawnRulesTest.java",
-      "sha256": "0e9e25cb20f4cd275a7fefd67249ee59eae88dce05970ac8b15da353ae1b1aef",
-      "bytes": 1379
+      "sha256": "ef23d6568475d6dd52f66ea8fc25abd3724c533e8bea3ced3320d1c358af6781",
+      "bytes": 2272
     },
     {
       "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/ChatChannelsTest.java",
@@ -3768,8 +3863,8 @@
     },
     {
       "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/ClanMarketTest.java",
-      "sha256": "5168df27b2bbb8c42d9b11ff4368088ff7cde6fce863beedba661860f56d3583",
-      "bytes": 5929
+      "sha256": "a7326afc95a3f4169181add975ac9807c4e1e3e63f86baa45c392f9bb7c6348e",
+      "bytes": 6443
     },
     {
       "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/ClanPositionsTest.java",
@@ -3780,6 +3875,11 @@
       "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/ClanRegistryTest.java",
       "sha256": "309d0a96ba98372fc28c7e23eb5d9456cb935366d21aca6f3c951b7bc72e0b13",
       "bytes": 3574
+    },
+    {
+      "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/CoinResetTest.java",
+      "sha256": "0d1f32e1b5752596602fb33ecd909a6fc8e5aa025311d95ccfe97b33db7d95a9",
+      "bytes": 2159
     },
     {
       "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/CosmeticMeshTest.java",
@@ -3805,6 +3905,11 @@
       "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/GameplayOutboxTest.java",
       "sha256": "ab00e6c6908b32ef8364496240a099123957bb8e283395aaf0919402582f11eb",
       "bytes": 3645
+    },
+    {
+      "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/GuildRulesTest.java",
+      "sha256": "ad3e5d660d1072306cba0695f331dca1f43a67eac75b1064ddeeb33d9b15b2ae",
+      "bytes": 23805
     },
     {
       "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/OfflineBetaGrantTest.java",
@@ -3852,9 +3957,24 @@
       "bytes": 15838
     },
     {
+      "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/SoraRingTest.java",
+      "sha256": "b4db677ea88ab25906eab88f0c8a6d9a5e75c484a7c430333f3a892b43fdd8ec",
+      "bytes": 6328
+    },
+    {
       "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/SpawnRulesTest.java",
       "sha256": "93c4dc62d312181ed37655b4f29e6d267b11c62dbd2dfd1ade465f6ecfac8bb1",
       "bytes": 497
+    },
+    {
+      "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/SpawnTeleportProbe.java",
+      "sha256": "e7538ad4b7c8cda8e7e885ad5d57819f4921a8bc44cad4f899578ccf7107e758",
+      "bytes": 8085
+    },
+    {
+      "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/SpawnTeleportQueueTest.java",
+      "sha256": "74c602e7ed8be45cbdf9042f3164deb011e0e341d66d9ba8ef78ff8b55dd6cfc",
+      "bytes": 3341
     },
     {
       "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/TerritoryLayoutTest.java",
@@ -3883,8 +4003,8 @@
     },
     {
       "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/WorldLayoutTest.java",
-      "sha256": "4b9d2de17ecff30150989500fb49c2ed9e5935a56d631c15a266ed1f06b2578f",
-      "bytes": 4072
+      "sha256": "57a2e0e24c47e13b523371e7b355c265c6667f718e205de74ee95ea1062b6ef1",
+      "bytes": 4382
     },
     {
       "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/WorldMasksTest.java",
@@ -3903,8 +4023,8 @@
     },
     {
       "path": "minecraft/integration/neoforge/src/test/resources/regions-markets.json",
-      "sha256": "a6f93e77317a44262dc4828ba16f88c1c3911b25bd7d1316e4909a0592d3f821",
-      "bytes": 77672
+      "sha256": "26edc8e1484f536b7407780d9f7a9a26092d66b50d824b5c6dfefdf8a58811a6",
+      "bytes": 77668
     },
     {
       "path": "minecraft/integration/neoforge/src/test/resources/regions-states.json",
@@ -6188,8 +6308,8 @@
     },
     {
       "path": "minecraft/modpack/profile.json",
-      "sha256": "59544da9fe82e4053ff49b0c6fd5e8da97069e17060afd75aee1958aec63614a",
-      "bytes": 145801
+      "sha256": "13451853729d84c62e0f0b6f4224bbe1c5dad6a81c94537fc2ac44a0d49c42c8",
+      "bytes": 145799
     },
     {
       "path": "minecraft/modpack/quest-book/chapter_groups.snbt",
@@ -6263,8 +6383,8 @@
     },
     {
       "path": "minecraft/server/economy-profile.json",
-      "sha256": "a03de33614baf55bc5d0006186a9815e4e77af612420ac386d7b6977a5a7f384",
-      "bytes": 1128
+      "sha256": "713295a6bb6690ffdb7198ca414916bb6da8240c72a0492d5edafb0bbd2f7629",
+      "bytes": 1214
     },
     {
       "path": "minecraft/server/exploration-policy.json",
@@ -6303,8 +6423,8 @@
     },
     {
       "path": "minecraft/server/world-config/world-states.toml",
-      "sha256": "7649736259176b16634b0263451f060ee4ea7282b61ff90cb757fda10b34efb6",
-      "bytes": 62557
+      "sha256": "6a6a9f842f7e46af3344aed933167ccbf7324065ea9d48f93863fa2c8259747d",
+      "bytes": 62553
     },
     {
       "path": "minecraft/server/world-config/world.toml",
@@ -6333,8 +6453,8 @@
     },
     {
       "path": "minecraft/server/world-config/worldgen-pack/aoc/layout.json",
-      "sha256": "200207bea927dafe2d65b4fdabbada98eaaf13e161aa20b97e4894c0b275eef3",
-      "bytes": 25369
+      "sha256": "ac4ad1d0422a3037dd9055b860dafca8d498dfa93b7ee2461bf9f8081d18b0d2",
+      "bytes": 25783
     },
     {
       "path": "minecraft/server/world-config/worldgen-pack/aoc/masks.json",
@@ -6403,8 +6523,8 @@
     },
     {
       "path": "package.json",
-      "sha256": "799e3ad6c646cb576e0c53d352770c1f6cb43dd4996637b3318ea216ad16a3ab",
-      "bytes": 5566
+      "sha256": "eb2094377053b8040062b4ca4ae4bfd96a9fda58431cd005bd0f2468f491cf0c",
+      "bytes": 5564
     },
     {
       "path": "packages/contracts/fixtures/clans-empty.json",
@@ -6573,12 +6693,12 @@
     },
     {
       "path": "README.md",
-      "sha256": "8056919fd652598ae82af1d5df2c34cf3c6800792710007a6e6a56ca04f6f1db",
+      "sha256": "2f3e7aa363b4d6dd3c142c27492af43d67be0b6d89ddce6271b8adbe70d6906c",
       "bytes": 3850
     },
     {
       "path": "RELEASE_BUILD.json",
-      "sha256": "9be326eca0b767166cf2e08757be41e40516e11bdd53fe4c9877e2f20510e688",
+      "sha256": "6971cb84d0384d764a891c2d423e10bf02e3cb20659fc8ee49ad9d8924e9cb87",
       "bytes": 769
     },
     {
@@ -6780,6 +6900,11 @@
       "path": "scripts/grant-player-cape.mjs",
       "sha256": "c473f886e2110d7dce595a03de70887ace6ea6466ea8a75b12fdade7612f61a4",
       "bytes": 3324
+    },
+    {
+      "path": "scripts/guild-balance.py",
+      "sha256": "20710a60c0335a62070e993350f74b7290ea8d7b5097f300d1c4b637f15f8747",
+      "bytes": 7642
     },
     {
       "path": "scripts/installed-update-server.mjs",
@@ -7082,6 +7207,16 @@
       "bytes": 6049
     },
     {
+      "path": "scripts/shoot-guild-client.mjs",
+      "sha256": "4af0b02a5c180ceb0b498af8800f07fad4915ecbd5770670a9d383685cf66335",
+      "bytes": 4353
+    },
+    {
+      "path": "scripts/shoot-guild-flow.mjs",
+      "sha256": "bc51d48c201abb7377fcd0380f2fea3da94898c7631d894593e10b635229cd4c",
+      "bytes": 4410
+    },
+    {
       "path": "scripts/sign-launcher-update.ps1",
       "sha256": "761fbb2b1193a5c6f5a09e9a08ff6f83e056b989f1021c644c2f37a1516a0905",
       "bytes": 1013
@@ -7378,13 +7513,23 @@
     },
     {
       "path": "scripts/test-social-economy-server.mjs",
-      "sha256": "cb9881da4e4414f3d8c7689b63f31a9ccd2f0f64c70a34d3e21bb1cd06093712",
-      "bytes": 5979
+      "sha256": "0f9981bd4033041620fb36788180d434ea084fd2ff58e829be57b259b777be54",
+      "bytes": 6010
     },
     {
       "path": "scripts/test-social-economy.mjs",
       "sha256": "028e2ffe0f4bb46705360d642accdca2b21cccfc52c786df4a305fa03f70d579",
       "bytes": 4847
+    },
+    {
+      "path": "scripts/test-sora-expansion.mjs",
+      "sha256": "360215e045dd952b883dbb03fedf32ac8a6ba8b767d04332c3374e664c3df826",
+      "bytes": 12586
+    },
+    {
+      "path": "scripts/test-spawn-teleport.mjs",
+      "sha256": "b6cf8e07fe5270f24a941fc1b0df1d1b2969ad4f0934bd41ecddabea2b4c9e5f",
+      "bytes": 6081
     },
     {
       "path": "scripts/test-territory-protection.mjs",
@@ -7413,8 +7558,8 @@
     },
     {
       "path": "scripts/world-design/build-world-profile.py",
-      "sha256": "6cd63f9b0a686f69f9a71abfdd283e53de8ae8bf48dd372bad9f6e1054e15eb4",
-      "bytes": 17660
+      "sha256": "223b72e263e59543ae65fd366796f25ad2e6d3f501229e1be67a152969fbd31b",
+      "bytes": 18973
     },
     {
       "path": "scripts/world-design/build-worldgen-pack.py",
@@ -7437,9 +7582,14 @@
       "bytes": 6374
     },
     {
+      "path": "scripts/world-design/render-sora-market-expansion.py",
+      "sha256": "672d953bad0a1cb590e2bcae925b47f53ae119b265262aabb4c1d778ff92aa7f",
+      "bytes": 5131
+    },
+    {
       "path": "scripts/world-design/render-sora-markets.py",
-      "sha256": "9c9b6cd2ee422c55a5ba845396691bdcafb701346ee7643da54fb51003f0e3d9",
-      "bytes": 3428
+      "sha256": "fead9fbe2f10fa347306bfc04ccff6ee2dde6d1fc6070d6844c9e25cd156bb6a",
+      "bytes": 3465
     },
     {
       "path": "scripts/world-design/render-worldgen-preview.py",
@@ -7487,6 +7637,6 @@
       "bytes": 504
     }
   ],
-  "version": "0.8.10",
-  "release_tag": "v0.8.10"
+  "version": "0.8.11",
+  "release_tag": "v0.8.11"
 }

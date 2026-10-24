@@ -1,6 +1,6 @@
 [package]
 name = "animeoncraft-launcher"
-version = "0.8.10"
+version = "0.8.11"
 description = "AnimeOnCraft launcher native shell"
 authors = ["AnimeOnCraft"]
 license = "MIT"

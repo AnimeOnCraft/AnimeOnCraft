@@ -57,7 +57,7 @@ describe('world catalog', () => {
     expect(() => buildCatalog({ ...base, points: [{ ...site, resource: { family: 'URANIUM', tier: 2 } }] })).toThrow(/family/);
   });
 
-  it('gives every states clan one peaceful 24 by 24 market clear of Sora buildings and streets', async () => {
+  it('gives every states clan one peaceful 36 by 36 market closer to the plaza and clear of Sora buildings and streets', async () => {
     const catalog=await loadCatalog(fileURLToPath(new URL('../../../minecraft/server/world-config/world-states.toml',import.meta.url)));
     const plots=catalog.regions.filter(r=>r.kind==='MARKET');
     expect(plots.map(r=>r.clan_code).sort()).toEqual(catalog.regions.filter(r=>r.kind==='STATE').map(r=>r.clan_code).sort());
@@ -66,7 +66,8 @@ describe('world catalog', () => {
     for(const plot of plots){
       expect(plot).toMatchObject({pvp_policy:'OFF',build_policy:'MEMBERS',spawn:null,capital:null});
       const xs=plot.polygon.map(p=>p[0]),zs=plot.polygon.map(p=>p[1]);
-      expect(Math.max(...xs)-Math.min(...xs)).toBe(24);expect(Math.max(...zs)-Math.min(...zs)).toBe(24);
+      expect(Math.max(...xs)-Math.min(...xs)).toBe(36);expect(Math.max(...zs)-Math.min(...zs)).toBe(36);
+      expect(Math.hypot((Math.min(...xs)+Math.max(...xs))/2,(Math.min(...zs)+Math.max(...zs))/2)).toBeLessThan(80);
       for(let x=Math.min(...xs);x<Math.max(...xs);x++)for(let z=Math.min(...zs);z<Math.max(...zs);z++){
         expect(Math.hypot(x+.5,z+.5)).toBeGreaterThan(37);expect(Math.hypot(x+.5,z+.5)).toBeLessThan(104);
         expect(Math.abs(x)<=9&&z>=45&&z<=60).toBe(false); // gate hall including roof
@@ -86,8 +87,9 @@ describe('world catalog', () => {
     const plot={code:'market.aa',name:'Market',kind:'MARKET',clan:'AA',build:'MEMBERS',pvp:'OFF',polygon:square(20,20,24)};
     const make=(patch:Record<string,unknown>={},extra:unknown[]=[])=>buildCatalog({...base,regions:[core,state,{...plot,...patch},...extra]});
     expect(make().regions).toHaveLength(3);
+    expect(make({polygon:square(20,20,36)}).regions).toHaveLength(3);
     for(const patch of [{clan:'BB'},{build:'OPEN'},{pvp:'ON'},{spawn:{x:25,z:25}},{status:'RESERVED'},
-      {polygon:square(20,20,64)},{polygon:square(95,95,24)},{polygon:[[20,20],[44,20],[20,44]]}])
+      {polygon:square(20,20,37)},{polygon:square(95,95,24)},{polygon:[[20,20],[44,20],[20,44]]}])
       expect(()=>make(patch)).toThrow(/market/i);
     expect(()=>make({},[{...plot,code:'market.duplicate',polygon:square(-60,-60,24)}])).toThrow(/duplicate market/i);
     expect(()=>buildCatalog({...base,regions:[core,state,plot],points:[{code:'fort.market',name:'Fort',type:'FORT',x:25,z:25}]})).toThrow(/markets cannot/);

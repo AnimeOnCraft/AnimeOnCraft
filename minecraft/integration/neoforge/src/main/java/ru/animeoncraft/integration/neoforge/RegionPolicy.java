@@ -149,8 +149,8 @@ final class RegionPolicy {
         for (var plot : regions) {
             if (!plot.market()) continue;
             if (!"OFF".equals(plot.pvp()) || plot.clan() == null || !plot.clan().equals(plot.owner()) || plot.spawn() != null
-                || plot.xs().length != 4 || plot.maxX()-plot.minX()<8 || plot.maxX()-plot.minX()>32
-                || plot.maxZ()-plot.minZ()<8 || plot.maxZ()-plot.minZ()>32 || !clans.add(plot.clan()))
+                || plot.xs().length != 4 || plot.maxX()-plot.minX()<8 || plot.maxX()-plot.minX()>36
+                || plot.maxZ()-plot.minZ()<8 || plot.maxZ()-plot.minZ()>36 || !clans.add(plot.clan()))
                 throw new IllegalArgumentException("Invalid market " + plot.code());
             var corners = new java.util.HashSet<String>();
             for (int i=0;i<4;i++) {

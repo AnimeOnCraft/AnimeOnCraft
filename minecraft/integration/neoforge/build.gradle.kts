@@ -173,6 +173,21 @@ tasks.register<Jar>("clanMarketProbeJar") {
     }
 }
 
+tasks.register<Jar>("spawnTeleportProbeJar") {
+    archiveClassifier.set("spawn-teleport-probe")
+    dependsOn(tasks.testClasses)
+    from(sourceSets.main.get().output) { exclude("META-INF/neoforge.mods.toml") }
+    from(sourceSets.test.get().output) { include("**/SpawnTeleportProbe*.class") }
+    into("META-INF") {
+        from(resources.text.fromString(file("src/main/resources/META-INF/neoforge.mods.toml").readText()+"\n"+"""
+            [[mods]]
+            modId="aocspawnprobe"
+            version="1.0.0"
+            displayName="AOC disposable spawn teleport probe"
+        """.trimIndent())) { rename { "neoforge.mods.toml" } }
+    }
+}
+
 tasks.register<Jar>("adventureClientProbeJar") {
     archiveClassifier.set("adventure-client-probe")
     dependsOn(tasks.testClasses)

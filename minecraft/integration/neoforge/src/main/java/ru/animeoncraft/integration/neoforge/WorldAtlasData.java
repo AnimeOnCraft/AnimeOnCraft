@@ -14,7 +14,7 @@ record WorldAtlasData(String worldId, String imageSha256, List<Point> points) {
                 throw new IllegalArgumentException("Invalid atlas point");
         }
         boolean contains(int bx, int bz) { double dx = bx + 0.5 - x, dz = bz + 0.5 - z; return dx*dx + dz*dz <= (double)radius*radius; }
-        String symbol() { return switch (kind) { case "CAPITAL", "CLAN_CAPITAL" -> "C"; case "MARKET" -> "$"; case "RESOURCE_SITE" -> "R"; case "FORT" -> "F"; case "OUTPOST" -> "O"; default -> "•"; }; }
+        String symbol() { return switch (kind) { case "CAPITAL", "CLAN_CAPITAL" -> "C"; case "MARKET" -> "$"; case "ADVENTURER_GUILD" -> "G"; case "RESOURCE_SITE" -> "R"; case "FORT" -> "F"; case "OUTPOST" -> "O"; default -> "•"; }; }
         String label() { return name + (owner.isEmpty() ? "" : " · " + owner) + switch (state) {
             case "CONTESTED", "CAPTURING" -> " · Бой";
             case "PROTECTED" -> " · Защищено";

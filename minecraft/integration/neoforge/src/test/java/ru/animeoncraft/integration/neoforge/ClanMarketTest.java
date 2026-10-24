@@ -16,7 +16,7 @@ class ClanMarketTest {
         var regions=RegionPolicy.parse(catalog());var policy=TerritoryPermissions.states(regions,16);
         var plots=regions.regions().stream().filter(RegionPolicy.Region::market).toList();assertEquals(5,plots.size());
         for(var plot:plots){
-            assertEquals(24,plot.maxX()-plot.minX());assertEquals(24,plot.maxZ()-plot.minZ());
+            assertEquals(36,plot.maxX()-plot.minX());assertEquals(36,plot.maxZ()-plot.minZ());
             for(int x=plot.minX()-1;x<=plot.maxX();x++)for(int z=plot.minZ()-1;z<=plot.maxZ();z++){
                 boolean inside=x>=plot.minX()&&x<plot.maxX()&&z>=plot.minZ()&&z<plot.maxZ();
                 assertEquals(inside?plot.clan():RegionPolicy.NOBODY,regions.ownerAt(x,z),"column "+x+","+z);
@@ -51,6 +51,9 @@ class ClanMarketTest {
         }finally{ClanControlSync.reset();}
     }
     @Test void malformedMarketNeverRelaxesCoreProtection() throws Exception {
+        var oversized=catalog();var large=oversized.getAsJsonArray("regions").asList().stream().map(e->e.getAsJsonObject()).filter(r->r.get("kind").getAsString().equals("MARKET")).findFirst().orElseThrow();
+        for(int index:new int[]{1,2}){var corner=large.getAsJsonArray("polygon").get(index).getAsJsonArray();corner.set(0,new com.google.gson.JsonPrimitive(corner.get(0).getAsInt()+1));}
+        assertThrows(RuntimeException.class,()->RegionPolicy.parse(oversized),"A side of 37 blocks is still rejected");
         for(String field:new String[]{"pvp_policy","build_policy","clan_code"}){
             var invalid=catalog();var plot=invalid.getAsJsonArray("regions").asList().stream().map(e->e.getAsJsonObject()).filter(r->r.get("kind").getAsString().equals("MARKET")).findFirst().orElseThrow();
             plot.addProperty(field,field.equals("pvp_policy")?"ON":field.equals("build_policy")?"OPEN":null);

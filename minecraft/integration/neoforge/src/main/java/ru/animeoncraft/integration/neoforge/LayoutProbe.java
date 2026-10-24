@@ -62,7 +62,7 @@ final class LayoutProbe {
                 zoneChunks++;
                 insideStarts += level.getChunk(cx, cz).getAllStarts().size();
             }
-            int r = Math.max(40, Math.min(150, "CAPITAL".equals(poi.type()) ? 130 : poi.radius() * 2 + 16));
+            int r = SoraExpansion.TYPE.equals(poi.type()) ? poi.radius() + 20 : Math.max(40, Math.min(150, "CAPITAL".equals(poi.type()) ? 130 : poi.radius() * 2 + 16));
             render(level, poi.code(), poi.x() - r, poi.z() - r, 2 * r + 1);
             var row = new JsonObject(); row.addProperty("code", poi.code()); row.addProperty("type", poi.type()); row.addProperty("name", poi.name());
             row.addProperty("x", poi.x()); row.addProperty("z", poi.z()); pois.add(row);

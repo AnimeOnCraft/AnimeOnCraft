@@ -20,6 +20,7 @@ final class WorldAtlas {
         var sites = CaptureSites.view(); boolean live = CaptureSites.fresh() && layout.worldId().equals(sites.worldId());
         var points = new ArrayList<WorldAtlasData.Point>();
         for (var poi : layout.pois().values()) {
+            if (SoraExpansion.TYPE.equals(poi.type())) continue; // part of Sora, not a separate place on the map
             var site = live ? sites.points().get(poi.code()) : null;
             String owner = site != null ? site.owner() : ClanCodes.known(poi.palette()) ? ClanControlSync.owner(poi.palette()) : null;
             int color = owner != null ? colors.getOrDefault(owner,0xAAAAAA) : switch (poi.type()) {

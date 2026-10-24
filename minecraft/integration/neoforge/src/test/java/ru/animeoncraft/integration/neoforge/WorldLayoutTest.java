@@ -16,9 +16,12 @@ class WorldLayoutTest {
 
     @Test void generatedLayoutHasEveryPoiRoadAndZone() throws Exception {
         var layout = WorldLayout.load(LAYOUT);
-        assertEquals(67, layout.pois().size());
+        assertEquals(69, layout.pois().size(), "67 catalog points + Sora's outer ring and the guild");
         assertEquals(20, layout.roads().size());
-        assertEquals(67, layout.exclusions().size());
+        assertEquals(69, layout.exclusions().size());
+        assertEquals("CITY_EXPANSION", layout.pois().get("core.capital.expansion").type());
+        assertEquals(160, layout.pois().get("core.capital.expansion").radius());
+        assertEquals("ADVENTURER_GUILD", layout.pois().get("core.guild").type());
         for (var clan : List.of("SCAM", "NYA", "ZXC", "AKUMA", "YAKUZA")) assertTrue(layout.palettes().containsKey(clan), clan + " palette from clan-world.json");
         assertEquals("CAPITAL", layout.pois().get("core.capital").type());
         assertEquals("road.cross.w1", layout.pois().get("border.w1.pass").road());

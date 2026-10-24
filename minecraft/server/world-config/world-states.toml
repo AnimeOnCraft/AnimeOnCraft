@@ -375,7 +375,7 @@ kind = "MARKET"
 clan = "SCAM"
 pvp = "OFF"
 build = "MEMBERS"
-polygon = [[35, -77], [59, -77], [59, -53], [35, -53]]
+polygon = [[25, -78], [61, -78], [61, -42], [25, -42]]
 
 [[regions]]
 code = "market.nya"
@@ -384,7 +384,7 @@ kind = "MARKET"
 clan = "NYA"
 pvp = "OFF"
 build = "MEMBERS"
-polygon = [[64, 13], [88, 13], [88, 37], [64, 37]]
+polygon = [[52, 5], [88, 5], [88, 41], [52, 41]]
 
 [[regions]]
 code = "market.zxc"
@@ -393,7 +393,7 @@ kind = "MARKET"
 clan = "ZXC"
 pvp = "OFF"
 build = "MEMBERS"
-polygon = [[-12, 68], [12, 68], [12, 92], [-12, 92]]
+polygon = [[-18, 61], [18, 61], [18, 97], [-18, 97]]
 
 [[regions]]
 code = "market.akuma"
@@ -402,7 +402,7 @@ kind = "MARKET"
 clan = "AKUMA"
 pvp = "OFF"
 build = "MEMBERS"
-polygon = [[-88, 13], [-64, 13], [-64, 37], [-88, 37]]
+polygon = [[-88, 5], [-52, 5], [-52, 41], [-88, 41]]
 
 [[regions]]
 code = "market.yakuza"
@@ -411,7 +411,7 @@ kind = "MARKET"
 clan = "YAKUZA"
 pvp = "OFF"
 build = "MEMBERS"
-polygon = [[-59, -77], [-35, -77], [-35, -53], [-59, -53]]
+polygon = [[-61, -78], [-25, -78], [-25, -42], [-61, -42]]
 
 [[points]]
 code = "core.capital"

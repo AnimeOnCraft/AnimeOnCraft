@@ -260,7 +260,7 @@ function marketInsideCore(market: CatalogRegion, core: CatalogRegion): boolean {
     || core.build_policy !== 'NONE' || core.pvp_policy !== 'OFF' || core.status !== 'ACTIVE') return false;
   const xs = market.polygon.map(p => p[0]), zs = market.polygon.map(p => p[1]);
   const x0 = Math.min(...xs), x1 = Math.max(...xs), z0 = Math.min(...zs), z1 = Math.max(...zs);
-  if (market.polygon.length !== 4 || x1 - x0 < 8 || x1 - x0 > 32 || z1 - z0 < 8 || z1 - z0 > 32
+  if (market.polygon.length !== 4 || x1 - x0 < 8 || x1 - x0 > 36 || z1 - z0 < 8 || z1 - z0 > 36
     || new Set(market.polygon.map(p => p.join(','))).size !== 4
     || market.polygon.some(([x,z]) => ![x0,x1].includes(x) || ![z0,z1].includes(z))) return false;
   // All block columns, including the perimeter: a concave core cannot leave an unprotected gap.
@@ -298,7 +298,7 @@ export function validateCatalog(catalog: WorldCatalog): void {
     if (marketClans.has(marketClan)) fail(`${market.code}: duplicate market for clan ${marketClan}`);
     marketClans.add(marketClan);
     if (live.filter(core => marketInsideCore(market, core)).length !== 1)
-      fail(`${market.code}: market must be an 8..32 block rectangle wholly inside one protected core`);
+      fail(`${market.code}: market must be an 8..36 block rectangle wholly inside one protected core`);
   }
   for (let i = 0; i < live.length; i++) for (let j = 0; j < i; j++)
     if (polygonsOverlap(live[i]!.polygon, live[j]!.polygon)

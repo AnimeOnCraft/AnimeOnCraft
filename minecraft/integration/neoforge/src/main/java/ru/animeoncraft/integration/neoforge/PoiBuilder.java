@@ -142,6 +142,7 @@ final class PoiBuilder {
             case "VILLAGE" -> village(canvas, poi);
             case "EVENT_ZONE", "BOSS_LAIR" -> arena(canvas, poi, "BOSS_LAIR".equals(poi.type()));
             case "RESOURCE_SITE", "MINE" -> site(canvas, poi);
+            case "ADVENTURER_GUILD" -> AdventurerGuild.build(canvas, layout, poi);
             default -> groundLevel(level, poi.x(), poi.z(), 4);
         };
         return y;

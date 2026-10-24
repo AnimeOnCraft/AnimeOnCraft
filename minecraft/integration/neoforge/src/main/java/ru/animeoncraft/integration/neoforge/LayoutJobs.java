@@ -89,7 +89,8 @@ final class LayoutJobs {
         }
         for (var poi : layout.pois().values()) {
             boolean near = nearRadius != null && Math.hypot(poi.x() - nearX, poi.z() - nearZ) <= nearRadius;
-            if (all || "pois".equals(selection) || poi.code().equals(selection) || near) jobs.add(new PoiJob(poi));
+            if (all || "pois".equals(selection) || poi.code().equals(selection) || near)
+                jobs.add(SoraExpansion.TYPE.equals(poi.type()) ? new SoraExpansion(poi) : new PoiJob(poi));
         }
         int queued = 0;
         for (var job : jobs) {

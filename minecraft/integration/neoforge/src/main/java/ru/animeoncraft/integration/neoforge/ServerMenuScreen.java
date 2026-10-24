@@ -25,6 +25,8 @@ final class ServerMenuScreen extends Screen {
     int scrollOffset(){return rowOffset;}
     String selectedClan(){return selected;}
     String wardrobeSlot(){return wardrobeSlot;}
+    /** Opens a page on a tab (the review client takes screenshots this way). */
+    void show(ServerMenuLogic.Page p,int tab){logic.select(p,0,true);if(p==ServerMenuLogic.Page.PROFILE)profileTab=tab;else guideTab=tab;rowOffset=0;}
     @Override protected void init(){layout();ClientServerMenu.request();ClientProfiles.request("-");}
     private void layout(){scale=Math.min(width/1100.0,height/620.0);left=(width-1100*scale)/2;top=(height-620*scale)/2;}
     @Override public boolean isPauseScreen(){return false;}
@@ -38,7 +40,7 @@ final class ServerMenuScreen extends Screen {
         if(page()!=ServerMenuLogic.Page.BETA_PASS&&page()!=ServerMenuLogic.Page.WARDROBE&&sector!=null&&logic.select(sector,button,ClientServerMenu.held())){rowOffset=0;triggerImmediateNarration(true);return true;}
         for(int i=hits.size()-1;i>=0;i--)if(hits.get(i).contains(px,py)){hits.get(i).action().run();return true;}return false;
     }
-    @Override public boolean mouseScrolled(double x,double y,double dx,double dy){if(dy==0)return false;if(page()==ServerMenuLogic.Page.WARDROBE&&wardrobeSlot.equals("BACK")){var d=ClientWardrobe.data();rowOffset=ServerMenuLogic.scroll(rowOffset,dy>0?-1:1,1+(d!=null&&d.available()?d.capes().size():0),3);return true;}if(page()==ServerMenuLogic.Page.PROFILE&&profileTab>0){rowOffset=ServerMenuLogic.scroll(rowOffset,dy>0?-1:1,ProfileProgression.ALL.size(),4);return true;}if(page()==ServerMenuLogic.Page.CLANS||page()==ServerMenuLogic.Page.ONLINE){rowOffset=ServerMenuLogic.scroll(rowOffset,dy>0?-1:1,page()==ServerMenuLogic.Page.CLANS?(clanTab==0?members().size():clanAchievementCount()):online().size(),page()==ServerMenuLogic.Page.CLANS?4:7);return true;}return false;}
+    @Override public boolean mouseScrolled(double x,double y,double dx,double dy){if(dy==0)return false;if(page()==ServerMenuLogic.Page.WARDROBE&&wardrobeSlot.equals("BACK")){var d=ClientWardrobe.data();rowOffset=ServerMenuLogic.scroll(rowOffset,dy>0?-1:1,1+(d!=null&&d.available()?d.capes().size():0),3);return true;}if(page()==ServerMenuLogic.Page.PROFILE&&profileTab>0&&profileTab<3){rowOffset=ServerMenuLogic.scroll(rowOffset,dy>0?-1:1,ProfileProgression.ALL.size(),4);return true;}if(page()==ServerMenuLogic.Page.CLANS||page()==ServerMenuLogic.Page.ONLINE){rowOffset=ServerMenuLogic.scroll(rowOffset,dy>0?-1:1,page()==ServerMenuLogic.Page.CLANS?(clanTab==0?members().size():clanAchievementCount()):online().size(),page()==ServerMenuLogic.Page.CLANS?4:7);return true;}return false;}
     @Override public Component getNarrationMessage(){return Component.literal("Меню сервера. "+label(page())+". ЛКМ — выбрать. Escape — закрыть.");}
     @Override public void render(GuiGraphics g,int mouseX,int mouseY,float delta){
         layout();mx=(mouseX-left)/scale;my=(mouseY-top)/scale;hits.clear();renderBlurredBackground(delta);g.fill(0,0,width,height,0x68060010);
@@ -48,7 +50,7 @@ final class ServerMenuScreen extends Screen {
         if(main){String count="В сети: "+ClientServerMenu.online().size();var data=ClientServerMenu.data();if(data!=null&&data.maximum()!=Integer.MAX_VALUE)count+=" / "+data.maximum();badge(g,444,81,135,28,count,0x71e5a7);
             var hover=ServerMenuLogic.sector(mx,my,510,315,195);var preview=hover==null?ServerMenuLogic.Page.CLANS:hover;
             round(g,762,189,305,176,10,PANEL,0xff624580);icon(g,preview,783,210,27,WHITE);text(g,label(preview),824,214,19,WHITE);
-            String description=switch(preview){case CLANS->"Состав кланов, онлайн участников, уровень и репутация.";case ONLINE->"Игроки в сети, их кланы и пинг. Фильтр по своему клану.";case PROFILE->"Время в игре, личный уровень, достижения и выбор титула.";case BETA_PASS->"10 уровней, ежедневные и недельные задания. Косметические награды бета-теста.";case WARDROBE->"Аксессуары на голову, лицо и пояс, плащи и переливающиеся титулы.";case GUIDE->"Развитие базы, технологии, магия, экспедиции и общение.";default->"Территории, клановые спавны, войны и захват точек.";};paragraph(g,description,782,258,263,13,MUTED,5);
+            String description=switch(preview){case CLANS->"Состав кланов, онлайн участников, уровень и репутация.";case ONLINE->"Игроки в сети, их кланы и пинг. Фильтр по своему клану.";case PROFILE->"Время в игре, личный уровень, достижения, титулы и карточка гильдии.";case BETA_PASS->"10 уровней, ежедневные и недельные задания. Косметические награды бета-теста.";case WARDROBE->"Аксессуары на голову, лицо и пояс, плащи и переливающиеся титулы.";case GUIDE->"Развитие базы, технологии, магия, экспедиции и общение.";default->"Территории, клановые спавны, войны и захват точек.";};paragraph(g,description,782,258,263,13,MUTED,5);
             center(g,logic.closesOnRelease()?"Удерживай "+ClientControls.label("key.playerlist")+" · выбери раздел · нажми ЛКМ":"Выбери раздел и нажми ЛКМ · Esc — закрыть",550,542,13,WHITE);
         }else{button(g,129,492,191,32,"← Назад к кругу",()->{logic.back();rowOffset=0;},false);round(g,435,88,630,472,10,PANEL,0xff8d56ba);switch(page()){case CLANS->clans(g);case ONLINE->players(g);case GUIDE->guide(g,false);case RULES->guide(g,true);case PROFILE->profile(g);case BETA_PASS->betaPass(g);case WARDROBE->wardrobe(g);default->{}}}
         g.pose().popPose();
@@ -94,14 +96,15 @@ final class ServerMenuScreen extends Screen {
     }
     private void profile(GuiGraphics g){
         text(g,"Профиль игрока",455,108,20,WHITE);
-        for(int i=0;i<3;i++){final int tab=i;button(g,455+i*151,151,140,28,List.of("Обзор","Достижения","Титулы").get(i),()->{profileTab=tab;rowOffset=0;},profileTab==i);}
+        for(int i=0;i<4;i++){final int tab=i;button(g,455+i*149,151,140,28,List.of("Обзор","Достижения","Титулы","Гильдия").get(i),()->{profileTab=tab;rowOffset=0;},profileTab==i);}
+        if(profileTab==3){guildCard(g);return;}
         var data=ClientProfiles.profile();
         if(data==null){paragraph(g,ClientProfiles.supported()?"Загружаем статистику с сервера…":"Для профиля нужно обновление серверной части.",455,220,570,14,MUTED,4);return;}
         var earned=java.util.Set.copyOf(data.earned());var metrics=data.metrics();long xp=ProfileProgression.xp(metrics,earned);int level=ProfileProgression.level(xp);
         if(profileTab==0){
             face(g,data.player(),455,198,40);text(g,minecraft.player.getGameProfile().getName(),508,200,19,WHITE);
             var title=ProfileProgression.find(data.selected());var betaTitle=ClientBetaPass.title(data.player());text(g,betaTitle!=null?betaTitle.getString():title==null?"Без титула":title.title(),508,226,12,betaTitle!=null?0xff82dfed:title==null?MUTED:0xff000000|title.color());
-            right(g,"Уровень "+level,1045,205,19,VIOLET);text(g,"ОПЫТ ПРОФИЛЯ",455,258,11,MUTED);
+            right(g,"Уровень "+level,1045,205,19,VIOLET);int guildRank=ClientGuild.rank(data.player());if(guildRank>=0)right(g,"Авантюрист "+GuildRules.Rank.of(guildRank).name(),1045,233,12,GuildScreen.RANK_COLORS[guildRank]);text(g,"ОПЫТ ПРОФИЛЯ",455,258,11,MUTED);
             long next=(long)level*level*100,start=ProfileProgression.floor(level);right(g,level>=100?"Максимум":xp+" / "+next+" XP",1045,258,11,MUTED);
             round(g,455,278,590,6,3,0xff302540,0xff302540);g.fill(457,279,457+(int)(586*(level>=100?1:Math.clamp((double)(xp-start)/(next-start),0,1))),283,VIOLET);
             String time=(metrics.seconds()/3600)+" ч "+(metrics.seconds()/60%60)+" мин";
@@ -226,15 +229,30 @@ final class ServerMenuScreen extends Screen {
         for(int i=rowOffset;i<Math.min(rows.size(),rowOffset+7);i++){var p=rows.get(i);int y=232+(i-rowOffset)*40;face(g,p.getProfile().getId(),465,y+5,24);text(g,p.getProfile().getName(),503,y+13,13,WHITE);String clan=ClientServerMenu.clan(p.getProfile().getId());text(g,clan.isEmpty()?"—":clan,787,y+13,12,0xff000000|ClientServerMenu.color(clan));int ping=p.getLatency();right(g,ping<0?"—":ping+" мс",1028,y+13,12,ping<0?MUTED:ping<100?0xff73dfa1:ping<200?0xffffc66d:0xffff8896);g.fill(455,y+37,1036,y+38,0xff382c47);}
         if(rows.isEmpty())text(g,ownOnly?"Соклановцев в сети нет":"Список игроков пока пуст",465,253,14,MUTED);scrollbar(g,1040,233,277,rows.size(),7);text(g,"Онлайн обновляется автоматически · Колесо мыши — прокрутка",455,535,10,MUTED);
     }
+    /** The adventurer card from the guild board, readable anywhere. */
+    private void guildCard(GuiGraphics g){
+        var d=ClientGuild.data();
+        if(d==null||!d.opened()){paragraph(g,!ClientGuild.supported()?"Для карточки гильдии нужно обновление серверной части.":d==null?"Загружаем карточку гильдии…":"Карточки авантюриста пока нет. Её выдают при первом входе в зал гильдии искателей приключений в Центральной Соре (0, 142).",455,220,570,13,MUTED,4);return;}
+        int r=d.rank(),color=GuildScreen.RANK_COLORS[r];var rank=GuildRules.Rank.of(r);var up=rank.up();
+        round(g,455,196,62,62,8,0xff120c1b,color);center(g,rank.name(),486,210,30,color);
+        text(g,"Авантюрист "+rank.name(),534,202,19,WHITE);text(g,"Гильдия искателей приключений · Центральная Сора",534,230,11,MUTED);
+        text(g,"ОПЫТ КАРТОЧКИ",455,276,11,MUTED);right(g,up==null?"Высший ранг":d.xp()+" / "+d.next(),1045,276,11,MUTED);
+        round(g,455,294,590,6,3,0xff302540,0xff302540);if(d.next()>0)g.fill(457,295,457+(int)(586*Math.clamp((double)d.xp()/d.next(),0,1)),299,color);
+        var a=d.active();int cd=ClientGuild.cooldown();
+        String[][] values={{"ЗАДАНИЙ ВЫПОЛНЕНО",String.valueOf(d.completed())},{"ЗАРАБОТАНО СЕГОДНЯ",GuildRules.money(d.earned())},{"ЗАДАНИЙ СЕГОДНЯ",d.limit()>0?d.done()+" / "+d.limit():d.done()+" · без лимита"},
+            {"ТЕКУЩЕЕ ЗАДАНИЕ",a==null?"нет":a.name()},{"ПЕРЕРЫВ",cd>0?(cd/60)+" мин "+(cd%60)+" с":"нет"},{"КОМАНДА",d.members().isEmpty()?"нет":d.members().size()+" игрока"}};
+        for(int i=0;i<values.length;i++)stat(g,455+(i%3)*200,318+(i/3)*61,values[i][0],values[i][1]);
+        paragraph(g,"Дневной потолок ранга "+rank.name()+": "+GuildRules.money(d.cap())+", сверх него награда урезается. "+(up==null?"Высший ранг гильдии.":d.maxRank()?"Ранг "+up+" откроется в следующих обновлениях гильдии.":"Дальше ранг "+up+": "+d.next()+" опыта"+(d.exam()==1?", экзамен":"")+" и взнос "+GuildRules.money(d.fee())+". Задания берут на доске в зале гильдии."),455,450,585,11,MUTED,3);
+    }
     private void guide(GuiGraphics g,boolean rules){
-        text(g,rules?"Территории и правила":"Что делать на сервере",455,108,20,WHITE);text(g,rules?"Основные игровые ограничения":"Развитие, экспедиции и общение",455,135,11,MUTED);if(!rules)for(int i=0;i<4;i++){final int index=i;button(g,455+i*129,157,117,29,List.of("Главное","Развитие","Чат","Торговля").get(i),()->guideTab=index,guideTab==i);}
+        text(g,rules?"Территории и правила":"Что делать на сервере",455,108,20,WHITE);text(g,rules?"Основные игровые ограничения":"Развитие, экспедиции, общение и гильдия",455,135,11,MUTED);if(!rules)for(int i=0;i<5;i++){final int index=i;button(g,455+i*119,157,110,29,List.of("Главное","Развитие","Чат","Торговля","Гильдия").get(i),()->guideTab=index,guideTab==i);}
         if(rules){
             var point=ClientServerMenu.capture();round(g,455,157,590,76,7,0x991d152c,0xff6e4897);
             paragraph(g,point==null?"Загружаем текущую точку…":point.name(),467,166,365,13,WHITE,1);
             paragraph(g,point==null?"Состояние точки появится после ответа сервера.":point.detail(),467,187,point!=null&&point.canDeclare()?365:564,11,MUTED,3);
             if(point!=null&&point.canDeclare())button(g,851,177,180,30,"Объявить / продлить",()->{var player=Minecraft.getInstance().player;if(player!=null){Minecraft.getInstance().setScreen(null);player.connection.sendCommand("aoc capture menu-declare");}},false);
         }
-        var cards=rules?ServerMenuGuide.RULES:guideTab==0?ServerMenuGuide.START:guideTab==1?ServerMenuGuide.DEVELOPMENT:guideTab==2?ServerMenuGuide.CHAT:ServerMenuGuide.ECONOMY;boolean compact=!rules&&guideTab==0;int start=rules?244:205,h=compact?94:rules?134:143;
+        var cards=rules?ServerMenuGuide.RULES:guideTab==0?ServerMenuGuide.START:guideTab==1?ServerMenuGuide.DEVELOPMENT:guideTab==2?ServerMenuGuide.CHAT:guideTab==3?ServerMenuGuide.ECONOMY:ServerMenuGuide.GUILD;boolean compact=!rules&&guideTab==0;int start=rules?244:205,h=compact?94:rules?134:143;
         for(int i=0;i<cards.size();i++){var c=cards.get(i);int x=455+(i%2)*302,y=start+(i/2)*(h+13);round(g,x,y,288,h,7,0x991d152c,0xff48335d);text(g,c.title(),x+13,y+14,14,WHITE);paragraph(g,ClientControls.guide(c.body()),x+13,y+40,262,11,MUTED,compact?3:7);}
         if(compact){text(g,"КАК ОБЩАТЬСЯ",455,427,12,WHITE);String[][] chat={{"Без префикса","Чат рядом · до 100 блоков"},{"!","Глобальный чат"},{"!!","Чат клана"}};for(int i=0;i<chat.length;i++){int y=449+i*25;badge(g,455,y,110,21,chat[i][0],0xbba4db);text(g,chat[i][1],578,y+6,11,MUTED);}}
         text(g,rules?"Ограничения и доступность захвата проверяются сервером.":"Карта: "+ClientControls.label("gui.xaero_open_map")+" · Голос и микрофон: "+ClientControls.label("key.voice_chat")+" · Клавиши: Настройки → Управление",455,539,10,MUTED);
