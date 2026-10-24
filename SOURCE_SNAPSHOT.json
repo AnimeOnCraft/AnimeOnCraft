@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "kind": "release-source-snapshot",
-  "created_at": "2026-10-23T13:04:53.765Z",
+  "created_at": "2026-10-24T04:44:49.798Z",
   "private_history_included": false,
   "text_hashing": "UTF-8 text normalized to LF as stored by Git; binary files raw",
-  "release_binary_correspondence": "Source used to build 0.8.9. See RELEASE_BUILD.json; bit-for-bit reproducibility is not guaranteed.",
+  "release_binary_correspondence": "Source used to build 0.8.10. See RELEASE_BUILD.json; bit-for-bit reproducibility is not guaranteed.",
   "files": [
     {
       "path": ".dockerignore",
@@ -152,6 +152,11 @@
       "bytes": 20494
     },
     {
+      "path": "apps/backend/db/export-market-fixture.ts",
+      "sha256": "2c6e35321e51ba63fc4638e008481a2cb0be25ffbffc21d9aaebb9cfebbc5cf3",
+      "bytes": 1417
+    },
+    {
       "path": "apps/backend/db/friends-account-remove.ts",
       "sha256": "335df03d4a5cbdf73b5f899e1341614dd3f1747e7d49fb2d0b81a0fd0053428c",
       "bytes": 3286
@@ -183,8 +188,8 @@
     },
     {
       "path": "apps/backend/db/gameplay-integration.ts",
-      "sha256": "1a8209ab31f662902183ae387bda1d6559cd291df1ea1acf443e072cc7b95261",
-      "bytes": 3005
+      "sha256": "11a259673ae299fa08d69cf121583c1fa480af245f6e33627f3cb7a707187ad2",
+      "bytes": 3208
     },
     {
       "path": "apps/backend/db/gameplay-smoke.ts",
@@ -357,6 +362,11 @@
       "bytes": 261
     },
     {
+      "path": "apps/backend/db/migrations/20261024000100_sora_clan_markets/migration.sql",
+      "sha256": "e0383348567b452ae800d5febecca6ef06e2b574fecf3f7f202f8f2d6eb887b6",
+      "bytes": 1139
+    },
+    {
       "path": "apps/backend/db/migrations/migration_lock.toml",
       "sha256": "1db17a8d051aa136110736752c5e1f8b7ed92b6ea8e803112fbbe2497047c210",
       "bytes": 24
@@ -428,8 +438,8 @@
     },
     {
       "path": "apps/backend/db/world-catalog-smoke.ts",
-      "sha256": "b9acc521af6f30718677a7cbd2a5a312339de646e0f3f6260aa6b844e90353f0",
-      "bytes": 11537
+      "sha256": "cec92438ff1898a4dbb95637f38e1e461057f1e09359776cc1625e97d1f2d226",
+      "bytes": 12233
     },
     {
       "path": "apps/backend/db/world-import.ts",
@@ -753,8 +763,8 @@
     },
     {
       "path": "apps/backend/src/modules/community/region-assignment.ts",
-      "sha256": "67d11c8d989268bfbe7f53e2317dca2ee882957fb6062e6b7e3bf03500558a45",
-      "bytes": 5045
+      "sha256": "cc90ccfbdc90ee5e798cb5c2347fc5fd37532eb9c82b0cd46aa66ace0b3fac91",
+      "bytes": 5068
     },
     {
       "path": "apps/backend/src/modules/compatibility/compatibility.controller.ts",
@@ -858,8 +868,8 @@
     },
     {
       "path": "apps/backend/src/world-catalog/catalog.ts",
-      "sha256": "278d1927afb3ba3bb0a820cc9ea0652704932309c0008a9b84f0fa1966021d40",
-      "bytes": 22624
+      "sha256": "09359968a782e7195a64fbcca5091ebd127f9892e638c4c9e4d0a0781484741b",
+      "bytes": 24830
     },
     {
       "path": "apps/backend/src/world-catalog/load.ts",
@@ -903,8 +913,8 @@
     },
     {
       "path": "apps/backend/test/world-catalog.test.ts",
-      "sha256": "1076c9e6ad406e2080f8b2d73cbb09e225c9b8f163dba633cb351c36e8f5a9de",
-      "bytes": 5008
+      "sha256": "7fb4e667ec71a3bfc6fe669f63393c28c5aa9e53abeb5ef7a34c050bdf40d1e8",
+      "bytes": 8096
     },
     {
       "path": "apps/backend/test/world-regions.test.ts",
@@ -933,8 +943,8 @@
     },
     {
       "path": "apps/download-site/index.html",
-      "sha256": "0534527e744d5b8c6e6327747ef922f54d811aa580ba6ff44e95d9cdb934bed8",
-      "bytes": 4259
+      "sha256": "91db53b52dd59e793db548e5cca8f07302150da5433adc7bfbdcc58c5804e1f5",
+      "bytes": 4262
     },
     {
       "path": "apps/download-site/style.css",
@@ -948,8 +958,8 @@
     },
     {
       "path": "apps/launcher/package.json",
-      "sha256": "c7f6265ee961c5ca7be071a739e4f328f0e8b516008971523e34ca01aa02282d",
-      "bytes": 822
+      "sha256": "26b8d53f833ed634ee720e6061b47a0b433bff3f8877621c49c7af56172df3b0",
+      "bytes": 821
     },
     {
       "path": "apps/launcher/public/brand/animeoncraft-avatar.png",
@@ -978,13 +988,13 @@
     },
     {
       "path": "apps/launcher/src-tauri/Cargo.lock",
-      "sha256": "8ed48d8830181ef5cdbf904e1f52d9ed0243136ffa01b5592dabaa0dd0e75728",
-      "bytes": 127774
+      "sha256": "9a4c5c346a6bff29ebe8d0fcbd5a5e3ba845344e7f0209b67275f63437e1fd44",
+      "bytes": 127775
     },
     {
       "path": "apps/launcher/src-tauri/Cargo.toml",
-      "sha256": "ea68101af11f2b1b51b728faec1744406e1d8f2f09cdce089308e5db8ea8bf11",
-      "bytes": 1983
+      "sha256": "4ce1f13116b79cad2f8cff24f385ce17f7d39e278ba10576c4fbdf673bdf28f8",
+      "bytes": 1984
     },
     {
       "path": "apps/launcher/src-tauri/icon.svg",
@@ -1813,8 +1823,8 @@
     },
     {
       "path": "apps/launcher/src-tauri/tauri.conf.json",
-      "sha256": "7597e4d84848cabdd9ef823c10711a921472fa5ef1c47e69abfcbf89ccde574c",
-      "bytes": 1325
+      "sha256": "d601c3e05c128c350c873e0903e08ad1dda0e58804d0d43ed2e9cd681aceb420",
+      "bytes": 1326
     },
     {
       "path": "apps/launcher/src-tauri/tauri.installer.conf.json",
@@ -2093,18 +2103,18 @@
     },
     {
       "path": "apps/launcher/src/world-api.test.ts",
-      "sha256": "444943dd8df3e89051f5ec419b3aa8e6869b70238934d00988a8b80766e171ba",
-      "bytes": 6054
+      "sha256": "4805090df2f2bdcac9e69e09d522cc07b543c88d51097db44db1324f3f63ea00",
+      "bytes": 6526
     },
     {
       "path": "apps/launcher/src/world-api.ts",
-      "sha256": "4453c413a6d5022cd963d0c32a6d2d1715441fa8ddb9ccb5b757ef3324dccc07",
-      "bytes": 8398
+      "sha256": "d8b03e06049bd4425c65f5bdbb4b61bbef38e4ba5c33801cb3fa269f3195dd37",
+      "bytes": 8408
     },
     {
       "path": "apps/launcher/src/world-map.tsx",
-      "sha256": "eccad46076a2b0ed330c40f3a604414f4127d08297d883c4502069dcf9d28f7f",
-      "bytes": 21583
+      "sha256": "4fd70ecab84efee9d3d3b9029fbb54071a23ad2050c6cdfe4c65a1e5ab66b1f7",
+      "bytes": 21622
     },
     {
       "path": "apps/launcher/tsconfig.json",
@@ -2262,14 +2272,14 @@
       "bytes": 3282
     },
     {
-      "path": "docs/PATCH_NOTES_0_8_8.md",
-      "sha256": "1ea0d8a09ade7b5006bc7164dadb6aad52be0bce2240d082fc912e13b99911c8",
-      "bytes": 3645
+      "path": "docs/PATCH_NOTES_0_8_10.md",
+      "sha256": "6b93c43f6505609fbe44635b61c0748c43776a83e8637da5df148358081c1ae7",
+      "bytes": 2873
     },
     {
       "path": "docs/PUBLIC_README.md",
-      "sha256": "b4d0eb7d769f477785c6ff8c16d3991507f800ad6c90863892fa673db9aebed2",
-      "bytes": 3848
+      "sha256": "8056919fd652598ae82af1d5df2c34cf3c6800792710007a6e6a56ca04f6f1db",
+      "bytes": 3850
     },
     {
       "path": "eslint.config.mjs",
@@ -2608,8 +2618,8 @@
     },
     {
       "path": "minecraft/integration/neoforge/build.gradle.kts",
-      "sha256": "68243d5a01b47020f35d6573b793d21ab7687375d6ba7a6b45b0a8ed461637df",
-      "bytes": 6327
+      "sha256": "5d5b63c5a1e6396d83c19cce037ce9949d4d7e164f34fee2ed47a04943e6e446",
+      "bytes": 7645
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/AdmissionHttpClient.java",
@@ -2628,8 +2638,8 @@
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/AnimeOnCraftAdmission.java",
-      "sha256": "38dd3e06e405246f3df83e2951d365ddd4785d95ebb7c575cf2c89cfdce15d38",
-      "bytes": 22335
+      "sha256": "0ba9722cb05ad81bb817d299bfe9ec10228779c4fd6eb62612a4e626219080a5",
+      "bytes": 22483
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ArenaChunkLifecycle.java",
@@ -2643,8 +2653,8 @@
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/AtlasClientProbe.java",
-      "sha256": "e15160663c2955d0bbb2899476537348f541d0472b242e48c34aad32950d4a12",
-      "bytes": 11987
+      "sha256": "40f9227ac87c6ac44f7963616945d4052b48eba6430b8a75eade6aac65bad9ed",
+      "bytes": 17394
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/BetaCosmeticRenderer.java",
@@ -2657,19 +2667,24 @@
       "bytes": 3301
     },
     {
+      "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/BetaPassCommands.java",
+      "sha256": "16909cab2530213cd9dc40c2259524a399de58b1c4a4cd2c512629bc58ab61e9",
+      "bytes": 3787
+    },
+    {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/BetaPassPayloads.java",
       "sha256": "1d9b2b6390cf02ec96a76cbf3be37e0896fc0a14ebf86885333a2d4d014bb819",
       "bytes": 4052
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/BetaPassServer.java",
-      "sha256": "f3590cdbcddb292f0f56bb29091761ac98cd7867203ff137d482d717c81ec9e3",
-      "bytes": 7237
+      "sha256": "d479a8c6145ff80b99d8ab2f857d45b19a3a3a110e25cab0ade842a2179893a1",
+      "bytes": 6638
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/BetaPassStore.java",
-      "sha256": "244cb37fee3d47163e70177643c331307151988bf2ea51d8c63cb546f0d3fc94",
-      "bytes": 4138
+      "sha256": "adac8dc41cad29251d4cc54a3b6b273181c5a52bb8d2ee5b47562f2571ab7ce2",
+      "bytes": 4462
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/BetaRewardIcons.java",
@@ -2790,6 +2805,11 @@
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ClanMapPlugin.java",
       "sha256": "bfbf7662a5a1155dcb9839dccffb3f17fcbc10c66ba0b32fc800012c261a4a3c",
       "bytes": 5127
+    },
+    {
+      "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ClanMarkets.java",
+      "sha256": "056a5cc1ae9156caa4098f94bad948abc872fa12940f206402c3585d31bbd0c7",
+      "bytes": 2700
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ClanOnlineHeartbeat.java",
@@ -3187,6 +3207,31 @@
       "bytes": 1526
     },
     {
+      "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/mixin/XaeroClanMapScreenMixin.java",
+      "sha256": "90a62e5979e3bba48b6b4647b6b31f7c91bb7bfb1f5bfeb2a07247c0d2629e1e",
+      "bytes": 1573
+    },
+    {
+      "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/mixin/XaeroMinimapRefreshMixin.java",
+      "sha256": "4b646e17856f33ebebd84e0c974dec3c48f8af27f9e1b4e7d359ff037a1b0a75",
+      "bytes": 1077
+    },
+    {
+      "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/mixin/XaeroMinimapRegistryMixin.java",
+      "sha256": "625f60faf34592ada2db74565421f8eb980b0c9e803cef2d3984ba2f79d423a7",
+      "bytes": 940
+    },
+    {
+      "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/mixin/XaeroWorldRefreshMixin.java",
+      "sha256": "ededef97db547cd22c039d3d5af021b2bc1b35d30326b0e7818e2944ff9b0f53",
+      "bytes": 1086
+    },
+    {
+      "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/mixin/XaeroWorldRegistryMixin.java",
+      "sha256": "a982fdf2b94cd460226efa575467b53be6797cccb17dd5031ad5681849b45dd1",
+      "bytes": 761
+    },
+    {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/PersonalQuestPolicy.java",
       "sha256": "452ac68e498caedce6e286cda00f331de906d96221080eb81d34f958791fd295",
       "bytes": 1843
@@ -3233,13 +3278,13 @@
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/RegionMapPayload.java",
-      "sha256": "1cbdf19cde801b13544ff1c682c36a8b5f570fb7b22879bad71c47e4324563e6",
-      "bytes": 4757
+      "sha256": "a4704282dc9bb05c367a1b50d83214d9128cbb6b7e0c93724b833a19bbd368a1",
+      "bytes": 4791
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/RegionPolicy.java",
-      "sha256": "2659ced62ff6e4ae580379a6231e21015aa62c6e1aa9782e4b974ce5466cbcb5",
-      "bytes": 8764
+      "sha256": "2b140cbe1c9f63e6d87638c4bb26676e4d9a3cf0758ee47954c435813f9dd7cc",
+      "bytes": 11436
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/RegionWeightedFeatures.java",
@@ -3293,8 +3338,8 @@
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ServerMenuGuide.java",
-      "sha256": "93453b264ef4e819c7aed42ccb2952be5e3684cff9a9d0f486dd81645be654a6",
-      "bytes": 5222
+      "sha256": "344ceb50d662f9ad49b575d04707ea6a84d2529b0fd43e2e831faabcad2246e1",
+      "bytes": 5367
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ServerMenuLogic.java",
@@ -3318,8 +3363,8 @@
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ServerPairEmotes.java",
-      "sha256": "92177ac038caa97cb9ef50b3688c66937e940e956922467172608a302f36723d",
-      "bytes": 5634
+      "sha256": "2e766f205eac91f83257f6954581297a1c308217c1a4c3d21e720d176b952a88",
+      "bytes": 5915
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ServerSettings.java",
@@ -3383,13 +3428,13 @@
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/TerritoryPermissions.java",
-      "sha256": "75f50459b906a41720abfb7b64e23a11e60404b74891786bac772c7d17fb93bc",
-      "bytes": 4279
+      "sha256": "27a0165e6dbfa1337e232b92749291cf22870a4bc8f0d6d38993c34e7dfbdbd4",
+      "bytes": 4469
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/TerritoryProtection.java",
-      "sha256": "e75d4654b779043460b726f752c765e3951259e2a55a031ae64abb0f4b574f08",
-      "bytes": 17587
+      "sha256": "b0274f2aac4eb08823d14a25ea7149a9e97669ff34bd95bd493f3a06e408bbcd",
+      "bytes": 18436
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/TerritoryProtectionProbe.java",
@@ -3413,8 +3458,8 @@
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/WorldAtlas.java",
-      "sha256": "39160649c08ca1bace3cd3797dba0dab746264f94a1a095a2e7b3ca083eead63",
-      "bytes": 3060
+      "sha256": "725986eec737a27d7224c7e9e155ea59ccca21a9ae0f8b266f30479eba797b2e",
+      "bytes": 3445
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/WorldAtlasAsset.java",
@@ -3423,8 +3468,8 @@
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/WorldAtlasData.java",
-      "sha256": "8a0f497480f7f7d4bba201a6dd7fd7606aaec76309f5305f17b71c6c33616cb1",
-      "bytes": 1949
+      "sha256": "a2c7d2140272a42b9b050bab9acc3b08c2c1f22d937e17cd73904e416b14275f",
+      "bytes": 1971
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/WorldAtlasPayload.java",
@@ -3492,6 +3537,16 @@
       "bytes": 2930
     },
     {
+      "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/XaeroClanHighlighter.java",
+      "sha256": "b834eaa13525a7660ab8971eba9b6232c64429140a167050ecb6b8cc56cc6cc2",
+      "bytes": 7308
+    },
+    {
+      "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/XaeroClanMapOverlay.java",
+      "sha256": "f284f1d751a52b4653c5ed57e4fbf1e07f7839169a41ed1dc01a2e8d7e3861bd",
+      "bytes": 2803
+    },
+    {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/XaeroClanMinimapTracker.java",
       "sha256": "697325819bcb432a7bbe090fea50bad0d2f3874e9975bd8701529aace8a11f5e",
       "bytes": 1458
@@ -3503,8 +3558,8 @@
     },
     {
       "path": "minecraft/integration/neoforge/src/main/resources/animeoncraft.mixins.json",
-      "sha256": "5e1488334b71c640f06ce6cd2838fb91c9e26db84a952cf878ce5d6b6894238c",
-      "bytes": 1081
+      "sha256": "0a5baed8c752f5f52ea405a517a89b58eb042a90018bf332f33ddecdd8097654",
+      "bytes": 1238
     },
     {
       "path": "minecraft/integration/neoforge/src/main/resources/assets/animeoncraft/atlas/manifest.json",
@@ -3672,9 +3727,14 @@
       "bytes": 6796
     },
     {
+      "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/BetaPassCommandProbe.java",
+      "sha256": "ed0bb22b3ccc26b7f9bdb956f142d18da8c44afdf8a4d837687ba85896c7b2ae",
+      "bytes": 6200
+    },
+    {
       "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/BetaPassTest.java",
-      "sha256": "65b861d06870b568d082a26ad2a39455c7d7ff0ba3b2b735aa96957646d13400",
-      "bytes": 5565
+      "sha256": "564fe00a7e1f1b1caad47e655fa3d0b9c5b1e6381955a8e1242266dfa07491fa",
+      "bytes": 7383
     },
     {
       "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/BossRewardsTest.java",
@@ -3700,6 +3760,16 @@
       "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/ChatChannelsTest.java",
       "sha256": "1e351f15907593d67a491e4a83215ead37f09d89068ce65738e1034960d01283",
       "bytes": 2565
+    },
+    {
+      "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/ClanMarketProbe.java",
+      "sha256": "848e9d7bfa43253bfba23a73ffbea87c0aa3b344b37690c1d8a083b403eb69a2",
+      "bytes": 9391
+    },
+    {
+      "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/ClanMarketTest.java",
+      "sha256": "5168df27b2bbb8c42d9b11ff4368088ff7cde6fce863beedba661860f56d3583",
+      "bytes": 5929
     },
     {
       "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/ClanPositionsTest.java",
@@ -3822,9 +3892,19 @@
       "bytes": 4099
     },
     {
+      "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/XaeroClanHighlighterTest.java",
+      "sha256": "78d725b9735713fd9d7a581111d29a831b4b80256f40f7e9df7b4b81853adbee",
+      "bytes": 6650
+    },
+    {
       "path": "minecraft/integration/neoforge/src/test/resources/owner-beta-pass-fixture.dat",
       "sha256": "b104169730a000111c36d49158f138125ef8577e3fecba827911cebcbb732503",
       "bytes": 203
+    },
+    {
+      "path": "minecraft/integration/neoforge/src/test/resources/regions-markets.json",
+      "sha256": "a6f93e77317a44262dc4828ba16f88c1c3911b25bd7d1316e4909a0592d3f821",
+      "bytes": 77672
     },
     {
       "path": "minecraft/integration/neoforge/src/test/resources/regions-states.json",
@@ -6108,8 +6188,8 @@
     },
     {
       "path": "minecraft/modpack/profile.json",
-      "sha256": "6f7ee261b6054736f0f8caf0ff6f6a6d0bc88a3f29e86f297b34a0f36bc9d819",
-      "bytes": 145802
+      "sha256": "59544da9fe82e4053ff49b0c6fd5e8da97069e17060afd75aee1958aec63614a",
+      "bytes": 145801
     },
     {
       "path": "minecraft/modpack/quest-book/chapter_groups.snbt",
@@ -6223,8 +6303,8 @@
     },
     {
       "path": "minecraft/server/world-config/world-states.toml",
-      "sha256": "f503bbd5868566be4ad7eb8ab7c509cabdb61fde00e3b9dcf912569f1e4a0c2e",
-      "bytes": 61581
+      "sha256": "7649736259176b16634b0263451f060ee4ea7282b61ff90cb757fda10b34efb6",
+      "bytes": 62557
     },
     {
       "path": "minecraft/server/world-config/world.toml",
@@ -6323,8 +6403,8 @@
     },
     {
       "path": "package.json",
-      "sha256": "94a15ecc408587287c18eb644c1f4a3c21df6f342d96c9e454430d55908950a5",
-      "bytes": 5567
+      "sha256": "799e3ad6c646cb576e0c53d352770c1f6cb43dd4996637b3318ea216ad16a3ab",
+      "bytes": 5566
     },
     {
       "path": "packages/contracts/fixtures/clans-empty.json",
@@ -6373,8 +6453,8 @@
     },
     {
       "path": "packages/contracts/openapi/openapi.yaml",
-      "sha256": "da7664e2ef6d49859f969c659904607b8594f125a10b9d49d97e78b0a5de9ff2",
-      "bytes": 17136
+      "sha256": "e1f94044744182bc753161996e86dad587234b49d1b5af2f760ffd26aebb6fc4",
+      "bytes": 17144
     },
     {
       "path": "packages/contracts/package.json",
@@ -6413,8 +6493,8 @@
     },
     {
       "path": "packages/contracts/src/generated/api.ts",
-      "sha256": "3e4f104c07d8c587675cea4956552a08cd2d1f80a8724885f07f13231dcb593c",
-      "bytes": 20568
+      "sha256": "f3428eeed5cfae26cf62ab657ed91038db51cc93fbe34b160e40e74adeddb4aa",
+      "bytes": 20579
     },
     {
       "path": "packages/contracts/src/generated/auth.ts",
@@ -6438,8 +6518,8 @@
     },
     {
       "path": "packages/contracts/src/index.ts",
-      "sha256": "3e1cb7ae36a65a7e3888428d8ced010fb72f33b873f2394544c62d83dddcd314",
-      "bytes": 4608
+      "sha256": "d4fb194bcaf7e73a76212bfb22f7c4165d2d7b285f898c454e1f0cd359b713b0",
+      "bytes": 4619
     },
     {
       "path": "packages/contracts/test/contracts.test.ts",
@@ -6493,13 +6573,13 @@
     },
     {
       "path": "README.md",
-      "sha256": "b4d0eb7d769f477785c6ff8c16d3991507f800ad6c90863892fa673db9aebed2",
-      "bytes": 3848
+      "sha256": "8056919fd652598ae82af1d5df2c34cf3c6800792710007a6e6a56ca04f6f1db",
+      "bytes": 3850
     },
     {
       "path": "RELEASE_BUILD.json",
-      "sha256": "d72328dade3899476bc8e21d0bd25c698964ab48752c68e4cb1ba13052f11be0",
-      "bytes": 763
+      "sha256": "9be326eca0b767166cf2e08757be41e40516e11bdd53fe4c9877e2f20510e688",
+      "bytes": 769
     },
     {
       "path": "scripts/admin-https-smoke.mjs",
@@ -6957,6 +7037,11 @@
       "bytes": 1190
     },
     {
+      "path": "scripts/preview-clan-territories.ps1",
+      "sha256": "a36f8451c98e45ba2868cead4002f51da4e8627ca3200a9c6e5a55d9249f0fc6",
+      "bytes": 930
+    },
+    {
       "path": "scripts/preview-detailed-cosmetics.ps1",
       "sha256": "9f901da0f86fb9eb47468692a5b578ddc040f622da1db1ca37effc5761eab778",
       "bytes": 1545
@@ -7087,6 +7172,11 @@
       "bytes": 5394
     },
     {
+      "path": "scripts/test-beta-pass-commands.mjs",
+      "sha256": "36473d5e6c07f58a68bd87b9d9de0d96985bfee50de6b2af306fe32975654708",
+      "bytes": 6114
+    },
+    {
       "path": "scripts/test-beta-pass-offline.mjs",
       "sha256": "04081b83537c0416bbae4702a2be90daa497d8c161f822d317c9b5adffab704b",
       "bytes": 1172
@@ -7110,6 +7200,16 @@
       "path": "scripts/test-chat-spawn.mjs",
       "sha256": "1a1a8f06332579b888c76e88a6e28ba848175b65976361f5b55671cd60075d09",
       "bytes": 5988
+    },
+    {
+      "path": "scripts/test-clan-market-catalog.mjs",
+      "sha256": "01683afa6dc4132935cd3acf11e4fa62555eea98d1c11d155c98d9741a8ae510",
+      "bytes": 3494
+    },
+    {
+      "path": "scripts/test-clan-markets.mjs",
+      "sha256": "9422e88f6e8f978a825a5b177548f6eeb1c63f4f4be3eb3f5f1326ab7970743b",
+      "bytes": 6320
     },
     {
       "path": "scripts/test-client-map-defaults.mjs",
@@ -7168,8 +7268,8 @@
     },
     {
       "path": "scripts/test-ingame-atlas-client.mjs",
-      "sha256": "4f4346d2a6a17d26e2835d714660c86c6328d356e8d807a7e8169194989d41a1",
-      "bytes": 6539
+      "sha256": "366cd0ef12cbfb5dc31b8d13f51f99e3bc26bc3af259c9bee032740b396a3ff0",
+      "bytes": 7899
     },
     {
       "path": "scripts/test-installed-update.ps1",
@@ -7308,13 +7408,13 @@
     },
     {
       "path": "scripts/verify-local-installer.mjs",
-      "sha256": "264a1d3052bac83996dc51690ab3ea4cfe8783efcedd986da94dca010c6f1dad",
-      "bytes": 3936
+      "sha256": "6b389ea17b4d53803a7af2bf5112c9d9064ed73711b9fd1ed491a55d1fb673e8",
+      "bytes": 4037
     },
     {
       "path": "scripts/world-design/build-world-profile.py",
-      "sha256": "52415e02708e78aa2176a26195190193ad287c696f8fa330c1ec4a894e57ea19",
-      "bytes": 17130
+      "sha256": "6cd63f9b0a686f69f9a71abfdd283e53de8ae8bf48dd372bad9f6e1054e15eb4",
+      "bytes": 17660
     },
     {
       "path": "scripts/world-design/build-worldgen-pack.py",
@@ -7335,6 +7435,11 @@
       "path": "scripts/world-design/render-map.py",
       "sha256": "e45b6ab29d9244c7f66fe7a43104b3cbdeb7c8d658c3fef0f0b790daaad8b624",
       "bytes": 6374
+    },
+    {
+      "path": "scripts/world-design/render-sora-markets.py",
+      "sha256": "9c9b6cd2ee422c55a5ba845396691bdcafb701346ee7643da54fb51003f0e3d9",
+      "bytes": 3428
     },
     {
       "path": "scripts/world-design/render-worldgen-preview.py",
@@ -7382,6 +7487,6 @@
       "bytes": 504
     }
   ],
-  "version": "0.8.9",
-  "release_tag": "v0.8.9"
+  "version": "0.8.10",
+  "release_tag": "v0.8.10"
 }

@@ -75,6 +75,10 @@ record TerritoryPermissions(List<Territory> territories, List<Spawn> spawns, int
     /** Automation may operate inside one region, but cannot move blocks across its boundary. */
     boolean canMove(int fromX, int fromZ, int toX, int toZ) {
         return !spawn(fromX, fromZ) && !spawn(toX, toZ)
-            && Objects.equals(territory(fromX, fromZ), territory(toX, toZ));
+            && Objects.equals(movementKey(fromX, fromZ), movementKey(toX, toZ));
+    }
+    private String movementKey(int x,int z) {
+        var market=regions==null?null:regions.marketAt(x,z);
+        return market==null ? territory(x,z) : "#MARKET:"+market.code();
     }
 }

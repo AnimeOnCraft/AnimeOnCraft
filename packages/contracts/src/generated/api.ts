@@ -280,7 +280,7 @@ export interface components {
                 id: string;
                 display_name: string;
                 /** @enum {unknown} */
-                kind: "CORE" | "STATE" | "BORDERLAND" | "RIM" | "FRONTIER_SLOT" | "FRONTIER_WILD" | "SEA";
+                kind: "CORE" | "MARKET" | "STATE" | "BORDERLAND" | "RIM" | "FRONTIER_SLOT" | "FRONTIER_WILD" | "SEA";
                 clan: components["schemas"]["WorldClanRef"];
                 color: string | null;
                 polygon: components["schemas"]["WorldVec"][];

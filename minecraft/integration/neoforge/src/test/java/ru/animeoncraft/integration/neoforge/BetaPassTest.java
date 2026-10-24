@@ -9,6 +9,24 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BetaPassTest {
+    @Test void adminLevelsPreservePartialXpQuestsRewardsAndEquipment(){
+        var e=new BetaPassStore.Entry();e.reset(Instant.parse("2026-10-23T12:00:00Z").toEpochMilli());e.xp=165;
+        e.progress(new long[]{1234,2,3,4,5,1});e.dayClaims=2;e.weekClaims=4;assertTrue(e.claimReward(0));assertTrue(e.equip("TITLE","BETA_SCOUT"));
+        var daily=e.daily.clone();var weekly=e.weekly.clone();
+        assertEquals(3,e.addLevels(3));assertEquals(465,e.xp);assertEquals(4,BetaPass.level(e.xp));
+        assertEquals(1,e.rewards,"tiers become claimable, earned rewards are not replaced");assertEquals("BETA_SCOUT",e.equipped.get("TITLE"));
+        assertArrayEquals(daily,e.daily);assertArrayEquals(weekly,e.weekly);assertEquals(2,e.dayClaims);assertEquals(4,e.weekClaims);
+        assertEquals(6,e.addLevels(10));assertEquals(1000,e.xp);assertEquals(0,e.addLevels(1));assertEquals(1000,e.xp);
+        assertTrue(e.claimReward(9));assertFalse(e.claimReward(9));
+        for(int invalid:new int[]{-1,0,11,Integer.MAX_VALUE}){assertThrows(IllegalArgumentException.class,()->e.addLevels(invalid));assertEquals(1000,e.xp);}
+    }
+    @Test void offlineAdminGrantPersistsWithoutCreatingUnknownPlayersOrOpeningSeason(){
+        var store=new BetaPassStore();var id=UUID.randomUUID();var absent=UUID.randomUUID();assertNull(store.existingPlayer(absent));
+        var e=store.player(id);e.xp=950;store.open=false;assertEquals(1,e.addLevels(3));
+        var loaded=BetaPassStore.load(store.save(new CompoundTag(),null),null);
+        assertFalse(loaded.open);assertEquals(1000,loaded.existingPlayer(id).xp);assertEquals(0,loaded.existingPlayer(id).rewards);
+        assertNull(loaded.existingPlayer(absent));assertEquals(1,loaded.save(new CompoundTag(),null).getList("players",net.minecraft.nbt.Tag.TAG_COMPOUND).size());
+    }
     @Test void inactiveOfflineAndLagDoNotCreateUnlimitedActiveTime(){
         var clock=new BetaPass.ActivityClock(1);assertEquals(0,clock.advance(5_000_000_001L,false));assertEquals(5,clock.advance(10_000_000_001L,true));
         assertEquals(0,clock.advance(10_400_000_001L,false));assertEquals(0,clock.advance(10_800_000_001L,false));assertEquals(1,clock.advance(11_200_000_001L,false));

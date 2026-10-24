@@ -24,7 +24,7 @@ function clan(value: unknown): WorldClanRef | null {
   return ref;
 }
 
-export const REGION_KINDS = ['CORE', 'STATE', 'BORDERLAND', 'RIM', 'FRONTIER_SLOT', 'FRONTIER_WILD', 'SEA'] as const satisfies readonly WorldRegionKind[];
+export const REGION_KINDS = ['CORE', 'MARKET', 'STATE', 'BORDERLAND', 'RIM', 'FRONTIER_SLOT', 'FRONTIER_WILD', 'SEA'] as const satisfies readonly WorldRegionKind[];
 export const POINT_TYPES = ['CAPITAL', 'CLAN_CAPITAL', 'FORT', 'MINE', 'VILLAGE', 'PORT', 'BRIDGE', 'PASS', 'WATCHTOWER', 'RUINS', 'RESOURCE_SITE', 'OUTPOST', 'EVENT_ZONE', 'BOSS_LAIR'] as const satisfies readonly WorldPointType[];
 export const CAPTURE_STATES = ['NEUTRAL', 'CONTESTED', 'CAPTURING', 'CONTROLLED', 'PROTECTED', 'AVAILABLE'] as const satisfies readonly WorldCaptureState[];
 export const FAMILIES = ['FERROUS', 'NONFERROUS', 'PRECIOUS', 'ARCANE', 'TECH', 'TIMBER', 'AGRARIAN', 'ALCHEMY', 'MARINE'] as const satisfies readonly ResourceFamily[];

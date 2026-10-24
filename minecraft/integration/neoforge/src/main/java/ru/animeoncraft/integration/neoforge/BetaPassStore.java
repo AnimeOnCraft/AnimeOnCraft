@@ -23,6 +23,10 @@ final class BetaPassStore extends SavedData {
             if(weekQuest)weekClaims|=mask;else dayClaims|=mask;xp=Math.min(1000,xp+q.reward(weekQuest));return true;
         }
         boolean claimReward(int index){if(index<0||index>=10||BetaPass.level(xp)<index+1||(rewards&(1<<index))!=0)return false;rewards|=1<<index;return true;}
+        int addLevels(int levels){
+            if(levels<1||levels>10)throw new IllegalArgumentException("Grant between one and ten pass levels");
+            int before=BetaPass.level(xp);xp=Math.min(1000,xp+levels*100);return BetaPass.level(xp)-before;
+        }
         boolean owns(String code){var r=BetaPass.find(code);return r!=null&&(rewards&(1<<(r.level()-1)))!=0;}
         boolean equip(String slot,String code){if(!Set.of("HEAD","FACE","BELT","BACK","TITLE").contains(slot))return false;
             if(!code.isEmpty()){var r=BetaPass.find(code);if(!owns(code)||!BetaPass.slot(r).equals(slot))return false;equipped.put(slot,code);}else equipped.remove(slot);return true;
@@ -32,6 +36,7 @@ final class BetaPassStore extends SavedData {
     boolean open=true;
     static BetaPassStore get(MinecraftServer server){return server.overworld().getDataStorage().computeIfAbsent(new Factory<>(BetaPassStore::new,BetaPassStore::load),"animeoncraft-beta-rift-1");}
     Entry player(UUID id){return players.computeIfAbsent(id,key->new Entry());}
+    Entry existingPlayer(UUID id){return players.get(id);}
     static BetaPassStore load(CompoundTag tag,HolderLookup.Provider registries){var store=new BetaPassStore();store.open=!tag.contains("open")||tag.getBoolean("open");var list=tag.getList("players",Tag.TAG_COMPOUND);
         for(int i=0;i<list.size();i++){var row=list.getCompound(i);if(!row.hasUUID("uuid"))continue;var e=store.player(row.getUUID("uuid"));e.xp=Math.clamp(row.getInt("xp"),0,1000);e.day=row.getString("day");e.week=row.getString("week");e.dayClaims=row.getInt("dc")&63;e.weekClaims=row.getInt("wc")&63;e.rewards=row.getInt("rewards")&1023;
             var d=row.getLongArray("daily");var w=row.getLongArray("weekly");for(int j=0;j<6;j++){e.daily[j]=j<d.length?Math.clamp(d[j],0,BetaPass.QUESTS.get(j).daily()):0;e.weekly[j]=j<w.length?Math.clamp(w[j],0,BetaPass.QUESTS.get(j).daily()*7):0;}

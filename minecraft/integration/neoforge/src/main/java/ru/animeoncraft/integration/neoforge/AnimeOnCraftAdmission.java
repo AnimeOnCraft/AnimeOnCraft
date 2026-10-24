@@ -44,6 +44,9 @@ public final class AnimeOnCraftAdmission {
         events.addListener(WorldAtlas::login);
         events.addListener(WorldAtlas::tick);
         events.addListener(WorldAtlas::stopped);
+        events.addListener(ClanMarkets::register);
+        events.addListener(ClanMarkets::tick);
+        events.addListener(ClanMarkets::stopped);
         if(Boolean.getBoolean("animeoncraft.chatSpawnProbe"))events.addListener(ChatSpawnProbe::started);
         events.addListener(WarCommands::register);
         events.addListener(TerritoryCapture::tick);

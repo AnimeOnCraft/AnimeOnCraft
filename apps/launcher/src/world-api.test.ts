@@ -28,6 +28,11 @@ describe('world map API', () => {
     expect(parsed.regions[0]!.clan?.short_code).toBe('KITSUNE');
     expect(clanColor('KITSUNE')).toBe('#ff8a3d');
   });
+  it('accepts a clan market alongside its state with peaceful build rules',()=>{
+    const data=map();
+    const parsed=parseWorldMap({...data,regions:[...data.regions,{...data.regions[0],id:uuid(9),kind:'MARKET',display_name:'Торговый участок KITSUNE',pvp_policy:'OFF',polygon:[[35,-77],[59,-77],[59,-53],[35,-53]]}]});
+    expect(parsed.regions[1]).toMatchObject({kind:'MARKET',pvp_policy:'OFF',build_policy:'MEMBERS',clan:{short_code:'KITSUNE'}});
+  });
   it('reads the relief bounds and accepts servers without them', () => {
     expect(parseWorldMap(map()).relief).toBeNull();
     const bounds = { revision: '2', x0: -5500, z0: -5500, width_blocks: 11001, height_blocks: 11001 };

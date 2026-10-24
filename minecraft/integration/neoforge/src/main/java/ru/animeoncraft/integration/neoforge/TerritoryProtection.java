@@ -87,6 +87,19 @@ public final class TerritoryProtection {
     private static int spawnRadius = 16;
     /** Owner of a column under the active policy (clan code, {@link RegionPolicy#NOBODY} or null); null when protection is off. */
     static String ownerAt(int x, int z) { var current = policy; return current == null ? null : current.territory(x, z); }
+    private static RegionPolicy.Region marketAt(int x,int z) {
+        var current=policy;
+        return current==null||current.regions()==null ? null : current.regions().marketAt(x,z);
+    }
+    /** Markets belong to their original clan even when its distant state changes controller in a war. */
+    private static String controllerAt(int x,int z) {
+        var market=marketAt(x,z);
+        return market!=null ? market.clan() : ClanControlSync.owner(policy.territory(x,z));
+    }
+    private static String movementKeyAt(int x,int z) {
+        var market=marketAt(x,z);
+        return market!=null ? "#MARKET:"+market.code() : controllerAt(x,z);
+    }
     /** True while a states world is protected by the region catalog. */
     static boolean statesWorld() { var current = policy; return current != null && current.states(); }
     /** A newer region catalog arrived (server thread): swap the policy atomically. */
@@ -105,10 +118,10 @@ public final class TerritoryProtection {
         if (!active(level)) return false;
         if (!policy.protectedBlock(pos.getX(), pos.getZ())) return false;
         var identity = entity == null ? null : GameIdentity.PLAYERS.get(entity.getUUID());
-        String owner = ClanControlSync.owner(policy.territory(pos.getX(), pos.getZ()));
+        String owner = controllerAt(pos.getX(), pos.getZ());
         boolean spawn = policy.spawn(pos.getX(), pos.getZ());
         boolean operator = entity instanceof ServerPlayer player && player.hasPermissions(2);
-        boolean raid = !spawn && identity != null && WarWindows.canRaid(owner, identity.clan());
+        boolean raid = !spawn && marketAt(pos.getX(),pos.getZ())==null && identity != null && WarWindows.canRaid(owner, identity.clan());
         boolean allowed = identity != null && (operator || (ClanControlSync.ready() && !spawn && (owner == null || owner.equals(identity.clan()) || raid)));
         if(identity==null&&entity instanceof net.neoforged.neoforge.common.util.FakePlayer&&ClanControlSync.ready()&&!spawn){
             allowed=canConstructFrom(level,entity.blockPosition(),pos);
@@ -221,7 +234,7 @@ public final class TerritoryProtection {
         if(!state.is(Blocks.FIRE)&&!state.is(Blocks.SOUL_FIRE))return level.setBlock(pos,state,flags);
         if(!protectedPosition(level,pos))return level.setBlock(pos,state,flags);
         var identity=player==null?null:GameIdentity.PLAYERS.get(player.getUUID());
-        String owner=ClanControlSync.owner(policy.territory(pos.getX(),pos.getZ()));
+        String owner=controllerAt(pos.getX(),pos.getZ());
         boolean operator=player instanceof ServerPlayer p&&p.hasPermissions(2);
         if(policy.spawn(pos.getX(),pos.getZ())||identity==null||(!operator&&(!ClanControlSync.ready()||owner==null||!owner.equals(identity.clan()))))return false;
         var previous=ignition.get();ignition.set(new Ignition(level,pos.immutable()));
@@ -238,9 +251,9 @@ public final class TerritoryProtection {
     public static boolean canConstructFrom(LevelAccessor level,BlockPos source,BlockPos target){
         if(!active(level))return true;
         if(policy.spawn(target.getX(),target.getZ()))return false;
-        String owner=ClanControlSync.owner(policy.territory(target.getX(),target.getZ()));
+        String owner=controllerAt(target.getX(),target.getZ());
         if(owner==null)return true;
-        return ClanControlSync.ready()&&owner.equals(ClanControlSync.owner(policy.territory(source.getX(),source.getZ())));
+        return ClanControlSync.ready()&&java.util.Objects.equals(movementKeyAt(target.getX(),target.getZ()),movementKeyAt(source.getX(),source.getZ()));
     }
     static void registerSpellProtection(){
         if(!net.neoforged.fml.ModList.get().isLoaded("irons_spellbooks"))return;
@@ -258,10 +271,12 @@ public final class TerritoryProtection {
     }
     public static boolean hostilePlayerEffectDenied(Entity victim,Entity source){
         if(!(victim instanceof ServerPlayer target)||!(source instanceof ServerPlayer attacker))return false;
+        if(active(target.level())&&(marketAt(target.blockPosition().getX(),target.blockPosition().getZ())!=null
+            ||(attacker.level()==target.level()&&marketAt(attacker.blockPosition().getX(),attacker.blockPosition().getZ())!=null)))return true;
         var attackerIdentity=GameIdentity.PLAYERS.get(attacker.getUUID());var targetIdentity=GameIdentity.PLAYERS.get(target.getUUID());
         boolean friendly=attackerIdentity!=null&&targetIdentity!=null&&attackerIdentity.clan()!=null&&attackerIdentity.clan().equals(targetIdentity.clan());
         return friendly||denied(target.level(),attacker,target.blockPosition());
     }
     private static boolean move(BlockPos from, BlockPos to) { return !policy.spawn(from.getX(),from.getZ()) && !policy.spawn(to.getX(),to.getZ())
-        && java.util.Objects.equals(ClanControlSync.owner(policy.territory(from.getX(),from.getZ())),ClanControlSync.owner(policy.territory(to.getX(),to.getZ()))); }
+        && java.util.Objects.equals(movementKeyAt(from.getX(),from.getZ()),movementKeyAt(to.getX(),to.getZ())); }
 }

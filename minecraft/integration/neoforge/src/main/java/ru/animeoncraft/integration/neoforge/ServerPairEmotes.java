@@ -15,6 +15,7 @@ final class ServerPairEmotes {
     private ServerPairEmotes(){}
     static void request(EmotePairPayloads.Request request,IPayloadContext context){context.enqueueWork(()->{if(context.player() instanceof ServerPlayer p)request(p,request);});}
     private static void message(ServerPlayer p,String text){p.displayClientMessage(Component.literal(text),true);}
+    private static void message(ServerPlayer p,Component text){p.displayClientMessage(text,true);}
     private static void notice(ServerPlayer receiver,UUID sender,String name,String code,int ticks){if(receiver.connection.hasChannel(EmotePairPayloads.Notice.TYPE.id()))PacketDistributor.sendToPlayer(receiver,new EmotePairPayloads.Notice(sender,name,code,ticks));}
     private static boolean busy(UUID id){return incoming.containsKey(id)||incoming.values().stream().anyMatch(i->i.sender().equals(id));}
     private static boolean ready(ServerPlayer a,ServerPlayer b,String code){
@@ -31,7 +32,10 @@ final class ServerPairEmotes {
             var target=p.server.getPlayerList().getPlayer(r.target());
             if(target==null||!ready(p,target,r.code())||busy(p.getUUID())||busy(r.target())||partners.containsKey(p.getUUID())||partners.containsKey(r.target())){message(p,"Встаньте лицом друг к другу на расстоянии 1–1,8 блока. Оба игрока должны быть свободны.");return;}
             incoming.put(target.getUUID(),new Invitation(p.getUUID(),r.code(),now+EmotePairRules.INVITE_TICKS));notice(target,p.getUUID(),p.getGameProfile().getName(),r.code(),EmotePairRules.INVITE_TICKS);
-            message(target,p.getGameProfile().getName()+" предлагает «"+Emotes.find(r.code()).name()+"». Открой меню эмоций, чтобы принять.");message(p,"Приглашение отправлено на 10 секунд.");return;
+            message(target,Component.literal(p.getGameProfile().getName()+" предлагает «"+Emotes.find(r.code()).name()+"». Нажми [")
+                .append(Component.keybind("key.animeoncraft.emotes").withStyle(net.minecraft.ChatFormatting.YELLOW))
+                .append("] — меню эмоций, чтобы принять."));
+            message(p,"Приглашение отправлено на 10 секунд.");return;
         }
         var invite=incoming.get(p.getUUID());if(invite==null||!invite.sender().equals(r.target())||!invite.code().equals(r.code()))return;
         incoming.remove(p.getUUID());notice(p,invite.sender(),"","",0);var sender=p.server.getPlayerList().getPlayer(invite.sender());

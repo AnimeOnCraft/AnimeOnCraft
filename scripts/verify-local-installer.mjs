@@ -20,7 +20,8 @@ assert.ok(executable.includes(Buffer.from('x-aoc-launcher-version')),'Native tic
 const jar='minecraft/integration/neoforge/build/libs/animeoncraft-admission-0.3.0-friends-dev.jar',jarHash=hash(fs.readFileSync(jar));assert.equal(hash(fs.readFileSync(path.join(shipped,jar))),jarHash);assert.equal(config.admission_sha256,jarHash);
 const jarFiles=execFileSync('C:/Program Files/7-Zip/7z.exe',['l','-slt',path.join(shipped,jar)],{windowsHide:true,encoding:'utf8'});
 assert.ok(!/assets[/\\]animeoncraft[/\\]atlas[/\\][^\r\n]*\.(?:jpg|png)/i.test(jarFiles),'No map image in shipped JAR');
-assert.ok(!/WorldAtlasRaster|WorldAtlasOverview|XaeroAtlasWriterMixin|XaeroClanHighlighter/.test(jarFiles),'No image renderer or frozen map writer');
+assert.ok(!/WorldAtlasRaster|WorldAtlasOverview|XaeroAtlasWriterMixin/.test(jarFiles),'No image renderer or frozen map writer');
+assert.ok(/XaeroClanHighlighter/.test(jarFiles)&&/XaeroClanMapOverlay/.test(jarFiles),'Native clan boundaries included');
 const profile=fs.readFileSync(path.join(shipped,'minecraft/modpack/profile.json')),profileHash=hash(profile);assert.ok(executable.includes(Buffer.from(profileHash)),'Compiled pack must match shipped pack');assert.ok(JSON.parse(profile).pack_version.startsWith(version+'-'));
 const result={passed:true,version,local_only:true,published:false,checked_at:new Date().toISOString(),installer:candidate.installer.path,installer_bytes:bytes.length,installer_sha256:hash(bytes),bootstrap_files:files.length,payload_matches:true,bootstrap_matches:true,public_api_origin:publicConfig.api_origin,compiled_public_api_verified:true,compiled_profile_matches:true,native_xaero:true,map_image_absent:true,frozen_writer_absent:true,profile_sha256:profileHash,jar_sha256:jarHash,fixture};
 fs.writeFileSync(`.tools/local-installer-${version}-result.json`,JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result));

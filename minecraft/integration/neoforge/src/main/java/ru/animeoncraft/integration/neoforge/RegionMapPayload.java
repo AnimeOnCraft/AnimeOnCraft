@@ -66,7 +66,7 @@ record RegionMapPayload(List<Region> regions) implements CustomPacketPayload {
         for (var region : policy.regions()) {
             if (region.clan() == null || list.size() >= ClanCodes.MAX) continue;
             // A region taken in a war is painted in the controller's colour, like the old rectangles.
-            String owner = ClanControlSync.owner(region.clan());
+            String owner = region.market() ? region.clan() : ClanControlSync.owner(region.clan());
             int color = colors.getOrDefault(owner, region.color() < 0 ? 0x8F8A73 : region.color());
             list.add(new Region(region.clan(), owner, color, region.xs(), region.zs()));
         }

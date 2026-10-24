@@ -18,7 +18,7 @@ const urlFor=(value:string)=>{const url=new URL(value);url.pathname=`/${name}`;r
 const admin=new PrismaClient({adapter:new PrismaPg({connectionString:migrationUrl})});
 const backend=fileURLToPath(new URL('../',import.meta.url));let created=false;
 const minecraftOutbox=process.argv.slice(2);
-assert.ok(minecraftOutbox.length===0||(minecraftOutbox.length===1&&['--minecraft-outbox','--java-outbox'].includes(minecraftOutbox[0]!)));
+assert.ok(minecraftOutbox.length===0||(minecraftOutbox.length===1&&['--minecraft-outbox','--java-outbox','--world-catalog-only'].includes(minecraftOutbox[0]!)));
 function run(args:string[],extra:Record<string,string>){
   const result=spawnSync(process.execPath,args,{cwd:backend,env:{...process.env,...extra},encoding:'utf8',timeout:90000});
   if(result.status!==0)throw new Error(`Isolated gameplay verification failed: ${result.stdout}\n${result.stderr}`);
@@ -27,7 +27,9 @@ function run(args:string[],extra:Record<string,string>){
 try{
   await admin.$executeRawUnsafe(`CREATE DATABASE "${name}"`);created=true;
   run([path.join(backend,'node_modules/prisma/build/index.js'),'migrate','deploy'],{MIGRATION_DATABASE_URL:urlFor(migrationUrl)});
-  if(minecraftOutbox.length){
+  if(minecraftOutbox[0]==='--world-catalog-only'){
+    run(['--import','tsx','db/world-catalog-smoke.ts'],{DATABASE_URL:urlFor(runtimeUrl),AOC_GAMEPLAY_TEST_DATABASE:name});
+  }else if(minecraftOutbox.length){
     run(['--import','tsx','db/world-boss-gameplay.ts'],{DATABASE_URL:urlFor(runtimeUrl),AOC_GAMEPLAY_TEST_DATABASE:name,
       AOC_VERIFY_JAVA_OUTBOX:minecraftOutbox[0]==='--java-outbox'?'1':'0'});
   }else{

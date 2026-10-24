@@ -57,6 +57,43 @@ describe('world catalog', () => {
     expect(() => buildCatalog({ ...base, points: [{ ...site, resource: { family: 'URANIUM', tier: 2 } }] })).toThrow(/family/);
   });
 
+  it('gives every states clan one peaceful 24 by 24 market clear of Sora buildings and streets', async () => {
+    const catalog=await loadCatalog(fileURLToPath(new URL('../../../minecraft/server/world-config/world-states.toml',import.meta.url)));
+    const plots=catalog.regions.filter(r=>r.kind==='MARKET');
+    expect(plots.map(r=>r.clan_code).sort()).toEqual(catalog.regions.filter(r=>r.kind==='STATE').map(r=>r.clan_code).sort());
+    const layout=JSON.parse(await readFile(new URL('../../../minecraft/server/world-config/worldgen-pack/aoc/layout.json',import.meta.url),'utf8')) as {roads:Array<{code:string;points:[number,number][]}>};
+    const bearings=layout.roads.filter(r=>r.code.startsWith('road.main.')).map(r=>Math.atan2(r.points[0]![0],-r.points[0]![1]));
+    for(const plot of plots){
+      expect(plot).toMatchObject({pvp_policy:'OFF',build_policy:'MEMBERS',spawn:null,capital:null});
+      const xs=plot.polygon.map(p=>p[0]),zs=plot.polygon.map(p=>p[1]);
+      expect(Math.max(...xs)-Math.min(...xs)).toBe(24);expect(Math.max(...zs)-Math.min(...zs)).toBe(24);
+      for(let x=Math.min(...xs);x<Math.max(...xs);x++)for(let z=Math.min(...zs);z<Math.max(...zs);z++){
+        expect(Math.hypot(x+.5,z+.5)).toBeGreaterThan(37);expect(Math.hypot(x+.5,z+.5)).toBeLessThan(104);
+        expect(Math.abs(x)<=9&&z>=45&&z<=60).toBe(false); // gate hall including roof
+        for(const b of bearings){
+          if((x+.5)*Math.sin(b)-(z+.5)*Math.cos(b)>0)
+            expect(Math.abs((x+.5)*Math.cos(b)+(z+.5)*Math.sin(b))).toBeGreaterThan(6); // radial streets/lamps
+          const ex=Math.round(82*Math.sin(b)+13*Math.cos(b)),ez=Math.round(-82*Math.cos(b)+13*Math.sin(b));
+          expect(Math.abs(x-ex)<=5&&Math.abs(z-ez)<=5).toBe(false); // embassy roof
+        }
+      }
+    }
+  });
+
+  it('allows only tightly validated markets to overlap the protected core', () => {
+    const core={code:'core',name:'Sora',kind:'CORE',build:'NONE',pvp:'OFF',polygon:square(-100,-100,200)};
+    const state={code:'state.aa',name:'A',kind:'STATE',clan:'AA',polygon:square(1000,1000)};
+    const plot={code:'market.aa',name:'Market',kind:'MARKET',clan:'AA',build:'MEMBERS',pvp:'OFF',polygon:square(20,20,24)};
+    const make=(patch:Record<string,unknown>={},extra:unknown[]=[])=>buildCatalog({...base,regions:[core,state,{...plot,...patch},...extra]});
+    expect(make().regions).toHaveLength(3);
+    for(const patch of [{clan:'BB'},{build:'OPEN'},{pvp:'ON'},{spawn:{x:25,z:25}},{status:'RESERVED'},
+      {polygon:square(20,20,64)},{polygon:square(95,95,24)},{polygon:[[20,20],[44,20],[20,44]]}])
+      expect(()=>make(patch)).toThrow(/market/i);
+    expect(()=>make({},[{...plot,code:'market.duplicate',polygon:square(-60,-60,24)}])).toThrow(/duplicate market/i);
+    expect(()=>buildCatalog({...base,regions:[core,state,plot],points:[{code:'fort.market',name:'Fort',type:'FORT',x:25,z:25}]})).toThrow(/markets cannot/);
+    expect(()=>buildCatalog({...base,regions:[core,state,plot,{code:'open.overlap',name:'Open',kind:'BORDERLAND',polygon:square(25,25,8)}]})).toThrow(/overlap/);
+  });
+
   it('geometry helpers treat touching edges as non-overlapping and containment as overlap', () => {
     expect(polygonsOverlap(square(0, 0), square(100, 0))).toBe(false);
     expect(polygonsOverlap(square(0, 0), square(10, 10, 20))).toBe(true);

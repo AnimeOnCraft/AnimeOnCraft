@@ -143,6 +143,36 @@ tasks.register<JavaExec>("deliverOutboxFixture") {
     mainClass.set("ru.animeoncraft.integration.neoforge.OutboxHttpDeliveryFixture")
 }
 
+tasks.register<Jar>("betaPassCommandProbeJar") {
+    archiveClassifier.set("beta-pass-command-probe")
+    dependsOn(tasks.testClasses)
+    from(sourceSets.main.get().output) { exclude("META-INF/neoforge.mods.toml") }
+    from(sourceSets.test.get().output) { include("**/BetaPassCommandProbe*.class") }
+    into("META-INF") {
+        from(resources.text.fromString(file("src/main/resources/META-INF/neoforge.mods.toml").readText()+"\n"+"""
+            [[mods]]
+            modId="aocbetapasscommandprobe"
+            version="1.0.0"
+            displayName="AOC disposable beta pass command probe"
+        """.trimIndent())) { rename { "neoforge.mods.toml" } }
+    }
+}
+
+tasks.register<Jar>("clanMarketProbeJar") {
+    archiveClassifier.set("clan-market-probe")
+    dependsOn(tasks.testClasses)
+    from(sourceSets.main.get().output) { exclude("META-INF/neoforge.mods.toml") }
+    from(sourceSets.test.get().output) { include("**/ClanMarketProbe*.class") }
+    into("META-INF") {
+        from(resources.text.fromString(file("src/main/resources/META-INF/neoforge.mods.toml").readText()+"\n"+"""
+            [[mods]]
+            modId="aocmarketprobe"
+            version="1.0.0"
+            displayName="AOC disposable clan market protection probe"
+        """.trimIndent())) { rename { "neoforge.mods.toml" } }
+    }
+}
+
 tasks.register<Jar>("adventureClientProbeJar") {
     archiveClassifier.set("adventure-client-probe")
     dependsOn(tasks.testClasses)

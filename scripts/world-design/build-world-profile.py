@@ -100,6 +100,13 @@ for slot in BLUEPRINT["frontier_slots"]:
     regions.append(dict(code=f"frontier.slot.{letter}", name=f"Свободные земли {letter.upper()}", kind="FRONTIER_SLOT", status="RESERVED",
                         pvp="ON", build="OPEN", polygon=circle(slot["x"], slot["z"], slot["radius"], 48)))
 
+# Equal 24×24 plots between Sora's five radial streets, clear of the plaza, gate hall and walls.
+# Only rights/overlays change in an existing world: never rebuild Sora or erase player blocks.
+for clan, row in clans.items():
+    sx, sz = xz(80, row["bearing"] + 180 / len(clans))
+    regions.append(dict(code=f"market.{clan.lower()}", name=f"Торговый участок {clan}", kind="MARKET", clan=clan,
+                        pvp="OFF", build="MEMBERS", polygon=[(sx-12,sz-12),(sx+12,sz-12),(sx+12,sz+12),(sx-12,sz+12)]))
+
 
 def region_of(x: int, z: int) -> str | None:
     for region in regions:

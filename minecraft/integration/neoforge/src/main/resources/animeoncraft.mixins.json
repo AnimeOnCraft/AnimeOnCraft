@@ -7,7 +7,12 @@
     "PlayerSkinMixin",
     "PlayerTitleMixin",
     "CapeLayerMixin",
-    "PlayerEmoteMixin"
+    "PlayerEmoteMixin",
+    "XaeroWorldRegistryMixin",
+    "XaeroMinimapRegistryMixin",
+    "XaeroWorldRefreshMixin",
+    "XaeroMinimapRefreshMixin",
+    "XaeroClanMapScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

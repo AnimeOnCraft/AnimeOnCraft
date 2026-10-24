@@ -8,7 +8,7 @@ import { createHash } from 'node:crypto';
 import { parseRules, type CaptureRules } from '../capture/rules.js';
 
 export type Vec2 = [number, number];
-export type RegionKind = 'CORE' | 'STATE' | 'BORDERLAND' | 'RIM' | 'FRONTIER_SLOT' | 'FRONTIER_WILD' | 'SEA';
+export type RegionKind = 'CORE' | 'MARKET' | 'STATE' | 'BORDERLAND' | 'RIM' | 'FRONTIER_SLOT' | 'FRONTIER_WILD' | 'SEA';
 export type PointType = 'CAPITAL' | 'CLAN_CAPITAL' | 'FORT' | 'MINE' | 'VILLAGE' | 'PORT' | 'BRIDGE' | 'PASS'
   | 'WATCHTOWER' | 'RUINS' | 'RESOURCE_SITE' | 'OUTPOST' | 'EVENT_ZONE' | 'BOSS_LAIR';
 export type Family = 'FERROUS' | 'NONFERROUS' | 'PRECIOUS' | 'ARCANE' | 'TECH' | 'TIMBER' | 'AGRARIAN' | 'ALCHEMY' | 'MARINE';
@@ -42,7 +42,7 @@ export interface WorldCatalog {
 
 const CODE = /^[a-z0-9][a-z0-9._-]{1,63}$/, CLAN = /^[A-Z0-9]{2,12}$/, ICON = /^[a-z0-9_-]{1,32}$/, HEX = /^[0-9A-F]{6}$/;
 const LIMIT = 30_000_000;
-const REGION_KINDS: RegionKind[] = ['CORE', 'STATE', 'BORDERLAND', 'RIM', 'FRONTIER_SLOT', 'FRONTIER_WILD', 'SEA'];
+const REGION_KINDS: RegionKind[] = ['CORE', 'MARKET', 'STATE', 'BORDERLAND', 'RIM', 'FRONTIER_SLOT', 'FRONTIER_WILD', 'SEA'];
 const POINT_TYPES: PointType[] = ['CAPITAL', 'CLAN_CAPITAL', 'FORT', 'MINE', 'VILLAGE', 'PORT', 'BRIDGE', 'PASS', 'WATCHTOWER',
   'RUINS', 'RESOURCE_SITE', 'OUTPOST', 'EVENT_ZONE', 'BOSS_LAIR'];
 const FAMILIES: Family[] = ['FERROUS', 'NONFERROUS', 'PRECIOUS', 'ARCANE', 'TECH', 'TIMBER', 'AGRARIAN', 'ALCHEMY', 'MARINE'];
@@ -254,6 +254,21 @@ export function polygonsOverlap(a: Vec2[], b: Vec2[]): boolean {
     || JSON.stringify([...a].sort()) === JSON.stringify([...b].sort());
 }
 
+/** Markets are small rectangular build plots inside a protected, peaceful core; never another state. */
+function marketInsideCore(market: CatalogRegion, core: CatalogRegion): boolean {
+  if (market.kind !== 'MARKET' || core.kind !== 'CORE' || core.clan_code !== null
+    || core.build_policy !== 'NONE' || core.pvp_policy !== 'OFF' || core.status !== 'ACTIVE') return false;
+  const xs = market.polygon.map(p => p[0]), zs = market.polygon.map(p => p[1]);
+  const x0 = Math.min(...xs), x1 = Math.max(...xs), z0 = Math.min(...zs), z1 = Math.max(...zs);
+  if (market.polygon.length !== 4 || x1 - x0 < 8 || x1 - x0 > 32 || z1 - z0 < 8 || z1 - z0 > 32
+    || new Set(market.polygon.map(p => p.join(','))).size !== 4
+    || market.polygon.some(([x,z]) => ![x0,x1].includes(x) || ![z0,z1].includes(z))) return false;
+  // All block columns, including the perimeter: a concave core cannot leave an unprotected gap.
+  for (let x = x0; x < x1; x++) for (let z = z0; z < z1; z++)
+    if (!insidePolygon(core.polygon, x, z)) return false;
+  return true;
+}
+
 export function validateCatalog(catalog: WorldCatalog): void {
   const unique = (codes: string[], what: string) => { const seen = new Set<string>(); for (const c of codes) { if (seen.has(c)) fail(`duplicate ${what} code ${c}`); seen.add(c); } };
   unique(catalog.regions.map(r => r.code), 'region'); unique(catalog.points.map(p => p.code), 'point');
@@ -268,16 +283,31 @@ export function validateCatalog(catalog: WorldCatalog): void {
       if (properCross(region.polygon[i]!, region.polygon[i + 1]!, region.polygon[j]!, region.polygon[(j + 1) % region.polygon.length]!)) fail(`${region.code}: polygon self-intersects`);
     }
     if (region.kind === 'STATE' && !region.clan_code) fail(`${region.code}: a STATE region needs a clan`);
-    if (region.clan_code && !['STATE', 'FRONTIER_SLOT'].includes(region.kind)) fail(`${region.code}: only STATE or FRONTIER_SLOT regions belong to a clan`);
-    if (region.clan_code && region.status === 'ACTIVE') { if (clans.has(region.clan_code)) fail(`clan ${region.clan_code} has two active regions`); clans.add(region.clan_code); }
+    if (region.clan_code && !['STATE', 'FRONTIER_SLOT', 'MARKET'].includes(region.kind)) fail(`${region.code}: only STATE, FRONTIER_SLOT or MARKET regions belong to a clan`);
+    if (region.clan_code && region.status === 'ACTIVE' && region.kind !== 'MARKET') { if (clans.has(region.clan_code)) fail(`clan ${region.clan_code} has two active regions`); clans.add(region.clan_code); }
     for (const [label, spot] of [['capital', region.capital], ['spawn', region.spawn]] as const)
       if (spot && !insidePolygon(region.polygon, spot.x, spot.z)) fail(`${region.code}: ${label} lies outside the region`);
   }
   const live = catalog.regions.filter(r => r.status !== 'ARCHIVED');
+  const marketClans = new Set<string>();
+  for (const market of live.filter(r => r.kind === 'MARKET')) {
+    if (!market.clan_code || !clans.has(market.clan_code) || market.status !== 'ACTIVE'
+      || market.build_policy !== 'MEMBERS' || market.pvp_policy !== 'OFF' || market.capital || market.spawn)
+      fail(`${market.code}: market needs an active clan territory, MEMBERS build, OFF PvP and no capital/spawn`);
+    const marketClan=market.clan_code ?? fail(`${market.code}: market needs a clan`);
+    if (marketClans.has(marketClan)) fail(`${market.code}: duplicate market for clan ${marketClan}`);
+    marketClans.add(marketClan);
+    if (live.filter(core => marketInsideCore(market, core)).length !== 1)
+      fail(`${market.code}: market must be an 8..32 block rectangle wholly inside one protected core`);
+  }
   for (let i = 0; i < live.length; i++) for (let j = 0; j < i; j++)
-    if (polygonsOverlap(live[i]!.polygon, live[j]!.polygon)) fail(`regions ${live[j]!.code} and ${live[i]!.code} overlap`);
+    if (polygonsOverlap(live[i]!.polygon, live[j]!.polygon)
+      && !marketInsideCore(live[i]!, live[j]!) && !marketInsideCore(live[j]!, live[i]!))
+      fail(`regions ${live[j]!.code} and ${live[i]!.code} overlap`);
   const regionByCode = new Map(catalog.regions.map(r => [r.code, r]));
   for (const point of catalog.points) {
+    if (point.capturable && live.some(r => r.kind === 'MARKET' && insidePolygon(r.polygon,point.x,point.z)))
+      fail(`${point.code}: markets cannot contain capturable points`);
     if (point.region_code === null) {
       if (point.type !== 'CAPITAL' && live.some(r => r.kind === 'STATE' && insidePolygon(r.polygon, point.x, point.z)))
         fail(`${point.code}: lies inside a state but declares no region`);

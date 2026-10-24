@@ -30,6 +30,11 @@ final class WorldAtlas {
             };
             points.add(new WorldAtlasData.Point(poi.code(),poi.name(),poi.type(),poi.x(),site != null && site.y() != null ? site.y() : 80,poi.z(),poi.radius(),color,owner == null ? "" : owner,site == null ? "" : site.state()));
         }
+        if (regions!=null) for (var plot : regions.regions()) if (plot.market()) {
+            points.add(new WorldAtlasData.Point(plot.code(),"Торговый участок "+plot.clan(),"MARKET",
+                (plot.minX()+plot.maxX())/2,80,(plot.minZ()+plot.maxZ())/2,(plot.maxX()-plot.minX())/2,
+                plot.color()<0?0xAAAAAA:plot.color(),plot.clan(),""));
+        }
         return new WorldAtlasData(layout.worldId(),WorldAtlasAsset.BOUNDS.sha256(),points);
     }
     private static void send(ServerPlayer player, WorldAtlasData data) {

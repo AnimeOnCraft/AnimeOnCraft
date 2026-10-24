@@ -297,7 +297,7 @@ components:
             properties:
               id: { type: string, format: uuid }
               display_name: { type: string }
-              kind: { enum: [CORE, STATE, BORDERLAND, RIM, FRONTIER_SLOT, FRONTIER_WILD, SEA] }
+              kind: { enum: [CORE, MARKET, STATE, BORDERLAND, RIM, FRONTIER_SLOT, FRONTIER_WILD, SEA] }
               clan: { $ref: '#/components/schemas/WorldClanRef' }
               color: { type: [string, 'null'], pattern: '^[0-9A-F]{6}$' }
               polygon: { type: array, minItems: 3, items: { $ref: '#/components/schemas/WorldVec' } }

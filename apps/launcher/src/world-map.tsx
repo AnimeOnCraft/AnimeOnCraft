@@ -25,7 +25,7 @@ export const FAMILY_LABELS: Record<NonNullable<WorldPoint['resource']>['family']
   TIMBER: 'Древесина', AGRARIAN: 'Фермы', ALCHEMY: 'Алхимия', MARINE: 'Море',
 };
 const REGION_KIND_LABELS: Record<WorldMapResponse['regions'][number]['kind'], string> = {
-  CORE: 'Центр', STATE: 'Государство', BORDERLAND: 'Пограничье', RIM: 'Внешний вал', FRONTIER_SLOT: 'Свободные земли', FRONTIER_WILD: 'Свободные земли', SEA: 'Море',
+  CORE: 'Центр', MARKET: 'Клановый рынок', STATE: 'Государство', BORDERLAND: 'Пограничье', RIM: 'Внешний вал', FRONTIER_SLOT: 'Свободные земли', FRONTIER_WILD: 'Свободные земли', SEA: 'Море',
 };
 export const EVENT_LABELS: Record<WorldEvent['kind'], string> = {
   DECLARED: 'объявил захват', CAPTURED: 'захватил', RENEWED: 'продлил аренду', DEFENDED: 'отстоял', NEUTRALIZED: 'точка снова ничья',

@@ -92,6 +92,13 @@ try {
     // Stage 8: a frontier slot of the states world goes to a new clan and back; re-imports keep the assignment.
     const states = await loadCatalog(fileURLToPath(new URL('../../../minecraft/server/world-config/world-states.toml', import.meta.url)));
     await applyCatalog(tx, states, { activate: true, reason: 'fixture' });
+    const markets=(await readWorldMap(tx))!.regions.filter(r=>r.kind==='MARKET');
+    assert.equal(markets.length,5,'one market per existing clan alongside its state');
+    assert.ok(markets.every(r=>r.clan&&r.pvp_policy==='OFF'&&r.build_policy==='MEMBERS'),'peaceful clan build rules');
+    const serverMarkets=(await readServerRegions(tx))!.regions.filter(r=>r.kind==='MARKET');
+    assert.equal(serverMarkets.length,5,'game server receives the same five build plots');
+    assert.deepEqual(serverMarkets.map(r=>r.clan_code).sort(),Object.keys(colors).sort());
+    assert.equal((await applyCatalog(tx,states,{activate:true,reason:'market no-op'})).changed,false,'market import is idempotent');
     const kitsune = (await tx.$queryRaw<Array<{ id: string }>>`INSERT INTO clans(name,short_code,code_key,enabled,color) VALUES ('Kitsune','KITSUNE','KITSUNE',true,'FF8A3D') RETURNING id`)[0]!.id;
     const free = (await listSlots(tx)).items;
     assert.equal(free.length, 10); assert.ok(free.every(s => s.status === 'RESERVED' && !s.clan));

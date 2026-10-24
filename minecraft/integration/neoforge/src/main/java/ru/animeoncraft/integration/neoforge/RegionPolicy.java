@@ -26,7 +26,8 @@ final class RegionPolicy {
     private static final int LIMIT = 100_000;
 
     /** {@code clan} is the region's clan (null for neutral land), {@code color} its map colour 0xRRGGBB or -1. */
-    record Region(String code, String owner, String clan, int color, int[] xs, int[] zs, int minX, int minZ, int maxX, int maxZ, Spawn spawn) {
+    record Region(String code, String owner, String clan, int color, int[] xs, int[] zs, int minX, int minZ, int maxX, int maxZ, Spawn spawn, String kind, String pvp) {
+        boolean market() { return "MARKET".equals(kind); }
         /** Even-odd rule at the column centre (x + 0.5, z + 0.5). */
         boolean contains(int x, int z) {
             if (x < minX || x > maxX || z < minZ || z > maxZ) return false;
@@ -57,6 +58,10 @@ final class RegionPolicy {
     String worldId() { return worldId; }
     List<Region> regions() { return regions; }
     List<Spawn> spawns() { return regions.stream().map(Region::spawn).filter(java.util.Objects::nonNull).toList(); }
+    Region marketAt(int x, int z) {
+        for (var region : regions) if (region.market() && region.contains(x,z)) return region;
+        return null;
+    }
 
     /** Clan code, {@link #NOBODY}, or null for unprotected land. */
     String ownerAt(int x, int z) {
@@ -72,8 +77,10 @@ final class RegionPolicy {
         String owner = MIXED.equals(cached) ? exact(x, z) : cached;
         return OPEN.equals(owner) ? null : owner;
     }
-    /** Regions do not overlap (the catalog import rejects it); if they ever do, the most restrictive owner wins. */
+    /** Validated markets override only their neutral parent core; ordinary overlapping claims never gain rights. */
     private String exact(int x, int z) {
+        var market = marketAt(x,z);
+        if (market != null) return market.owner();
         String found = OPEN;
         for (var region : regions) if (region.contains(x, z)) {
             if (!OPEN.equals(region.owner())) return region.owner();
@@ -126,10 +133,44 @@ final class RegionPolicy {
                 if (!hex.matches("[0-9A-Fa-f]{6}")) throw new IllegalArgumentException("Invalid colour of " + code);
                 color = Integer.parseInt(hex, 16);
             }
-            regions.add(new Region(code, owner, clan, color, xs, zs, minX, minZ, maxX, maxZ, spawn));
+            String kind = row.has("kind") ? row.get("kind").getAsString() : "";
+            String pvp = row.has("pvp_policy") ? row.get("pvp_policy").getAsString() : "";
+            regions.add(new Region(code, owner, clan, color, xs, zs, minX, minZ, maxX, maxZ, spawn, kind, pvp));
         }
+        if (regions.stream().map(Region::code).distinct().count() != regions.size()) throw new IllegalArgumentException("Duplicate region");
+        validateMarkets(regions);
         if (regions.stream().allMatch(r -> OPEN.equals(r.owner()))) throw new IllegalArgumentException("Catalog protects nothing");
         return new RegionPolicy(revision, worldId, regions);
+    }
+
+    /** The only overlap exception: a small peaceful clan plot wholly inside one protected neutral core. */
+    private static void validateMarkets(List<Region> regions) {
+        var clans = new java.util.HashSet<String>();
+        for (var plot : regions) {
+            if (!plot.market()) continue;
+            if (!"OFF".equals(plot.pvp()) || plot.clan() == null || !plot.clan().equals(plot.owner()) || plot.spawn() != null
+                || plot.xs().length != 4 || plot.maxX()-plot.minX()<8 || plot.maxX()-plot.minX()>32
+                || plot.maxZ()-plot.minZ()<8 || plot.maxZ()-plot.minZ()>32 || !clans.add(plot.clan()))
+                throw new IllegalArgumentException("Invalid market " + plot.code());
+            var corners = new java.util.HashSet<String>();
+            for (int i=0;i<4;i++) {
+                int x=plot.xs()[i], z=plot.zs()[i];
+                if ((x!=plot.minX()&&x!=plot.maxX()) || (z!=plot.minZ()&&z!=plot.maxZ())) throw new IllegalArgumentException("Market must be rectangular");
+                corners.add(x+":"+z);
+            }
+            if (corners.size()!=4) throw new IllegalArgumentException("Invalid market corners");
+            // Reject crossed/diagonal corner order as well as malformed rectangles.
+            for (int x=plot.minX();x<plot.maxX();x++) for (int z=plot.minZ();z<plot.maxZ();z++) {
+                if (!plot.contains(x,z)) throw new IllegalArgumentException("Invalid market rectangle");
+                int cores=0;
+                for (var region : regions) if (region!=plot && region.contains(x,z)) {
+                    if (!"CORE".equals(region.kind()) || region.clan()!=null || !NOBODY.equals(region.owner()) || !"OFF".equals(region.pvp()))
+                        throw new IllegalArgumentException("Market overlaps another region");
+                    cores++;
+                }
+                if (cores!=1) throw new IllegalArgumentException("Market outside protected core");
+            }
+        }
     }
     private static int coordinate(int value) {
         if (Math.abs(value) > LIMIT) throw new IllegalArgumentException("Coordinate out of range");

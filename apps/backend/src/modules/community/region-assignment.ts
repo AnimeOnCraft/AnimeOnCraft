@@ -40,7 +40,7 @@ export async function assignSlot(tx: Tx, id: string, clanId: string, command: Co
     SELECT id,code_key,archived_at,enabled FROM clans WHERE id=${clanId}::uuid FOR UPDATE`)[0];
   if (!clan || clan.archived_at || !clan.enabled) throw new HttpException('Clan is not active', 409);
   const held = await tx.$queryRaw<Array<{ code: string }>>`SELECT r.code FROM world_regions r JOIN world_catalog w ON w.world_id=r.world_id AND w.active
-    WHERE r.clan_id=${clanId}::uuid AND r.status='ACTIVE'`;
+    WHERE r.clan_id=${clanId}::uuid AND r.status='ACTIVE' AND r.kind <> 'MARKET'`;
   if (held.length) throw new HttpException('Clan already holds a region', 409);
   await tx.$executeRaw`UPDATE world_regions SET status='ACTIVE',clan_id=${clanId}::uuid,assignment='ADMIN',pvp_policy='WAR_ONLY',build_policy='MEMBERS',
       spawn_x=COALESCE(spawn_x,capital_x),spawn_z=COALESCE(spawn_z,capital_z),version=version+1,updated_at=now() WHERE id=${id}::uuid`;

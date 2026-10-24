@@ -53,7 +53,7 @@ export interface CompatibilityResponse {
   reason: 'SKELETON_ONLY';
 }
 
-export type WorldRegionKind = 'CORE' | 'STATE' | 'BORDERLAND' | 'RIM' | 'FRONTIER_SLOT' | 'FRONTIER_WILD' | 'SEA';
+export type WorldRegionKind = 'CORE' | 'MARKET' | 'STATE' | 'BORDERLAND' | 'RIM' | 'FRONTIER_SLOT' | 'FRONTIER_WILD' | 'SEA';
 export type WorldPointType = 'CAPITAL' | 'CLAN_CAPITAL' | 'FORT' | 'MINE' | 'VILLAGE' | 'PORT' | 'BRIDGE' | 'PASS'
   | 'WATCHTOWER' | 'RUINS' | 'RESOURCE_SITE' | 'OUTPOST' | 'EVENT_ZONE' | 'BOSS_LAIR';
 export type WorldCaptureState = 'NEUTRAL' | 'CONTESTED' | 'CAPTURING' | 'CONTROLLED' | 'PROTECTED' | 'AVAILABLE';
