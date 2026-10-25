@@ -1,5 +1,7 @@
 import {applyBalanceConfig} from './game-balance.mjs';
 import {applyClientMapDefaults} from './client-map-defaults.mjs';
+import {applyLoadingTheme,LOADING_JAR} from './client-loading-theme.mjs';
+import {prepareTitleMedia} from './client-title-media.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync,mkdirSync,existsSync,renameSync} from 'node:fs';
 import path from 'node:path';
@@ -12,6 +14,8 @@ const root=fileURLToPath(new URL('../',import.meta.url));
 const runtime=process.env.AOC_CLIENT_DATA_ROOT,java=process.env.AOC_CLIENT_JAVA;
 assert.ok(path.isAbsolute(runtime)&&path.isAbsolute(java)&&existsSync(java),'Client context missing');
 const bundle=JSON.parse(readFileSync(path.join(root,'bootstrap.json'),'utf8'));
+const titleMedia=JSON.parse(readFileSync(path.join(root,'title-media.json'),'utf8'));
+assert.equal(titleMedia.sha256,bundle.title_assets_sha256,'Bundled title media mismatch');
 const profileBytes=readFileSync(path.join(root,'minecraft/modpack/profile.json'));
 const profile=JSON.parse(profileBytes);
 mkdirSync(path.join(runtime,'client/mods'),{recursive:true});mkdirSync(path.join(runtime,'tmp'),{recursive:true});
@@ -28,6 +32,8 @@ const source=path.join(root,'minecraft/integration/neoforge/build/libs',own),tar
 assert.ok(matches(source,'sha256',bundle.admission_sha256),'Bundled integration checksum mismatch');
 if(!matches(target,'sha256',bundle.admission_sha256))atomicWrite(target,readFileSync(source));
 const options=path.join(runtime,'client/options.txt');if(!existsSync(options))atomicWrite(options,'lang:ru_ru\nrenderDistance:8\nsimulationDistance:5\nmaxFps:60\nfullscreen:false\n');
+applyLoadingTheme(path.join(runtime,'client'),{source:path.join(root,'minecraft/integration/loading-window/build/libs',LOADING_JAR),sha256:bundle.loading_sha256});
+await prepareTitleMedia(path.join(runtime,'client'),titleMedia);
 applyBalanceConfig(path.join(runtime,'client'));
 applyClientMapDefaults(path.join(runtime,'client'),profile.client_map_defaults);
 await import('./prepare-minecraft-client.mjs');
@@ -35,7 +41,7 @@ preparationProgress('VERIFYING',0,1);
 const c=bundle.public_config;
 const plan=nativeLaunchPlan({serverId:c.server_id,serverHost:c.server_host,serverPort:c.server_port,java,gameDirectory:path.join(runtime,'client'),runtimeDirectory:runtime});
 const managedFile=path.join(runtime,'managed-mods.json');
-const managed=[...profile.mods.filter(m=>m.install_sides.includes('client')).map(m=>m.file.name),own];
+const managed=[...profile.mods.filter(m=>m.install_sides.includes('client')).map(m=>m.file.name),own,LOADING_JAR];
 if(existsSync(managedFile)){
  const previous=JSON.parse(readFileSync(managedFile,'utf8'));assert.ok(Array.isArray(previous)&&previous.every(name=>typeof name==='string'&&name===path.basename(name)&&name.endsWith('.jar')),'Invalid managed mod inventory');
  for(const name of previous.filter(name=>!managed.includes(name))){

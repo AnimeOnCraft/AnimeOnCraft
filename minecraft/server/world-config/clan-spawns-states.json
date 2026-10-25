@@ -14,7 +14,7 @@
   "clans": {
     "SCAM": {
       "x": 0,
-      "y": 0,
+      "y": 120,
       "z": -2704
     },
     "NYA": {
@@ -24,7 +24,7 @@
     },
     "AKUMA": {
       "x": -1584,
-      "y": 0,
+      "y": 67,
       "z": 2192
     },
     "ZXC": {
@@ -36,6 +36,11 @@
       "x": -2560,
       "y": 0,
       "z": -832
+    },
+    "VORIX": {
+      "x": 4500,
+      "y": 0,
+      "z": 880
     }
   },
   "castle_palettes": {
@@ -68,6 +73,12 @@
       "roof": "minecraft:orange_concrete",
       "accent": "minecraft:orange_wool",
       "floor": "minecraft:polished_deepslate"
+    },
+    "VORIX": {
+      "wall": "minecraft:dark_prismarine",
+      "roof": "minecraft:green_concrete",
+      "accent": "minecraft:lime_wool",
+      "floor": "minecraft:polished_blackstone"
     }
   }
 }

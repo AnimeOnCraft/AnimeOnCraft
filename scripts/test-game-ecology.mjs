@@ -1,0 +1,25 @@
+import assert from 'node:assert/strict';
+import {mkdtempSync,mkdirSync,readFileSync,writeFileSync,existsSync} from 'node:fs';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {installEcology} from './game-ecology.mjs';
+
+const root=fileURLToPath(new URL('../',import.meta.url));
+const fixture=mkdtempSync(path.join(root,'.tools/ecology-install-test-'));
+const first=installEcology(fixture);
+assert.equal(first.length,6);
+const snapshot=first.map(file=>readFileSync(file.path));
+installEcology(fixture);
+first.forEach((file,index)=>assert.deepEqual(readFileSync(file.path),snapshot[index],'Repeated installation changed files'));
+const toml=path.join(fixture,'config/cleanmaid/cleanmaid-server.toml');
+writeFileSync(toml,readFileSync(toml,'utf8')+'\n[local_extension]\ncustom = true\n');
+installEcology(fixture);
+assert.match(readFileSync(toml,'utf8'),/custom = true/,'Unrelated TOML settings were lost');
+const foreign=mkdtempSync(path.join(root,'.tools/ecology-install-test-'));
+mkdirSync(path.join(foreign,'config/incontrol'),{recursive:true});
+const custom='[{"mob":"minecraft:zombie","result":"deny"}]';
+writeFileSync(path.join(foreign,'config/incontrol/spawn.json'),custom);
+assert.throws(()=>installEcology(foreign),/Unknown InControl/);
+assert.equal(readFileSync(path.join(foreign,'config/incontrol/spawn.json'),'utf8'),custom);
+assert.equal(existsSync(path.join(foreign,'mods')),false,'Preflight failure partially installed mods');
+console.log('AOC_ECOLOGY_INSTALL_TEST_PASS idempotent=true custom_toml_preserved=true foreign_rules_preflight=true');

@@ -177,8 +177,9 @@ export async function declareCapture(tx: Tx, input: DeclareInput): Promise<Decla
     WHERE m.user_id=${input.actorUserId}::uuid AND m.ended_at IS NULL`)[0];
   if (!member || member.code_key !== input.clanCode) return { accepted: false, reason: 'NOT_MEMBER' };
   if (!rules.declare.roles.includes('MEMBER')) {
-    const manager = await tx.$queryRaw<Array<{ id: string }>>`SELECT id FROM clan_manager_assignments
-      WHERE user_id=${input.actorUserId}::uuid AND clan_id=${member.clan_id}::uuid AND ended_at IS NULL`;
+    // Clan leadership: leader and officers (and earlier web-admin managers); recruiters only handle applications.
+    const manager = await tx.$queryRaw<Array<{ id: string }>>`SELECT a.id FROM clan_manager_assignments a JOIN clan_roles r ON r.id=a.role_id
+      WHERE a.user_id=${input.actorUserId}::uuid AND a.clan_id=${member.clan_id}::uuid AND a.ended_at IS NULL AND r.code IN ('LEADER','OFFICER','MANAGER')`;
     if (!manager.length) return { accepted: false, reason: 'ROLE' };
   }
   if (!inWindow(rules, now)) return { accepted: false, reason: 'OUT_OF_WINDOW' };
@@ -369,6 +370,7 @@ export async function adminCapture(tx: Tx, input: { action: 'CANCEL' | 'RESET' |
   if (input.action === 'RELEASE') {
     // A clan may drop its own point (to free influence): its manager, or the project owner.
     const member = (await tx.$queryRaw<Array<{ clan_id: string }>>`SELECT a.clan_id FROM clan_manager_assignments a JOIN users u ON u.id=a.user_id AND u.state='ACTIVE'
+      JOIN clan_roles r ON r.id=a.role_id AND r.code IN ('LEADER','OFFICER','MANAGER')
       WHERE a.user_id=${input.actorUserId}::uuid AND a.ended_at IS NULL AND a.clan_id=${point.owner_clan_id}::uuid`)[0];
     if (member) actorClan = member.clan_id; else await requireOwner(tx, input.actorUserId);
   } else await requireOwner(tx, input.actorUserId);

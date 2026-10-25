@@ -22,7 +22,13 @@ final class WorldLayout {
     record Zone(String code, int x, int z, int radius) {
         boolean contains(double px, double pz) { double dx = px - x, dz = pz - z; return dx * dx + dz * dz <= (double) radius * radius; }
     }
-    record State(String worldId, Map<String, Palette> palettes, Map<String, Poi> pois, Map<String, Road> roads, List<Zone> exclusions) {}
+    /** {@code guarded}: codes of objects added to an already played world; they never overwrite players' blocks. */
+    record State(String worldId, Map<String, Palette> palettes, Map<String, Poi> pois, Map<String, Road> roads, List<Zone> exclusions, java.util.Set<String> guarded) {
+        State(String worldId, Map<String, Palette> palettes, Map<String, Poi> pois, Map<String, Road> roads, List<Zone> exclusions) {
+            this(worldId, palettes, pois, roads, exclusions, java.util.Set.of());
+        }
+        boolean guarded(String code) { return guarded.contains(code); }
+    }
 
     private static volatile State state;
     private WorldLayout() {}
@@ -45,9 +51,11 @@ final class WorldLayout {
         }
         if (!palettes.containsKey("neutral")) throw new IllegalArgumentException("Layout needs a neutral palette");
         var pois = new LinkedHashMap<String, Poi>();
+        var guarded = new java.util.HashSet<String>();
         for (var value : root.getAsJsonArray("pois")) {
             var p = value.getAsJsonObject();
             String code = code(p.get("code").getAsString()), palette = p.get("palette").getAsString();
+            if (p.has("guarded") && p.get("guarded").getAsBoolean()) guarded.add(code);
             if (!palettes.containsKey(palette)) throw new IllegalArgumentException("Unknown palette " + palette + " for " + code);
             int radius = p.get("radius").getAsInt();
             if (radius < 4 || radius > 256) throw new IllegalArgumentException("Invalid radius for " + code);
@@ -67,6 +75,7 @@ final class WorldLayout {
             int width = r.get("width").getAsInt();
             if (points.size() < 2 || points.size() > 4096 || width < 1 || width > 9) throw new IllegalArgumentException("Invalid road " + r.get("code").getAsString());
             String code = code(r.get("code").getAsString());
+            if (r.has("guarded") && r.get("guarded").getAsBoolean()) guarded.add(code);
             roads.put(code, new Road(code, r.get("kind").getAsString(), r.get("style").getAsString(), width, List.copyOf(points)));
         }
         var exclusions = new ArrayList<Zone>();
@@ -77,7 +86,7 @@ final class WorldLayout {
             exclusions.add(new Zone(code(z.get("code").getAsString()), coordinate(z, "x"), coordinate(z, "z"), radius));
         }
         return new State(root.get("world_id").getAsString(), Map.copyOf(palettes), java.util.Collections.unmodifiableMap(pois),
-            java.util.Collections.unmodifiableMap(roads), List.copyOf(exclusions));
+            java.util.Collections.unmodifiableMap(roads), List.copyOf(exclusions), java.util.Set.copyOf(guarded));
     }
     private static String id(JsonObject row, String key) {
         String value = row.get(key).getAsString();

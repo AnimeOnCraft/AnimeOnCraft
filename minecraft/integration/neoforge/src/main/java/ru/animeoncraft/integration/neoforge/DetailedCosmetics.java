@@ -21,7 +21,8 @@ import org.slf4j.LoggerFactory;
 final class DetailedCosmetics {
     private static final Logger LOGGER = LoggerFactory.getLogger("AnimeOnCraft");
     static final Set<String> CODES = Set.of("FOX_EARS", "ONI_MASK", "CYAN_VISOR", "RIFT_LANTERN",
-        "STAR_CHAIN", "SHARD_CROWN", "ORBIT_HALO", "RIFT_MANTLE");
+        "STAR_CHAIN", "SHARD_CROWN", "ORBIT_HALO", "RIFT_MANTLE",
+        "SAKURA_WINGS", "KITSUNE_SAKURA", "RIFT_HALF_MASK", "OMAMORI_CHARM");
     private static final Map<String, CosmeticMesh> meshes = new HashMap<>();
     private static final Set<String> unavailable = new java.util.HashSet<>();
     static final Map<String, Long> draws = new HashMap<>();
@@ -95,7 +96,10 @@ final class DetailedCosmetics {
             pose.translate(0, Math.sin(age * .035 + index) * .12 / 16, 0);
         } else if (part.equals("orbit")) {
             pose.mulPose(Axis.YP.rotationDegrees(age * .6f));
-        } else if (part.equals("lantern_swing") || part.equals("chain_star")) {
+        } else if (part.equals("wing_r") || part.equals("wing_l")) {
+            float flap = (float)Math.sin(age * .08) * (6 + movement * 6) + (crouching ? -10 : 0);
+            pose.mulPose(Axis.YP.rotationDegrees(part.equals("wing_r") ? flap : -flap));
+        } else if (part.equals("lantern_swing") || part.equals("chain_star") || part.equals("charm_swing")) {
             pose.mulPose(Axis.ZP.rotationDegrees((float)Math.sin(age * .07) * (1 + movement * 5)));
         }
         pose.translate(-pivot.x() / 16, -pivot.y() / 16, -pivot.z() / 16);

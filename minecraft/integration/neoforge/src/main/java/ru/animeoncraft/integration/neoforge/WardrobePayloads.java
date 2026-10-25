@@ -8,12 +8,12 @@ import net.minecraft.resources.ResourceLocation;
 
 final class WardrobePayloads {
  private WardrobePayloads(){}
- static boolean valid(String kind,String code){return switch(kind){case "NONE"->code.isEmpty();case "CAPE"->code.matches("[a-z][a-z0-9-]{0,31}");case "BETA"->code.equals("RIFT_MANTLE");default->false;};}
+ static boolean valid(String kind,String code){return switch(kind){case "NONE"->code.isEmpty();case "CAPE"->code.matches("[a-z][a-z0-9-]{0,31}");case "BETA"->code.equals("RIFT_MANTLE");case "GACHA"->"BACK".equals(BetaPassStore.GACHA_SLOTS.get(code));default->false;};}
  record Cape(String id,String name){Cape{if(!valid("CAPE",id)||name.isBlank()||name.length()>80||name.matches("(?s).*[\\p{Cc}\\p{Cf}§].*"))throw new IllegalArgumentException("Invalid wardrobe cape");}}
  record Request(String kind,String code,long revision) implements CustomPacketPayload {
   Request{if(!(kind.equals("READ")&&code.isEmpty()||valid(kind,code))||revision<0||revision>999999999999999999L)throw new IllegalArgumentException("Invalid wardrobe request");}
   static final Type<Request> TYPE=new Type<>(ResourceLocation.fromNamespaceAndPath("animeoncraft","wardrobe_request_v1"));
-  static final StreamCodec<FriendlyByteBuf,Request> CODEC=StreamCodec.of((b,p)->{b.writeUtf(p.kind,4);b.writeUtf(p.code,32);b.writeVarLong(p.revision);},b->new Request(b.readUtf(4),b.readUtf(32),b.readVarLong()));
+  static final StreamCodec<FriendlyByteBuf,Request> CODEC=StreamCodec.of((b,p)->{b.writeUtf(p.kind,5);b.writeUtf(p.code,32);b.writeVarLong(p.revision);},b->new Request(b.readUtf(5),b.readUtf(32),b.readVarLong()));
   public Type<Request> type(){return TYPE;}
  }
  record Snapshot(UUID player,boolean available,long revision,String kind,String code,List<Cape> capes) implements CustomPacketPayload {

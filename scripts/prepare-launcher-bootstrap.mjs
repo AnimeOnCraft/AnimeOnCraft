@@ -3,6 +3,7 @@ import {copyFileSync,cpSync,existsSync,mkdirSync,readFileSync,writeFileSync,stat
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import path from 'node:path';
+import {validateTitleMedia} from './client-title-media.mjs';
 import {fileURLToPath} from 'node:url';
 
 const root=fileURLToPath(new URL('../',import.meta.url));
@@ -28,12 +29,18 @@ assert.match(config.server_id,/^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0
 assert.ok(Number.isInteger(config.server_port)&&config.server_port>0&&config.server_port<=65535);
 assert.ok(typeof config.server_host==='string'&&config.server_host.length<=253&&config.server_host.split('.').every(p=>/^[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?$/.test(p)));
 const copy=(source,target=source)=>{const destination=path.join(output,target);mkdirSync(path.dirname(destination),{recursive:true});copyFileSync(path.join(root,source),destination);};
-for(const file of ['prepare-launcher-client.mjs','prepare-minecraft-client.mjs','minecraft-launch-plan.mjs','managed-client-download.mjs','client-map-defaults.mjs','jar-entry.mjs','game-balance.mjs','game-economy.mjs'])copy('scripts/'+file);
+for(const file of ['prepare-launcher-client.mjs','prepare-minecraft-client.mjs','minecraft-launch-plan.mjs','managed-client-download.mjs','client-map-defaults.mjs','client-loading-theme.mjs','client-title-media.mjs','jar-entry.mjs','game-balance.mjs','game-economy.mjs'])copy('scripts/'+file);
+copy('minecraft/integration/neoforge/src/main/resources/assets/animeoncraft/textures/title/media.json','title-media.json');
+const titleMedia=JSON.parse(readFileSync(path.join(output,'title-media.json'),'utf8'));
+validateTitleMedia(titleMedia);
 copy('minecraft/modpack/profile.json');copy('minecraft/server/balance-profile.json');copy('minecraft/server/balance-assets.json');
 copy('minecraft/server/economy-profile.json');
 copy('minecraft/server/quest-assets.json');
 for(const file of JSON.parse(readFileSync(path.join(root,'minecraft/server/quest-assets.json'),'utf8')).files)copy('minecraft/modpack/quest-book/'+file.path);
 const jar='minecraft/integration/neoforge/build/libs/animeoncraft-admission-0.3.0-friends-dev.jar';copy(jar);
+assert.ok(statSync(path.join(output,jar)).size<16*1024**2&&!readFileSync(path.join(output,jar)).includes(Buffer.from('frame_0001.jpg')),
+ 'HD title frames must be external; rebuild the slim integration JAR before making an installer');
+const loadingJar='minecraft/integration/loading-window/build/libs/animeoncraft-loading-1.0.0.jar';copy(loadingJar);
 mkdirSync(path.join(output,'runtime/node'),{recursive:true});const node=path.join(output,'runtime/node/node.exe');if(!unchanged(process.execPath,node))copyFileSync(process.execPath,node);
 const license=path.join(output,'runtime/node/LICENSE');
 if(!existsSync(license)){
@@ -59,5 +66,5 @@ if(!existsSync(metadata)||JSON.parse(readFileSync(metadata)).id!==profile.minecr
  const response=await fetch('https://piston-meta.mojang.com/mc/game/version_manifest_v2.json');assert.equal(response.status,200);
  const entry=(await response.json()).versions.find(v=>v.id===profile.minecraft);assert.ok(entry);writeFileSync(metadata,JSON.stringify(entry,null,2)+'\n');
 }
-writeFileSync(path.join(output,'bootstrap.json'),JSON.stringify({format_version:1,public_config:config,admission_sha256:createHash('sha256').update(readFileSync(path.join(root,jar))).digest('hex')},null,2)+'\n');
+writeFileSync(path.join(output,'bootstrap.json'),JSON.stringify({format_version:1,public_config:config,admission_sha256:digest(path.join(root,jar)),loading_sha256:digest(path.join(root,loadingJar)),title_assets_sha256:titleMedia.sha256},null,2)+'\n');
 console.log(JSON.stringify({prepared:true,bootstrap:output,local_test:config.api_origin==='http://127.0.0.1:3000',private_files_included:false}));

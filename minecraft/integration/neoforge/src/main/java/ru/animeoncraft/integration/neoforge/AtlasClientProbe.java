@@ -39,7 +39,7 @@ final class AtlasClientProbe {
                 if(ClientTerritories.polygons.size()!=5){check(++frames<200,"All five territory polygons must arrive through the network");return;}
                 check(data.points().size()>=60,"Public points arrived through real login payload");
                 check(data.points().stream().anyMatch(p->p.kind().equals("FORT"))&&data.points().stream().anyMatch(p->p.kind().equals("RESOURCE_SITE")),"Fort and resource markers");
-                check(points.getCount()==data.points().size(),"Native waypoint count");
+                check(ClientWorldAtlas.iconLayer()&&points.getCount()==0,"AOC icon layer replaces letter waypoints");
                 var highlighter=processor.getHighlighterRegistry().getHighlighters().stream().filter(h->h instanceof XaeroClanHighlighter).findFirst().orElseThrow();
                 check(xaero.common.XaeroMinimapSession.getCurrentSession().getMinimapProcessor().getMinimapWriter().getDimensionHighlightHandler().getVersion()!=0,"Minimap highlight adapter registered");
                 for(var region:WorldRegions.current().regions())if(region.clan()!=null){
@@ -63,7 +63,7 @@ final class AtlasClientProbe {
                 }
             }else if(phase==2&&++frames==80){shot(mc,"atlas-world");mapView(mc,0,0,0.05);phase=20;frames=0;
             }else if(phase==20&&++frames==100){
-                check(XaeroClanMapOverlay.drawnPolygons==5&&XaeroClanMapOverlay.drawnRevision==ClientTerritories.revision(),"All five vector borders draw beyond explored terrain");
+                check(XaeroWorldMapIcons.drawn>0,"AOC place icons draw on the world map");check(XaeroClanMapOverlay.drawnPolygons==5&&XaeroClanMapOverlay.drawnRevision==ClientTerritories.revision(),"All five vector borders draw beyond explored terrain");
                 shot(mc,"atlas-clan-territories");
                 if(Boolean.getBoolean("animeoncraft.atlasManualReview")){phase=21;System.out.println("AOC_TERRITORY_REVIEW_READY map=true five_clans=true disposable_world=true");return;}
                 mc.setScreen(null);writerCounter=processor.getMapWriter().getUpdateCounter();surface(mc,80);phase=3;frames=0;
@@ -75,7 +75,7 @@ final class AtlasClientProbe {
                     ClientWorldAtlas.apply(new WorldAtlasData(data.worldId(),data.imageSha256(),changed));phase=4;frames=0;
                 }
             }else if(phase==4&&++frames==35){
-                check(points.get(data.points().getFirst().id()).getName().contains("Бой"),"Live marker ownership/state update");
+                check("battle".equals(MapIcons.badge(ClientWorldAtlas.current().points().getFirst())),"Live marker ownership/state update");
                 originalRegions=ClientTerritories.polygons;var changed=new java.util.ArrayList<>(originalRegions);var first=changed.getFirst();
                 changed.set(0,new RegionMapPayload.Region(first.clan(),first.owner().equals("NYA")?"SCAM":"NYA",0x11ddff,first.xs(),first.zs()));
                 miniVersion=miniHandler().getVersion();mapHash=processor.getMapWorld().getCurrentDimension().getHighlightHandler().getRegionHash(Math.floorDiv(first.minX(),512),Math.floorDiv(first.minZ(),512));
@@ -96,7 +96,7 @@ final class AtlasClientProbe {
                 if(frames%200==0)System.out.println("AOC_NATIVE_CAVE_WAIT phase="+phase+" layer="+layer+" y="+mc.player.getY()+" mapped="+mappedHeight(processor,layer)+" floor="+mc.level.getBlockState(new BlockPos(64,floor,64))+" caveStart="+processor.getMapWorld().getCurrentDimension().getLayeredMapRegions().getLayer(layer).getCaveStart()+" writes="+processor.getMapWriter().getUpdateCounter()+" light="+mc.level.getBrightness(net.minecraft.world.level.LightLayer.BLOCK,new BlockPos(64,floor+1,64)));
                 if(frames>100&&layer!=Integer.MAX_VALUE&&!XaeroAtlasLayers.surfaceMinimap()&&mappedHeight(processor,layer)==floor){
                     if(phase==5)upperLayer=layer;else check(layer!=upperLayer,"Distinct native cave layers");
-                    check(points.getCount()==data.points().size(),"Markers remain available underground");shot(mc,phase==5?"atlas-cave-upper-minimap":"atlas-cave-lower-minimap");openMap(mc,processor);phase++;frames=0;
+                    check(ClientWorldAtlas.iconLayer()&&ClientWorldAtlas.active(),"Markers remain available underground");shot(mc,phase==5?"atlas-cave-upper-minimap":"atlas-cave-lower-minimap");openMap(mc,processor);phase++;frames=0;
                 }
             }else if((phase==6||phase==8)&&++frames==100){
                 check(!XaeroAtlasLayers.surfaceWorldMap(),"Full map follows cave height");shot(mc,phase==6?"atlas-cave-upper-world":"atlas-cave-lower-world");mc.setScreen(null);move(mc,phase==6?-8:40);phase=phase==6?7:9;frames=0;

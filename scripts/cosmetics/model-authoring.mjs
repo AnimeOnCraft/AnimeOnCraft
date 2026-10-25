@@ -43,14 +43,15 @@ export function turn(polygons,angle,axis=1,pivot=[0,0,0]){
  const c=Math.cos(angle),s=Math.sin(angle);
  return polygons.map(p=>({...p,points:p.points.map(point=>{let[x,y,z]=point.map((n,i)=>n-pivot[i]);if(axis===0)[y,z]=[y*c-z*s,y*s+z*c];if(axis===1)[x,z]=[x*c+z*s,-x*s+z*c];if(axis===2)[x,y]=[x*c-y*s,x*s+y*c];return[x+pivot[0],y+pivot[1],z+pivot[2]];})}));
 }
-export function writeProject({code,slug,name,anchor='head_top',meshes,parts={static:[0,0,0]},emissive=[3,5]}){
+export const RIFT_PALETTE=[[30,23,45],[83,62,110],[100,42,160],[185,65,239],[215,181,244],[74,206,242],[188,140,71],[111,124,145]];
+export function writeProject({code,slug,name,anchor='head_top',meshes,parts={static:[0,0,0]},emissive=[3,5],palette=RIFT_PALETTE}){
  const selected=process.argv.find(argument=>argument.startsWith('--only='))?.slice(7);
  if(selected&&selected!==slug)return {code,skipped:true};
  const dir='minecraft/cosmetics/'+slug,project=dir+'/'+slug+'.bbmodel';
  assert.ok(!fs.existsSync(project)||process.argv.includes('--regenerate'),'Preserve edited project '+project);
  fs.mkdirSync(dir,{recursive:true});
  const uuid=n=>{const h=createHash('sha256').update(code+'/'+n).digest('hex');return h.slice(0,8)+'-'+h.slice(8,12)+'-4'+h.slice(13,16)+'-8'+h.slice(17,20)+'-'+h.slice(20,32);};
- const png=new PNG({width:128,height:128}),palette=[[30,23,45],[83,62,110],[100,42,160],[185,65,239],[215,181,244],[74,206,242],[188,140,71],[111,124,145]];
+ const png=new PNG({width:128,height:128});
  for(let t=0;t<8;t++)for(let y=0;y<32;y++)for(let x=0;x<32;x++){const offset=((Math.floor(t/4)*32+y)*128+t%4*32+x)*4,noise=(x*17+y*31+t*11)%11-5,edge=x===0||y===0?16:x===31||y===31?-14:0;for(let c=0;c<3;c++)png.data[offset+c]=Math.max(0,Math.min(255,palette[t][c]+noise+edge+Math.round((1-y/31)*(t===3||t===5?25:10))));png.data[offset+3]=255;}
  const texture=PNG.sync.write(png);fs.writeFileSync(dir+'/'+slug+'.png',texture);
  const elements=[],children=[],groupId=uuid('root');

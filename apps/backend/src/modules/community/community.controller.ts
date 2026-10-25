@@ -6,7 +6,7 @@ import { AuthService } from '../auth/auth.service.js';
 import { ClanInput } from '../development/clan-input.js';
 import { PageInput } from '../../infrastructure/pagination.js';
 import { CommunityService, type Command } from './community.service.js';
-import { AdmissionInput, ApplicationInput, BanInput, GrantInput, ManagerInput, ReasonInput } from './community-input.js';
+import { AdmissionInput, ApplicationInput, BanInput, ClanRoleInput, GrantInput, ManagerInput, ReasonInput } from './community-input.js';
 const uuid = () => new ParseUUIDPipe({version:'4'});
 @Controller('api/v1')
 @UseInterceptors(AuthNoStore)
@@ -23,6 +23,12 @@ export class CommunityController {
   @Post('launcher/owner/clans/:id/join') async launcherJoin(@Req() request: FastifyRequest,@Param('id',uuid()) id: string,@Body() body: unknown) { const data=input(ReasonInput,body);const actor=await this.actor(request);return this.service.direct(actor,id,actor.user.id,data.reason,this.command(request,data),true); }
   @Post('launcher/owner/applications/:id/approve') async launcherApprove(@Req() request: FastifyRequest,@Param('id',uuid()) id: string,@Body() body: unknown) { const data=input(ReasonInput,body);return this.service.decide(await this.actor(request),id,'ACCEPTED',data.reason,this.command(request,data),true); }
   @Post('launcher/owner/applications/:id/reject') async launcherReject(@Req() request: FastifyRequest,@Param('id',uuid()) id: string,@Body() body: unknown) { const data=input(ReasonInput,body);return this.service.decide(await this.actor(request),id,'REJECTED',data.reason,this.command(request,data),true); }
+  @Get('launcher/clans/:id/roles') async launcherRoles(@Req() request: FastifyRequest,@Param('id',uuid()) id: string) { return this.service.clanRoles(await this.http.principal(request),id); }
+  @Post('launcher/clans/:id/roles/:user') async launcherSetRole(@Req() request: FastifyRequest,@Param('id',uuid()) id: string,@Param('user',uuid()) user: string,@Body() body: unknown) { const data=input(ClanRoleInput,body);return this.service.setRole(await this.actor(request),id,user,data.role,this.command(request,data)); }
+  @Post('launcher/clans/:id/members/:user/remove') async launcherKick(@Req() request: FastifyRequest,@Param('id',uuid()) id: string,@Param('user',uuid()) user: string,@Body() body: unknown) { const data=input(ReasonInput,body);return this.service.kick(await this.actor(request),id,user,data.reason,this.command(request,data)); }
+  @Get('launcher/clans/:id/applications') async staffApplications(@Req() request: FastifyRequest,@Param('id',uuid()) id: string,@Query() query: unknown) { return this.service.applications(await this.http.principal(request),id,input(PageInput,query),'staff'); }
+  @Post('launcher/applications/:id/approve') async staffApprove(@Req() request: FastifyRequest,@Param('id',uuid()) id: string,@Body() body: unknown) { const data=input(ReasonInput,body);return this.service.decide(await this.actor(request),id,'ACCEPTED',data.reason,this.command(request,data),'staff'); }
+  @Post('launcher/applications/:id/reject') async staffReject(@Req() request: FastifyRequest,@Param('id',uuid()) id: string,@Body() body: unknown) { const data=input(ReasonInput,body);return this.service.decide(await this.actor(request),id,'REJECTED',data.reason,this.command(request,data),'staff'); }
   @Get('management/dashboard') dashboard(@Req() request: FastifyRequest, @Query() query: unknown) { input(PageInput,query); return this.http.principal(request).then(actor=>this.service.dashboard(actor)); }
   @Post('management/clans') async create(@Req() request: FastifyRequest, @Body() body: unknown) { const data=input(ClanInput,body); return this.service.create(await this.actor(request),data,this.command(request,data)); }
   @Patch('management/clans/:id') async edit(@Req() request: FastifyRequest,@Param('id',uuid()) id: string,@Body() body: unknown) { const data=input(ClanInput,body); return this.service.edit(await this.actor(request),id,data,this.command(request,data)); }

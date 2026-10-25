@@ -19,7 +19,7 @@ final class ClanMarkets {
             var regions=WorldRegions.current();
             var plots=regions==null?java.util.List.<RegionPolicy.Region>of():regions.regions().stream().filter(RegionPolicy.Region::market).toList();
             if(plots.isEmpty()){context.getSource().sendFailure(Component.literal("Торговые участки пока не открыты."));return 0;}
-            for(var plot:plots)context.getSource().sendSuccess(()->Component.literal("Рынок "+plot.clan()+": X "+plot.minX()+"…"+(plot.maxX()-1)
+            for(var plot:plots)context.getSource().sendSuccess(()->Component.literal("Рынок "+ClanCodes.display(plot.clan())+": X "+plot.minX()+"…"+(plot.maxX()-1)
                 +", Z "+plot.minZ()+"…"+(plot.maxZ()-1)+". Строит свой клан; торговля открыта всем."),false);
             return plots.size();
         }));
@@ -35,8 +35,8 @@ final class ClanMarkets {
                 ? null : regions.marketAt(at.getX(),at.getZ());
             if(plot==null){INSIDE.remove(player.getUUID());continue;}
             var prior=INSIDE.put(player.getUUID(),plot.code());
-            if(!plot.code().equals(prior))player.displayClientMessage(Component.literal("Торговый участок "+plot.clan()+" · "
-                +(plot.maxX()-plot.minX())+"×"+(plot.maxZ()-plot.minZ())+". Строит клан "+plot.clan()+". Покупки — ПКМ пустой рукой."),true);
+            if(!plot.code().equals(prior))player.displayClientMessage(Component.literal("Торговый участок "+ClanCodes.display(plot.clan())+" · "
+                +(plot.maxX()-plot.minX())+"×"+(plot.maxZ()-plot.minZ())+". Строит клан "+ClanCodes.display(plot.clan())+". Покупки — ПКМ пустой рукой."),true);
         }
     }
     static void stopped(ServerStoppedEvent event){INSIDE.clear();}

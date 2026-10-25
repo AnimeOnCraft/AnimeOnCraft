@@ -1593,6 +1593,98 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/launcher/owner/password-reset": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Active OWNER LAUNCHER session, current owner password and a fresh MFA/recovery code required. Looks up a player by login or game name; ambiguous identities are rejected with AMBIGUOUS_PLAYER. Revokes player sessions and requires a password change. OWNER account recovery is excluded. No automatic mail delivery. */
+        post: {
+            parameters: {
+                query?: never;
+                header: {
+                    "X-AOC-Client": "launcher";
+                    "Idempotency-Key": string;
+                };
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["LauncherPasswordResetInput"];
+                };
+            };
+            responses: {
+                /** @description Committed one-time result; Cache-Control: no-store. */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["LauncherPasswordReset"];
+                    };
+                };
+                /** @description Controlled error envelope. OWNER_PROOF_REJECTED / OWNER_MFA_REQUIRED / AMBIGUOUS_PLAYER when applicable. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Controlled error envelope. OWNER_PROOF_REJECTED / OWNER_MFA_REQUIRED / AMBIGUOUS_PLAYER when applicable. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Controlled error envelope. OWNER_PROOF_REJECTED / OWNER_MFA_REQUIRED / AMBIGUOUS_PLAYER when applicable. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Controlled error envelope. OWNER_PROOF_REJECTED / OWNER_MFA_REQUIRED / AMBIGUOUS_PLAYER when applicable. */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Controlled error envelope. OWNER_PROOF_REJECTED / OWNER_MFA_REQUIRED / AMBIGUOUS_PLAYER when applicable. */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Controlled error envelope. OWNER_PROOF_REJECTED / OWNER_MFA_REQUIRED / AMBIGUOUS_PLAYER when applicable. */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Controlled error envelope. OWNER_PROOF_REJECTED / OWNER_MFA_REQUIRED / AMBIGUOUS_PLAYER when applicable. */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -1604,6 +1696,21 @@ export interface components {
             delivery_email: string;
             temporary_password: string | null;
             version: string;
+        };
+        LauncherPasswordResetInput: {
+            reason: string;
+            login: string;
+            password: string;
+            proof: string;
+        };
+        LauncherPasswordReset: {
+            /** Format: uuid */
+            user_id: string;
+            login: string;
+            game_name: string | null;
+            delivery_email: string;
+            /** @description One-time temporary password. Null on an idempotent replay; never persisted in audit or cached command results. */
+            readonly temporary_password: string | null;
         };
         Reason: {
             reason: string;

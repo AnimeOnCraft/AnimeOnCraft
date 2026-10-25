@@ -23,16 +23,21 @@ final class BetaPassServer {
         session.counters=counters;session.position=p.position();store.setDirty();
     }
     static void request(BetaPassPayloads.Request payload,IPayloadContext context){context.enqueueWork(()->{if(!(context.player() instanceof ServerPlayer p)||!admitted(p))return;var queue=pending.computeIfAbsent(p.getUUID(),id->new ArrayDeque<>());if(queue.size()<8&&(queue.isEmpty()||!payload.action().equals("GET")))queue.add(payload);});}
-    static void send(ServerPlayer p){if(!p.connection.hasChannel(BetaPassPayloads.Snapshot.TYPE.id()))return;var store=BetaPassStore.get(p.server);var e=store.player(p.getUUID());if(e.reset(System.currentTimeMillis()))store.setDirty();PacketDistributor.sendToPlayer(p,new BetaPassPayloads.Snapshot(p.getUUID(),store.open,e.xp,e.rewards,e.day,e.week,Arrays.stream(e.daily).boxed().toList(),Arrays.stream(e.weekly).boxed().toList(),e.dayClaims,e.weekClaims,e.equipped));}
-    private static BetaPassPayloads.Appearance appearance(ServerPlayer p){return new BetaPassPayloads.Appearance(p.getUUID(),BetaPassStore.get(p.server).player(p.getUUID()).equipped);}
-    static void broadcast(ServerPlayer p){var packet=appearance(p);for(var observer:p.server.getPlayerList().getPlayers())if(observer.connection.hasChannel(BetaPassPayloads.Appearance.TYPE.id())&&(observer==p||observer.serverLevel()==p.serverLevel()&&observer.distanceToSqr(p)<128*128))PacketDistributor.sendToPlayer(observer,packet);}
+    static void send(ServerPlayer p){if(!p.connection.hasChannel(BetaPassPayloads.Snapshot.TYPE.id()))return;var store=BetaPassStore.get(p.server);var e=store.player(p.getUUID());if(e.reset(System.currentTimeMillis()))store.setDirty();PacketDistributor.sendToPlayer(p,new BetaPassPayloads.Snapshot(p.getUUID(),store.open,e.xp,e.rewards,e.day,e.week,Arrays.stream(e.daily).boxed().toList(),Arrays.stream(e.weekly).boxed().toList(),e.dayClaims,e.weekClaims,visible(p,e.equipped)));}
+    /** Clients without the summon channel (0.8.12 and older) reject gacha codes, so they simply do not see those accessories. */
+    private static Map<String,String> visible(ServerPlayer observer,Map<String,String> equipped){
+        if(observer.connection.hasChannel(GachaPayloads.Snapshot.TYPE.id()))return equipped;
+        var result=new HashMap<>(equipped);result.values().removeIf(BetaPassStore.GACHA_SLOTS::containsKey);return result;
+    }
+    private static BetaPassPayloads.Appearance appearance(ServerPlayer p,ServerPlayer observer){return new BetaPassPayloads.Appearance(p.getUUID(),visible(observer,BetaPassStore.get(p.server).player(p.getUUID()).equipped));}
+    static void broadcast(ServerPlayer p){for(var observer:p.server.getPlayerList().getPlayers())if(observer.connection.hasChannel(BetaPassPayloads.Appearance.TYPE.id())&&(observer==p||observer.serverLevel()==p.serverLevel()&&observer.distanceToSqr(p)<128*128))PacketDistributor.sendToPlayer(observer,appearance(p,observer));}
     /** Full nearby state repairs missed tracking packets, respawns and late client readiness. */
     private static void syncVisibleTo(ServerPlayer observer){
         if(!observer.connection.hasChannel(BetaPassPayloads.Appearance.TYPE.id()))return;
         for(var target:observer.server.getPlayerList().getPlayers())if(observer==target||observer.serverLevel()==target.serverLevel()&&observer.distanceToSqr(target)<128*128)
-            PacketDistributor.sendToPlayer(observer,appearance(target));
+            PacketDistributor.sendToPlayer(observer,appearance(target,observer));
     }
-    static void tracking(PlayerEvent.StartTracking event){if(event.getEntity() instanceof ServerPlayer p&&event.getTarget() instanceof ServerPlayer target&&p.connection.hasChannel(BetaPassPayloads.Appearance.TYPE.id()))PacketDistributor.sendToPlayer(p,appearance(target));}
+    static void tracking(PlayerEvent.StartTracking event){if(event.getEntity() instanceof ServerPlayer p&&event.getTarget() instanceof ServerPlayer target&&p.connection.hasChannel(BetaPassPayloads.Appearance.TYPE.id()))PacketDistributor.sendToPlayer(p,appearance(target,p));}
     static void login(PlayerEvent.PlayerLoggedInEvent event){if(event.getEntity() instanceof ServerPlayer p){sessions.put(p.getUUID(),new Session(p));var store=BetaPassStore.get(p.server);store.player(p.getUUID()).reset(System.currentTimeMillis());store.setDirty();send(p);broadcast(p);syncVisibleTo(p);}}
     static void tick(ServerTickEvent.Post event){var server=event.getServer();if(server.getTickCount()%100==0)for(var p:server.getPlayerList().getPlayers())if(admitted(p)){sample(p);syncVisibleTo(p);}
         long now=System.nanoTime();var it=pending.entrySet().iterator();while(it.hasNext()){var item=it.next();if(now-requested.getOrDefault(item.getKey(),0L)<400_000_000L)continue;var request=item.getValue().poll();if(item.getValue().isEmpty())it.remove();var p=server.getPlayerList().getPlayer(item.getKey());if(p==null||request==null||!admitted(p))continue;requested.put(p.getUUID(),now);sample(p);var store=BetaPassStore.get(server);var e=store.player(p.getUUID());boolean changed=false;
@@ -44,5 +49,5 @@ final class BetaPassServer {
     static void clearTitle(ServerPlayer p){var store=BetaPassStore.get(p.server);if(store.player(p.getUUID()).equipped.remove("TITLE")!=null){store.setDirty();broadcast(p);send(p);}}
     static void logout(PlayerEvent.PlayerLoggedOutEvent event){if(event.getEntity() instanceof ServerPlayer p)sample(p);var id=event.getEntity().getUUID();sessions.remove(id);pending.remove(id);requested.remove(id);}
     static void stopped(net.neoforged.neoforge.event.server.ServerStoppedEvent event){sessions.clear();pending.clear();requested.clear();}
-    static void commands(net.neoforged.neoforge.event.RegisterCommandsEvent event){BetaPassCommands.register(event.getDispatcher());}
+    static void commands(net.neoforged.neoforge.event.RegisterCommandsEvent event){BetaPassCommands.register(event.getDispatcher());PremiumCommands.register(event.getDispatcher());}
 }

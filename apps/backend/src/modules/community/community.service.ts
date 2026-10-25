@@ -8,7 +8,14 @@ import type { BanInput, GrantInput, ManagerInput } from './community-input.js';
 
 type Tx = Prisma.TransactionClient;
 type Result = Record<string, unknown>;
-type Scope = 'own' | 'manager' | 'owner' | 'remove' | 'launcher_owner';
+type Scope = 'own' | 'manager' | 'owner' | 'remove' | 'launcher_owner' | 'launcher_staff';
+export type ClanRole = 'LEADER' | 'OFFICER' | 'RECRUITER';
+const ROLE_LABELS: Record<ClanRole, string> = { LEADER: 'Leader', OFFICER: 'Officer', RECRUITER: 'Recruiter' };
+// What a role lets its holder do inside their own clan. MANAGER is the earlier web-admin role (removal per assignment flag).
+const ROLE_RIGHTS: Record<string, { review: boolean; remove: boolean; assign: boolean }> = {
+  LEADER: { review: true, remove: true, assign: true }, OFFICER: { review: true, remove: true, assign: false },
+  RECRUITER: { review: true, remove: false, assign: false }, MANAGER: { review: true, remove: false, assign: false } };
+interface Rights { owner: boolean; role: string | null; review: boolean; remove: boolean; assign: boolean }
 export interface Command { route: string; method: string; key: string | undefined; match: string | undefined; body: object; request_id: string }
 interface Context { actor: User; clan: Clan | null }
 const conflict = () => new HttpException('Domain conflict', 409);
@@ -56,6 +63,10 @@ export class CommunityService {
           if (actor.passwordChangeRequired) throw new HttpException({code:'PASSWORD_CHANGE_REQUIRED',message:'Change the temporary password first'},403);
           if (scope === 'launcher_owner') {
             if (session.client_kind !== 'LAUNCHER' || actor.systemRole !== 'OWNER') throw new ForbiddenException();
+          } else if (scope === 'launcher_staff') {
+            // Clan roles act from the launcher; each workflow checks the actor's rights in the clan itself (rights()).
+            if (session.client_kind !== 'LAUNCHER') throw new ForbiddenException();
+            if (clan?.archivedAt) throw new NotFoundException();
           } else if (scope !== 'own') {
             if (session.client_kind !== 'WEB_ADMIN') throw new ForbiddenException('Management requires MFA browser session');
             if (scope === 'owner' && actor.systemRole !== 'OWNER') throw new ForbiddenException();
@@ -119,7 +130,19 @@ export class CommunityService {
     await this.event(tx,user,'CLAN_MEMBERSHIP_GRANTED');
     return member;
   }
+  private async rights(tx: Tx, actor: User, clan: string): Promise<Rights> {
+    const owner = actor.systemRole === 'OWNER';
+    const assignment = await tx.clan_manager_assignments.findFirst({where:{user_id:actor.id,clan_id:clan,ended_at:null,clans:{archivedAt:null}},include:{clan_roles:true}});
+    const member = assignment ? await tx.clan_members.count({where:{user_id:actor.id,clan_id:clan,ended_at:null}}) : 0;
+    const role = assignment && (member || assignment.clan_roles.code === 'MANAGER') ? assignment.clan_roles.code : null;
+    const granted = role ? ROLE_RIGHTS[role]! : { review: false, remove: false, assign: false };
+    return { owner, role, review: owner || granted.review, remove: owner || granted.remove || (role === 'MANAGER' && assignment!.can_remove_members), assign: owner || granted.assign };
+  }
+  private async endRoles(tx: Tx, user: string, clan: string) {
+    await tx.clan_manager_assignments.updateMany({where:{user_id:user,clan_id:clan,ended_at:null},data:{ended_at:new Date(),version:{increment:1}}});
+  }
   private async endMember(tx: Tx, member: clan_members, reason: string) {
+    await this.endRoles(tx,member.user_id,member.clan_id);
     await tx.clan_members.update({where:{id:member.id},data:{ended_at:new Date(),end_reason:reason,version:{increment:1}}});
     await tx.whitelist.updateMany({where:{membership_id:member.id,revoked_at:null},data:{revoked_at:new Date(),version:{increment:1}}});
     await this.event(tx,member.user_id,'CLAN_MEMBERSHIP_REVOKED');
@@ -148,11 +171,12 @@ export class CommunityService {
       return appView(application);
     });
   }
-  async decide(principal: Principal, id: string, status: 'ACCEPTED'|'REJECTED'|'WITHDRAWN', reason: string, command: Command, launcher = false) {
+  async decide(principal: Principal, id: string, status: 'ACCEPTED'|'REJECTED'|'WITHDRAWN', reason: string, command: Command, launcher: boolean | 'staff' = false) {
     const initial = await this.auth.db.clan_applications.findUnique({where:{id}}); if (!initial) throw new NotFoundException();
-    return this.execute(principal,initial.clan_id,[initial.user_id],launcher?'launcher_owner':status==='WITHDRAWN'?'own':'manager',command,async(tx,{actor,clan})=>{
+    return this.execute(principal,initial.clan_id,[initial.user_id],launcher==='staff'?'launcher_staff':launcher?'launcher_owner':status==='WITHDRAWN'?'own':'manager',command,async(tx,{actor,clan})=>{
       const application = await tx.clan_applications.findUniqueOrThrow({where:{id}});
-      const ownerSelfReview=launcher && actor.systemRole==='OWNER' && application.user_id===actor.id;
+      if (launcher==='staff' && !(await this.rights(tx,actor,application.clan_id)).review) throw new ForbiddenException();
+      const ownerSelfReview=!!launcher && actor.systemRole==='OWNER' && application.user_id===actor.id;
       if (status==='WITHDRAWN' ? application.user_id !== actor.id : application.user_id === actor.id && !ownerSelfReview) throw new ForbiddenException();
       checkVersion(application.version,command); if (application.status !== 'PENDING') throw conflict();
       if (status === 'ACCEPTED') {
@@ -280,6 +304,10 @@ export class CommunityService {
   ownerSecretCommand(principal: Principal, targets: string[], command: Command, work: (tx:Tx, context:Context)=>Promise<Result>) {
     return this.execute(principal,null,targets,'owner',command,work,false,result=>({...result,temporary_password:null}));
   }
+  /** OWNER from the launcher (LAUNCHER session); the stored idempotency result never keeps the temporary password. */
+  launcherOwnerSecretCommand(principal: Principal, targets: string[], command: Command, work: (tx:Tx, context:Context)=>Promise<Result>) {
+    return this.execute(principal,null,targets,'launcher_owner',command,work,false,result=>({...result,temporary_password:null}));
+  }
   dashboard(principal: Principal) {
     return this.read(principal,null,'manager',async(tx,{actor})=>{
       const ids = actor.systemRole==='OWNER'?undefined:(await this.auth.managers(tx,actor.id)).map(row=>row.clan_id);
@@ -294,9 +322,10 @@ export class CommunityService {
         independent_owner_grants:await tx.whitelist.count({where:{user_id:{in:members.map(row=>row.user_id)},kind:'OWNER',revoked_at:null,OR:[{expires_at:null},{expires_at:{gt:new Date()}}]}})};
     });
   }
-  applications(principal: Principal, clan: string | null, page: PageInput, launcher = false) {
+  applications(principal: Principal, clan: string | null, page: PageInput, launcher: boolean | 'staff' = false) {
     const resource=`applications:${clan ?? principal.user.id}`; const position=this.pagination.read(resource,page.cursor);
-    return this.read(principal,clan,launcher?'launcher_owner':clan?'manager':'own',async(tx)=>{
+    return this.read(principal,clan,launcher==='staff'?'launcher_staff':launcher?'launcher_owner':clan?'manager':'own',async(tx,{actor})=>{
+      if (launcher==='staff' && !(await this.rights(tx,actor,clan!)).review) throw new ForbiddenException();
       const rows=await tx.clan_applications.findMany({where:{...(clan?{clan_id:clan}:{user_id:principal.user.id}),...(launcher?{status:'PENDING' as const}:{}),
         ...(position?{OR:[{created_at:{gt:new Date(position.time)}},{created_at:new Date(position.time),id:{gt:position.id}}]}:{})},include:{users_clan_applications_user_idTousers:{select:{login:true,game_profile:{select:{game_name:true}}}}},orderBy:[{created_at:'asc'},{id:'asc'}],take:page.limit+1});
       const last=rows.slice(0,page.limit).at(-1);
@@ -320,6 +349,60 @@ export class CommunityService {
       const last=rows.slice(0,page.limit).at(-1);
       return {items:rows.slice(0,page.limit).map(row=>({...management?memberView(row):{joined_at:row.joined_at.toISOString()},nickname:row.users.game_profile?.game_name??null,
         role:row.users.clan_manager_assignments.length?'MANAGER':'MEMBER',online:checkedAt?(live.get(row.user_id)?.online??false):null,online_updated_at:checkedAt?.toISOString()??null})),next_cursor:rows.length>page.limit&&last?this.pagination.sign(resource,{id:last.id,time:last.joined_at.toISOString()}):null};
+    });
+  }
+  /** Launcher view of a clan's roles: everyone signed in sees who holds which role; ids and versions only for those who manage. */
+  clanRoles(principal: Principal, clan: string) {
+    return this.read(principal,clan,'launcher_staff',async(tx,{actor,clan:current})=>{
+      if (!current!.enabled && actor.systemRole !== 'OWNER') throw new NotFoundException();
+      const rights=await this.rights(tx,actor,clan),manage=rights.assign||rights.remove;
+      const rows=await tx.clan_members.findMany({where:{clan_id:clan,ended_at:null},include:{users:{select:{game_profile:{select:{game_name:true}},
+        clan_manager_assignments:{where:{clan_id:clan,ended_at:null},select:{clan_roles:{select:{code:true}}},take:1}}}},orderBy:[{joined_at:'asc'},{id:'asc'}],take:200});
+      return {my_role:rights.role,owner:rights.owner,can_review:rights.review,can_remove:rights.remove,can_assign:rights.assign,clan_version:current!.version.toString(),
+        members:rows.map(row=>({nickname:row.users.game_profile?.game_name??null,role:row.users.clan_manager_assignments[0]?.clan_roles.code??'MEMBER',joined_at:row.joined_at.toISOString(),
+          ...manage?{user_id:row.user_id,version:row.version.toString()}:{}}))};
+    });
+  }
+  /** Owner appoints any role (a new leader replaces the old one); a leader appoints officers and recruiters among the rest. */
+  setRole(principal: Principal, clan: string, user: string, role: ClanRole | 'MEMBER', command: Command) {
+    return this.execute(principal,clan,[user],'launcher_staff',command,async(tx,{actor,clan:current})=>{
+      checkVersion(current!.version,command); if (current!.archivedAt) throw conflict();
+      const rights=await this.rights(tx,actor,clan);
+      if (!rights.assign) throw new ForbiddenException();
+      const member=await tx.clan_members.findFirst({where:{user_id:user,clan_id:clan,ended_at:null},include:{users:true}});
+      if (!member || member.users.state !== 'ACTIVE') throw conflict();
+      const prior=await tx.clan_manager_assignments.findFirst({where:{clan_id:clan,user_id:user,ended_at:null},include:{clan_roles:true}});
+      const before=prior?.clan_roles.code??'MEMBER';
+      if (!rights.owner && (role === 'LEADER' || before === 'LEADER' || user === actor.id)) throw new ForbiddenException();
+      if (before !== role) {
+        if (prior) await tx.clan_manager_assignments.update({where:{id:prior.id},data:{ended_at:new Date(),version:{increment:1}}});
+        if (role === 'LEADER') {
+          const leaders=await tx.clan_manager_assignments.findMany({where:{clan_id:clan,ended_at:null,clan_roles:{code:'LEADER'}}});
+          for (const leader of leaders) { await tx.clan_manager_assignments.update({where:{id:leader.id},data:{ended_at:new Date(),version:{increment:1}}});
+            await this.audit(tx,actor.id,'CLAN_ROLE_CHANGED',leader.user_id,command,{clan_id:clan,before:'LEADER',after:'MEMBER'}); }
+        }
+        if (role !== 'MEMBER') {
+          const row=await tx.clan_roles.upsert({where:{clan_id_code:{clan_id:clan,code:role}},create:{clan_id:clan,code:role,label:ROLE_LABELS[role],can_remove_members:ROLE_RIGHTS[role]!.remove},update:{}});
+          await tx.clan_manager_assignments.create({data:{clan_id:clan,user_id:user,role_id:row.id,can_remove_members:ROLE_RIGHTS[role]!.remove}});
+        }
+      }
+      const updated=await this.touch(tx,clan);
+      await this.audit(tx,actor.id,'CLAN_ROLE_CHANGED',user,command,{clan_id:clan,before,after:role});
+      return {clan_id:clan,user_id:user,role,version:updated.version.toString()};
+    });
+  }
+  /** Removal from the launcher: owner anyone, leader anyone but themselves, officer only members without a role. */
+  kick(principal: Principal, clan: string, user: string, reason: string, command: Command) {
+    return this.execute(principal,clan,[user],'launcher_staff',command,async(tx,{actor})=>{
+      const rights=await this.rights(tx,actor,clan);
+      if (!rights.remove || (!rights.owner && user === actor.id)) throw new ForbiddenException();
+      const target=await tx.clan_manager_assignments.findFirst({where:{clan_id:clan,user_id:user,ended_at:null}});
+      if (target && !rights.owner && rights.role !== 'LEADER') throw new ForbiddenException();
+      const member=await tx.clan_members.findFirst({where:{user_id:user,clan_id:clan,ended_at:null}});
+      if (!member) throw new NotFoundException(); checkVersion(member.version,command);
+      await this.endMember(tx,member,reason); await this.touch(tx,clan);
+      await this.audit(tx,actor.id,'MEMBER_REMOVED',member.id,command,{user_id:user,clan_id:clan});
+      return {id:member.id,status:'ENDED',version:(member.version+1n).toString(),sync_status:'PENDING'};
     });
   }
   access(principal: Principal) {

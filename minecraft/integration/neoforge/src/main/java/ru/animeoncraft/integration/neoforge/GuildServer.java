@@ -242,7 +242,7 @@ final class GuildServer {
                 else if (c.progress < q.count()) return "Выполнено " + c.progress + " из " + q.count() + ".";
                 if (q.exam()) { c.finish(q, now, store.ledger); store.setDirty(); System.out.println("AOC_GUILD_EXAM_PASSED " + p.getGameProfile().getName() + " " + q.code());
                     return "Экзамен сдан! Теперь можно повысить ранг до " + c.rank().up() + "."; }
-                int xp = GuildRules.xpFor(c.rank(), q.rank()); long paid = c.finish(q, now, store.ledger); store.ledger.player(p.getUUID()); store.setDirty(); give(p, paid);
+                int xp = GuildRules.xpFor(c.rank(), q.rank()); long paid = c.finish(q, now, store.ledger); store.ledger.player(p.getUUID()); store.setDirty(); give(p, paid); PremiumCrystals.guild(p, false, q.rank(), "guild:" + q.code() + ":" + now);
                 System.out.println("AOC_GUILD_DONE " + p.getGameProfile().getName() + " " + q.code() + " paid=" + paid + " xp=" + xp + " issued_today=" + store.ledger.issued);
                 return "Готово! +" + GuildRules.money(paid) + ", +" + xp + " опыта карточки.";
             }
@@ -323,6 +323,7 @@ final class GuildServer {
             }
             int xp = GuildRules.teamXp(card.rank(), q.rank()); long paid = card.teamFinish(q, party.window, GuildRules.teamShare(party.reward, card.rank(), q.rank()), now, store.ledger); store.ledger.player(id);
             if (coinsAvailable()) give(m, paid);
+            PremiumCrystals.guild(m, true, card.rank(), "guild:team:" + q.code() + ":" + party.window);
             m.sendSystemMessage(Component.literal("Командное задание «" + q.name() + "» выполнено! +" + GuildRules.money(paid) + ", +" + xp + " опыта карточки.").withColor(0x7bea8a));
             System.out.println("AOC_GUILD_TEAM_DONE " + m.getGameProfile().getName() + " " + q.code() + " rank=" + card.rank() + " paid=" + paid + " xp=" + xp + " issued_today=" + store.ledger.issued);
         }

@@ -57,7 +57,7 @@ pub struct Runtime {
 fn local_host() -> String {
     "127.0.0.1".into()
 }
-fn compatible_mod(path: &std::path::Path, expected: &str) -> Result<(), Error> {
+pub(crate) fn compatible_mod(path: &std::path::Path, expected: &str) -> Result<(), Error> {
     use sha2::Digest;
     let bytes = std::fs::read(path).map_err(|_| "RUNTIME_MOD_UPDATE_REQUIRED")?;
     if format!("{:x}", sha2::Sha256::digest(bytes)) != expected {
@@ -116,11 +116,29 @@ impl Runtime {
                     .replace("%AOC_HEIGHT%", &settings.height.to_string())
             })
             .collect();
+        // The native title menu owns connection now. Keep the validated/pinned target
+        // in Runtime and the ticket bridge, but do not skip the menu with quick play.
+        args = title_menu_arguments(args);
         if settings.fullscreen {
             args.push("--fullscreen".into());
         }
         args
     }
+}
+
+fn title_menu_arguments(args: Vec<String>) -> Vec<String> {
+    let mut result = Vec::with_capacity(args.len());
+    let mut values = args.into_iter();
+    while let Some(value) = values.next() {
+        if value == "--quickPlayMultiplayer" || value == "--quickPlayPath" {
+            values.next();
+        } else if !value.starts_with("--quickPlayMultiplayer=")
+            && !value.starts_with("--quickPlayPath=")
+        {
+            result.push(value);
+        }
+    }
+    result
 }
 
 #[derive(Clone, Serialize)]
@@ -206,6 +224,17 @@ impl Game {
                 expected,
             )?;
         }
+        if let Some(expected) =
+            option_env!("AOC_REQUIRED_LOADING_SHA256").filter(|hash| hash.len() == 64)
+        {
+            compatible_mod(
+                &value
+                    .game_directory
+                    .join("mods/animeoncraft-loading-1.0.0.jar"),
+                expected,
+            )?;
+        }
+        crate::title_assets::verify_required(&value.game_directory)?;
         Ok(value)
     }
     pub async fn server_status(&self) -> crate::game_status::Snapshot {
@@ -569,6 +598,38 @@ async fn serve(
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn title_menu_removes_only_multiplayer_auto_connect_arguments() {
+        let input = [
+            "-Xmx4096M",
+            "--username",
+            "Y2K",
+            "--quickPlayMultiplayer",
+            "127.0.0.1:25569",
+            "--quickPlayPath",
+            "F:/game/quickplay.json",
+            "--width",
+            "1280",
+            "--quickPlayMultiplayer=example.test:25565",
+            "--quickPlayPath=F:/other.json",
+            "--quickPlaySingleplayer",
+            "Review World",
+            "--fullscreen",
+        ];
+        assert_eq!(
+            title_menu_arguments(input.map(String::from).to_vec()),
+            [
+                "-Xmx4096M",
+                "--username",
+                "Y2K",
+                "--width",
+                "1280",
+                "--quickPlaySingleplayer",
+                "Review World",
+                "--fullscreen"
+            ]
+        );
+    }
     #[tokio::test]
     async fn bridge_rejects_browser_credentials_wrong_server_and_oversized_body() {
         let server = uuid::Uuid::new_v4().to_string();

@@ -120,9 +120,10 @@ final class ResourcePits {
             return state.has("applied_count") ? state.get("applied_count").getAsInt() : 0; // already applied, only the acknowledgement was lost
         int count;
         if (pit) {
-            if (state == null || !state.has("output") || !state.get("output").equals(point.resource().output())) {
+            boolean newMine = state != null && !state.has("mine") && mine(server, point.code()) != null;
+            if (state == null || !state.has("output") || !state.get("output").equals(point.resource().output()) || newMine) {
                 if (state!=null) {
-                    Path backup=path.resolveSibling(path.getFileName()+".before-v2");
+                    Path backup=path.resolveSibling(path.getFileName()+(newMine?".before-mine":".before-v2"));
                     if (!Files.exists(backup)) Files.copy(path,backup);
                 }
                 state = template(level, point, rules);
@@ -169,6 +170,8 @@ final class ResourcePits {
             if(block(pair.getAsJsonArray().get(0).getAsString())==null)throw new IllegalStateException("Required resource block unavailable");
             reserved+=pair.getAsJsonArray().get(1).getAsInt();
         }
+        var mine = mine(level.getServer(), point.code());
+        if (mine != null) return mineTemplate(point, family, target, mine, output);
         int existingLimit=Math.max(0,target-Math.min(target,reserved));
         for (int dx = -r; dx <= r; dx++) for (int dz = -r; dz <= r; dz++) {
             if (dx * dx + dz * dz > r * r) continue;
@@ -190,6 +193,62 @@ final class ResourcePits {
         state.add("output",output.deepCopy());state.addProperty("limit",target);
         state.addProperty("created_at", Instant.now().toString()); state.add("blocks", blocks);
         return state;
+    }
+    /** Slots of a built mine ({@link MineBuilder}), or null. */
+    static JsonObject mine(MinecraftServer server, String code) {
+        try { return read(MineBuilder.file(server, code)); }
+        catch (IOException | RuntimeException unreadable) { LOG.log(System.Logger.Level.WARNING, "Mine file unreadable for " + code); return null; }
+    }
+    /** A mine's template: its wall slots in shuffled order, ores cycled by the seed weights, all planned (filled on restore). */
+    private static JsonObject mineTemplate(CaptureSites.Point point, JsonObject family, int target, JsonObject mine, JsonObject output) {
+        var choices = new ArrayList<String>();
+        if (family != null && family.has("seed")) for (var value : family.getAsJsonArray("seed")) {
+            var pair = value.getAsJsonArray();
+            if (block(pair.get(0).getAsString()) == null) throw new IllegalStateException("Required resource block unavailable");
+            for (int i = 0; i < pair.get(1).getAsInt(); i++) choices.add(pair.get(0).getAsString());
+        }
+        if (choices.isEmpty()) throw new IllegalStateException("Mine without seed blocks");
+        var blocks = new JsonArray();
+        var slots = mine.getAsJsonArray("slots");
+        for (int i = 0; i < slots.size() && blocks.size() < target; i++) {
+            var slot = slots.get(i).getAsJsonArray(); int y = slot.get(1).getAsInt();
+            String id = choices.get(blocks.size() % choices.size());
+            if (y < 0 && id.startsWith("minecraft:") && id.endsWith("_ore") && block(id.replace("minecraft:", "minecraft:deepslate_")) != null) id = id.replace("minecraft:", "minecraft:deepslate_");
+            var row = entry(slot.get(0).getAsInt(), y, slot.get(2).getAsInt(), id); row.add(true); blocks.add(row);
+        }
+        if (blocks.isEmpty()) throw new IllegalStateException("Mine has no ore slots");
+        var state = new JsonObject();
+        state.addProperty("format_version", 2); state.addProperty("x", point.x()); state.addProperty("z", point.z());
+        state.add("output", output.deepCopy()); state.addProperty("limit", target); state.addProperty("mine", true);
+        state.addProperty("created_at", Instant.now().toString()); state.add("blocks", blocks);
+        return state;
+    }
+    /**
+     * Switches a pit to its newly built mine at once: the old template is kept as {@code .before-mine}, the slots are
+     * filled up to the tier cap. The applied due time is carried over, so the backend's refresh schedule is unchanged.
+     */
+    static int adoptMine(MinecraftServer server, CaptureSites.Point point) throws IOException {
+        var rules = CaptureSites.view().rules();
+        if (rules == null) return 0;
+        Path path = file(server, "pits", point.code());
+        var state = read(path);
+        if (state != null && state.has("mine")) return 0;
+        if (state != null) { Path backup = path.resolveSibling(path.getFileName() + ".before-mine"); if (!Files.exists(backup)) Files.copy(path, backup); }
+        var fresh = template(server.overworld(), point, rules);
+        if (state != null && state.has("applied_due")) { fresh.add("applied_due", state.get("applied_due")); fresh.add("applied_count", state.get("applied_count")); }
+        write(path, fresh);
+        int count = restore(server.overworld(), point, fresh, 1);
+        write(path, fresh);
+        return count;
+    }
+    /** Rock of the mine wall, or rubble a player pushed into a slot; the refresh turns it into ore (only in mines). */
+    private static boolean rubble(net.minecraft.world.level.block.state.BlockState state) {
+        if (naturalSurface(state) || state.is(BlockTags.BASE_STONE_OVERWORLD) || state.is(BlockTags.TERRACOTTA) || state.is(BlockTags.SAND)) return true;
+        if (BuiltInRegistries.BLOCK.getKey(state.getBlock()).getPath().endsWith("_ore")) return true;
+        return state.is(Blocks.COBBLESTONE) || state.is(Blocks.COBBLED_DEEPSLATE) || state.is(Blocks.MOSSY_COBBLESTONE) || state.is(Blocks.NETHERRACK)
+            || state.is(Blocks.SANDSTONE) || state.is(Blocks.RED_SANDSTONE) || state.is(Blocks.CALCITE) || state.is(Blocks.CLAY) || state.is(Blocks.MUD)
+            || state.is(Blocks.PACKED_MUD) || state.is(Blocks.DRIPSTONE_BLOCK) || state.is(Blocks.MOSS_BLOCK) || state.is(Blocks.ICE) || state.is(Blocks.PACKED_ICE)
+            || state.is(Blocks.SNOW_BLOCK) || state.is(Blocks.SMOOTH_BASALT) || state.is(Blocks.AMETHYST_BLOCK) || state.is(Blocks.RAW_IRON_BLOCK) || state.is(Blocks.RAW_COPPER_BLOCK);
     }
     private static JsonArray entry(int dx, int y, int dz, String id) {
         var row = new JsonArray(); row.add(dx); row.add(y); row.add(dz); row.add(id); return row;
@@ -265,7 +324,8 @@ final class ResourcePits {
                 ||block==Blocks.SWEET_BERRY_BUSH&&current.getValue(net.minecraft.world.level.block.SweetBerryBushBlock.AGE)<3);
             if(current.is(block)&&planned)row.set(4,new com.google.gson.JsonPrimitive(false));
             boolean surfaceSeed=planned&&point.resource().output().has("placement")&&"SURFACE".equals(point.resource().output().get("placement").getAsString())&&surfaceSpace(current);
-            if (natural || surfaceSeed || crop || current.isAir() || current.is(Blocks.WATER) && block != Blocks.WATER) { missing.add(pos); ids.add(block);rows.add(row); }
+            boolean rubble=state.has("mine")&&!current.is(block)&&rubble(current);
+            if (natural || surfaceSeed || crop || rubble || current.isAir() || current.is(Blocks.WATER) && block != Blocks.WATER) { missing.add(pos); ids.add(block);rows.add(row); }
         }
         int limit=state.has("limit")?state.get("limit").getAsInt():CaptureSites.view().rules().getAsJsonObject("yield").getAsJsonArray("pit_blocks").get(point.resource().tier()-1).getAsInt();
         int allowed = Math.min(missing.size(),(int) Math.ceil(limit * Math.max(0, Math.min(1, multiplier))));

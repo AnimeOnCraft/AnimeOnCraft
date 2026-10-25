@@ -40,6 +40,7 @@ final class LayoutJobs {
     private record PoiJob(WorldLayout.Poi poi) implements Job {
         @Override public String code() { return poi.code(); }
         @Override public boolean step(net.minecraft.server.level.ServerLevel level) {
+            if (WorldLayout.state().guarded(poi.code())) PoiBuilder.guard(level, WorldLayout.state(), poi);
             int y = PoiBuilder.build(level, WorldLayout.state(), poi);
             CaptureAnchors.record(level.getServer(), poi.code(), y);
             System.out.println("AOC_LAYOUT_BUILT " + poi.code() + " type=" + poi.type() + " y=" + y);
@@ -90,7 +91,7 @@ final class LayoutJobs {
         for (var poi : layout.pois().values()) {
             boolean near = nearRadius != null && Math.hypot(poi.x() - nearX, poi.z() - nearZ) <= nearRadius;
             if (all || "pois".equals(selection) || poi.code().equals(selection) || near)
-                jobs.add(SoraExpansion.TYPE.equals(poi.type()) ? new SoraExpansion(poi) : new PoiJob(poi));
+                jobs.add(SoraExpansion.TYPE.equals(poi.type()) ? new SoraExpansion(poi) : MineBuilder.TYPE.equals(poi.type()) ? new MineBuilder(poi) : SiteDecor.TYPE.equals(poi.type()) ? new SiteDecor(poi) : new PoiJob(poi));
         }
         int queued = 0;
         for (var job : jobs) {

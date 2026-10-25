@@ -1,0 +1,14 @@
+{
+  "code": "RIFT_HALF_MASK",
+  "source": "minecraft\\cosmetics\\rift-half-mask\\rift-half-mask.bbmodel",
+  "source_sha256": "10d6d861d0264edb6ac404ffebf3174dd32312fb204bff98fa13c31f65053159",
+  "geometry": "minecraft/integration/neoforge/src/main/resources/assets/animeoncraft/cosmetics/rift_half_mask.json",
+  "texture": "minecraft/integration/neoforge/src/main/resources/assets/animeoncraft/textures/cosmetics/rift_half_mask.png",
+  "faces": 154,
+  "triangles": 64,
+  "emissive_faces": 45,
+  "parts": [
+    "static"
+  ],
+  "reference_head_exported": false
+}

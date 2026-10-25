@@ -1,0 +1,25 @@
+{
+  "code": "SAKURA_WINGS",
+  "anchor": "body",
+  "emissive_tiles": [
+    3,
+    5
+  ],
+  "parts": {
+    "static": [
+      0,
+      0,
+      0
+    ],
+    "wing_r": [
+      1.4,
+      -3.4,
+      2.6
+    ],
+    "wing_l": [
+      -1.4,
+      -3.4,
+      2.6
+    ]
+  }
+}

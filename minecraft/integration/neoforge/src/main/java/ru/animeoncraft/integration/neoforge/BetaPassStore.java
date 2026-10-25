@@ -31,7 +31,10 @@ final class BetaPassStore extends SavedData {
         boolean equip(String slot,String code){if(!Set.of("HEAD","FACE","BELT","BACK","TITLE").contains(slot))return false;
             if(!code.isEmpty()){var r=BetaPass.find(code);if(!owns(code)||!BetaPass.slot(r).equals(slot))return false;equipped.put(slot,code);}else equipped.remove(slot);return true;
         }
+        /** Gacha accessories: the caller has checked ownership against the account backend; grants are never revoked. */
+        boolean wear(String slot,String code){if(!slot.equals(GACHA_SLOTS.get(code)))return false;equipped.put(slot,code);return true;}
     }
+    static final Map<String,String> GACHA_SLOTS=Map.of("SAKURA_WINGS","BACK","KITSUNE_SAKURA","HEAD","RIFT_HALF_MASK","FACE","OMAMORI_CHARM","BELT");
     private final Map<UUID,Entry> players=new HashMap<>();
     boolean open=true;
     static BetaPassStore get(MinecraftServer server){return server.overworld().getDataStorage().computeIfAbsent(new Factory<>(BetaPassStore::new,BetaPassStore::load),"animeoncraft-beta-rift-1");}
@@ -40,7 +43,7 @@ final class BetaPassStore extends SavedData {
     static BetaPassStore load(CompoundTag tag,HolderLookup.Provider registries){var store=new BetaPassStore();store.open=!tag.contains("open")||tag.getBoolean("open");var list=tag.getList("players",Tag.TAG_COMPOUND);
         for(int i=0;i<list.size();i++){var row=list.getCompound(i);if(!row.hasUUID("uuid"))continue;var e=store.player(row.getUUID("uuid"));e.xp=Math.clamp(row.getInt("xp"),0,1000);e.day=row.getString("day");e.week=row.getString("week");e.dayClaims=row.getInt("dc")&63;e.weekClaims=row.getInt("wc")&63;e.rewards=row.getInt("rewards")&1023;
             var d=row.getLongArray("daily");var w=row.getLongArray("weekly");for(int j=0;j<6;j++){e.daily[j]=j<d.length?Math.clamp(d[j],0,BetaPass.QUESTS.get(j).daily()):0;e.weekly[j]=j<w.length?Math.clamp(w[j],0,BetaPass.QUESTS.get(j).daily()*7):0;}
-            var equipped=row.getCompound("equipped");for(String key:equipped.getAllKeys())e.equip(key,equipped.getString(key));
+            var equipped=row.getCompound("equipped");for(String key:equipped.getAllKeys()){String code=equipped.getString(key);if(!e.equip(key,code))e.wear(key,code);}
         }return store;
     }
     @Override public CompoundTag save(CompoundTag tag,HolderLookup.Provider registries){tag.putBoolean("open",open);var list=new ListTag();for(var item:players.entrySet()){var e=item.getValue();var row=new CompoundTag();row.putUUID("uuid",item.getKey());row.putInt("xp",e.xp);row.putString("day",e.day);row.putString("week",e.week);row.putInt("dc",e.dayClaims);row.putInt("wc",e.weekClaims);row.putInt("rewards",e.rewards);row.putLongArray("daily",e.daily);row.putLongArray("weekly",e.weekly);var equipped=new CompoundTag();e.equipped.forEach(equipped::putString);row.put("equipped",equipped);list.add(row);}tag.put("players",list);tag.putString("season",BetaPass.SEASON);return tag;}

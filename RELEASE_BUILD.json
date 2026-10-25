@@ -1,13 +1,13 @@
 {
-  "version": "0.8.11",
-  "source_tag": "v0.8.11",
+  "version": "0.8.13",
+  "source_tag": "v0.8.13",
   "installer": {
-    "url": "https://charizma1337.github.io/animeoncraft-updates/0.8.11/AnimeOnCraft_0.8.11_x64-setup.exe",
-    "bytes": 51566998,
-    "sha256": "2f0c42e1c2989c8ee05bb8872bc34d6c56c0977f0142f0591c8ba2ba4eddcf60",
-    "signature_url": "https://charizma1337.github.io/animeoncraft-updates/0.8.11/AnimeOnCraft_0.8.11_x64-setup.exe.sig"
+    "url": "https://charizma1337.github.io/animeoncraft-updates/0.8.13/AnimeOnCraft_0.8.13_x64-setup.exe",
+    "bytes": 56326885,
+    "sha256": "80a55478957a264c11012137216b70c92acff735e0b51e5ab2caf7c45ee02022",
+    "signature_url": "https://charizma1337.github.io/animeoncraft-updates/0.8.13/AnimeOnCraft_0.8.13_x64-setup.exe.sig"
   },
-  "game_mod_sha256": "3a823409856f162dae2eaaaf23652052827e84a628859185f1cd5e7b61327b44",
-  "modpack_profile_sha256": "b3d720293b8a30389db0e2cbe1eacc78a89bf01f2b346e2fd0d6a390eb15c9d6",
-  "reproducibility": "Source used for this release. Independent builds are not guaranteed to be bit-for-bit identical; dependencies and build toolchains also affect binaries."
+  "game_mod_sha256": "2a661c02dde4e09c369c08274faa89e511541cca39105195f9acd78dbf07241a",
+  "modpack_profile_sha256": "a74165c9e17dded483e036eaca393cb651b0698458a2b99eff95e8b90d135090",
+  "reproducibility": "Current development source snapshot. The released game mod is a scoped binary hotfix over the verified 0.8.12 artifact; the source tree also contains pending work. Building the entire tree does not reproduce the released game mod. See SCOPED_GAME_MOD_PATCH.json. Independent builds are not guaranteed to be bit-for-bit identical."
 }

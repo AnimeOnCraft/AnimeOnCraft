@@ -38,18 +38,25 @@ async function closeRunningCaptures(tx: Tx, pointId: string, reason: string) {
   }
 }
 
-export async function applyCatalog(tx: Tx, catalog: WorldCatalog, options: { activate: boolean; reason: string }): Promise<ImportResult> {
-  const worldId = catalog.world.id, digest = catalogDigest(catalog);
+/**
+ * `only`: a targeted patch of a live world. Just the named regions, points and connections are written; every other row
+ * (tuned heights, yields, admin changes) stays as it is, nothing is archived or disabled implicitly, markers are kept.
+ */
+export async function applyCatalog(tx: Tx, catalog: WorldCatalog, options: { activate: boolean; reason: string; only?: ReadonlySet<string> }): Promise<ImportResult> {
+  const worldId = catalog.world.id, digest = catalogDigest(catalog), only = options.only;
+  const picked = (code: string) => !only || only.has(code);
   await tx.$executeRaw`SELECT pg_advisory_xact_lock(18002620)`;
   // Also the capture engine lock (always in this order): an import never races a running capture.
   await tx.$executeRaw`SELECT pg_advisory_xact_lock(18002640)`;
   const existing = await tx.$queryRaw<Array<{ source_digest: string; version: bigint; active: boolean }>>`
     SELECT source_digest,version,active FROM world_catalog WHERE world_id=${worldId} FOR UPDATE`;
   const prior = existing[0];
+  if (only && !prior) throw new Error(`World ${worldId} is not imported yet; a patch needs the full catalog first`);
+  if (only) for (const code of only) if (![...catalog.regions, ...catalog.points, ...catalog.connections].some(row => row.code === code)) throw new Error(`Patch code ${code} is not in the catalog`);
   if (prior && prior.source_digest === digest && (!options.activate || prior.active))
     return { world_id: worldId, changed: false, version: prior.version.toString(), regions: catalog.regions.length, points: catalog.points.length, archived_regions: 0, disabled_points: 0 };
 
-  const clanCodes = [...new Set(catalog.regions.map(r => r.clan_code).filter((c): c is string => c !== null))];
+  const clanCodes = [...new Set(catalog.regions.filter(r => picked(r.code)).map(r => r.clan_code).filter((c): c is string => c !== null))];
   const clans = new Map<string, string>();
   for (const code of clanCodes) {
     const rows = await tx.$queryRaw<Array<{ id: string }>>`SELECT id FROM clans WHERE code_key=${code} AND archived_at IS NULL`;
@@ -77,6 +84,7 @@ export async function applyCatalog(tx: Tx, catalog: WorldCatalog, options: { act
   const regionIds = new Map<string, string>();
   for (const source of catalog.regions) {
     const before = oldRegions.find(r => r.code === source.code);
+    if (!picked(source.code)) { if (before) regionIds.set(source.code, before.id); continue; }
     // A frontier slot assigned in the admin panel keeps its clan, status and policies (stage 8); the rest follows the catalog.
     const admin = before?.assignment === 'ADMIN' ? before : null;
     const region: CatalogRegion = admin ? { ...source, status: admin.status as CatalogRegion['status'], pvp_policy: admin.pvp_policy as CatalogRegion['pvp_policy'], build_policy: admin.build_policy as CatalogRegion['build_policy'] } : source;
@@ -109,7 +117,7 @@ export async function applyCatalog(tx: Tx, catalog: WorldCatalog, options: { act
     regionIds.set(region.code, id);
   }
   let archivedRegions = 0;
-  for (const old of oldRegions) if (!regionIds.has(old.code) && old.status !== 'ARCHIVED') {
+  for (const old of oldRegions) if (!only && !regionIds.has(old.code) && old.status !== 'ARCHIVED') {
     await tx.$executeRaw`UPDATE world_regions SET status='ARCHIVED',version=version+1,updated_at=now() WHERE id=${old.id}::uuid`; archivedRegions++;
   }
 
@@ -121,6 +129,8 @@ export async function applyCatalog(tx: Tx, catalog: WorldCatalog, options: { act
     FROM strategic_points p LEFT JOIN resource_sites s ON s.point_id=p.id WHERE p.world_id=${worldId}`;
   const seen = new Set<string>();
   for (const point of catalog.points) {
+    if (!picked(point.code)) { seen.add(point.code); continue; }
+    if (point.region_code && !regionIds.has(point.region_code)) throw new Error(`${point.code}: region ${point.region_code} is neither patched nor imported`);
     const regionId = point.region_code ? regionIds.get(point.region_code)! : null, before = oldPoints.find(p => p.code === point.code);
     let id: string;
     if (!before) {
@@ -156,27 +166,33 @@ export async function applyCatalog(tx: Tx, catalog: WorldCatalog, options: { act
     seen.add(point.code);
   }
   let disabledPoints = 0;
-  for (const old of oldPoints) if (!seen.has(old.code) && old.enabled) {
+  for (const old of oldPoints) if (!only && !seen.has(old.code) && old.enabled) {
     await closeRunningCaptures(tx, old.id, 'POINT_DISABLED');
     await tx.$executeRaw`UPDATE strategic_points SET enabled=false,config_version=config_version+1,updated_at=now() WHERE id=${old.id}::uuid`;
     await tx.$executeRaw`INSERT INTO resource_site_history(point_id,event,actor_kind,payload) VALUES (${old.id}::uuid,'DISABLED','OPERATOR',${json({ digest })}::jsonb)`;
     disabledPoints++;
   }
 
-  // Connections and markers carry no runtime state: replace them.
-  await tx.$executeRaw`DELETE FROM region_connections WHERE world_id=${worldId}`;
-  for (const c of catalog.connections)
+  // Connections and markers carry no runtime state: replace them (a patch replaces only its own connections).
+  if (only) for (const c of catalog.connections.filter(c => only.has(c.code))) {
+    if (!regionIds.has(c.from) || !regionIds.has(c.to)) throw new Error(`${c.code}: its regions are neither patched nor imported`);
+    await tx.$executeRaw`DELETE FROM region_connections WHERE world_id=${worldId} AND code=${c.code}`;
     await tx.$executeRaw`INSERT INTO region_connections(world_id,code,from_region,to_region,kind,polyline)
       VALUES (${worldId},${c.code},${regionIds.get(c.from)!}::uuid,${regionIds.get(c.to)!}::uuid,${c.kind},${json(c.polyline)}::jsonb)`;
-  await tx.$executeRaw`DELETE FROM map_markers WHERE world_id=${worldId}`;
-  for (const m of catalog.markers)
+  }
+  else await tx.$executeRaw`DELETE FROM region_connections WHERE world_id=${worldId}`;
+  if (!only) for (const c of catalog.connections)
+    await tx.$executeRaw`INSERT INTO region_connections(world_id,code,from_region,to_region,kind,polyline)
+      VALUES (${worldId},${c.code},${regionIds.get(c.from)!}::uuid,${regionIds.get(c.to)!}::uuid,${c.kind},${json(c.polyline)}::jsonb)`;
+  if (!only) await tx.$executeRaw`DELETE FROM map_markers WHERE world_id=${worldId}`;
+  if (!only) for (const m of catalog.markers)
     await tx.$executeRaw`INSERT INTO map_markers(world_id,code,layer,kind,x,z,label,icon,visibility)
       VALUES (${worldId},${m.code},${m.layer},${m.kind},${m.x},${m.z},${m.label},${m.icon},${m.visibility})`;
 
   const version = (await tx.$queryRaw<Array<{ version: bigint }>>`SELECT version FROM world_catalog WHERE world_id=${worldId}`)[0]!.version;
   await tx.$executeRaw`INSERT INTO audit_logs(actor_kind,action,target_type,target_id,after_redacted,reason,request_id)
-    VALUES ('OPERATOR','WORLD_CATALOG_IMPORTED','world_catalog',${worldTarget(worldId)}::uuid,
-      ${json({ world_id: worldId, version: version.toString(), digest, regions: catalog.regions.length, points: catalog.points.length, archived_regions: archivedRegions, disabled_points: disabledPoints, activated: options.activate })}::jsonb,
+    VALUES ('OPERATOR',${only ? 'WORLD_CATALOG_PATCHED' : 'WORLD_CATALOG_IMPORTED'},'world_catalog',${worldTarget(worldId)}::uuid,
+      ${json({ world_id: worldId, version: version.toString(), digest, regions: catalog.regions.length, points: catalog.points.length, archived_regions: archivedRegions, disabled_points: disabledPoints, activated: options.activate, ...(only ? { only: [...only].sort() } : {}) })}::jsonb,
       ${options.reason},${randomUUID()}::uuid)`;
   return { world_id: worldId, changed: true, version: version.toString(), regions: catalog.regions.length, points: catalog.points.length, archived_regions: archivedRegions, disabled_points: disabledPoints };
 }

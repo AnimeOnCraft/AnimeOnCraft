@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "required_mods": [
+    "cleanmaid",
+    "in-control"
+  ],
+  "night": {
+    "format_version": 1,
+    "enabled": true,
+    "night_speed": 2,
+    "death_drop_protection_seconds": 300
+  },
+  "spawn_rules": [
+    {
+      "when": "finalize",
+      "mob": [
+        "bosses_of_mass_destruction:gauntlet",
+        "bosses_of_mass_destruction:lich",
+        "bosses_of_mass_destruction:obsidilith",
+        "bosses_of_mass_destruction:void_blossom",
+        "cataclysm:ancient_remnant",
+        "cataclysm:ender_guardian",
+        "cataclysm:ignis",
+        "cataclysm:maledictus",
+        "cataclysm:netherite_monstrosity",
+        "cataclysm:scylla",
+        "cataclysm:the_harbinger",
+        "cataclysm:the_leviathan",
+        "irons_spellbooks:dead_king",
+        "irons_spellbooks:fire_boss",
+        "minecraft:elder_guardian",
+        "minecraft:ender_dragon",
+        "minecraft:warden",
+        "minecraft:wither",
+        "mowziesmobs:ferrous_wroughtnaut",
+        "mowziesmobs:frostmaw",
+        "mowziesmobs:umvuthi",
+        "twilightforest:alpha_yeti",
+        "twilightforest:hydra",
+        "twilightforest:lich",
+        "twilightforest:minoshroom",
+        "twilightforest:naga",
+        "twilightforest:snow_queen",
+        "twilightforest:ur_ghast"
+      ],
+      "result": "default"
+    },
+    {
+      "when": "finalize",
+      "spawntype": "natural",
+      "mob": "minecraft:phantom",
+      "random": 0.8,
+      "result": "deny"
+    },
+    {
+      "when": "finalize",
+      "spawntype": "natural",
+      "hostile": true,
+      "mincount": {
+        "amount": 40,
+        "hostile": true,
+        "perplayer": true
+      },
+      "result": "deny"
+    }
+  ],
+  "toml": {
+    "cleanmaid-server.toml": {
+      "general": {
+        "enabled": true,
+        "interval_seconds": 300,
+        "warning_seconds": 60,
+        "countdown_seconds": 10,
+        "broadcast_when_zero": false,
+        "debug": false,
+        "easter_egg": false,
+        "max_items_per_batch": 256
+      },
+      "targets": {
+        "clean_item_entities": true,
+        "clean_experience_orbs": false,
+        "clean_arrows": false,
+        "clean_tridents": false,
+        "clean_snowballs": false,
+        "clean_eggs": false,
+        "clean_other_projectiles": false
+      },
+      "black_white_filter": {
+        "item_blacklist_enable": false,
+        "item_whitelist_enable": false,
+        "dm_blacklist_enable": false,
+        "dm_whitelist_enable": false
+      },
+      "protection": {
+        "protect_named_items": true,
+        "protect_custom_name_entities": true,
+        "protect_player_death_drops": true,
+        "player_death_drop_protection_seconds": 300,
+        "minimum_item_age_seconds": 60
+      },
+      "display": {
+        "use_actionbar": false,
+        "use_chat": true
+      },
+      "messages": {
+        "warning": "<yellow>Очистка предметов на земле через {time} сек. Заберите нужные вещи.",
+        "countdown": "<yellow>Очистка предметов через {time} сек.",
+        "cleaned": "<green>Очистка завершена: удалено {count} объектов за {duration}.",
+        "manual_cleaned": "<green>Удалено {count} объектов.",
+        "reload_success": "<green>Настройки очистки перезагружены.",
+        "reload_failed": "<red>Не удалось загрузить настройки очистки."
+      },
+      "sound": {
+        "warning_sound_enabled": false
+      },
+      "commands": {
+        "permission_level": 3
+      }
+    }
+  }
+}

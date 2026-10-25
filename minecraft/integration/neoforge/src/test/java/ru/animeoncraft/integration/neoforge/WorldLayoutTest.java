@@ -16,13 +16,16 @@ class WorldLayoutTest {
 
     @Test void generatedLayoutHasEveryPoiRoadAndZone() throws Exception {
         var layout = WorldLayout.load(LAYOUT);
-        assertEquals(69, layout.pois().size(), "67 catalog points + Sora's outer ring and the guild");
-        assertEquals(20, layout.roads().size());
-        assertEquals(69, layout.exclusions().size());
+        assertEquals(99, layout.pois().size(), "69 catalog points (with VØRIX's capital and outpost) + Sora's outer ring and the guild + 18 mines and 10 site decorations");
+        assertEquals(21, layout.roads().size());
+        assertEquals(99, layout.exclusions().size());
+        assertEquals(18, layout.pois().values().stream().filter(p -> MineBuilder.TYPE.equals(p.type())).count());
+        assertEquals(10, layout.pois().values().stream().filter(p -> SiteDecor.TYPE.equals(p.type())).count());
+        for (var poi : layout.pois().values()) if (poi.code().startsWith("mine.") || poi.code().startsWith("decor.")) assertTrue(layout.guarded(poi.code()), poi.code() + " is built in a live world");
         assertEquals("CITY_EXPANSION", layout.pois().get("core.capital.expansion").type());
         assertEquals(160, layout.pois().get("core.capital.expansion").radius());
         assertEquals("ADVENTURER_GUILD", layout.pois().get("core.guild").type());
-        for (var clan : List.of("SCAM", "NYA", "ZXC", "AKUMA", "YAKUZA")) assertTrue(layout.palettes().containsKey(clan), clan + " palette from clan-world.json");
+        for (var clan : List.of("SCAM", "NYA", "ZXC", "AKUMA", "YAKUZA", "VORIX")) assertTrue(layout.palettes().containsKey(clan), clan + " palette from clan-world.json");
         assertEquals("CAPITAL", layout.pois().get("core.capital").type());
         assertEquals("road.cross.w1", layout.pois().get("border.w1.pass").road());
         for (var poi : layout.pois().values()) assertTrue(layout.palettes().containsKey(poi.palette()));

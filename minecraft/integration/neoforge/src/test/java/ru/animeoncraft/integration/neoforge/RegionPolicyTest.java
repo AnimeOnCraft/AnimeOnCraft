@@ -20,7 +20,7 @@ class RegionPolicyTest {
     @Test void statesWorldOwnersFollowTheCatalog() throws Exception {
         var regions = RegionPolicy.parse(states());
         assertEquals(RegionPolicy.NOBODY, regions.ownerAt(0, 0), "Sora: nobody builds");
-        assertEquals(RegionPolicy.NOBODY, regions.ownerAt(0, 800), "boss arena lies in the core");
+        assertNull(regions.ownerAt(0, 800), "Sora outskirts are neutral beyond 300 blocks");
         assertEquals("SCAM", regions.ownerAt(0, -2704));
         assertEquals("NYA", regions.ownerAt(2560, -832));
         assertEquals("ZXC", regions.ownerAt(1584, 2192));
@@ -102,7 +102,24 @@ class RegionPolicyTest {
             }
         }
         assertFalse(policy.canBuild(true, false, "SCAM", 0, 0));
-        assertFalse(policy.canBuild(true, false, null, 0, 800));
+        assertTrue(policy.canBuild(true, false, null, 0, 800));
+    }
+
+    @Test void soraProtectionEndsAt300AndDoesNotClaimTheReportedNeutralLand() throws Exception {
+        var regions = RegionPolicy.parse(states());
+        var policy = TerritoryPermissions.states(regions, 16);
+        assertNull(regions.ownerAt(-616, 375));
+        assertTrue(policy.canBuild(true, false, "SCAM", -616, 375));
+        assertTrue(policy.canBuild(true, false, "NYA", -616, 375));
+        assertTrue(policy.canBuild(true, false, null, -616, 375));
+        for (var p : new int[][] {{0,299},{0,-300},{299,0},{-300,0}}) {
+            assertEquals(RegionPolicy.NOBODY, regions.ownerAt(p[0],p[1]));
+            assertFalse(policy.canBuild(true,false,"SCAM",p[0],p[1]));
+        }
+        for (var p : new int[][] {{0,301},{0,-302},{301,0},{-302,0}}) {
+            assertNull(regions.ownerAt(p[0],p[1]));
+            assertTrue(policy.canBuild(true,false,null,p[0],p[1]));
+        }
     }
 
     @Test void nonClanSpawnsKeepTheirUnconditionalBuildLock() {

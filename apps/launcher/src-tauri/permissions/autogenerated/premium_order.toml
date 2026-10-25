@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-premium-order"
+description = "Enables the premium_order command without any pre-configured scope."
+commands.allow = ["premium_order"]
+
+[[permission]]
+identifier = "deny-premium-order"
+description = "Denies the premium_order command without any pre-configured scope."
+commands.deny = ["premium_order"]

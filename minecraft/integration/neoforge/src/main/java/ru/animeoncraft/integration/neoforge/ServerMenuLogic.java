@@ -2,7 +2,7 @@ package ru.animeoncraft.integration.neoforge;
 
 /** Input and hit-testing are independent of Minecraft rendering and GUI scale. */
 final class ServerMenuLogic {
-    enum Page { WHEEL,CLANS,ONLINE,GUIDE,RULES,PROFILE,BETA_PASS,WARDROBE }
+    enum Page { WHEEL,CLANS,ONLINE,GUIDE,RULES,PROFILE,BETA_PASS,WARDROBE,SUMMON }
     private Page page=Page.WHEEL;private boolean heldWheel=true;
     Page page(){return page;}
     boolean closesOnRelease(){return page==Page.WHEEL&&heldWheel;}

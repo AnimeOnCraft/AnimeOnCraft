@@ -21,5 +21,6 @@ public abstract class XaeroClanMapScreenMixin {
     @Inject(method="render",at=@At(value="INVOKE",target="Lxaero/map/element/MapElementRenderHandler;render(Lxaero/map/gui/GuiMap;Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/client/renderer/MultiBufferSource$BufferSource;Lxaero/map/graphics/renderer/multitexture/MultiTextureRenderTypeRendererProvider;DDIIDDDDDFZLxaero/map/element/HoveredMapElementHolder;Lnet/minecraft/client/Minecraft;F)Lxaero/map/element/HoveredMapElementHolder;"),remap=false)
     private void animeoncraft$territoryBorders(GuiGraphics graphics,int mouseX,int mouseY,float partialTicks,CallbackInfo callback) {
         if(mapProcessor.getMapWorld()!=null&&Level.OVERWORLD.equals(mapProcessor.getMapWorld().getCurrentDimensionId()))XaeroClanMapOverlay.render(graphics,cameraX,cameraZ,scale);
+        if(mapProcessor.getMapWorld()!=null&&net.minecraft.client.Minecraft.getInstance().level!=null&&net.minecraft.client.Minecraft.getInstance().level.dimension().equals(mapProcessor.getMapWorld().getCurrentDimensionId()))XaeroClanMapOverlay.playerHalo(graphics,cameraX,cameraZ,scale);
     }
 }

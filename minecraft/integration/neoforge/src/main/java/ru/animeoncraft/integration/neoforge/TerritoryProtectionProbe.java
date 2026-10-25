@@ -27,6 +27,10 @@ final class TerritoryProtectionProbe {
             throw new IllegalStateException("Territory probe requires its own loopback world");
         }
         ClanControlSync.accept(java.util.Map.of());
+        if(Boolean.getBoolean("animeoncraft.ecologyProbe")) { EcologyProbe.schedule(server);return; }
+        if(Boolean.getBoolean("animeoncraft.publicWaystoneProbe")) {
+            PublicWaystoneProbe.verify(server);return;
+        }
         if(Boolean.getBoolean("animeoncraft.balanceProbe")){
             try{SpellBalanceProbe.verify(server);}catch(Exception failure){throw new IllegalStateException("Runtime spell balance probe failed",failure);}
         }

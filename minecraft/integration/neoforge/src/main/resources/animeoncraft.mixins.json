@@ -18,6 +18,7 @@
     "defaultRequire": 1
   },
   "mixins": [
+    "CleanMaidDeathDropMixin",
     "HealthAttributeAccess",
     "ChunkMapAccess",
     "SpellAreaTargetMixin",
@@ -42,6 +43,9 @@
     "CreateSchematicannonMixin",
     "CreateHoseDrainMixin",
     "CreateHoseFillMixin",
-    "StructureExclusionMixin"
+    "StructureExclusionMixin",
+    "LockedCapabilityMixin",
+    "SophisticatedControllerLockMixin",
+    "JadeStorageLockMixin"
   ]
 }

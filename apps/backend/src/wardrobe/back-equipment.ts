@@ -2,11 +2,13 @@ import {ConflictException,ForbiddenException,HttpException} from '@nestjs/common
 import type {Prisma} from '../generated/prisma/client.js';
 import {capeCatalog} from '../modules/auth/cape-catalog.js';
 import {readEmotes} from './emotes.js';
+import {BANNER} from '../premium/gacha.js';
 
-export interface BackChoice {kind:'NONE'|'CAPE'|'BETA';code:string}
+export interface BackChoice {kind:'NONE'|'CAPE'|'BETA'|'GACHA';code:string}
 export interface BackState extends BackChoice {revision:string}
 export function validBack(choice:BackChoice):boolean {
- return choice.kind==='NONE'?choice.code==='':choice.kind==='CAPE'?/^[a-z][a-z0-9-]{0,31}$/.test(choice.code):choice.kind==='BETA'&&choice.code==='RIFT_MANTLE';
+ return choice.kind==='NONE'?choice.code==='':choice.kind==='CAPE'?/^[a-z][a-z0-9-]{0,31}$/.test(choice.code):
+  choice.kind==='GACHA'?BANNER.items.some(i=>i.slot==='BACK'&&i.code===choice.code):choice.kind==='BETA'&&choice.code==='RIFT_MANTLE';
 }
 export async function readBack(tx:Prisma.TransactionClient,user:string):Promise<BackState>{
  const rows=await tx.$queryRaw<Array<{kind:BackChoice['kind'];code:string;revision:bigint}>>`
@@ -19,6 +21,7 @@ export async function readBack(tx:Prisma.TransactionClient,user:string):Promise<
 export async function selectBack(tx:Prisma.TransactionClient,user:string,choice:BackChoice,expected?:string):Promise<BackState>{
  if(!validBack(choice))throw new ForbiddenException('Invalid back cosmetic');
  if(choice.kind==='CAPE'&&(!capeCatalog().some(c=>c.id===choice.code)||!(await tx.player_capes.findUnique({where:{user_id_cape_id:{user_id:user,cape_id:choice.code}}}))))throw new ForbiddenException('Cape is not owned');
+ if(choice.kind==='GACHA'&&(await tx.$queryRaw<Array<{code:string}>>`SELECT code FROM player_cosmetic_grants WHERE user_id=${user}::uuid AND code=${choice.code}`).length===0)throw new ForbiddenException('Accessory is not owned');
  const before=await readBack(tx,user);
  await tx.$executeRaw`INSERT INTO player_back_equipment(user_id,kind,code) VALUES (${user}::uuid,${before.kind},${before.code}) ON CONFLICT(user_id) DO NOTHING`;
  const current=(await tx.$queryRaw<Array<{kind:BackChoice['kind'];code:string;revision:bigint}>>`

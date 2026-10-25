@@ -19,9 +19,15 @@ public final class ClientWorldAtlas {
         if (!WorldAtlasAsset.BOUNDS.worldId().equals(data.worldId()) || !WorldAtlasAsset.BOUNDS.sha256().equals(data.imageSha256())) { clear(); return; }
         active=data;
     }
+    private static int icons; // 0 waiting for Xaero, 1 own icon layer, -1 Xaero API mismatch: letter waypoints instead
     static void tick(ClientTickEvent.Post event) {
-        if (net.neoforged.fml.ModList.get().isLoaded("xaerominimap")) XaeroAtlasWaypoints.sync(active);
+        var mods = net.neoforged.fml.ModList.get(); if (!mods.isLoaded("xaerominimap")) return;
+        if (icons == 0) try {
+            if (XaeroMinimapIcons.install() & (!mods.isLoaded("xaeroworldmap") || XaeroWorldMapIcons.install())) icons = 1;
+        } catch (LinkageError failure) { icons = -1; System.getLogger("AnimeOnCraft").log(System.Logger.Level.WARNING, "AOC map icons unavailable, using Xaero waypoints", failure); }
+        if (icons == -1) XaeroAtlasWaypoints.sync(active); else XaeroAtlasWaypoints.clear();
     }
+    static boolean iconLayer() { return icons == 1; }
     static void clear() { active=null; }
     static void logout(ClientPlayerNetworkEvent.LoggingOut event) { clear(); if(net.neoforged.fml.ModList.get().isLoaded("xaerominimap"))XaeroAtlasWaypoints.clear(); }
 }

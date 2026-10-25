@@ -11,7 +11,9 @@ mod game_status;
 #[cfg(all(windows, feature = "installer-acceptance"))]
 mod installation_fixture;
 mod pack;
+mod owner_reset;
 mod player_cape;
+mod premium_shop;
 mod player_client;
 mod player_skin;
 mod public_api;
@@ -19,6 +21,7 @@ mod security;
 mod self_update;
 mod settings;
 mod simple_update;
+mod title_assets;
 use public_api::{PublicClient, PublicInput, PublicReply};
 use serde::Serialize;
 use settings::{LauncherSettings, SettingsSnapshot, SettingsStore};
@@ -178,6 +181,19 @@ async fn cape_save(
     player_cape::request(&auth, Some(input)).await
 }
 #[tauri::command]
+async fn premium_read(
+    auth: tauri::State<'_, auth::Auth>,
+) -> Result<premium_shop::Snapshot, &'static str> {
+    premium_shop::read(&auth).await
+}
+#[tauri::command]
+async fn premium_order(
+    input: premium_shop::Input,
+    auth: tauri::State<'_, auth::Auth>,
+) -> Result<premium_shop::Created, &'static str> {
+    premium_shop::order(&auth, input).await
+}
+#[tauri::command]
 async fn skin_save(
     input: player_skin::Input,
     auth: tauri::State<'_, auth::Auth>,
@@ -221,6 +237,13 @@ async fn player_submit_action(
     actions: tauri::State<'_, player_client::PlayerActions>,
 ) -> Result<player_client::ActionResult, &'static str> {
     actions.submit(&auth, operation_id, retry).await
+}
+#[tauri::command]
+async fn owner_password_reset(
+    input: owner_reset::Input,
+    auth: tauri::State<'_, auth::Auth>,
+) -> Result<owner_reset::Reset, &'static str> {
+    owner_reset::reset(&auth, input).await
 }
 
 #[derive(Serialize)]
@@ -389,10 +412,13 @@ pub fn run() {
             skin_save,
             cape_read,
             cape_save,
+            premium_read,
+            premium_order,
             game_profile_create,
             player_read,
             player_prepare_action,
             player_submit_action,
+            owner_password_reset,
             security_sessions,
             security_action,
             pack_availability,

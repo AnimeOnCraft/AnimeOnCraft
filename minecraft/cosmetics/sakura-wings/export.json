@@ -1,0 +1,16 @@
+{
+  "code": "SAKURA_WINGS",
+  "source": "minecraft\\cosmetics\\sakura-wings\\sakura-wings.bbmodel",
+  "source_sha256": "52f80a3b27b8c717fbea4d8735292308747c15ca8cd7d88da533af23dbe3d1d2",
+  "geometry": "minecraft/integration/neoforge/src/main/resources/assets/animeoncraft/cosmetics/sakura_wings.json",
+  "texture": "minecraft/integration/neoforge/src/main/resources/assets/animeoncraft/textures/cosmetics/sakura_wings.png",
+  "faces": 428,
+  "triangles": 260,
+  "emissive_faces": 86,
+  "parts": [
+    "static",
+    "wing_r",
+    "wing_l"
+  ],
+  "reference_head_exported": false
+}

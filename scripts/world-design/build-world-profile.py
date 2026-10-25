@@ -10,16 +10,24 @@ strategic points and resource sites with radii, and a reference to
 capture-rules.toml. Deterministic: the same blueprint gives the same file.
 The backend imports it with `world:import --profile …/world-states.toml`;
 the current world keeps using world.toml until the transition (stage 7).
+
+Clans added to the live world later (docs/world-design/added-clans.json) get their state, market, capital, outpost
+and road from the polygons stored there by plan-added-clan.py. `--base-only=<path>` writes the profile without them
+to <path> and nothing else (the planner's input).
 """
 from __future__ import annotations
 
 import json
 import math
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 BLUEPRINT = json.loads((ROOT / "docs/world-design/blueprint.json").read_text(encoding="utf-8"))
 OUT = ROOT / "minecraft/server/world-config/world-states.toml"
+BASE_ONLY = next((Path(a.split("=", 1)[1]) for a in sys.argv[1:] if a.startswith("--base-only=")), None)
+PROFILE_ONLY = "--profile-only" in sys.argv
+ADDED = {} if BASE_ONLY else json.loads((ROOT / "docs/world-design/added-clans.json").read_text(encoding="utf-8"))["clans"]
 W = BLUEPRINT["world"]
 CORE_R, RING_R, STATE_R, RIM_R = W["core_radius"], W["ring_radius"], W["state_radius"], W["rim_radius"]
 STATE_HALF, WEDGE_HALF = W["state_half_deg"], W["wedge_half_deg"]
@@ -65,9 +73,11 @@ def inside(poly, x, z) -> bool:
 
 
 regions: list[dict] = []
-# The core uses exactly the inner-arc vertices of the ring pieces (odd degrees), so shared edges coincide.
+# Rights are independent of the terrain's 1000-block central biome. The owner approved
+# protection only within 300 blocks of Sora; its outer surroundings remain neutral land.
+SORA_PROTECTION_R = 300
 regions.append(dict(code="core", name="Сора и Сердце мира", kind="CORE", pvp="OFF", build="NONE",
-                    polygon=[xz(CORE_R, b) for b in range(-25, 335, 2)]))
+                    polygon=[xz(SORA_PROTECTION_R, b) for b in range(-25, 335, 2)]))
 clans = BLUEPRINT["clans"]
 for clan, row in clans.items():
     b = row["bearing"]
@@ -117,9 +127,24 @@ for clan, row in clans.items():
                         pvp="OFF", build="MEMBERS", polygon=[(sx-18,sz-18),(sx+18,sz-18),(sx+18,sz+18),(sx-18,sz+18)]))
 
 
+# Clans added to the live world: their state is cut only out of neutral land, by the exact polygons the planner stored
+# (a stale plan fails here instead of producing overlaps). Swallowed neutral regions stay in the file as ARCHIVED.
+region_by_code = {r["code"]: r for r in regions}
+for clan, row in ADDED.items():
+    for code, original in row["original_polygons"].items():
+        if [list(p) for p in region_by_code[code]["polygon"]] != original: raise SystemExit(f"{clan}: {code} changed since planning; rerun plan-added-clan.py")
+    for code, polygon in row["replaced"].items(): region_by_code[code]["polygon"] = [tuple(p) for p in polygon]
+    for code in row["archived"]: region_by_code[code]["status"] = "ARCHIVED"
+    regions.append(dict(code=f"state.{clan.lower()}", name=row["region_name"], kind="STATE", clan=clan, pvp="WAR_ONLY", build="MEMBERS",
+                        capital=row["capital"], spawn=row["capital"], polygon=[tuple(p) for p in row["polygon"]]))
+    x0, z0, x1, z1 = row["market"]
+    regions.append(dict(code=f"market.{clan.lower()}", name=f"Торговый участок {row['name']}", kind="MARKET", clan=clan,
+                        pvp="OFF", build="MEMBERS", polygon=[(x0, z0), (x1, z0), (x1, z1), (x0, z1)]))
+
+
 def region_of(x: int, z: int) -> str | None:
     for region in regions:
-        if inside(region["polygon"], x, z):
+        if region.get("status") != "ARCHIVED" and inside(region["polygon"], x, z):
             return region["code"]
     return None
 
@@ -134,6 +159,14 @@ for p in BLUEPRINT["points"]:
 for s in BLUEPRINT["resource_sites"]:
     points.append(dict(code=s["id"].lower(), type="RESOURCE_SITE", name=s["name"], x=s["x"], z=s["z"], radius=SITE_RADIUS[s["tier"]],
                        capturable=True, region=region_of(s["x"], s["z"]), resource=dict(family=s["family"], tier=s["tier"], kind=s["kind"])))
+for clan, row in ADDED.items():
+    cap, gate = row["capital"], row["outpost"]
+    points.append(dict(code=f"region.{clan.lower()}.capital", type="CLAN_CAPITAL", name=f"Столица {row['name']}", x=cap["x"], z=cap["z"],
+                       radius=POINT_RADIUS["CLAN_CAPITAL"], capturable=False, region=region_of(cap["x"], cap["z"])))
+    points.append(dict(code=f"ring.outpost.{clan.lower()}", type="OUTPOST", name=f"Застава у ворот {row['name']}", x=gate["x"], z=gate["z"],
+                       radius=POINT_RADIUS["OUTPOST"], capturable=True, region=region_of(gate["x"], gate["z"])))
+    for point in points:  # home points of the clan (planned with --points=annex) are no longer contested
+        if point["code"] in row["annexed_points"]: point["capturable"] = False
 
 # ---------------------------------------------------------------------------------------------
 # Roads (World Design stage 5): Sora → outpost → capital, the ring road between outposts, wedge
@@ -174,6 +207,12 @@ for i, wedge in enumerate(BLUEPRINT["borderlands"], start=1):
     roads.append(dict(code=f"road.cross.w{i}", kind=crossing["type"], style="cross", width=4, start=f"state.{a.lower()}", end=f"state.{c.lower()}",
                       via=crossing["code"], points=densify([(ca["x"], ca["z"]), (crossing["x"], crossing["z"]), (cc["x"], cc["z"])])))
 
+# Roads of added clans: outpost on the ring road → capital. Not "road.main.*": those mark Sora's five gates.
+for clan, row in ADDED.items():
+    low, cap, gate = clan.lower(), row["capital"], row["outpost"]
+    roads.append(dict(code=f"road.{low}.main", kind="ROAD", style="main", width=5, start=region_of(gate["x"], gate["z"]), end=f"state.{low}",
+                      points=densify([(gate["x"], gate["z"]), (cap["x"], cap["z"])])))
+
 problems = []
 for road in roads:
     if road["end"] is None or road["start"] == road["end"]:
@@ -212,6 +251,7 @@ def toml_value(value) -> str:
     raise TypeError(value)
 
 
+if BASE_ONLY: OUT = BASE_ONLY
 lines = [
     "# AnimeOnCraft world catalog — states world (World Design). GENERATED by",
     "# scripts/world-design/build-world-profile.py from docs/world-design/blueprint.json; do not edit by hand.",
@@ -246,6 +286,7 @@ for road in roads:
     lines.append("polyline = " + toml_value(road["points"]))
     lines.append("")
 OUT.write_text("\n".join(lines), encoding="utf-8")
+if BASE_ONLY or PROFILE_ONLY: raise SystemExit(0)
 
 # Build instructions for the server mod (WorldLayout): POIs with palettes, roads, and the zones where random
 # structures (villages, dungeons) must not start. Lives in the world datapack next to the masks; it is not part
@@ -266,9 +307,10 @@ def theme(point: dict) -> str:
     if region.startswith("state."): return region.split(".")[1].upper()
     if region.startswith("border.w"): return region
     if region.startswith("rim"): return "rim"
-    if region == "core" or region.startswith("ring."): return "core"
+    if region == "core" or region.startswith("ring.") or point["code"].startswith("core."): return "core"
     return "neutral"
-palettes = {"neutral": NEUTRAL, **THEMES, **CLAN_WORLD["castle_palettes"]}
+CASTLE_PALETTES = {**CLAN_WORLD["castle_palettes"], **{clan: row["palette"] for clan, row in ADDED.items()}}
+palettes = {"neutral": NEUTRAL, **THEMES, **CASTLE_PALETTES}
 EXCLUSION_MARGIN = 80
 CITY_R = {"CAPITAL": 300, "CLAN_CAPITAL": 260}
 layout = {
@@ -291,7 +333,22 @@ LAYOUT_EXTRA = [
     dict(code="core.guild", type="ADVENTURER_GUILD", name="Гильдия искателей приключений", x=0, z=142, radius=14, palette="core"),
 ]
 layout["pois"] += LAYOUT_EXTRA
+# Objects of added clans go up in a live world: the server mod refuses (POI) or skips (road) columns with players' blocks.
+GUARDED = {code for clan in ADDED for code in (f"region.{clan.lower()}.capital", f"ring.outpost.{clan.lower()}", f"road.{clan.lower()}.main")}
+for item in layout["pois"] + layout["roads"]:
+    if item["code"] in GUARDED: item["guarded"] = True
 layout["exclusions"] += [dict(code=p["code"], x=p["x"], z=p["z"], radius=p["radius"] + EXCLUSION_MARGIN) for p in LAYOUT_EXTRA]
+# Resource sites, also built in a live world (guarded) by their own codes inside the sites' exclusions
+# (docs/operations/RESOURCE_MINES.md): a mine entrance where the ores lie under ground, an arch (and a canopy over a
+# cache's barrel) at the surface pits and caches.
+def resource_extra(p: dict) -> dict:
+    mine = p["resource"]["kind"] == "PIT" and p["resource"].get("yield", {}).get("placement") == "UNDERGROUND"
+    return dict(code=("mine." if mine else "decor.") + p["code"], type="MINE_ENTRANCE" if mine else "SITE_DECOR", name=p["name"],
+                x=p["x"], z=p["z"], radius=p["radius"], palette=theme(p), family=p["resource"]["family"], tier=p["resource"]["tier"],
+                kind=p["resource"]["kind"], guarded=True)
+RESOURCE_EXTRA = [resource_extra(p) for p in points if "resource" in p]
+layout["pois"] += RESOURCE_EXTRA
+layout["exclusions"] += [dict(code=p["code"], x=p["x"], z=p["z"], radius=p["radius"] + EXCLUSION_MARGIN) for p in RESOURCE_EXTRA]  # same zone as the site's
 PACK_AOC = ROOT / "minecraft/server/world-config/worldgen-pack/aoc"
 if PACK_AOC.is_dir():
     (PACK_AOC / "layout.json").write_text(json.dumps(layout, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
@@ -306,9 +363,20 @@ spawns = {
     "level_type": "minecraft:normal",
     "protection": CLAN_WORLD["protection"],
     "common": {"x": 0, "y": 0, "z": 12},
-    "clans": {code: {"x": capitals[code]["x"], "y": 0, "z": capitals[code]["z"]} for code in CLAN_WORLD["clans"]},
-    "castle_palettes": CLAN_WORLD["castle_palettes"],
+    "clans": {code: {"x": capitals[code]["x"], "y": 0, "z": capitals[code]["z"]} for code in [*CLAN_WORLD["clans"], *ADDED]},
+    "castle_palettes": CASTLE_PALETTES,
 }
+# Live capitals can acquire snow/flags above their entrance. Keep reviewed spawn heights
+# separate from terrain generation and retain them when this profile is regenerated.
+overrides_path = ROOT / "minecraft/server/world-config/clan-spawn-overrides.json"
+if overrides_path.exists():
+    overrides = json.loads(overrides_path.read_text(encoding="utf-8"))
+    if overrides.get("format_version") != 1 or overrides.get("world_id") != spawns["world_name"]:
+        raise ValueError("Invalid clan spawn overrides world")
+    for clan, value in overrides["clans"].items():
+        if clan not in spawns["clans"] or set(value) != {"y"} or type(value["y"]) is not int or not 1 <= value["y"] <= 319:
+            raise ValueError(f"Invalid spawn height override for {clan}")
+        spawns["clans"][clan]["y"] = value["y"]
 (ROOT / "minecraft/server/world-config/clan-spawns-states.json").write_text(json.dumps(spawns, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 print(json.dumps({"regions": len(regions), "points": len(points), "roads": len(roads), "road_blocks": round(sum(math.hypot(b[0]-a[0], b[1]-a[1]) for r in roads for a, b in zip(r["points"], r["points"][1:]))), "capturable": sum(p["capturable"] for p in points),
                   "resource_sites": sum("resource" in p for p in points), "unassigned": [p["code"] for p in points if p["region"] is None]}, ensure_ascii=False))

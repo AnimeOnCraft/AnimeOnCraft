@@ -21,9 +21,10 @@ final class ClientNameTags {
    case "AKUMA" -> 0xA970FF;
    case "ZXC" -> 0x4DA8FF;
    case "YAKUZA" -> 0xFFB347;
+   case "VORIX" -> 0x36D399;
    default -> 0xFFFFFF;
   };
-  Component tag=Component.literal("["+clan+"] ").withStyle(style->style.withColor(color).withBold(true));
+  Component tag=Component.literal("["+ClanCodes.display(clan)+"] ").withStyle(style->style.withColor(color).withBold(true));
   event.setContent(tag.copy().append(content));
  }
 }

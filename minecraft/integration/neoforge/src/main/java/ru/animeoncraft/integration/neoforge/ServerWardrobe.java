@@ -38,6 +38,7 @@ final class ServerWardrobe {
  static boolean allowed(ServerPlayer p,WardrobePayloads.Request r,WardrobePayloads.Snapshot old){
   if(r.kind().equals("CAPE"))return old.capes().stream().anyMatch(c->c.id().equals(r.code()));
   if(r.kind().equals("BETA")){var reward=BetaPass.find(r.code());return reward!=null&&(BetaPassStore.get(p.server).player(p.getUUID()).rewards&(1<<(reward.level()-1)))!=0;}
+  if(r.kind().equals("GACHA"))return GachaServer.owns(p,r.code());
   return r.kind().equals("NONE");
  }
  static WardrobePayloads.Snapshot parse(UUID id,JsonObject reply){
@@ -46,16 +47,21 @@ final class ServerWardrobe {
   return new WardrobePayloads.Snapshot(id,true,Long.parseLong(revision),back.get("kind").getAsString(),back.get("code").getAsString(),capes);
  }
  private static void apply(ServerPlayer p,GameIdentity identity,WardrobePayloads.Snapshot value){
-  var store=BetaPassStore.get(p.server);var e=store.player(p.getUUID());String code=value.kind().equals("BETA")?value.code():"";
-  if(!code.isEmpty()&&!e.owns(code))code="";
-  boolean changed=!e.equipped.getOrDefault("BACK","").equals(code)&&e.equip("BACK",code);if(changed){store.setDirty();BetaPassServer.broadcast(p);BetaPassServer.send(p);}
+  var store=BetaPassStore.get(p.server);var e=store.player(p.getUUID());boolean gacha=value.kind().equals("GACHA");String code=value.kind().equals("BETA")||gacha?value.code():"";
+  if(!code.isEmpty()&&!gacha&&!e.owns(code))code="";
+  // The backend accepted a GACHA back only after checking player_cosmetic_grants.
+  boolean changed=!e.equipped.getOrDefault("BACK","").equals(code)&&(gacha?e.wear("BACK",code):e.equip("BACK",code));if(changed){store.setDirty();BetaPassServer.broadcast(p);BetaPassServer.send(p);}
   String cape=value.kind().equals("CAPE")?value.code():"";
   if(!identity.cape().equals(cape)){var next=identity.withCape(cape);GameIdentity.PLAYERS.put(p.getUUID(),next);CapeAppearance.broadcast(p,next);}
  }
  static void betaBack(ServerPlayer p,String code){if(!code.isEmpty()&&!code.equals("RIFT_MANTLE"))return;var old=cached.get(p.getUUID());if(old==null||!old.available()){refresh(p);return;}request(p,new WardrobePayloads.Request(code.isEmpty()?"NONE":"BETA",code,old.revision()));}
+ static void gachaBack(ServerPlayer p,String code){var old=cached.get(p.getUUID());if(old==null||!old.available()){refresh(p);return;}request(p,new WardrobePayloads.Request(code.isEmpty()?"NONE":"GACHA",code,old.revision()));}
  private static void refresh(ServerPlayer p){request(p,new WardrobePayloads.Request("READ","",0));}
  private static void unavailable(ServerPlayer p){cached.remove(p.getUUID());send(p,new WardrobePayloads.Snapshot(p.getUUID(),false,0,"NONE","",List.of()));ServerEmotes.unavailable(p);}
- private static void send(ServerPlayer p,WardrobePayloads.Snapshot value){if(p.connection.hasChannel(WardrobePayloads.Snapshot.TYPE.id()))PacketDistributor.sendToPlayer(p,value);}
+ private static void send(ServerPlayer p,WardrobePayloads.Snapshot value){
+  // Clients up to 0.8.12 decode at most 4 characters of kind; a gacha back shows there as "no cape" and is managed from the summon screen.
+  if(value.kind().equals("GACHA"))value=new WardrobePayloads.Snapshot(value.player(),value.available(),value.revision(),"NONE","",value.capes());
+  if(p.connection.hasChannel(WardrobePayloads.Snapshot.TYPE.id()))PacketDistributor.sendToPlayer(p,value);}
  static void tick(ServerTickEvent.Post event){var s=event.getServer();if(s.getTickCount()%40!=0)return;for(var p:s.getPlayerList().getPlayers())if(GameIdentity.PLAYERS.containsKey(p.getUUID())&&s.getTickCount()-attempted.getOrDefault(p.getUUID(),Integer.MIN_VALUE/2)>=200)request(p,new WardrobePayloads.Request("READ","",0));}
  static void logout(PlayerEvent.PlayerLoggedOutEvent event){var id=event.getEntity().getUUID();flights.remove(id);attempted.remove(id);cached.remove(id);}
  static void stopped(net.neoforged.neoforge.event.server.ServerStoppedEvent event){generation++;flights.clear();attempted.clear();cached.clear();}

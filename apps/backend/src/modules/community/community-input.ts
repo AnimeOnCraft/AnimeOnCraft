@@ -10,6 +10,7 @@ export class ApplicationInput {
 }
 export class ManagerInput extends ReasonInput { @IsBoolean() can_remove_members!: boolean; }
 export class AdmissionInput extends ReasonInput { @IsUUID('4') user_id!: string; }
+export class ClanRoleInput extends ReasonInput { @IsIn(['LEADER', 'OFFICER', 'RECRUITER', 'MEMBER']) role!: 'LEADER' | 'OFFICER' | 'RECRUITER' | 'MEMBER'; }
 export class GrantInput extends ReasonInput {
   @ValidateIf((_o, value: unknown) => value !== null) @IsISO8601({ strict: true })
   @Matches(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/) expires_at!: string | null;

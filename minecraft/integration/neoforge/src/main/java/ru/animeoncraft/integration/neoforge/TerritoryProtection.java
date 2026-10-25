@@ -127,12 +127,15 @@ public final class TerritoryProtection {
             allowed=canConstructFrom(level,entity.blockPosition(),pos);
         }
         if (!allowed && entity instanceof ServerPlayer player) player.displayClientMessage(
-            Component.literal(policy.spawn(pos.getX(), pos.getZ()) ? "Здесь защищённая точка спавна." : "Строить и ломать блоки здесь могут только участники этого клана."), true);
+            Component.literal(policy.spawn(pos.getX(), pos.getZ()) ? "Здесь защищённая точка спавна."
+                : RegionPolicy.NOBODY.equals(owner) ? "Это защищённая общественная территория. Строить и ломать блоки здесь нельзя."
+                : "Строить и ломать блоки здесь могут только участники этого клана."), true);
         return !allowed;
     }
 
     static void breaking(BlockEvent.BreakEvent event) {
-        if (denied(event.getLevel(), event.getPlayer(), event.getPos()) || CaptureSites.pitDenied(event.getLevel(), event.getPlayer(), event.getPos())) event.setCanceled(true);
+        if (denied(event.getLevel(), event.getPlayer(), event.getPos()) || CaptureSites.pitDenied(event.getLevel(), event.getPlayer(), event.getPos())
+            || MineShells.denied(event.getLevel(), event.getPlayer(), event.getPos())) event.setCanceled(true);
     }
 
     static void placing(BlockEvent.EntityPlaceEvent event) {
@@ -148,7 +151,8 @@ public final class TerritoryProtection {
     }
 
     static void tool(BlockEvent.BlockToolModificationEvent event) {
-        if (denied(event.getLevel(), event.getPlayer(), event.getPos()) || CaptureSites.pitDenied(event.getLevel(), event.getPlayer(), event.getPos())) event.setCanceled(true);
+        if (denied(event.getLevel(), event.getPlayer(), event.getPos()) || CaptureSites.pitDenied(event.getLevel(), event.getPlayer(), event.getPos())
+            || !event.isSimulated() && MineShells.denied(event.getLevel(), event.getPlayer(), event.getPos())) event.setCanceled(true);
     }
 
     static void trampling(BlockEvent.FarmlandTrampleEvent event) {
@@ -158,7 +162,7 @@ public final class TerritoryProtection {
 
     static void explosion(ExplosionEvent.Detonate event) {
         if (active(event.getLevel())) event.getAffectedBlocks().removeIf(pos -> policy.protectedBlock(pos.getX(), pos.getZ()));
-        if (event.getLevel() instanceof ServerLevel world && world.dimension().equals(Level.OVERWORLD)) event.getAffectedBlocks().removeIf(CaptureSites::pitBlock);
+        if (event.getLevel() instanceof ServerLevel world && world.dimension().equals(Level.OVERWORLD)) event.getAffectedBlocks().removeIf(pos -> CaptureSites.pitBlock(pos) || MineShells.shell(world, pos));
     }
 
     static void mobGriefing(net.neoforged.neoforge.event.entity.EntityMobGriefingEvent event) {
@@ -186,8 +190,14 @@ public final class TerritoryProtection {
 
     static void useBlock(PlayerInteractEvent.RightClickBlock event) {
         var state = event.getLevel().getBlockState(event.getPos());
+        boolean publicWaystone=active(event.getLevel())&&event.getEntity() instanceof ServerPlayer
+            &&PublicWaystoneAccess.allowed(policy,event.getPos().getX(),event.getPos().getZ(),
+                net.minecraft.core.registries.BuiltInRegistries.BLOCK.getKey(state.getBlock()).toString(),
+                GameIdentity.PLAYERS.containsKey(event.getEntity().getUUID()),event.getEntity().isShiftKeyDown());
+        // Permit the block's normal activation/selection, but no held-item actions on protected land.
+        if(publicWaystone)event.setUseItem(net.neoforged.neoforge.common.util.TriState.FALSE);
         if (event.getLevel().getBlockEntity(event.getPos()) != null || state.getMenuProvider(event.getLevel(),event.getPos()) != null) {
-            if (!(net.neoforged.fml.ModList.get().isLoaded("lightmanscurrency")&&PublicShopAccess.allowed(event))&&denied(event.getLevel(), event.getEntity(), event.getPos())) {
+            if (!publicWaystone&&!(net.neoforged.fml.ModList.get().isLoaded("lightmanscurrency")&&PublicShopAccess.allowed(event))&&denied(event.getLevel(), event.getEntity(), event.getPos())) {
                 event.setCancellationResult(InteractionResult.FAIL); event.setCanceled(true); return;
             }
         }
@@ -249,11 +259,27 @@ public final class TerritoryProtection {
         return !active(level)||move(from,to);
     }
     public static boolean canConstructFrom(LevelAccessor level,BlockPos source,BlockPos target){
+        if(!ContainerLocks.canReach(level,source,target))return false;
         if(!active(level))return true;
         if(policy.spawn(target.getX(),target.getZ()))return false;
         String owner=controllerAt(target.getX(),target.getZ());
         if(owner==null)return true;
         return ClanControlSync.ready()&&java.util.Objects.equals(movementKeyAt(target.getX(),target.getZ()),movementKeyAt(source.getX(),source.getZ()));
+    }
+    /** A personal lock may be put on own clan land, on a market plot of own clan or on unclaimed land; never on spawn or foreign land. */
+    static boolean lockAllowed(LevelAccessor level,ServerPlayer player,BlockPos pos){
+        if(player.hasPermissions(2)||!active(level))return true;
+        if(policy.spawn(pos.getX(),pos.getZ()))return false;
+        String owner=controllerAt(pos.getX(),pos.getZ());
+        if(owner==null)return true;
+        var identity=GameIdentity.PLAYERS.get(player.getUUID());
+        return identity!=null&&ClanControlSync.ready()&&owner.equals(identity.clan());
+    }
+    /** Raiders of an active war window may open and break personal locks on the defender's land (not on spawns or markets). */
+    static boolean raidAccess(LevelAccessor level,Player player,BlockPos pos){
+        if(!active(level)||policy.spawn(pos.getX(),pos.getZ())||marketAt(pos.getX(),pos.getZ())!=null)return false;
+        var identity=GameIdentity.PLAYERS.get(player.getUUID());
+        return identity!=null&&WarWindows.canRaid(controllerAt(pos.getX(),pos.getZ()),identity.clan());
     }
     static void registerSpellProtection(){
         if(!net.neoforged.fml.ModList.get().isLoaded("irons_spellbooks"))return;

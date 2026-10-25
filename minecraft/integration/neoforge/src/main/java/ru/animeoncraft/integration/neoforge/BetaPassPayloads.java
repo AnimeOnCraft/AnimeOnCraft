@@ -16,7 +16,7 @@ final class BetaPassPayloads {
         @Override public Type<Request> type(){return TYPE;}
     }
     record Appearance(UUID player,Map<String,String> equipped) implements CustomPacketPayload {
-        Appearance{equipped=Map.copyOf(equipped);if(equipped.size()>5)throw new IllegalArgumentException("Too many slots");for(var e:equipped.entrySet()){var r=BetaPass.find(e.getValue());if(r==null||!BetaPass.slot(r).equals(e.getKey()))throw new IllegalArgumentException("Invalid cosmetic");}}
+        Appearance{equipped=Map.copyOf(equipped);if(equipped.size()>5)throw new IllegalArgumentException("Too many slots");for(var e:equipped.entrySet()){var r=BetaPass.find(e.getValue());if(r==null?!e.getKey().equals(BetaPassStore.GACHA_SLOTS.get(e.getValue())):!BetaPass.slot(r).equals(e.getKey()))throw new IllegalArgumentException("Invalid cosmetic");}}
         static final Type<Appearance> TYPE=new Type<>(id("beta_pass_appearance_v1"));
         static final StreamCodec<FriendlyByteBuf,Appearance> CODEC=StreamCodec.of((b,p)->{b.writeUUID(p.player);b.writeVarInt(p.equipped.size());p.equipped.forEach((s,c)->{b.writeUtf(s,5);b.writeUtf(c,32);});},b->{var id=b.readUUID();int n=b.readVarInt();if(n<0||n>5)throw new IllegalArgumentException("Too many slots");var map=new HashMap<String,String>();for(int i=0;i<n;i++){String slot=b.readUtf(5);if(map.put(slot,b.readUtf(32))!=null)throw new IllegalArgumentException("Duplicate slot");}return new Appearance(id,map);});
         @Override public Type<Appearance> type(){return TYPE;}

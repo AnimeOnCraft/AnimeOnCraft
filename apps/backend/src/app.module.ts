@@ -10,5 +10,6 @@ import { NewsModule } from './modules/news/news.module.js';
 import { AuthModule } from './modules/auth/auth.module.js';
 import { authEnabled } from './modules/auth/auth-config.js';
 import { CommunityModule } from './modules/community/community.module.js';
-@Module({ imports: [InfrastructureModule, HealthModule, ClansModule, WorldModule, NewsModule, CompatibilityModule, ...(authEnabled() ? [AuthModule, CommunityModule] : []), ...(developmentApiEnabled() ? [DevelopmentModule] : [])] })
+import { PremiumShopModule } from './premium/payments.controller.js';
+@Module({ imports: [InfrastructureModule, HealthModule, ClansModule, WorldModule, NewsModule, CompatibilityModule, ...(authEnabled() ? [AuthModule, CommunityModule, PremiumShopModule] : []), ...(developmentApiEnabled() ? [DevelopmentModule] : [])] })
 export class AppModule {}

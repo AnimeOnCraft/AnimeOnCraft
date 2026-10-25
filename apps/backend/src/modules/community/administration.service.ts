@@ -78,6 +78,40 @@ export class AdministrationService {
       return {user_id:id,login:updated.login,delivery_email:updated.email,temporary_password:temporary,version:updated.version.toString()};
     });
   }
+  /**
+   * The same manual recovery from the launcher "Админка". A launcher session has no MFA of its own, so every reset
+   * re-checks the OWNER's password and a fresh MFA code (TOTP or an unused recovery code); without enabled MFA it is closed.
+   * The player is found by login or by in-game name. Secrets never reach the idempotency fingerprint or the stored result.
+   */
+  async launcherResetPassword(principal:Principal,body:{login:string;password:string;proof:string},command:Command){
+    const rejected=()=>new HttpException({code:'OWNER_PROOF_REJECTED',message:'Password or MFA code rejected'},403);
+    // Checked again under locks in launcherOwnerSecretCommand; here it keeps non-owners from probing logins.
+    if(principal.user.systemRole!=='OWNER'||principal.session.client_kind!=='LAUNCHER')throw new ForbiddenException();
+    await this.auth.limits('reauth','',principal.user.id);
+    await this.auth.limits('mfa','',`owner-reset:${principal.user.id}`);
+    if(!(await this.auth.crypto.verify(principal.user.passwordHash,body.password)))throw rejected();
+    const key=body.login.toLowerCase();
+    const [byLogin,byName]=await Promise.all([
+      this.auth.db.user.findUnique({where:{loginKey:key},select:{id:true}}),
+      key.length<=16?this.auth.db.game_profiles.findUnique({where:{game_name_key:key},select:{user_id:true}}):Promise.resolve(null),
+    ]);
+    if(byLogin&&byName&&byLogin.id!==byName.user_id)throw new HttpException({code:'AMBIGUOUS_PLAYER',message:'Login and game name identify different accounts'},409);
+    const found=byLogin??(byName?{id:byName.user_id}:null);
+    if(!found)throw new NotFoundException('Player not found');
+    const temporary=randomBytes(18).toString('base64url');
+    const hash=await this.auth.crypto.hash(temporary);
+    return this.community.launcherOwnerSecretCommand(principal,[found.id],command,async(tx,{actor})=>{
+      if(actor.passwordHash!==principal.user.passwordHash)throw rejected();
+      if(!(await tx.mfa_credentials.findUnique({where:{user_id:actor.id}}))?.enabled)throw new HttpException({code:'OWNER_MFA_REQUIRED',message:'Enable MFA first'},403);
+      if(!(await this.auth.mfaProof(tx,actor.id,body.proof)))throw rejected();
+      const target=await tx.user.findUnique({where:{id:found.id},include:{game_profile:{select:{game_name:true}}}});if(!target)throw new NotFoundException('Player not found');
+      if(target.systemRole==='OWNER'||target.id===actor.id)throw new ForbiddenException('OWNER recovery uses the operator procedure');
+      const updated=await tx.user.update({where:{id:target.id},data:{passwordHash:hash,passwordChangeRequired:true,authEpoch:{increment:1},version:{increment:1}}});
+      await this.auth.revoke(tx,target.id);
+      await this.audit(tx,actor.id,'PLAYER_PASSWORD_RESET',target.id,command,{version:target.version.toString()},{version:updated.version.toString(),password_change_required:true,client:'LAUNCHER'});
+      return {user_id:target.id,login:updated.login,game_name:target.game_profile?.game_name??null,delivery_email:updated.email,temporary_password:temporary};
+    });
+  }
   records(principal:Principal,id:string,kind:'bans'|'grants',page:PageInput){
     const resource=`admin-${kind}:${id}`;const after=this.after(resource,page);
     return this.community.read(principal,null,'owner',async tx=>{

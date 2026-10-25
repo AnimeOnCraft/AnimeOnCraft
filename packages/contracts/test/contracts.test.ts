@@ -149,7 +149,11 @@ describe('contract fixtures', () => {
     const ajv=new Ajv2020({strict:true});addFormats(ajv);const validate=ajv.compile(document.components.schemas.StateInput!);
     expect(validate({reason:'fixture',state:'SUSPENDED'})).toBe(true);expect(validate({reason:'fixture',state:'SUSPENDED',system_role:'OWNER'})).toBe(false);expect(validate({reason:'fixture',state:'OWNER'})).toBe(false);
     const news=ajv.compile(document.components.schemas.NewsInput!);expect(news({reason:'fixture',slug:'draft-fixture',title:'Fixture',body_markdown:'**Text**'})).toBe(true);expect(news({reason:'fixture',slug:'draft-fixture',title:'Fixture',body_markdown:'Text',published_at:'2026-10-10T00:00:00Z'})).toBe(false);
-    for(const operations of Object.values(document.paths))for(const operation of Object.values(operations))expect(operation.security).toEqual([{webSession:[]}]);
+    for(const [path,operations] of Object.entries(document.paths))for(const operation of Object.values(operations))expect(operation.security).toEqual(path==='/api/v1/launcher/owner/password-reset'?[{launcherBearer:[]}]:[{webSession:[]}]);
+    const reset=ajv.compile(document.components.schemas.LauncherPasswordResetInput!);
+    const input={reason:'Fixture recovery',login:'Ayaa',password:'Fixture-Owner-Password!',proof:'123456'};
+    expect(reset(input)).toBe(true);expect(reset({...input,system_role:'OWNER'})).toBe(false);
+    expect(reset({...input,login:'bad name'})).toBe(false);expect(reset({...input,proof:''})).toBe(false);
   });
   it('keeps authentication inputs strict and separates web/native credentials', async () => {
     const document = parse(await readFile(resolve(root, 'openapi', 'auth.yaml'), 'utf8')) as { paths: Record<string,unknown>; components: { schemas: Record<string, object> } };

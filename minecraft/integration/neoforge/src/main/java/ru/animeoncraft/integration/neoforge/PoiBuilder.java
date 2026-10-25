@@ -148,6 +148,32 @@ final class PoiBuilder {
         return y;
     }
 
+    /** Half-size of the ground a POI type levels and builds on (footprint and skirt). */
+    static int footprint(String type) {
+        return switch (type) { case "CLAN_CAPITAL" -> 31; case "OUTPOST", "WATCHTOWER" -> 16; case "FORT" -> 25; default -> 40; };
+    }
+    /**
+     * Site check for an object added to an already played world (layout {@code guarded}): the whole build is refused,
+     * before any block changes, when its footprint holds anything but natural ground or the layout's own blocks.
+     * Road paving counts as the layout's own only on the strip of a layout road (an outpost stands on the ring road).
+     */
+    static void guard(ServerLevel level, WorldLayout.State layout, WorldLayout.Poi poi) {
+        var canvas = new Canvas(level, layout.palettes().getOrDefault(poi.palette(), layout.palettes().get("neutral")));
+        int r = footprint(poi.type());
+        var strip = new java.util.HashSet<Long>();
+        for (var road : layout.roads().values()) for (var p : RoadGeometry.trace(road.points())) {
+            int half = road.width() / 2 + 1;
+            if (Math.abs(p[0] - poi.x()) > r + half || Math.abs(p[1] - poi.z()) > r + half) continue;
+            for (int ox = -half; ox <= half; ox++) for (int oz = -half; oz <= half; oz++) strip.add(net.minecraft.world.level.ChunkPos.asLong(p[0] + ox, p[1] + oz));
+        }
+        for (int dx = -r; dx <= r; dx++) for (int dz = -r; dz <= r; dz++) {
+            int x = poi.x() + dx, z = poi.z() + dz, ground = surface(level, x, z);
+            var found = SoraExpansion.firstForeign(level, canvas, x, z, ground - 4, ground + 24, strip.contains(net.minecraft.world.level.ChunkPos.asLong(x, z)));
+            if (found != null) throw new IllegalStateException(poi.code() + " site occupied at " + x + ", " + z + " by "
+                + BuiltInRegistries.BLOCK.getKey(found.getBlock()) + "; nothing was changed");
+        }
+    }
+
     /** A hand-built template for this point or type, centred on the point, replaces the procedural build. */
     static boolean template(Canvas canvas, WorldLayout.Poi poi, int y) {
         var manager = canvas.level.getStructureManager();

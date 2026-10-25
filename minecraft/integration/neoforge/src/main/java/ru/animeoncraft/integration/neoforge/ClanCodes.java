@@ -28,6 +28,12 @@ final class ClanCodes {
     /** Format-only check for payloads and persisted data that may outlive the current registry. */
     static boolean valid(String code) { return code != null && FORMAT.matcher(code).matches(); }
 
+    /**
+     * How a code is shown to players. Codes stay ASCII (backend {@code clans_code_format}); a clan named with other
+     * letters is spelled here, like its {@code clans.name} in the launcher.
+     */
+    static String display(String code) { return "VORIX".equals(code) ? "VØRIX" : code; }
+
     static void register(List<String> codes) { registered = checked(codes); }
 
     /** Clan codes declared by a clan-world configuration, in file order. */

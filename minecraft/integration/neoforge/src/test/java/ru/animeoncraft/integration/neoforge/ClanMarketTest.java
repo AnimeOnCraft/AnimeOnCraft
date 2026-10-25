@@ -29,7 +29,7 @@ class ClanMarketTest {
             assertFalse(policy.canMove(plot.minX(),plot.minZ(),state.spawn().x(),state.spawn().z()),"market is a separate automation boundary");
         }
         assertEquals(RegionPolicy.NOBODY,regions.ownerAt(0,0));assertEquals(RegionPolicy.NOBODY,regions.ownerAt(0,52));
-        assertEquals(RegionPolicy.NOBODY,regions.ownerAt(0,800));
+        assertNull(regions.ownerAt(0,800),"neutral outskirts beyond Sora's 300-block protection");
         var reversed=catalog();var rows=new com.google.gson.JsonArray();
         for(int i=reversed.getAsJsonArray("regions").size()-1;i>=0;i--)rows.add(reversed.getAsJsonArray("regions").get(i));reversed.add("regions",rows);
         var other=RegionPolicy.parse(reversed);

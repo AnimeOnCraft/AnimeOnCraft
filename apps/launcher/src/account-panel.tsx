@@ -1,5 +1,6 @@
 import {ClanRoster} from './clan-roster.js';
 import {OwnerClansPanel} from './owner-clans.js';
+import {OwnerPasswordResetPanel} from './owner-password-reset.js';
 import { useEffect,useRef,useState,type CSSProperties } from 'react';
 import { Button,StatusPanel } from '@animeoncraft/ui';
 import { native } from './native.js';
@@ -8,6 +9,7 @@ import {registerAndSignIn} from './account-registration.js';
 import {GameProfilePanel} from './game-profile-panel.js';
 import {SkinControls,useSkinEditor} from './player-skin.js';
 import {CapePanel} from './player-cape.js';
+import {PremiumShop} from './premium-shop.js';
 import {SkinModelPreview} from './skin-model-preview.js';
 import {LauncherIcon} from './launcher-icon.js';
 import {accountChangedEvent} from './account-navigation.js';
@@ -67,7 +69,8 @@ export function AccountPanel({area='profile'}:{area?:AccountArea}){
    :<div className="panel"><div className="panel-head"><span className="panel-icon"><LauncherIcon name="shield" size={20}/></span><div><h3>Сеансы и доступ</h3><p className="muted small">{temporary?'Сначала смените временный пароль.':'Управление сеансами и доступом к панели управления есть у владельца и управляющих кланов. Завершить вход на этом компьютере можно в разделе «Аккаунт».'}</p></div></div></div>)}
   {area==='clans'&&!temporary&&<PlayerPanel key={`${profile.id}:${gameRevision}`} onAuthError={reload}/>}
   {area==='admin'&&profile.system_role==='OWNER'&&!temporary&&<>
-   <div className="panel admin-summary"><span className="role-badge">Создатель · {profile.login}</span><h3>Управление сообществом</h3><p className="muted">Принимай заявки и выбирай свой клан. Право на каждое действие проверяет сервер. Те же действия есть в карточке каждого клана.</p><a href="#settings/sessions">Сеансы и доступ →</a></div>
+   <div className="panel admin-summary"><span className="role-badge">Создатель · {profile.login}</span><h3>Управление сообществом</h3><p className="muted">Восстанавливай пароли игроков, принимай заявки и управляй кланами. Право на каждое действие проверяет сервер.</p><a href="#settings/sessions">Сеансы и доступ →</a></div>
+   <div className="panel"><OwnerPasswordResetPanel key={profile.id}/></div>
    <div className="panel"><OwnerClansPanel onChanged={()=>setGameRevision(v=>v+1)}/></div>
   </>}
  </section>;
@@ -75,7 +78,7 @@ export function AccountPanel({area='profile'}:{area?:AccountArea}){
 
 function ProfileView({account,busy,setBusy,onboarding,gameRevision,onNameChosen,onGameChanged,onAuthError}:{account:AccountSnapshot;busy:boolean;setBusy:(v:boolean)=>void;onboarding:boolean;gameRevision:number;onNameChosen:()=>void;onGameChanged:()=>void;onAuthError:()=>void}){
  const profile=account.profile!,temporary=profile.password_change_required;
- const [tab,setTab]=useState<'skin'|'cape'>('skin');
+ const [tab,setTab]=useState<'skin'|'cape'|'crystals'>('skin');
  const [clan,setClan]=useState<OwnClan|null>(null);
  const skin=useSkinEditor(setBusy);
  useEffect(()=>{if(temporary)return;let active=true;void playerRead<OwnClan>('clan').then(value=>{if(active)setClan(value);}).catch(()=>{});return()=>{active=false;};},[temporary,gameRevision]);
@@ -98,10 +101,11 @@ function ProfileView({account,busy,setBusy,onboarding,gameRevision,onNameChosen,
    <h3 className="panel-title">Внешний вид</h3>
    {temporary?<p className="muted">Кастомизация станет доступна после смены временного пароля.</p>:<>
     <div className="tabs" role="tablist" aria-label="Внешний вид">
-     {([['skin','Скин','user'],['cape','Плащ','shield']] as const).map(([key,label,icon])=><button key={key} type="button" role="tab" aria-selected={tab===key} onClick={()=>setTab(key)}><LauncherIcon name={icon} size={15}/>{label}</button>)}
+     {([['skin','Скин','user'],['cape','Плащ','shield'],['crystals','Кристаллы','sparkles']] as const).map(([key,label,icon])=><button key={key} type="button" role="tab" aria-selected={tab===key} onClick={()=>setTab(key)}><LauncherIcon name={icon} size={15}/>{label}</button>)}
     </div>
     <div hidden={tab!=='skin'}><SkinControls key={`skin:${profile.session_id}:${gameRevision}`} editor={skin} disabled={busy}/></div>
     <div hidden={tab!=='cape'}><CapePanel key={`cape:${profile.session_id}:${gameRevision}`} disabled={busy} onBusy={setBusy}/></div>
+    {tab==='crystals'&&<PremiumShop key={`crystals:${profile.session_id}`} disabled={busy} onBusy={setBusy}/>}
    </>}
   </section>
   <section className="panel profile-preview" aria-label="Просмотр персонажа">

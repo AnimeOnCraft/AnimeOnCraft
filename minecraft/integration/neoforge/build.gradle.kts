@@ -16,11 +16,14 @@ neoForge {
 }
 
 dependencies {
+    compileOnly("maven.modrinth:cleanmaid:Gj3wfBhX") { isTransitive = false }
+    compileOnly("maven.modrinth:in-control:22Tx0R5U") { isTransitive = false }
     compileOnly("info.journeymap:journeymap-api-neoforge:2.0.0-1.21.1")
     compileOnly("maven.modrinth:xaeros-world-map:SnQ4SoDe") { isTransitive = false }
     compileOnly("maven.modrinth:xaeros-minimap:irjR7dHk") { isTransitive = false }
     compileOnly("maven.modrinth:create:UjX6dr61") { isTransitive = false }
     compileOnly("maven.modrinth:lightmans-currency:XMHRtEIk") { isTransitive = false }
+    compileOnly("maven.modrinth:jade:eYz2YBGT") { isTransitive = false }
     compileOnly("net.createmod.ponder:ponder-neoforge:1.0.82+mc1.21.1") { isTransitive = false }
     testImplementation("com.google.code.gson:gson:2.11.0")
 }
@@ -44,7 +47,19 @@ val retireAtlasImage = tasks.register<Delete>("retireAtlasImage") {
 tasks.processResources {
     dependsOn(retireAtlasImage)
     exclude("assets/animeoncraft/atlas/*.jpg", "assets/animeoncraft/atlas/*.png")
+    exclude("assets/animeoncraft/textures/title/frame_*.jpg")
+    from("src/main/resources/assets/animeoncraft/textures/title/frame_0000.jpg") {
+        into("assets/animeoncraft/textures/title")
+        rename { "poster.jpg" }
+    }
 }
+
+val retireBundledTitleFrames = tasks.register<Delete>("retireBundledTitleFrames") {
+    delete(fileTree(layout.buildDirectory.dir("resources/main/assets/animeoncraft/textures/title")) {
+        include("frame_*.jpg")
+    })
+}
+tasks.processResources { dependsOn(retireBundledTitleFrames) }
 
 // Exercise Minecraft's actual NBT reader/writer used by servers.dat.
 sourceSets.test {
@@ -201,6 +216,21 @@ tasks.register<Jar>("adventureClientProbeJar") {
             modId="aocclientprobe"
             version="1.0.0"
             displayName="AOC disposable client probe"
+        """.trimIndent())) { rename { "neoforge.mods.toml" } }
+    }
+}
+
+tasks.register<Jar>("titleMenuProbeJar") {
+    archiveClassifier.set("title-menu-probe")
+    dependsOn(tasks.testClasses)
+    from(sourceSets.main.get().output) { exclude("META-INF/neoforge.mods.toml") }
+    from(sourceSets.test.get().output) { include("**/TitleMenuClientProbe*.class") }
+    into("META-INF") {
+        from(resources.text.fromString(file("src/main/resources/META-INF/neoforge.mods.toml").readText()+"\n"+"""
+            [[mods]]
+            modId="aoctitlemenuprobe"
+            version="1.0.0"
+            displayName="AOC isolated title menu probe"
         """.trimIndent())) { rename { "neoforge.mods.toml" } }
     }
 }

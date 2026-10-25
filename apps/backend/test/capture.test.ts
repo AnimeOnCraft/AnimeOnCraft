@@ -69,13 +69,14 @@ describe('capture rules', () => {
   it('imports the states world with its rules and all capturable objects outside the states', async () => {
     const catalog = await loadCatalog(fileURLToPath(new URL('../../../minecraft/server/world-config/world-states.toml', import.meta.url)));
     expect(catalog.capture_rules?.format_version).toBe(1);
-    expect(catalog.points.filter(p => p.capturable)).toHaveLength(57);
+    expect(catalog.points.filter(p => p.capturable)).toHaveLength(58);
     expect(catalog.points.filter(p => p.resource)).toHaveLength(28);
-    expect(catalog.points.filter(p => p.capturable).every(p=>Number.isInteger(p.y))).toBe(true);
+    // ring.outpost.vorix is built on the live world: the builder records its floor (CaptureAnchors), so no pinned y.
+    expect(catalog.points.filter(p => p.capturable && p.code !== 'ring.outpost.vorix').every(p=>Number.isInteger(p.y))).toBe(true);
     expect(catalog.points.filter(p => p.resource).every(p=>p.resource?.yield.version===2)).toBe(true);
     expect(catalog.points.find(p=>p.code==='site.ring.252')?.resource?.kind).toBe('CACHE');
     expect(catalog.points.find(p=>p.code==='site.rim.108')?.resource?.yield.seed).toContainEqual(['irons_spellbooks:mithril_ore',1]);
-    expect(catalog.regions.filter(r => r.kind === 'STATE').map(r => r.clan_code).sort()).toEqual(['AKUMA', 'NYA', 'SCAM', 'YAKUZA', 'ZXC']);
+    expect(catalog.regions.filter(r => r.kind === 'STATE').map(r => r.clan_code).sort()).toEqual(['AKUMA', 'NYA', 'SCAM', 'VORIX', 'YAKUZA', 'ZXC']);
   });
   it('rejects broken per-site output rather than importing a misleading empty resource point',async()=>{
     const source=parse(await readFile(new URL('../../../minecraft/server/world-config/world-states.toml',import.meta.url),'utf8'));

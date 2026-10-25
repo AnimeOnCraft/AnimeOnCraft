@@ -9,7 +9,7 @@ export interface OwnClan {clan:{id:string;name:string;short_code:string;descript
 export interface Access {effective_access:'ALLOWED'|'DENIED';reason:'ALLOWED'|'BANNED'|'GAME_PROFILE_REQUIRED'|'GRANT_REQUIRED';membership:Membership|null;sync_status:string;checked_at:string;game_admission_available:false}
 export interface Application {nickname?:string;id:string;user_id:string;clan_id:string;message:string;status:string;version:string;created_at:string;reason:string|null}
 export interface Applications {items:Application[];next_cursor:string|null}
-export type PlayerAction={action:'owner_join';clan_id:string;version:string}|{action:'owner_approve'|'owner_reject';application_id:string;version:string}|{action:'apply';clan_id:string;message:string}|{action:'withdraw';application_id:string;version:string;reason:string}|{action:'leave';version:string;reason:string};
+export type PlayerAction={action:'owner_join';clan_id:string;version:string}|{action:'owner_approve'|'owner_reject'|'staff_approve'|'staff_reject';application_id:string;version:string}|{action:'set_role';clan_id:string;user_id:string;role:ClanRoleChoice;version:string}|{action:'remove_member';clan_id:string;user_id:string;version:string}|{action:'apply';clan_id:string;message:string}|{action:'withdraw';application_id:string;version:string;reason:string}|{action:'leave';version:string;reason:string};
 export interface ActionResult {operation_id:string;status:'PREPARED'|'COMPLETED'|'REJECTED'|'UNKNOWN_OUTCOME';error:string|null}
 export const signedOut:AccountSnapshot={state:'SIGNED_OUT',profile:null,remembered:false,operation_id:null,notice:null,retry_after_seconds:0};
 function requireNative(){if(!native)throw new Error('WINDOWS_REQUIRED');}
@@ -31,6 +31,17 @@ export async function securityAction(input:SecurityAction):Promise<SecurityReply
 export interface OwnerClans {items:NonNullable<OwnClan['clan']>[]}
 export async function ownerClans():Promise<OwnerClans>{requireNative();return invoke('player_read',{input:{resource:'owner_clans'}});}
 export async function ownerApplications(clan_id:string,cursor?:string):Promise<Applications>{requireNative();return invoke('player_read',{input:{resource:'owner_applications',clan_id,cursor:cursor??null}});}
+export interface OwnerPasswordReset {user_id:string;login:string;game_name:string|null;delivery_email:string;temporary_password:string}
+const resetErrors:Record<string,string>={OWNER_RESET_UNAVAILABLE:'Восстановление через лаунчер ещё не включено на сервере. Требуется обновление API.',AMBIGUOUS_PLAYER:'Этот логин совпадает с ником другого игрока. Укажите другой идентификатор нужного аккаунта.',OWNER_PROOF_REJECTED:'Неверный пароль владельца или код MFA. Для следующей попытки используйте новый код.',OWNER_MFA_REQUIRED:'Сначала подключите MFA в «Настройки → Сеансы и доступ».',PLAYER_NOT_FOUND:'Игрок с таким логином или ником не найден.',FORBIDDEN:'Этому игроку пароль здесь не сбросить (владелец восстанавливается отдельной процедурой).',SECURITY_OUTCOME_UNKNOWN:'Ответ не получен: пароль мог быть сброшен. Выполните сброс ещё раз — прежний временный пароль перестанет действовать.',VALIDATION_ERROR:'Проверьте поля: логин или ник игрока, ваш пароль и 6-значный код MFA (или резервный код).'};
+/** OWNER: a one-time temporary password for a player; the OWNER's password and MFA code are re-checked by the server. */
+export async function ownerPasswordReset(input:{login:string;password:string;proof:string}):Promise<OwnerPasswordReset>{requireNative();return invoke('owner_password_reset',{input});}
+export function ownerResetError(error:unknown):string{const code=typeof error==='string'?error:error instanceof Error?error.message:'';return resetErrors[code]??accountError(error);}
 
 export interface ClanRoster {items:{nickname:string|null;joined_at:string;role:'MEMBER'|'MANAGER';online:boolean|null;online_updated_at:string|null}[];next_cursor:string|null}
+export type ClanRole='LEADER'|'OFFICER'|'RECRUITER'|'MANAGER';
+export type ClanRoleChoice='LEADER'|'OFFICER'|'RECRUITER'|'MEMBER';
+export interface ClanRoles {my_role:ClanRole|null;owner:boolean;can_review:boolean;can_remove:boolean;can_assign:boolean;clan_version:string;members:{nickname:string|null;role:ClanRole|'MEMBER';joined_at:string;user_id?:string;version?:string}[]}
+export const roleLabel=(role:ClanRole|'MEMBER'|null|undefined)=>role==='LEADER'?'Глава':role==='OFFICER'?'Заместитель':role==='RECRUITER'?'Рекрутер':role==='MANAGER'?'Управляющий':'Участник';
+export async function clanRoles(clan_id:string):Promise<ClanRoles>{requireNative();return invoke('player_read',{input:{resource:'clan_roles',clan_id}});}
+export async function staffApplications(clan_id:string,cursor?:string):Promise<Applications>{requireNative();return invoke('player_read',{input:{resource:'staff_applications',clan_id,cursor:cursor??null}});}
 export async function clanRoster(clan_id:string,cursor?:string):Promise<ClanRoster>{requireNative();return invoke('player_read',{input:{resource:'roster',clan_id,cursor:cursor??null}});}

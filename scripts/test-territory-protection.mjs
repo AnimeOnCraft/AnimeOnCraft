@@ -1,5 +1,6 @@
 import {createHash,randomBytes,randomUUID} from 'node:crypto';
 import {applyBalanceConfig,installBalancePack} from './game-balance.mjs';
+import {installEcology} from './game-ecology.mjs';
 import assert from 'node:assert/strict';
 import {spawn} from 'node:child_process';
 import {once} from 'node:events';
@@ -11,7 +12,11 @@ import {fileURLToPath} from 'node:url';
 const root=fileURLToPath(new URL('../',import.meta.url));
 const base=path.join(root,'.tools/modpack-mvp/server');
 const flags=process.argv.slice(2);
-assert.ok(flags.every(flag=>['--adventure','--normal-world','--full-modpack','--server-optimizations','--world-boss-only','--world-boss-minimal','--boss-early-stop','--chunk-control','--create-lifecycle','--magic-boundary','--packaged-jar','--controller-restart','--boss-health'].includes(flag))&&new Set(flags).size===flags.length);
+assert.ok(flags.every(flag=>['--adventure','--normal-world','--full-modpack','--server-optimizations','--world-boss-only','--world-boss-minimal','--boss-early-stop','--chunk-control','--create-lifecycle','--magic-boundary','--packaged-jar','--controller-restart','--boss-health','--public-waystones','--ecology'].includes(flag))&&new Set(flags).size===flags.length);
+const ecology=flags.includes('--ecology');
+assert.ok(!ecology||flags.every(flag=>['--ecology','--full-modpack','--server-optimizations'].includes(flag)),'Ecology uses a separate isolated probe');
+const publicWaystones=flags.includes('--public-waystones');
+assert.ok(!publicWaystones||flags.every(flag=>['--public-waystones','--full-modpack','--server-optimizations'].includes(flag)),'Public waystones use a separate isolated probe');
 const adventure=flags.includes('--adventure');
 assert.ok(!adventure||flags.includes('--full-modpack'));
 const bossHealth=flags.includes('--boss-health');
@@ -19,19 +24,19 @@ assert.ok(!bossHealth||(flags.includes('--world-boss-only')&&!flags.includes('--
 const controllerRestart=flags.includes('--controller-restart');
 const lifecycle=flags.includes('--create-lifecycle');
 const magic=flags.includes('--magic-boundary');
-const probeLog=bossHealth?'.tools/world-boss-health-probe.log':controllerRestart?'.tools/controller-restart-probe.log':magic?'.tools/magic-boundary-probe.log':lifecycle?'.tools/create-lifecycle-probe.log':flags.some(flag=>flag.startsWith('--world-boss-'))?'.tools/world-boss-probe.log':'.tools/territory-protection-probe.log';
-const jar=path.join(root,`minecraft/integration/neoforge/build/libs/animeoncraft-admission-0.3.0-friends-dev${(adventure||bossHealth||controllerRestart||lifecycle||magic)&&!flags.includes('--packaged-jar')?'-lifecycle-probe':''}.jar`);
+const probeLog=ecology?'.tools/ecology-20261025/probe.log':publicWaystones?'.tools/public-waystones-20261025/probe.log':bossHealth?'.tools/world-boss-health-probe.log':controllerRestart?'.tools/controller-restart-probe.log':magic?'.tools/magic-boundary-probe.log':lifecycle?'.tools/create-lifecycle-probe.log':flags.some(flag=>flag.startsWith('--world-boss-'))?'.tools/world-boss-probe.log':'.tools/territory-protection-probe.log';
+const jar=ecology?path.join(root,'.tools/ecology-20261025/probe/animeoncraft-admission-0.3.0-friends-dev.jar'):publicWaystones?path.join(root,'.tools/public-waystones-20261025/probe/animeoncraft-admission-0.3.0-friends-dev.jar'):path.join(root,`minecraft/integration/neoforge/build/libs/animeoncraft-admission-0.3.0-friends-dev${(adventure||bossHealth||controllerRestart||lifecycle||magic)&&!flags.includes('--packaged-jar')?'-lifecycle-probe':''}.jar`);
 const worldBossOnly=flags.includes('--world-boss-only')||flags.includes('--world-boss-minimal');
 const earlyStop=flags.includes('--boss-early-stop');
 const chunkControl=flags.includes('--chunk-control');
 assert.ok(!controllerRestart||(!worldBossOnly&&!lifecycle&&!magic&&!flags.includes('--packaged-jar')),'Controller restart is a separate opt-in fixture');
-const passMarker=adventure?'AOC_PERSONAL_QUEST_PROBE_PASS':controllerRestart?'AOC_CONTROLLER_RESTART_PROBE_PASS':worldBossOnly?'AOC_WORLD_BOSS_PROBE_PASS':'AOC_TERRITORY_PROBE_PASS';
+const passMarker=ecology?'AOC_ECOLOGY_PROBE_PASS':publicWaystones?'AOC_PUBLIC_WAYSTONE_PROBE_PASS':adventure?'AOC_PERSONAL_QUEST_PROBE_PASS':controllerRestart?'AOC_CONTROLLER_RESTART_PROBE_PASS':worldBossOnly?'AOC_WORLD_BOSS_PROBE_PASS':'AOC_TERRITORY_PROBE_PASS';
 const restartMarker=controllerRestart?'AOC_CONTROLLER_RESTART_REQUEST':'AOC_WORLD_BOSS_RESTART_REQUEST';
 assert.ok(!chunkControl||worldBossOnly);
 assert.ok(!earlyStop||worldBossOnly);
 assert.ok(!lifecycle||!worldBossOnly,'Create lifecycle uses its own full-modpack fixture');
 assert.ok(!magic||!worldBossOnly,'Magic boundary uses its own full-modpack fixture');
-const fullModpack=controllerRestart||magic||lifecycle||flags.includes('--world-boss-only')||flags.includes('--full-modpack');
+const fullModpack=ecology||publicWaystones||controllerRestart||magic||lifecycle||flags.includes('--world-boss-only')||flags.includes('--full-modpack');
 assert.ok(existsSync(jar),'Build the NeoForge mod first');
 assert.match(readFileSync(path.join(base,'eula.txt'),'utf8'),/^eula=true\s*$/m,'Existing owner EULA agreement required');
 await new Promise((resolve,reject)=>{
@@ -62,6 +67,7 @@ if(flags.includes('--server-optimizations')){
   copyFileSync(source,path.join(directory,'mods',mod.file.name));
  }
 }
+if(ecology)installEcology(directory);
 writeFileSync(path.join(directory,'eula.txt'),'eula=true\n');
 writeFileSync(path.join(directory,'server.properties'),[
   'server-ip=127.0.0.1','server-port=25569','online-mode=false','enforce-secure-profile=false',
@@ -76,7 +82,7 @@ for(const [index,code] of ['SCAM','NYA','AKUMA','ZXC','YAKUZA'].entries()){
 writeFileSync(path.join(directory,'config/animeoncraft-clan-spawns.json'),JSON.stringify({format_version:1,seed:'20261016',clans,
   common:{x:0,z:0},territories:{width_blocks:128,colors},protection:{spawn_radius_blocks:16}}));
 const java=process.env.JAVA_HOME?path.join(process.env.JAVA_HOME,'bin/java.exe'):'java';
-const argumentsList=['-Xms256m',adventure?'-Xmx2560m':fullModpack?'-Xmx1536m':'-Xmx1024m','-Dterminal.jline=false','-Dterminal.ansi=false',...(controllerRestart?['-Danimeoncraft.controllerRestartProbe=true']:[]),
+const argumentsList=['-Xms256m',adventure?'-Xmx2560m':fullModpack?'-Xmx1536m':'-Xmx1024m','-Dterminal.jline=false','-Dterminal.ansi=false',...(ecology?['-Danimeoncraft.ecologyProbe=true']:[]),...(publicWaystones?['-Danimeoncraft.publicWaystoneProbe=true']:[]),...(controllerRestart?['-Danimeoncraft.controllerRestartProbe=true']:[]),
   '-Danimeoncraft.territoryProbe=true',...(adventure?['-Danimeoncraft.adventureProbe=true']:[]),...(magic?['-Danimeoncraft.magicBoundaryProbe=true']:[]),...(lifecycle?['-Danimeoncraft.createLifecycleProbe=true']:[]),...(worldBossOnly?['-Danimeoncraft.worldBossProbeOnly=true']:[]),...(earlyStop?['-Danimeoncraft.worldBossEarlyStop=true']:[]),...(chunkControl?['-Danimeoncraft.chunkControl=true']:[]),...(fullModpack?['-Danimeoncraft.balanceProbe=true']:[]),'@libraries/net/neoforged/neoforge/21.1.262/win_args.txt','nogui'];
 const childOptions={cwd:directory,windowsHide:true,stdio:['pipe','pipe','pipe'],env:{...process.env,AOC_GAME_SERVER_ID:randomUUID(),AOC_GAME_SERVER_KEY:randomBytes(32).toString('hex'),AOC_GAME_REDEEM_URL:'http://127.0.0.1:1/api/v1/game/admission/redeem',AOC_GAME_HEARTBEAT_URL:'http://127.0.0.1:1/integration/v1/servers/heartbeat'}};
 let output='',done=false,forcedShutdown,restartRequested=false,restarted=false;
@@ -102,9 +108,10 @@ try{
   assert.equal(code,0,`Fixture failed; see ${probeLog}`);
   assert.ok(done,`Territory event/action checks failed; see ${probeLog}`);
   if(adventure)assert.ok(output.includes('AOC_ADVENTURE_PROBE_PASS'),'Adventure integrations did not pass');
-  if(fullModpack)assert.ok(output.includes('AOC_SPELL_BALANCE_RUNTIME_PASS'),'Spell modifiers were not checked after actual datapack sync');
+  if(fullModpack&&!publicWaystones&&!ecology)assert.ok(output.includes('AOC_SPELL_BALANCE_RUNTIME_PASS'),'Spell modifiers were not checked after actual datapack sync');
   if(bossHealth)assert.ok(output.includes('AOC_WORLD_BOSS_HEALTH_PASS'),'Boss health range and NBT reload failed');
-  if(controllerRestart){assert.ok(output.includes(passMarker));assert.equal(restarted,true,'Actual controller process restart required');}
+  if(ecology||publicWaystones){assert.ok(output.includes(passMarker));}
+  else if(controllerRestart){assert.ok(output.includes(passMarker));assert.equal(restarted,true,'Actual controller process restart required');}
   else if(!worldBossOnly){
     if(magic)assert.ok(output.includes('AOC_SPELL_BOUNDARY_PROBE_PASS'));
     if(lifecycle){assert.ok(output.includes('AOC_CREATE_LIFECYCLE_PROBE_PASS'));assert.ok(output.includes('AOC_CREATE_CONTROLLER_PROBE_PASS'));}
@@ -116,14 +123,14 @@ try{
   }else{assert.ok(output.includes('AOC_WORLD_BOSS_PROBE_PASS'),'Shared world boss encounter probe failed');if(!chunkControl)assert.equal(restarted,true,'An actual Java process restart is required');}
   const common={passed:true,checked_at:new Date().toISOString(),fixture_directory:directory,main_world_touched:false,
     admission_sha256:createHash('sha256').update(readFileSync(path.join(directory,'mods',path.basename(jar)))).digest('hex'),full_modpack:fullModpack,server_optimizations:flags.includes('--server-optimizations'),normal_world:flags.includes('--normal-world'),early_stop:earlyStop,create_lifecycle:lifecycle,magic_boundary:magic,adventure,
-    ...(fullModpack?{runtime_spell_modifiers:111,spell_config_sync_verified:true}:{}),
+    ...(fullModpack&&!publicWaystones&&!ecology?{runtime_spell_modifiers:111,spell_config_sync_verified:true}:{}),
     ...(output.includes('AOC_WORLD_BOSS_HEALTH_PASS')?{boss_health_15_players:1800,boss_health_30_players:3000,ordinary_wither_health:300,health_nbt_roundtrip:true}:{}),
     ...(magic?{real_spell_firebolt:true,real_spell_fire_field:true,real_spell_summon:true,real_spell_blizzard:true,spell_active_raid_and_friendly_rules:true,helpful_healing_preserved:true}:{}),
     ...(lifecycle?{train_destination_and_multi_carriage:true,controller_destination:true,controller_physical_break_and_tick:true,controller_recovery:true,own_controller_break:true}:{}),
   };
-  const result=controllerRestart?{...common,controller_persistence:true,controllers:3,real_ticks:true,process_restart_verified:restarted,normal_shutdown_verified:true}:worldBossOnly?{...common,shared_world_boss:!chunkControl,chunk_control:chunkControl,real_ticks:true,process_restart_verified:restarted,normal_shutdown_verified:true,generation_drained:output.includes('AOC_ARENA_GENERATION_DRAINED')}:{...common,
+  const result=ecology?{...common,cleanup_interval_seconds:300,cleanup_dimensions:2,fresh_named_death_items_preserved:true,death_drop_nbt_roundtrip:true,non_item_entities_preserved:true,night_speed:2,game_time_unchanged:true,natural_hostile_cap_per_player:40,phantom_reduction_sampled:true,special_spawns_preserved:true,saved_mobs_preserved:true}:publicWaystones?{...common,real_waystone_activation:true,variants:3,upper_half:true,editing_denied:true,breaking_denied:true,containers_denied:true,dangerous_items_denied:true,admission_required:true}:controllerRestart?{...common,controller_persistence:true,controllers:3,real_ticks:true,process_restart_verified:restarted,normal_shutdown_verified:true}:worldBossOnly?{...common,shared_world_boss:!chunkControl,chunk_control:chunkControl,real_ticks:true,process_restart_verified:restarted,normal_shutdown_verified:true,generation_drained:output.includes('AOC_ARENA_GENERATION_DRAINED')}:{...common,
     create_assembly_and_disassembly:fullModpack,balance_pack_loaded:fullModpack,create_transfers:fullModpack,combat_rules:true,capture_hold_and_reset:true,cancelled_boss_rewards_blocked:true,containers_and_hopper_boundary:true,clans:5,protected_spawns:1,editable_clan_spawns:5,clan_spawn_chest_rights:true,real_break_place_explosion:true,neutral_building:true};
-  writeFileSync(path.join(root,bossHealth?'.tools/world-boss-health-result.json':controllerRestart?'.tools/controller-restart-result.json':magic?'.tools/magic-boundary-result.json':lifecycle?'.tools/create-lifecycle-result.json':chunkControl?'.tools/world-boss-chunk-control-result.json':worldBossOnly?(earlyStop?'.tools/world-boss-early-stop-result.json':'.tools/world-boss-result.json'):'.tools/territory-protection-result.json'),JSON.stringify(result,null,2)+'\n');
+  writeFileSync(path.join(root,ecology?'.tools/ecology-20261025/result.json':publicWaystones?'.tools/public-waystones-20261025/result.json':bossHealth?'.tools/world-boss-health-result.json':controllerRestart?'.tools/controller-restart-result.json':magic?'.tools/magic-boundary-result.json':lifecycle?'.tools/create-lifecycle-result.json':chunkControl?'.tools/world-boss-chunk-control-result.json':worldBossOnly?(earlyStop?'.tools/world-boss-early-stop-result.json':'.tools/world-boss-result.json'):'.tools/territory-protection-result.json'),JSON.stringify(result,null,2)+'\n');
   console.log(JSON.stringify(result));
 }finally{
   clearTimeout(timer);clearTimeout(forcedShutdown);writeFileSync(path.join(root,probeLog),output);

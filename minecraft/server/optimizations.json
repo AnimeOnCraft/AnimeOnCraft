@@ -2,7 +2,7 @@
   "schema_version": 1,
   "minecraft": "1.21.1",
   "neoforge": "21.1.262",
-  "checked_on": "2026-10-19",
+  "checked_on": "2026-10-25",
   "purpose": "Server-only deployment overlay; optional for clients. Preserve when updating base modpack.",
   "mods": [
     {
@@ -88,6 +88,40 @@
         "url": "https://cdn.modrinth.com/data/fALzjamp/versions/LuFhm4eU/Chunky-NeoForge-1.4.23.jar",
         "sha512": "2db769dd723f243a21e1881e7c9f825e9c193da6f2bed454b70cb6fa9e51c57f63fdcf017c0657bbd26f7bba30815413e27c74d3c7be0783390a96ee9baa4bf7",
         "sha256": "d72f235cf1f56f2c374f52c00bdda5034524b28142305a84cfc123a3f92ad274"
+      }
+    },
+    {
+      "slug": "cleanmaid",
+      "project_id": "rvq3ytpo",
+      "version_id": "Gj3wfBhX",
+      "version": "1.0.0",
+      "source_url": "https://github.com/OrangeMiracle/CleanMaid",
+      "project_url": "https://modrinth.com/mod/cleanmaid",
+      "install_sides": [
+        "server"
+      ],
+      "file": {
+        "name": "cleanmaid-1.0.0.jar",
+        "url": "https://cdn.modrinth.com/data/rvq3ytpo/versions/Gj3wfBhX/cleanmaid-1.0.0.jar",
+        "sha512": "cbc8194aab5e29e255bf89958396bb9ca308a5d089864c3a041723e4e6df88cd769c8f1ce0d84ace853fdc207c8840ef96fa6597d392bffeebe3e3632429540e",
+        "sha256": "805efeb7f92d2d199346d5d89b0caedf33d7903618850fbb2595eeac25167a00"
+      }
+    },
+    {
+      "slug": "in-control",
+      "project_id": "KpICtuVx",
+      "version_id": "22Tx0R5U",
+      "version": "1.21-10.3.1",
+      "source_url": "https://github.com/McJtyMods/InControl",
+      "project_url": "https://modrinth.com/mod/in-control",
+      "install_sides": [
+        "server"
+      ],
+      "file": {
+        "name": "incontrol-1.21-10.3.1.jar",
+        "url": "https://cdn.modrinth.com/data/KpICtuVx/versions/22Tx0R5U/incontrol-1.21-10.3.1.jar",
+        "sha512": "01badad6c113df643759e1731b51a1fbb740e02cc160d2c1874f3b01fca471a0669cc3855952f69b6369530178fe0f5e9dce62cc9fdb26fd704a943567843b4d",
+        "sha256": "ed80956fdc224d5a5284eabd92fcb20a3c0b559e23e011296ff29057f62613c7"
       }
     }
   ]

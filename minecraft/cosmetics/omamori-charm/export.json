@@ -1,0 +1,15 @@
+{
+  "code": "OMAMORI_CHARM",
+  "source": "minecraft\\cosmetics\\omamori-charm\\omamori-charm.bbmodel",
+  "source_sha256": "835cf68fa60614e4940e1e020355618eddb5436eb64ff7b93fb369d21fca09c7",
+  "geometry": "minecraft/integration/neoforge/src/main/resources/assets/animeoncraft/cosmetics/omamori_charm.json",
+  "texture": "minecraft/integration/neoforge/src/main/resources/assets/animeoncraft/textures/cosmetics/omamori_charm.png",
+  "faces": 212,
+  "triangles": 112,
+  "emissive_faces": 6,
+  "parts": [
+    "static",
+    "charm_swing"
+  ],
+  "reference_head_exported": false
+}

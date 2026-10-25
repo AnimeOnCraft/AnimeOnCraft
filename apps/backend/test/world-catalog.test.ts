@@ -10,6 +10,19 @@ const base = { format_version: 1, world_id: 'test-world', display_name: 'Test' }
 const square = (x: number, z: number, size = 100): [number, number][] => [[x, z], [x + size, z], [x + size, z + size], [x, z + size]];
 
 describe('world catalog', () => {
+  it('protects Sora only to 300 blocks and leaves its outer surroundings unclaimed', async () => {
+    const catalog = await loadCatalog(fileURLToPath(new URL('../../../minecraft/server/world-config/world-states.toml', import.meta.url)));
+    const core = catalog.regions.find(r => r.code === 'core')!;
+    expect(core).toMatchObject({ kind: 'CORE', clan_code: null, build_policy: 'NONE', pvp_policy: 'OFF' });
+    expect(insidePolygon(core.polygon, 0, 0)).toBe(true);
+    expect(insidePolygon(core.polygon, 0, 299)).toBe(true);
+    expect(catalog.regions.filter(r => r.status === 'ACTIVE' && insidePolygon(r.polygon, -616, 375))).toHaveLength(0);
+    expect(catalog.points.find(p => p.code === 'core.boss_arena')?.region_code).toBeNull();
+    for (const market of catalog.regions.filter(r => r.kind === 'MARKET')) {
+      for (const [x, z] of market.polygon) expect(insidePolygon(core.polygon, x, z)).toBe(true);
+    }
+  });
+
   it('derives the current world exactly like the game server territories', async () => {
     const catalog = await loadCatalog(fileURLToPath(profilePath));
     expect(catalog.world.id).toBe('clan-world-20261016');
@@ -59,8 +72,9 @@ describe('world catalog', () => {
 
   it('gives every states clan one peaceful 36 by 36 market closer to the plaza and clear of Sora buildings and streets', async () => {
     const catalog=await loadCatalog(fileURLToPath(new URL('../../../minecraft/server/world-config/world-states.toml',import.meta.url)));
-    const plots=catalog.regions.filter(r=>r.kind==='MARKET');
-    expect(plots.map(r=>r.clan_code).sort()).toEqual(catalog.regions.filter(r=>r.kind==='STATE').map(r=>r.clan_code).sort());
+    const added=new Set(Object.keys((JSON.parse(await readFile(new URL('../../../docs/world-design/added-clans.json',import.meta.url),'utf8')) as {clans:Record<string,unknown>}).clans));
+    expect(catalog.regions.filter(r=>r.kind==='MARKET').map(r=>r.clan_code).sort()).toEqual(catalog.regions.filter(r=>r.kind==='STATE').map(r=>r.clan_code).sort());
+    const plots=catalog.regions.filter(r=>r.kind==='MARKET'&&!added.has(r.clan_code!));
     const layout=JSON.parse(await readFile(new URL('../../../minecraft/server/world-config/worldgen-pack/aoc/layout.json',import.meta.url),'utf8')) as {roads:Array<{code:string;points:[number,number][]}>};
     const bearings=layout.roads.filter(r=>r.code.startsWith('road.main.')).map(r=>Math.atan2(r.points[0]![0],-r.points[0]![1]));
     for(const plot of plots){
@@ -79,6 +93,42 @@ describe('world catalog', () => {
         }
       }
     }
+  });
+
+  it('puts markets of added clans on the lawn of the outer ring, clear of the ring street, streets and the wall', async () => {
+    const catalog=await loadCatalog(fileURLToPath(new URL('../../../minecraft/server/world-config/world-states.toml',import.meta.url)));
+    const added=Object.keys((JSON.parse(await readFile(new URL('../../../docs/world-design/added-clans.json',import.meta.url),'utf8')) as {clans:Record<string,unknown>}).clans);
+    const layout=JSON.parse(await readFile(new URL('../../../minecraft/server/world-config/worldgen-pack/aoc/layout.json',import.meta.url),'utf8')) as {roads:Array<{code:string;points:[number,number][]}>};
+    const bearings=layout.roads.filter(r=>r.code.startsWith('road.main.')).map(r=>Math.atan2(r.points[0]![0],-r.points[0]![1]));
+    expect(bearings).toHaveLength(5); // an added clan never opens a new gate in Sora
+    for(const clan of added){
+      const plot=catalog.regions.find(r=>r.kind==='MARKET'&&r.clan_code===clan)!;
+      expect(plot).toMatchObject({pvp_policy:'OFF',build_policy:'MEMBERS',spawn:null,capital:null});
+      const xs=plot.polygon.map(p=>p[0]),zs=plot.polygon.map(p=>p[1]);
+      for(let x=Math.min(...xs);x<Math.max(...xs);x++)for(let z=Math.min(...zs);z<Math.max(...zs);z++){
+        const d=Math.hypot(x+.5,z+.5);
+        expect(d).toBeGreaterThan(127); expect(d).toBeLessThan(159); // ring street r124±2.5, wall r160
+        for(const b of bearings) if((x+.5)*Math.sin(b)-(z+.5)*Math.cos(b)>0) expect(Math.abs((x+.5)*Math.cos(b)+(z+.5)*Math.sin(b))).toBeGreaterThan(6);
+      }
+    }
+  });
+
+  it('cuts an added clan state only out of neutral land and keeps the capture points inside its outline neutral', async () => {
+    const catalog=await loadCatalog(fileURLToPath(new URL('../../../minecraft/server/world-config/world-states.toml',import.meta.url)));
+    const vorix=catalog.regions.find(r=>r.code==='state.vorix')!;
+    expect(vorix).toMatchObject({kind:'STATE',clan_code:'VORIX',status:'ACTIVE',build_policy:'MEMBERS',pvp_policy:'WAR_ONLY',capital:{x:4500,z:880},spawn:{x:4500,z:880}});
+    expect(catalog.regions.find(r=>r.code==='rim.w2')!.status).toBe('ARCHIVED');
+    for(const code of ['border.w2.village','site.w2.t3','site.rim.108']){
+      const point=catalog.points.find(p=>p.code===code)!;
+      expect(point.capturable).toBe(true);
+      expect(insidePolygon(vorix.polygon,point.x,point.z)).toBe(false);
+      for(const [dx,dz] of [[point.radius,0],[-point.radius,0],[0,point.radius],[0,-point.radius]]) expect(insidePolygon(vorix.polygon,point.x+dx!,point.z+dz!)).toBe(false);
+    }
+    expect(catalog.points.find(p=>p.code==='region.vorix.capital')).toMatchObject({type:'CLAN_CAPITAL',region_code:'state.vorix',capturable:false});
+    expect(catalog.points.find(p=>p.code==='ring.outpost.vorix')).toMatchObject({type:'OUTPOST',region_code:'ring.w2',capturable:true});
+    const area=(p:[number,number][])=>Math.abs(p.reduce((s,[x,z],i)=>{const [nx,nz]=p[(i+1)%p.length]!;return s+x*nz-nx*z;},0))/2;
+    const scam=catalog.regions.find(r=>r.code==='state.scam')!;
+    expect(area(vorix.polygon)/area(scam.polygon)).toBeGreaterThan(0.8);
   });
 
   it('allows only tightly validated markets to overlap the protected core', () => {

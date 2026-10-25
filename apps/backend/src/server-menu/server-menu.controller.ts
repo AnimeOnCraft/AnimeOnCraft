@@ -19,7 +19,8 @@ export async function readServerMenu(tx:Prisma.TransactionClient){
  const members=await tx.$queryRaw<Array<{uuid:string;name:string;clan:string;role:string}>>`
   SELECT g.minecraft_uuid::text AS uuid,g.game_name AS name,c.code_key AS clan,
    CASE WHEN u.system_role='OWNER' THEN 'OWNER' WHEN EXISTS
-    (SELECT 1 FROM clan_manager_assignments a WHERE a.user_id=u.id AND a.clan_id=c.id AND a.ended_at IS NULL)
+    (SELECT 1 FROM clan_manager_assignments a JOIN clan_roles r ON r.id=a.role_id AND r.code IN ('LEADER','OFFICER','MANAGER')
+      WHERE a.user_id=u.id AND a.clan_id=c.id AND a.ended_at IS NULL)
     THEN 'MANAGER' ELSE 'MEMBER' END AS role
   FROM clan_members m JOIN clans c ON c.id=m.clan_id JOIN users u ON u.id=m.user_id JOIN game_profiles g ON g.user_id=u.id
   WHERE m.ended_at IS NULL AND c.enabled AND c.archived_at IS NULL AND u.state='ACTIVE'

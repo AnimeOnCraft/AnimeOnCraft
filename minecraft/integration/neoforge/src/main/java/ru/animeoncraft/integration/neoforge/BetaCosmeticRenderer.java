@@ -35,9 +35,10 @@ final class BetaCosmeticRenderer {
             pose.pushPose(); getParentModel().body.translateAndRotate(pose);
             String belt = worn.get("BELT");
             if (belt != null) DetailedCosmetics.draw(belt, pose, buffers, light, time, movement, player.isCrouching());
-            if ("RIFT_MANTLE".equals(worn.get("BACK")) &&
-                    !player.getItemBySlot(net.minecraft.world.entity.EquipmentSlot.CHEST).is(Items.ELYTRA) &&
-                    DetailedCosmetics.draw("RIFT_MANTLE", pose, buffers, light, time, movement, player.isCrouching())) mantleDraws++;
+            String back = worn.get("BACK");
+            if (back != null && !player.getItemBySlot(net.minecraft.world.entity.EquipmentSlot.CHEST).is(Items.ELYTRA) &&
+                    DetailedCosmetics.draw(back, pose, buffers, light, time, movement, player.isCrouching()) &&
+                    back.equals("RIFT_MANTLE")) mantleDraws++;
             pose.popPose();
         }
     }

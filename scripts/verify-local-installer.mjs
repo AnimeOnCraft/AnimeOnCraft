@@ -19,6 +19,11 @@ assert.ok(executable.includes(Buffer.from(updater.endpoint)),'Published updater 
 assert.ok(executable.includes(Buffer.from('x-aoc-launcher-version')),'Native ticket version header embedded');
 const jar='minecraft/integration/neoforge/build/libs/animeoncraft-admission-0.3.0-friends-dev.jar',jarHash=hash(fs.readFileSync(jar));assert.equal(hash(fs.readFileSync(path.join(shipped,jar))),jarHash);assert.equal(config.admission_sha256,jarHash);
 const jarFiles=execFileSync('C:/Program Files/7-Zip/7z.exe',['l','-slt',path.join(shipped,jar)],{windowsHide:true,encoding:'utf8'});
+assert.ok(!/frame_\d{4}\.jpg/.test(jarFiles),'HD frames must not be embedded in installer JAR');
+assert.ok(/poster\.jpg/.test(jarFiles),'Offline static poster included');
+const media=JSON.parse(fs.readFileSync(path.join(shipped,'title-media.json')));
+assert.equal(config.title_assets_sha256,media.sha256);assert.ok(executable.includes(Buffer.from(media.sha256)),'External media digest compiled into launcher');
+assert.ok(!files.some(file=>file.endsWith(media.sha256+'.zip')),'External archive must not be bundled');
 assert.ok(!/assets[/\\]animeoncraft[/\\]atlas[/\\][^\r\n]*\.(?:jpg|png)/i.test(jarFiles),'No map image in shipped JAR');
 assert.ok(!/WorldAtlasRaster|WorldAtlasOverview|XaeroAtlasWriterMixin/.test(jarFiles),'No image renderer or frozen map writer');
 assert.ok(/XaeroClanHighlighter/.test(jarFiles)&&/XaeroClanMapOverlay/.test(jarFiles),'Native clan boundaries included');

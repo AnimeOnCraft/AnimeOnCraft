@@ -62,6 +62,8 @@ struct Bundle {
     format_version: u8,
     public_config: PublicConfig,
     admission_sha256: String,
+    loading_sha256: String,
+    title_assets_sha256: String,
 }
 pub struct Preparation {
     state: Arc<Mutex<Snapshot>>,
@@ -103,6 +105,13 @@ impl Preparation {
                 .admission_sha256
                 .bytes()
                 .all(|b| b.is_ascii_hexdigit())
+            || bundle.loading_sha256.len() != 64
+            || !bundle.loading_sha256.bytes().all(|b| b.is_ascii_hexdigit())
+            || bundle.title_assets_sha256.len() != 64
+            || !bundle
+                .title_assets_sha256
+                .bytes()
+                .all(|b| b.is_ascii_hexdigit())
         {
             return Err("PREPARATION_NOT_BUNDLED");
         }
@@ -115,6 +124,10 @@ impl Preparation {
             "runtime/node/node.exe",
             "runtime/java/bin/java.exe",
             "scripts/prepare-launcher-client.mjs",
+            "scripts/client-loading-theme.mjs",
+            "scripts/client-title-media.mjs",
+            "title-media.json",
+            "minecraft/integration/loading-window/build/libs/animeoncraft-loading-1.0.0.jar",
         ] {
             if !resource.join(file).is_file() {
                 return Err("PREPARATION_NOT_BUNDLED");
@@ -268,6 +281,21 @@ async fn run(
             .map_err(|_| "PREPARATION_FAILED")?;
         let runtime: Runtime = serde_json::from_slice(&bytes).map_err(|_| "PREPARATION_FAILED")?;
         runtime.validate()?;
+        crate::title_assets::verify_required(&runtime.game_directory)
+            .map_err(|_| "PREPARATION_FAILED")?;
+        for (file, hash) in [
+            (
+                "animeoncraft-admission-0.3.0-friends-dev.jar",
+                &bundle.admission_sha256,
+            ),
+            ("animeoncraft-loading-1.0.0.jar", &bundle.loading_sha256),
+        ] {
+            crate::game_launch::compatible_mod(
+                &runtime.game_directory.join("mods").join(file),
+                hash,
+            )
+            .map_err(|_| "PREPARATION_FAILED")?;
+        }
         crate::managed_pack::verify(&runtime.game_directory)?;
         if runtime.game_directory != directory.join("client")
             || runtime.java != java
@@ -305,6 +333,17 @@ async fn run(
 mod tests {
     use super::*;
     #[test]
+    fn bundle_requires_both_companion_checksums() {
+        let mut value = serde_json::json!({
+            "format_version": 1,
+            "public_config": {"format_version":1,"api_origin":"https://example.test", "server_id":"00000000-0000-4000-8000-000000000001", "server_host":"example.test", "server_port":25565},
+            "admission_sha256": "a".repeat(64), "loading_sha256": "b".repeat(64), "title_assets_sha256": "c".repeat(64)
+        });
+        assert!(serde_json::from_value::<Bundle>(value.clone()).is_ok());
+        value.as_object_mut().unwrap().remove("loading_sha256");
+        assert!(serde_json::from_value::<Bundle>(value).is_err());
+    }
+    #[test]
     #[cfg(windows)]
     fn child_process_paths_use_normal_drive_syntax() {
         assert_eq!(
@@ -330,6 +369,15 @@ mod tests {
             } else { b"fixture".to_vec() },
         )
         .unwrap();
+        if option_env!("AOC_REQUIRED_LOADING_SHA256").is_some_and(|hash| hash.len() == 64) {
+            let source = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+                .join("../../../.tools/launcher-bootstrap/minecraft/integration/loading-window/build/libs/animeoncraft-loading-1.0.0.jar");
+            std::fs::copy(
+                source,
+                game_directory.join("mods/animeoncraft-loading-1.0.0.jar"),
+            )
+            .unwrap();
+        }
         let java = folder.path().join("java.exe");
         std::fs::write(&java, b"fixture").unwrap();
         let path = folder.path().join("game-runtime.json");
@@ -348,6 +396,14 @@ mod tests {
         };
         std::fs::write(&path, serde_json::to_vec(&runtime).unwrap()).unwrap();
         crate::managed_pack::prepare_fixture(&runtime.game_directory);
+        if let Some(hash) = option_env!("AOC_TITLE_ASSET_SHA256").filter(|h| h.len() == 64) {
+            let folder = runtime.game_directory.join("aoc-assets/title");
+            std::fs::create_dir_all(&folder).unwrap();
+            let source = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+                .join("../../../.tools/title-media")
+                .join(format!("{hash}.zip"));
+            std::fs::hard_link(source, folder.join(format!("{hash}.zip"))).unwrap();
+        }
         assert!(Game::new(path.clone()).snapshot().unwrap().can_launch);
         // Updating third-party mods must block Play even with the same companion JAR.
         if let Some(mod_file) = std::fs::read_dir(runtime.game_directory.join("mods"))

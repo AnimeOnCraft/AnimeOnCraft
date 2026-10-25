@@ -3,7 +3,7 @@ import type { FastifyRequest } from 'fastify';
 import { PageInput } from '../../infrastructure/pagination.js';
 import { AuthHttp, input } from '../auth/auth-http.js';
 import { AuthNoStore } from '../auth/auth-no-store.js';
-import { NewsInput, SlotInput, StateInput, UsersInput } from './administration-input.js';
+import { LauncherPasswordResetInput, NewsInput, SlotInput, StateInput, UsersInput } from './administration-input.js';
 import { AdministrationService } from './administration.service.js';
 import { ReasonInput } from './community-input.js';
 import type { Command } from './community.service.js';
@@ -31,4 +31,15 @@ export class AdministrationController {
   @Post('world/slots/:id/assign') async assignSlot(@Req() request:FastifyRequest,@Param('id',uuid()) id:string,@Body() body:unknown){const data=input(SlotInput,body);return this.service.assignSlot(await this.actor(request),id,data,this.command(request,data));}
   @Post('world/slots/:id/release') async releaseSlot(@Req() request:FastifyRequest,@Param('id',uuid()) id:string,@Body() body:unknown){const data=input(ReasonInput,body);return this.service.releaseSlot(await this.actor(request),id,this.command(request,data));}
   @Get('servers') async servers(@Req() request:FastifyRequest){return this.service.servers(await this.http.principal(request));}
+}
+/** OWNER actions from the launcher "Админка" that belong to administration (not to a clan). */
+@Controller('api/v1/launcher/owner') @UseInterceptors(AuthNoStore)
+export class LauncherOwnerController {
+  constructor(@Inject(AdministrationService) private readonly service:AdministrationService,@Inject(AuthHttp) private readonly http:AuthHttp){}
+  @Post('password-reset') async resetPassword(@Req() request:FastifyRequest,@Body() body:unknown){
+    const data=input(LauncherPasswordResetInput,body);await this.http.unsafe(request);const principal=await this.http.principal(request);
+    // The fingerprint and the audit see only the target and the reason, never the OWNER's password or MFA code.
+    const command:Command={route:request.url.split('?')[0]!,method:request.method,key:request.headers['idempotency-key'] as string|undefined,match:undefined,body:{login:data.login.toLowerCase(),reason:data.reason},request_id:request.id};
+    return this.service.launcherResetPassword(principal,data,command);
+  }
 }

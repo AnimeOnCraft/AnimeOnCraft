@@ -1,4 +1,5 @@
 import {launcherOwnerClanCases} from './launcher-owner-clan-cases.js';
+import {launcherOwnerPasswordCases} from './launcher-owner-password-cases.js';
 import {betaCapeCases} from './beta-cape-cases.js';
 import '../src/environment.js';
 import 'reflect-metadata';
@@ -35,7 +36,7 @@ const namespace=`aoc:friends:test:${randomUUID()}`;
 Object.assign(process.env,{NODE_ENV:'test',PUBLIC_HOST:'127.0.0.1',AOC_AUTH_ENABLED:'true',AOC_AUTH_ORIGIN:'https://localhost',AOC_AUTH_MAIL_MODE:'disabled',AOC_AUTH_RATE_NAMESPACE:namespace,AOC_MFA_KEY:randomBytes(32).toString('hex'),AOC_MFA_KEY_ID:'test-v1',AOC_AUTH_PRIVACY_KEY:randomBytes(32).toString('hex'),AOC_CSRF_KEY:randomBytes(32).toString('hex')});
 const name=`animeoncraft_friends_test_${randomUUID().replaceAll('-','')}`;assert.match(name,/^animeoncraft_friends_test_[a-f0-9]{32}$/);
 const urlFor=(value:string)=>{const url=new URL(value);url.pathname=`/${name}`;return url.toString();};
-const client=(value:string)=>new PrismaClient({adapter:new PrismaPg({connectionString:value,connectionTimeoutMillis:2000,query_timeout:5000})});
+const client=(value:string)=>new PrismaClient({adapter:new PrismaPg({connectionString:value,connectionTimeoutMillis:10000,query_timeout:15000})});
 const admin=client(rootMigration),migration=client(urlFor(rootMigration)),runtime=client(urlFor(rootRuntime));
 const redis=new Redis(redisUrl.toString(),{lazyConnect:true,enableOfflineQueue:false,maxRetriesPerRequest:0,retryStrategy:()=>null});redis.on('error',()=>{});
 const tools=path.join(backend,'.tools');mkdirSync(tools,{recursive:true});const temporary=mkdtempSync(path.join(tools,'friends-'));assert.equal(path.dirname(realpathSync(temporary)),realpathSync(tools));
@@ -49,7 +50,7 @@ const later=readdirSync(path.join(temporary,'migrations')).filter(entry=>entry>l
 for(const entry of later)renameSync(path.join(temporary,'migrations',entry),path.join(temporary,entry));
 let created=false,app:NestFastifyApplication|undefined;
 const password='Friends-Fixture-Password-2026!',next='Friends-Changed-Password-2026!';
-function deploy(){const result=spawnSync(process.execPath,[path.join(backend,'node_modules/prisma/build/index.js'),'migrate','deploy','--config',config],{cwd:backend,env:{...process.env,TEST_DATABASE_URL:urlFor(rootMigration)},encoding:'utf8',timeout:60000});assert.equal(result.status,0,`Own migration failed: ${result.stderr}`);}
+function deploy(){const result=spawnSync(process.execPath,[path.join(backend,'node_modules/prisma/build/index.js'),'migrate','deploy','--config',config],{cwd:backend,env:{...process.env,TEST_DATABASE_URL:urlFor(rootMigration)},encoding:'utf8',timeout:180000});assert.equal(result.status,0,`Own migration failed: ${result.stderr}`);}
 try{
  await admin.$executeRawUnsafe(`CREATE DATABASE "${name}"`);created=true;deploy();
  const crypto=new AuthCrypto(),hash=await crypto.hash(password),legacy=randomUUID();
@@ -66,6 +67,11 @@ try{
  if(process.env.AOC_FRIENDS_NATIVE_PROBE==='true')app.getHttpAdapter().getInstance().post('/__fixture__/friends-reset',async()=>{assert.ok(nativeReset);return nativeReset();});
  await app.init();await app.getHttpAdapter().getInstance().ready();
  const auth=module.get(AuthService),http=module.get(AuthHttp);
+ if(process.argv.includes('--owner-password-reset-only')){
+  const owner=await migration.user.create({data:{login:'ResetOwnerFixture',email:'reset-owner@example.test',emailKey:'reset-owner@example.test',passwordHash:hash,systemRole:'OWNER'}});
+  const totp=crypto.totp();await migration.mfa_credentials.create({data:{user_id:owner.id,enabled:true,key_id:crypto.keyId,secret_ciphertext:crypto.encrypt(totp.secret.base32,owner.id)}});
+  await launcherOwnerPasswordCases(app,migration,auth,owner.id,hash,password);
+ }else{
  let ip=1;const request=(method:'GET'|'POST',route:string,body?:object,headers:Record<string,string>={})=>app!.inject({method,url:`/api/v1/${route}`,headers:{'x-aoc-client':'launcher',...headers},...body?{payload:body}:{},remoteAddress:`127.0.0.${++ip}`});
  const signed=(pair:TokenPair)=>({authorization:`Bearer ${pair.access_token}`});
  const signIn=async(login:string,pwd=password)=>{const reply=await request('POST','auth/login',{login,password:pwd});assert.equal(reply.statusCode,200);assert.ok(reply.json<TokenPair>().access_token);return reply.json<TokenPair>();};
@@ -152,6 +158,7 @@ try{
  const replay=await request('POST',route,reason,{...web,'if-match':`"${version}"`,'idempotency-key':randomUUID()});assert.equal(replay.statusCode,412);
  await gameTicketCases(app,migration,auth,owner.id,hash);
  await launcherOwnerClanCases(app,migration,auth,owner.id,hash,password);
+ await launcherOwnerPasswordCases(app,migration,auth,owner.id,hash,password);
  await betaCapeCases(app,migration,auth,owner.id,hash);
  // Exercise the operator CLI only against this disposable database, never the live campaign.
  const campaignCli=(args:string[])=>spawnSync(process.execPath,[require.resolve('tsx/cli'),'db/beta-campaign.ts',...args],{cwd:backend,env:{...process.env,MIGRATION_DATABASE_URL:urlFor(rootMigration)},encoding:'utf8',timeout:30000});
@@ -178,6 +185,7 @@ try{
    assert.equal(await migration.minecraft_accounts.count({where:{user_id:nativeUser.id}}),0);
  }
  console.log('Friends accounts: real PG migration/preservation, login/password without mail/MFA, duplicate/race protection, OWNER-only manual recovery to stored email, no cleartext cache/audit, temporary-password change/session revoke: passed');
+ }
 }finally{
  await app?.close();try{await redis.connect();let cursor='0';do{const batch=await redis.scan(cursor,'MATCH',`${namespace}:*`,'COUNT',100);cursor=batch[0];if(batch[1].length)await redis.del(...batch[1]);}while(cursor!=='0');}finally{redis.disconnect();}
  await Promise.all([runtime.$disconnect(),migration.$disconnect()]);

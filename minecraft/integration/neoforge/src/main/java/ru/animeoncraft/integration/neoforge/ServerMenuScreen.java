@@ -32,12 +32,12 @@ final class ServerMenuScreen extends Screen {
     @Override public boolean isPauseScreen(){return false;}
     @Override public void tick(){if(minecraft.player==null||minecraft.getConnection()==null){onClose();return;}if(logic.closesOnRelease()&&!ClientServerMenu.held())onClose();}
     @Override public boolean keyReleased(int key,int scan,int mods){if(minecraft.options.keyPlayerList.matches(key,scan)){if(logic.closesOnRelease())onClose();return true;}return super.keyReleased(key,scan,mods);}
-    @Override public boolean keyPressed(int key,int scan,int mods){if(key==GLFW.GLFW_KEY_ESCAPE){onClose();return true;}if(minecraft.options.keyPlayerList.matches(key,scan))return true;return super.keyPressed(key,scan,mods);}
+    @Override public boolean keyPressed(int key,int scan,int mods){if(key==GLFW.GLFW_KEY_ESCAPE){if(page()==ServerMenuLogic.Page.SUMMON&&revealOpen()){advanceReveal();return true;}onClose();return true;}if(minecraft.options.keyPlayerList.matches(key,scan))return true;return super.keyPressed(key,scan,mods);}
     @Override public void onClose(){minecraft.options.keyPlayerList.setDown(false);super.onClose();}
     @Override public boolean mouseClicked(double x,double y,int button){
         if(button!=0)return false;double px=(x-left)/scale,py=(y-top)/scale;boolean main=page()==ServerMenuLogic.Page.WHEEL;
         var sector=ServerMenuLogic.sector(px,py,main?510:224,315,main?195:150);
-        if(page()!=ServerMenuLogic.Page.BETA_PASS&&page()!=ServerMenuLogic.Page.WARDROBE&&sector!=null&&logic.select(sector,button,ClientServerMenu.held())){rowOffset=0;triggerImmediateNarration(true);return true;}
+        if(page()!=ServerMenuLogic.Page.BETA_PASS&&page()!=ServerMenuLogic.Page.WARDROBE&&page()!=ServerMenuLogic.Page.SUMMON&&sector!=null&&logic.select(sector,button,ClientServerMenu.held())){rowOffset=0;triggerImmediateNarration(true);return true;}
         for(int i=hits.size()-1;i>=0;i--)if(hits.get(i).contains(px,py)){hits.get(i).action().run();return true;}return false;
     }
     @Override public boolean mouseScrolled(double x,double y,double dx,double dy){if(dy==0)return false;if(page()==ServerMenuLogic.Page.WARDROBE&&wardrobeSlot.equals("BACK")){var d=ClientWardrobe.data();rowOffset=ServerMenuLogic.scroll(rowOffset,dy>0?-1:1,1+(d!=null&&d.available()?d.capes().size():0),3);return true;}if(page()==ServerMenuLogic.Page.PROFILE&&profileTab>0&&profileTab<3){rowOffset=ServerMenuLogic.scroll(rowOffset,dy>0?-1:1,ProfileProgression.ALL.size(),4);return true;}if(page()==ServerMenuLogic.Page.CLANS||page()==ServerMenuLogic.Page.ONLINE){rowOffset=ServerMenuLogic.scroll(rowOffset,dy>0?-1:1,page()==ServerMenuLogic.Page.CLANS?(clanTab==0?members().size():clanAchievementCount()):online().size(),page()==ServerMenuLogic.Page.CLANS?4:7);return true;}return false;}
@@ -46,16 +46,19 @@ final class ServerMenuScreen extends Screen {
         layout();mx=(mouseX-left)/scale;my=(mouseY-top)/scale;hits.clear();renderBlurredBackground(delta);g.fill(0,0,width,height,0x68060010);
         g.pose().pushPose();g.pose().translate(left,top,0);g.pose().scale((float)scale,(float)scale,1);
         double brandEnd=32+minecraft.font.width(styled("AnimeOn",19))*19/9.0;text(g,"AnimeOn",32,25,19,WHITE);text(g,"Craft",brandEnd,25,19,VIOLET);int separator=(int)(brandEnd+minecraft.font.width(styled("Craft",19))*19/9.0+18);g.fill(separator,24,separator+1,46,0xff665178);text(g,"МЕНЮ СЕРВЕРА",separator+16,29,12,MUTED);button(g,976,21,94,29,"ESC  Закрыть",this::onClose,false);
-        boolean main=page()==ServerMenuLogic.Page.WHEEL;if(page()!=ServerMenuLogic.Page.BETA_PASS&&page()!=ServerMenuLogic.Page.WARDROBE)wheel(g,main?510:224,315,main?195:150,main);else betaPreview(g);
+        if(ClientGacha.supported()){boolean summoning=page()==ServerMenuLogic.Page.SUMMON;button(g,858,21,108,29,summoning?"← Меню":"✦  Призыв",()->{if(summoning){logic.back();rowOffset=0;}else openSummon();},false,0xfff07aa6);}
+        boolean main=page()==ServerMenuLogic.Page.WHEEL;if(page()==ServerMenuLogic.Page.SUMMON){}else if(page()!=ServerMenuLogic.Page.BETA_PASS&&page()!=ServerMenuLogic.Page.WARDROBE)wheel(g,main?510:224,315,main?195:150,main);else betaPreview(g);
         if(main){String count="В сети: "+ClientServerMenu.online().size();var data=ClientServerMenu.data();if(data!=null&&data.maximum()!=Integer.MAX_VALUE)count+=" / "+data.maximum();badge(g,444,81,135,28,count,0x71e5a7);
             var hover=ServerMenuLogic.sector(mx,my,510,315,195);var preview=hover==null?ServerMenuLogic.Page.CLANS:hover;
             round(g,762,189,305,176,10,PANEL,0xff624580);icon(g,preview,783,210,27,WHITE);text(g,label(preview),824,214,19,WHITE);
             String description=switch(preview){case CLANS->"Состав кланов, онлайн участников, уровень и репутация.";case ONLINE->"Игроки в сети, их кланы и пинг. Фильтр по своему клану.";case PROFILE->"Время в игре, личный уровень, достижения, титулы и карточка гильдии.";case BETA_PASS->"10 уровней, ежедневные и недельные задания. Косметические награды бета-теста.";case WARDROBE->"Аксессуары на голову, лицо и пояс, плащи и переливающиеся титулы.";case GUIDE->"Развитие базы, технологии, магия, экспедиции и общение.";default->"Территории, клановые спавны, войны и захват точек.";};paragraph(g,description,782,258,263,13,MUTED,5);
+            if(ClientGacha.supported())button(g,762,378,305,40,"✦  Призыв: Сакура Разлома",this::openSummon,false,0xfff07aa6);
             center(g,logic.closesOnRelease()?"Удерживай "+ClientControls.label("key.playerlist")+" · выбери раздел · нажми ЛКМ":"Выбери раздел и нажми ЛКМ · Esc — закрыть",550,542,13,WHITE);
-        }else{button(g,129,492,191,32,"← Назад к кругу",()->{logic.back();rowOffset=0;},false);round(g,435,88,630,472,10,PANEL,0xff8d56ba);switch(page()){case CLANS->clans(g);case ONLINE->players(g);case GUIDE->guide(g,false);case RULES->guide(g,true);case PROFILE->profile(g);case BETA_PASS->betaPass(g);case WARDROBE->wardrobe(g);default->{}}}
+        }else if(page()==ServerMenuLogic.Page.SUMMON)summon(g);
+        else{button(g,129,492,191,32,"← Назад к кругу",()->{logic.back();rowOffset=0;},false);round(g,435,88,630,472,10,PANEL,0xff8d56ba);switch(page()){case CLANS->clans(g);case ONLINE->players(g);case GUIDE->guide(g,false);case RULES->guide(g,true);case PROFILE->profile(g);case BETA_PASS->betaPass(g);case WARDROBE->wardrobe(g);default->{}}}
         g.pose().popPose();
     }
-    private static String label(ServerMenuLogic.Page p){return switch(p){case WHEEL->"Меню";case CLANS->"КЛАНЫ";case ONLINE->"ОНЛАЙН";case GUIDE->"ГАЙД";case RULES->"ПРАВИЛА";case PROFILE->"ПРОФИЛЬ";case BETA_PASS->"БЕТА-ПАСС";case WARDROBE->"ГАРДЕРОБ";};}
+    private static String label(ServerMenuLogic.Page p){return switch(p){case WHEEL->"Меню";case CLANS->"КЛАНЫ";case ONLINE->"ОНЛАЙН";case GUIDE->"ГАЙД";case RULES->"ПРАВИЛА";case PROFILE->"ПРОФИЛЬ";case BETA_PASS->"БЕТА-ПАСС";case WARDROBE->"ГАРДЕРОБ";case SUMMON->"ПРИЗЫВ";};}
     private void wheel(GuiGraphics g,int cx,int cy,int r,boolean main){
         var hover=ServerMenuLogic.sector(mx,my,cx,cy,r);
         for(int y=-r;y<=r;y++){
@@ -71,12 +74,138 @@ final class ServerMenuScreen extends Screen {
         for(int i=0;i<pages.size();i++){var p=pages.get(i);double a=i*Math.PI/3;int x=cx+(int)(Math.cos(a)*r*.68),y=cy+(int)(Math.sin(a)*r*.68);icon(g,p,x-11,y-22,22,WHITE);center(g,label(p),x,y+10,main?11:9,WHITE);}
     }
 
+    private static final int[] TIER_COLORS={0xffb7a7ca,0,0,0xff6fd3e6,0xfff07aa6,0xffffc85a};
+    private static String slotName(String slot){return switch(slot){case "HEAD"->"Голова";case "FACE"->"Лицо";case "BELT"->"Пояс";case "BACK"->"Спина";case "TITLE"->"Титул";case "EMOTE"->"Эмоция";default->"";};}
+    private int seenReveal=ClientGacha.reveals(),shownReveal=-1,played,revealCount,revealBest;private boolean skipped,flashed,revealDone;private double revealDoneAt;
+    private void openSummon(){logic.select(ServerMenuLogic.Page.SUMMON,0,true);rowOffset=0;ClientGacha.read();}
+    /** Summon is its own full-width tab: the banner with the character on the left, odds, pity and the collection on the right. Every number here comes from the backend. */
+    private void summon(GuiGraphics g){
+        ClientGacha.read();var d=ClientGacha.data();banner(g,d);
+        text(g,"Призыв",410,76,22,WHITE);text(g,"Предметы только выбиваются · повторы дают фрагменты ✧",410,104,11,MUTED);
+        if(d==null||!d.available()){paragraph(g,d==null?(ClientGacha.supported()?"Загружаем баннер…":"Призыв появится после обновления сервера."):d.message(),410,160,650,15,MUTED,5);reveal(g,d);return;}
+        var sh=d.shards();badge(g,930,72,140,30,d.balance()+" ◆",0xf07aa6);badge(g,800,72,120,30,sh.get(0)+" ✧",0xb48cff);
+        var r=d.rates();text(g,"Шансы: ★5 "+r.get(0)/10.0+"%  ·  ★4 "+r.get(1)/10.0+"%  ·  ★3 "+r.get(2)/10.0+"%  ·  иначе +"+d.consolation()+" ◆ обратно",410,126,10,MUTED);
+        meter(g,410,146,"Гарантия ★5"+(d.pity5()+1>=d.soft5()?" · шанс растёт":""),d.pity5(),d.hard5(),d.soft5(),TIER_COLORS[5]);
+        meter(g,635,146,"Гарантия ★4",d.pity4(),d.hard4(),-1,TIER_COLORS[4]);
+        meter(g,860,146,"Новый предмет",sh.get(2),sh.get(3),-1,TIER_COLORS[3]);
+        var items=d.items();long owned=items.stream().filter(GachaPayloads.Item::owned).count();int rows=Math.min(7,(items.size()+1)/2);
+        text(g,"Коллекция",410,192,14,WHITE);right(g,owned+" / "+items.size()+"  ·  весь набор не дольше "+d.worst()+" призывов",1070,196,10,MUTED);
+        for(int i=0;i<Math.min(items.size(),rows*2);i++){var it=items.get(i);int x=410+(i%2)*335,y=216+(i/2)*32;
+            round(g,x,y,325,28,5,it.owned()?alpha(0x48,TIER_COLORS[it.tier()]):0x771b1428,it.owned()?TIER_COLORS[it.tier()]:0xff3e304d);
+            text(g,"★"+it.tier(),x+9,y+9,10,TIER_COLORS[it.tier()]);text(g,it.name(),x+36,y+9,10,it.owned()?WHITE:MUTED);
+            if(it.owned()&&BetaPassStore.GACHA_SLOTS.containsKey(it.code())){boolean worn=ClientGacha.worn(it.code());String code=it.code();
+                button(g,x+235,y+3,85,22,worn?"Снять":"Надеть",()->ClientGacha.wear(code,!worn),worn,TIER_COLORS[it.tier()]);}
+            else right(g,it.owned()?"✓ "+slotName(it.slot()):slotName(it.slot()),x+316,y+9,9,it.owned()?0xff73dfa1:MUTED);
+        }
+        var pulls=ClientGacha.lastPulls();
+        if(!pulls.isEmpty()){text(g,"Последний призыв",410,450,10,MUTED);for(int i=0;i<pulls.size();i++){var p=pulls.get(i);int x=520+i*55;
+            round(g,x,445,50,19,4,p.tier()>0?alpha(0x55,TIER_COLORS[p.tier()]):0x44302540,p.tier()>0?TIER_COLORS[p.tier()]:0xff3e304d);center(g,p.tier()>0?"★"+p.tier()+(p.owned()?"":" ✧"):"◆",x+25,450,9,p.tier()>0?TIER_COLORS[p.tier()]:MUTED);}}
+        if(!d.message().isEmpty())paragraph(g,d.message(),410,472,660,10,0xffffad88,2);
+        boolean busy=ClientGacha.waiting();
+        if(d.complete())center(g,"Весь набор собран! Следующий баннер появится позже.",740,520,13,0xff73dfa1);
+        else{button(g,410,496,325,46,busy?"Призываем…":"Призвать ×1  ·  "+d.cost()+" ◆",()->{if(!busy)ClientGacha.roll(1);},false,d.balance()>=d.cost()?0xfff07aa6:MUTED);
+            button(g,745,496,325,46,busy?"Призываем…":"Призвать ×10  ·  "+d.cost()*10+" ◆",()->{if(!busy)ClientGacha.roll(10);},false,d.balance()>=d.cost()*10?0xffffc85a:MUTED);
+            int fr=sh.get(1);
+            button(g,410,550,325,26,"За фрагменты ×1  ·  "+fr+" ✧",()->{if(!busy)ClientGacha.rollWithFragments(1);},false,sh.get(0)>=fr?0xffb48cff:MUTED);
+            button(g,745,550,325,26,"За фрагменты ×10  ·  "+fr*10+" ✧",()->{if(!busy)ClientGacha.rollWithFragments(10);},false,sh.get(0)>=fr*10?0xffb48cff:MUTED);}
+        reveal(g,d);
+    }
+    private void banner(GuiGraphics g,GachaPayloads.Snapshot d){
+        int x=30,y=70,w=360,h=530;round(g,x,y,w,h,10,0xf0180d26,0xff8d56ba);
+        for(int row=10;row<h-10;row++)g.fill(x+2,y+row,x+w-2,y+row+1,alpha(0xf0,mix(0xff1d0f33,0xff4a1a45,row/(float)h)));
+        double now=System.nanoTime()/1e9;circle(g,x+w/2,y+250,128,alpha(0x2c,0xf07aa6),alpha(0x70,0xffc85a));circle(g,x+w/2,y+250,96,alpha(0x22,0xa36aff),alpha(0x40,0xf07aa6));
+        petals(g,x+8,y+8,w-16,h-16,22,now,170);
+        center(g,"САКУРА РАЗЛОМА",x+w/2,y+18,18,0xffffc85a);center(g,d!=null&&d.available()?d.banner()+" · набор аксессуаров":"набор аксессуаров",x+w/2,y+44,10,MUTED);
+        character(g,x+w/2,y+405,125);
+        button(g,x+20,y+430,150,26,"↶ Повернуть",()->previewAngle-=45,false);button(g,x+190,y+430,150,26,"Повернуть ↷",()->previewAngle+=45,false);
+        center(g,"На персонаже видны надетые аксессуары",x+w/2,y+470,10,MUTED);if(d!=null&&d.available())center(g,"Всего призывов: "+d.total(),x+w/2,y+492,11,WHITE);
+    }
+    private static void meter(GuiGraphics g,int x,int y,String title,int value,int max,int soft,int color){
+        text(g,title,x,y,10,MUTED);right(g,value+" / "+max,x+210,y,10,WHITE);round(g,x,y+16,210,10,4,0xff241a33,0xff3e304d);
+        if(soft>0&&max>0&&soft<max)g.fill(x+1+208*soft/max,y+17,x+209,y+25,alpha(0x40,color));
+        int w=max<=0?0:208*Math.min(value,max)/max;if(w>0)g.fill(x+1,y+17,x+1+w,y+25,color);
+    }
+    boolean revealOpen(){return ClientGacha.rolling()||ClientGacha.reveals()!=seenReveal;}
+    /** True once the last summon has been fully shown for the given time (the review client closes it then). */
+    boolean revealShownFor(double seconds){return revealOpen()&&revealDone&&System.nanoTime()/1e9-revealDoneAt>=seconds;}
+    /** First press skips the animation, the next one closes it. */
+    void advanceReveal(){if(ClientGacha.rolling())return;if(!revealDone){if(!skipped&&played<revealCount)flipSound(revealBest,0);skipped=true;played=revealCount;}else seenReveal=ClientGacha.reveals();}
+    /** Summon reveal: the rift charges while the backend rolls, flashes in the colour of the best tier, then the cards fly out and turn over one by one; a ★5 holds with rays and a shake. */
+    private void reveal(GuiGraphics g,GachaPayloads.Snapshot d){
+        boolean charging=ClientGacha.rolling();int id=ClientGacha.reveals();if(!charging&&id==seenReveal)return;
+        int x0=(int)Math.floor(-left/scale),y0=(int)Math.floor(-top/scale),x1=(int)Math.ceil((width-left)/scale),y1=(int)Math.ceil((height-top)/scale);
+        hits.add(new Hit(x0,y0,x1-x0,y1-y0,this::advanceReveal));g.pose().pushPose();g.pose().translate(0,0,400);double now=System.nanoTime()/1e9;
+        if(charging||d==null||ClientGacha.lastPulls().isEmpty()){double c=ClientGacha.sinceRequest()/1e9;revealDone=false;g.fill(x0,y0,x1,y1,alpha((int)(225*ease(c*3)),0xff07030d));
+            petals(g,x0,y0,x1-x0,y1-y0,30,now,110);portal(g,550,300,now,ease(c*1.6),0xffa36aff,1);center(g,"Разлом открывается…",550,500,14,alpha((int)(160+90*Math.sin(now*4)),WHITE));g.pose().popPose();return;}
+        var pulls=ClientGacha.lastPulls();int n=pulls.size(),best=pulls.stream().mapToInt(GachaPayloads.Item::tier).max().orElse(0),color=best>=3?TIER_COLORS[best]:0xffa36aff;
+        if(id!=shownReveal){shownReveal=id;skipped=false;flashed=false;played=0;revealDone=false;}revealCount=n;revealBest=best;
+        double[] start=new double[n];double t=1.5;for(int i=0;i<n;i++){boolean five=pulls.get(i).tier()==5;if(five)t+=.35;start[i]=t;t+=five?.9:.3;}double done=t+.25;
+        double s=ClientGacha.sinceReveal()/1e9;if(skipped)s=Math.max(s,done);
+        g.fill(x0,y0,x1,y1,0xe807030d);petals(g,x0,y0,x1-x0,y1-y0,44,now,best>=4?210:120);
+        if(s<1.7)portal(g,550,300,now,.6f+.6f*ease(s/.7),color,(float)Math.clamp((1.7-s)/.6,0,1));
+        if(s>.42&&s<1.02)g.fill(x0,y0,x1,y1,alpha((int)(185*Math.max(0,1-Math.abs(s-.72)/.3)),mix(0xffffffff,color,.5f)));
+        if(!flashed&&s>=.7){flashed=true;if(!skipped)sound(best==5?net.minecraft.sounds.SoundEvents.BEACON_ACTIVATE:net.minecraft.sounds.SoundEvents.AMETHYST_CLUSTER_BREAK,best==5?1.3f:1f);}
+        double shake=0;for(int i=0;i<n;i++)if(pulls.get(i).tier()==5&&s>start[i]&&s<start[i]+.4){double k=1-(s-start[i])/.4;shake=Math.sin(s*95)*5*k;g.fill(x0,y0,x1,y1,alpha((int)(120*k),0xffffc85a));}
+        g.pose().pushPose();g.pose().translate(shake,shake*.6,0);
+        if(s>=.8){boolean single=n==1;int cw=single?190:150,ch=single?250:196;
+            for(int i=0;i<n;i++){float fly=ease((s-.8-i*.04)/.45);if(fly<=0)continue;int col=i%5,row=i/5;
+                int tx=single?550:139+cw/2+col*(cw+18),ty=single?290:n<=5?300:200+row*218,cx=(int)(550+(tx-550)*fly),cy=(int)(300+(ty-300)*fly);float size=.3f+.7f*fly;
+                card(g,pulls.get(i),cx,cy,(int)(cw*size),(int)(ch*size),Math.clamp((s-start[i])/.22,0,1),s-start[i],pulls.get(i).tier()>0?d.shards().get(pulls.get(i).tier()+1):0);}}
+        g.pose().popPose();
+        while(played<n&&s>=start[played]+.11){flipSound(pulls.get(played).tier(),played);played++;}
+        if(s>=done){if(!revealDone){revealDone=true;revealDoneAt=now;}
+            long fresh=pulls.stream().filter(p->p.tier()>0&&p.owned()).count();int frag=pulls.stream().filter(p->p.tier()>0&&!p.owned()).mapToInt(p->d.shards().get(p.tier()+1)).sum();long back=pulls.stream().filter(p->p.tier()==0).count();
+            center(g,"Новых предметов: "+fresh+(frag>0?"  ·  фрагменты +"+frag+" ✧":"")+(back>0?"  ·  возврат +"+back*d.consolation()+" ◆":""),550,548,14,WHITE);
+            center(g,"Нажми, чтобы продолжить",550,576,10,alpha((int)(150+90*Math.sin(now*3)),MUTED));}
+        else center(g,"Клик или Esc — пропустить",550,588,10,alpha(0x90,MUTED));
+        g.pose().popPose();
+    }
+    private void card(GuiGraphics g,GachaPayloads.Item p,int cx,int cy,int w,int h,double flip,double since,int fragments){
+        int color=p.tier()>0?TIER_COLORS[p.tier()]:0xffa36aff;boolean front=flip>.5;float sx=(float)Math.abs(Math.cos(flip*Math.PI));
+        if(front&&p.tier()>=4){double pulse=.6+.4*Math.sin(since*5);if(p.tier()==5)rays(g,cx,cy,(int)(h*.95),since,color,1);
+            for(int k=3;k>0;k--)round(g,cx-w/2-k*5,cy-h/2-k*5,w+k*10,h+k*10,10+k*3,alpha((int)(26*pulse),color),alpha((int)(44*pulse),color));}
+        g.pose().pushPose();g.pose().translate(cx,cy,0);g.pose().scale(Math.max(.02f,sx),1,1);int x=-w/2,y=-h/2,big=Math.max(9,w/5);
+        if(!front){float tell=(float)Math.clamp((since+.35)/.35,0,1);
+            round(g,x,y,w,h,8,0xff1a1030,p.tier()>=4?mix(0xff8d56ba,color,tell):0xff8d56ba);round(g,x+6,y+6,w-12,h-12,6,0xff22143a,0xff4a3168);
+            center(g,"◆",0,-big/2-6,big,p.tier()>=4&&tell>0?mix(0xffa36aff,color,tell):0xffa36aff);center(g,"РАЗЛОМ",0,h/2-24,9,MUTED);}
+        else{round(g,x,y,w,h,8,mix(0xff140c1f,color,.2f),color);round(g,x+5,y+5,w-10,h-10,6,mix(0xff140c1f,color,.08f),alpha(0x90,color));
+            center(g,p.tier()>0?"★".repeat(p.tier()):"◆",0,y+14,w>160?14:11,color);center(g,p.tier()>0?"✦":"◆",0,y+h/3-big/2,big,color);
+            centerLines(g,p.name(),0,y+h*11/20,w-18,w>160?13:10,WHITE);if(p.tier()>0)center(g,slotName(p.slot()),0,y+h-46,9,MUTED);
+            if(p.tier()==0)center(g,"возврат на баланс",0,y+h-24,9,MUTED);
+            else if(p.owned()){round(g,x+10,y+h-29,w-20,19,4,alpha(0xd0,color),color);center(g,"НОВОЕ",0,y+h-25,10,0xff140c1f);}
+            else center(g,"повтор · +"+fragments+" ✧",0,y+h-25,10,0xffb48cff);
+            if(since<.6){int sweep=(int)(x+(w+40)*since/.6)-20;if(sweep+14>x+2&&sweep<x+w-2)g.fill(Math.max(x+2,sweep),y+2,Math.min(x+w-2,sweep+14),y+h-2,alpha(0x46,0xffffffff));}}
+        g.pose().popPose();
+    }
+    private static void portal(GuiGraphics g,int cx,int cy,double t,float grow,int color,float fade){
+        rays(g,cx,cy,(int)(300*grow),t*1.5,color,fade*.7f);
+        for(int k=0;k<4;k++){int r=(int)((44+k*40)*grow+Math.sin(t*3+k)*4);ring(g,cx,cy,r,k<2?3:2,alpha((int)(255*fade*(.9-k*.17)),k%2==0?color:0xfff07aa6),(float)(t*(k%2==0?40:-55)+k*17),k%2==1);}
+        circle(g,cx,cy,Math.max(3,(int)(36*grow)),alpha((int)(235*fade),0xff140820),alpha((int)(255*fade),color));
+        int size=Math.max(9,(int)(30*grow*(1+.08*Math.sin(t*6))));center(g,"◆",cx,cy-size/2-2,size,alpha((int)(255*fade),color));
+    }
+    private static void ring(GuiGraphics g,int cx,int cy,int r,int thick,int color,float spin,boolean dashed){if(r<=0||(color>>>24)==0)return;int seg=Math.max(24,r/3),half=(int)Math.ceil(Math.PI*r/seg)+1;
+        for(int k=0;k<seg;k++){if(dashed&&k%3==2)continue;g.pose().pushPose();g.pose().translate(cx,cy,0);g.pose().mulPose(com.mojang.math.Axis.ZP.rotationDegrees(spin+k*360f/seg));g.fill(r,-half,r+thick,half,color);g.pose().popPose();}}
+    private static void rays(GuiGraphics g,int cx,int cy,int len,double t,int color,float fade){for(int k=0;k<16;k++){int a=(int)((70+40*Math.sin(t*4+k))*fade);if(a<=0)continue;g.pose().pushPose();g.pose().translate(cx,cy,0);g.pose().mulPose(com.mojang.math.Axis.ZP.rotationDegrees((float)(k*22.5+t*25)));
+        g.fill(0,-4,len,4,alpha(a/2,color));g.fill(0,-1,len*3/4,1,alpha(a,color));g.pose().popPose();}}
+    private static void petals(GuiGraphics g,int x,int y,int w,int h,int count,double time,int alphaMax){
+        for(int i=0;i<count;i++){double seed=i*12.9898,fx=frac(Math.sin(seed)*43758.5),speed=.04+frac(Math.sin(seed*1.7)*24634.6)*.06,p=frac(frac(Math.sin(seed*2.3)*12345.6)+time*speed);
+            int px=Math.clamp(x+(int)(fx*w+Math.sin(time*.9+i)*18),x+4,x+w-4),py=y+(int)(p*h),a=(int)(alphaMax*Math.min(1,Math.min(p,1-p)*6)),c=i%3==0?0xffffd1e6:0xfff59ac0;
+            g.pose().pushPose();g.pose().translate(px,py,0);g.pose().mulPose(com.mojang.math.Axis.ZP.rotationDegrees((float)(time*60*(i%2==0?1:-1)+i*37)));g.fill(-4,-2,4,2,alpha(a,c));g.fill(-2,-3,2,3,alpha(a,c));g.pose().popPose();}
+    }
+    private void sound(net.minecraft.sounds.SoundEvent sound,float pitch){minecraft.getSoundManager().play(net.minecraft.client.resources.sounds.SimpleSoundInstance.forUI(sound,pitch));}
+    private void flipSound(int tier,int index){if(tier==5)sound(net.minecraft.sounds.SoundEvents.UI_TOAST_CHALLENGE_COMPLETE,1f);else if(tier==4)sound(net.minecraft.sounds.SoundEvents.NOTE_BLOCK_CHIME.value(),1.2f+index*.03f);else sound(net.minecraft.sounds.SoundEvents.AMETHYST_BLOCK_CHIME,.8f+index*.08f);}
+    private static void centerLines(GuiGraphics g,String v,int cx,int y,int w,int size,int color){var font=Minecraft.getInstance().font;float s=size/9f;var lines=font.split(styled(v,size),(int)(w/s));
+        for(int i=0;i<Math.min(3,lines.size());i++){g.pose().pushPose();g.pose().translate(cx-font.width(lines.get(i))*s/2,y+i*size*1.3,0);g.pose().scale(s,s,1);g.drawString(font,lines.get(i),0,0,color,false);g.pose().popPose();}}
+    private static int alpha(int a,int color){return Math.clamp(a,0,255)<<24|color&0xffffff;}
+    private static int mix(int a,int b,float t){int r=0;for(int sh=0;sh<=16;sh+=8){int x=a>>sh&255,y=b>>sh&255;r|=Math.round(x+(y-x)*t)<<sh;}return 0xff000000|r;}
+    private static float ease(double t){t=Math.clamp(t,0,1);return (float)(1-Math.pow(1-t,3));}
+    private static double frac(double v){return v-Math.floor(v);}
     private void clans(GuiGraphics g){
         text(g,"Кланы сервера",455,108,20,WHITE);text(g,"Участники, онлайн и прогресс",455,135,11,MUTED);button(g,799,106,112,28,"Состав",()->{clanTab=0;rowOffset=0;},clanTab==0);button(g,922,106,122,28,"Достижения",()->{clanTab=1;rowOffset=0;},clanTab==1);var data=ClientServerMenu.data();if(data==null){paragraph(g,ClientServerMenu.status(),455,212,570,15,MUTED,5);return;}if(data.clans().isEmpty()){text(g,"Нет доступных кланов",455,213,15,MUTED);return;}
         if(selected.isEmpty()||data.clans().stream().noneMatch(c->c.code().equals(selected))){selected=data.clans().stream().filter(c->c.code().equals(ClientServerMenu.ownClan())).findFirst().orElse(data.clans().getFirst()).code();clanPage=Math.max(0,indexOf(data,selected)/5);}clanPage=Math.clamp(clanPage,0,(data.clans().size()-1)/5);
-        for(int i=clanPage*5;i<Math.min(data.clans().size(),clanPage*5+5);i++){var c=data.clans().get(i);button(g,455+(i%5)*108,158,100,28,c.code(),()->{selected=c.code();rowOffset=0;},selected.equals(c.code()),0xff000000|c.color());}
+        for(int i=clanPage*5;i<Math.min(data.clans().size(),clanPage*5+5);i++){var c=data.clans().get(i);button(g,455+(i%5)*108,158,100,28,ClanCodes.display(c.code()),()->{selected=c.code();rowOffset=0;},selected.equals(c.code()),0xff000000|c.color());}
         if(data.clans().size()>5){button(g,997,158,21,28,"‹",()->clanPage=Math.max(0,clanPage-1),false);button(g,1023,158,21,28,"›",()->clanPage=Math.min((data.clans().size()-1)/5,clanPage+1),false);}
-        var clan=data.clans().stream().filter(c->c.code().equals(selected)).findFirst().orElseThrow();text(g,clan.code(),455,204,24,0xff000000|clan.color());long online=members().stream().filter(m->info(m.uuid())!=null).count();badge(g,842,201,203,28,online+" в сети / "+clan.memberCount(),clan.color());
+        var clan=data.clans().stream().filter(c->c.code().equals(selected)).findFirst().orElseThrow();text(g,ClanCodes.display(clan.code()),455,204,24,0xff000000|clan.color());long online=members().stream().filter(m->info(m.uuid())!=null).count();badge(g,842,201,203,28,online+" в сети / "+clan.memberCount(),clan.color());
         stat(g,455,244,"УРОВЕНЬ",String.valueOf(clan.level()));stat(g,655,244,"РЕПУТАЦИЯ",String.valueOf(clan.reputation()));stat(g,855,244,"ТОЧЕК",String.valueOf(clan.points()));text(g,"Опыт клана",455,306,11,MUTED);right(g,clan.level()>=100?"Максимальный уровень":clan.xp()+" / "+clan.nextXp()+" XP",1045,306,11,MUTED);round(g,455,326,590,6,3,0xff302540,0xff302540);g.fill(457,327,457+(int)(586*clan.progress()),331,VIOLET);
         if(clanTab==1){clanAchievements(g);return;}
         text(g,"Участники",455,348,15,WHITE);var rows=members();rowOffset=ServerMenuLogic.scroll(rowOffset,0,rows.size(),4);
@@ -126,13 +255,17 @@ final class ServerMenuScreen extends Screen {
             scrollbar(g,1040,235,269,ProfileProgression.ALL.size(),4);text(g,"Колесо мыши — прокрутка · Титулы выдаёт только сервер",455,533,10,MUTED);
         }
     }
-    private void betaPreview(GuiGraphics g){
-        round(g,65,113,330,360,10,PANEL,0xff65497c);center(g,"ТВОЙ ПЕРСОНАЖ",230,129,13,WHITE);
+    /** The player model with whatever accessories are worn, turned by the preview buttons. */
+    private void character(GuiGraphics g,int cx,int baseY,int size){
         if(minecraft.player!=null){
-            g.pose().pushPose();g.pose().translate(230,432,170);g.pose().scale(135,-135,135);g.pose().mulPose(com.mojang.math.Axis.XP.rotationDegrees(-8));g.pose().mulPose(com.mojang.math.Axis.YP.rotationDegrees(previewAngle));
+            g.pose().pushPose();g.pose().translate(cx,baseY,170);g.pose().scale(size,-size,size);g.pose().mulPose(com.mojang.math.Axis.XP.rotationDegrees(-8));g.pose().mulPose(com.mojang.math.Axis.YP.rotationDegrees(previewAngle));
             var dispatcher=minecraft.getEntityRenderDispatcher();var orientation=new org.joml.Quaternionf(dispatcher.cameraOrientation());dispatcher.setRenderShadow(false);
             try{dispatcher.render(minecraft.player,0,0,0,0,0,g.pose(),g.bufferSource(),net.minecraft.client.renderer.LightTexture.FULL_BRIGHT);g.flush();}finally{dispatcher.setRenderShadow(true);dispatcher.overrideCameraOrientation(orientation);g.pose().popPose();}
         }
+    }
+    private void betaPreview(GuiGraphics g){
+        round(g,65,113,330,360,10,PANEL,0xff65497c);center(g,"ТВОЙ ПЕРСОНАЖ",230,129,13,WHITE);
+        character(g,230,432,135);
         button(g,93,440,122,25,"↶ Повернуть",()->previewAngle-=45,false);button(g,234,440,130,25,"Повернуть ↷",()->previewAngle+=45,false);
         center(g,"Показаны надетые аксессуары",230,475,10,MUTED);
     }
@@ -226,7 +359,7 @@ final class ServerMenuScreen extends Screen {
     private void players(GuiGraphics g){
         text(g,"Игроки в сети",455,108,20,WHITE);var d=ClientServerMenu.data();String count=String.valueOf(ClientServerMenu.online().size());if(d!=null&&d.maximum()!=Integer.MAX_VALUE)count+=" / "+d.maximum();badge(g,914,101,131,28,count,0x71e5a7);button(g,455,155,112,29,"Все "+ClientServerMenu.online().size(),()->{ownOnly=false;rowOffset=0;},!ownOnly);String own=ClientServerMenu.ownClan();long n=ClientServerMenu.online().stream().filter(p->!own.isEmpty()&&own.equals(ClientServerMenu.clan(p.getProfile().getId()))).count();button(g,579,155,140,29,"Мой клан "+n,()->{ownOnly=true;rowOffset=0;},ownOnly);
         text(g,"Игрок",465,207,11,MUTED);text(g,"Клан",787,207,11,MUTED);text(g,"Пинг",978,207,11,MUTED);g.fill(455,225,1045,226,0xff51405e);var rows=online();rowOffset=ServerMenuLogic.scroll(rowOffset,0,rows.size(),7);
-        for(int i=rowOffset;i<Math.min(rows.size(),rowOffset+7);i++){var p=rows.get(i);int y=232+(i-rowOffset)*40;face(g,p.getProfile().getId(),465,y+5,24);text(g,p.getProfile().getName(),503,y+13,13,WHITE);String clan=ClientServerMenu.clan(p.getProfile().getId());text(g,clan.isEmpty()?"—":clan,787,y+13,12,0xff000000|ClientServerMenu.color(clan));int ping=p.getLatency();right(g,ping<0?"—":ping+" мс",1028,y+13,12,ping<0?MUTED:ping<100?0xff73dfa1:ping<200?0xffffc66d:0xffff8896);g.fill(455,y+37,1036,y+38,0xff382c47);}
+        for(int i=rowOffset;i<Math.min(rows.size(),rowOffset+7);i++){var p=rows.get(i);int y=232+(i-rowOffset)*40;face(g,p.getProfile().getId(),465,y+5,24);text(g,p.getProfile().getName(),503,y+13,13,WHITE);String clan=ClientServerMenu.clan(p.getProfile().getId());text(g,clan.isEmpty()?"—":ClanCodes.display(clan),787,y+13,12,0xff000000|ClientServerMenu.color(clan));int ping=p.getLatency();right(g,ping<0?"—":ping+" мс",1028,y+13,12,ping<0?MUTED:ping<100?0xff73dfa1:ping<200?0xffffc66d:0xffff8896);g.fill(455,y+37,1036,y+38,0xff382c47);}
         if(rows.isEmpty())text(g,ownOnly?"Соклановцев в сети нет":"Список игроков пока пуст",465,253,14,MUTED);scrollbar(g,1040,233,277,rows.size(),7);text(g,"Онлайн обновляется автоматически · Колесо мыши — прокрутка",455,535,10,MUTED);
     }
     /** The adventurer card from the guild board, readable anywhere. */

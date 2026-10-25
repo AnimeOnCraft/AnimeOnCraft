@@ -1412,6 +1412,81 @@
           }
         }
       }
+    },
+    "/api/v1/launcher/owner/password-reset": {
+      "post": {
+        "description": "Active OWNER LAUNCHER session, current owner password and a fresh MFA/recovery code required. Looks up a player by login or game name; ambiguous identities are rejected with AMBIGUOUS_PLAYER. Revokes player sessions and requires a password change. OWNER account recovery is excluded. No automatic mail delivery.",
+        "security": [
+          {
+            "launcherBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-AOC-Client",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "launcher"
+              ]
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LauncherPasswordResetInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Committed one-time result; Cache-Control: no-store.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LauncherPasswordReset"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Controlled error envelope. OWNER_PROOF_REJECTED / OWNER_MFA_REQUIRED / AMBIGUOUS_PLAYER when applicable."
+          },
+          "401": {
+            "description": "Controlled error envelope. OWNER_PROOF_REJECTED / OWNER_MFA_REQUIRED / AMBIGUOUS_PLAYER when applicable."
+          },
+          "403": {
+            "description": "Controlled error envelope. OWNER_PROOF_REJECTED / OWNER_MFA_REQUIRED / AMBIGUOUS_PLAYER when applicable."
+          },
+          "404": {
+            "description": "Controlled error envelope. OWNER_PROOF_REJECTED / OWNER_MFA_REQUIRED / AMBIGUOUS_PLAYER when applicable."
+          },
+          "409": {
+            "description": "Controlled error envelope. OWNER_PROOF_REJECTED / OWNER_MFA_REQUIRED / AMBIGUOUS_PLAYER when applicable."
+          },
+          "429": {
+            "description": "Controlled error envelope. OWNER_PROOF_REJECTED / OWNER_MFA_REQUIRED / AMBIGUOUS_PLAYER when applicable."
+          },
+          "503": {
+            "description": "Controlled error envelope. OWNER_PROOF_REJECTED / OWNER_MFA_REQUIRED / AMBIGUOUS_PLAYER when applicable."
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1444,6 +1519,74 @@
           "version": {
             "type": "string",
             "pattern": "^(0|[1-9][0-9]*)$"
+          }
+        }
+      },
+      "LauncherPasswordResetInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "reason",
+          "login",
+          "password",
+          "proof"
+        ],
+        "properties": {
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "login": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 64,
+            "pattern": "^[A-Za-z0-9_.-]+$"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024,
+            "writeOnly": true
+          },
+          "proof": {
+            "type": "string",
+            "minLength": 6,
+            "maxLength": 128,
+            "writeOnly": true
+          }
+        }
+      },
+      "LauncherPasswordReset": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "user_id",
+          "login",
+          "game_name",
+          "delivery_email",
+          "temporary_password"
+        ],
+        "properties": {
+          "user_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "login": {
+            "type": "string"
+          },
+          "game_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "delivery_email": {
+            "type": "string"
+          },
+          "temporary_password": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true,
+            "description": "One-time temporary password. Null on an idempotent replay; never persisted in audit or cached command results."
           }
         }
       },
@@ -2221,6 +2364,10 @@
         "type": "apiKey",
         "in": "cookie",
         "name": "__Host-aoc-access"
+      },
+      "launcherBearer": {
+        "type": "http",
+        "scheme": "bearer"
       }
     }
   }

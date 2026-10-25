@@ -111,7 +111,7 @@ public final class XaeroClanHighlighter extends AbstractHighlighter {
     @Override public Component getBlockHighlightSubtleTooltip(ResourceKey<Level> dimension, int x, int z) {
         if (!Level.OVERWORLD.equals(dimension)) return null;
         var polygon = at(ClientTerritories.polygons, x, z);
-        if (polygon != null) return Component.literal("Земли " + polygon.clan() + " · владелец " + polygon.owner()).withColor(polygon.color());
+        if (polygon != null) return Component.literal("Земли " + ClanCodes.display(polygon.clan()) + " · владелец " + ClanCodes.display(polygon.owner())).withColor(polygon.color());
         var rectangle = rectangleAt(x, z);
         return rectangle == null ? null : Component.literal("Земли " + rectangle.clan() + " · владелец " + rectangle.owner()).withColor(rectangle.color());
     }

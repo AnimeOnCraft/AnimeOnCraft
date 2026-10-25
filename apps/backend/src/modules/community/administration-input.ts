@@ -16,3 +16,10 @@ export class NewsInput extends ReasonInput {
 }
 /** Stage 8: the clan that receives a frontier slot. */
 export class SlotInput extends ReasonInput { @IsUUID('4') clan_id!: string; }
+/** Launcher OWNER password reset: the player's login or in-game name, plus the OWNER's own password and MFA code. */
+export class LauncherPasswordResetInput extends ReasonInput {
+  @Transform(({value}:{value:unknown})=>typeof value==='string'?value.trim():value)
+  @IsString() @MinLength(3) @MaxLength(64) @Matches(/^[A-Za-z0-9_.-]+$/) login!: string;
+  @IsString() @MinLength(1) @MaxLength(1024) password!: string;
+  @IsString() @MinLength(6) @MaxLength(128) proof!: string;
+}

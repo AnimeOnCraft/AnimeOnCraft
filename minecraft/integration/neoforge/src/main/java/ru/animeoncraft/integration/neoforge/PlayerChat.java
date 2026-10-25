@@ -37,7 +37,7 @@ final class PlayerChat {
         var origin = audience(sender, clan);
         String label = switch (message.channel()) {
             case GLOBAL -> "[Общий] ";
-            case CLAN -> "[Клан " + clan + "] ";
+            case CLAN -> "[Клан " + ClanCodes.display(clan) + "] ";
             case LOCAL -> "[Рядом] ";
         };
         var color = switch (message.channel()) {

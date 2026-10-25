@@ -14,7 +14,7 @@ import { AccountPanel, ClanApplication } from './account-panel.js';
 import { SimpleUpdateNotice, SimpleUpdatePanel, useSimpleUpdate, type SimpleUpdateState } from './simple-update.js';
 import { BetaReadiness } from './beta-readiness.js';
 import { WorldMapPage } from './world-map.js';
-import { ClanRoster } from './clan-roster.js';
+import { ClanRosterWithRoles, StaffApplicationsPanel } from './clan-roles.js';
 import { OwnerClansPanel } from './owner-clans.js';
 import { canOpenAdmin, useNavigationAccount, accountChangedEvent } from './account-navigation.js';
 import { ClanAchievements, ClanCompetitions, ClanLevel, ClanWars, useClanData } from './clan-progress.js';
@@ -174,11 +174,11 @@ function ClanDetail({ service, clanId }: { service: PublicApi; clanId: string })
           {owner && <div className="panel"><OwnerClansPanel clanId={clanId} compact onChanged={() => refresh(value => value + 1)} /></div>}
         </div>
       </div>}
-      {tab === 'roster' && <div className="panel"><ClanRoster key={clanId} clanId={clanId} /></div>}
+      {tab === 'roster' && <ClanRosterWithRoles key={clanId} clanId={clanId} />}
       {tab === 'events' && <div className="clan-events-full"><ClanCompetitions state={data.competitions} /><ClanWars state={data.wars} /><ClanAchievements state={data.progression} /></div>}
       {tab === 'applications' && <div className="clan-applications">
         <ClanApplication clanId={clanId} />
-        {owner ? <div className="panel"><OwnerClansPanel clanId={clanId} onChanged={() => refresh(value => value + 1)} /></div> : <div className="panel"><h3 className="panel-title">Мои заявки</h3><p className="muted">Статус своих заявок и их отзыв — на странице <a href="#clans">«Кланы»</a> в блоке «Мои заявки».</p></div>}
+        {owner ? <div className="panel"><OwnerClansPanel clanId={clanId} onChanged={() => refresh(value => value + 1)} /></div> : <StaffApplicationsPanel clanId={clanId} fallback={<div className="panel"><h3 className="panel-title">Мои заявки</h3><p className="muted">Статус своих заявок и их отзыв — на странице <a href="#clans">«Кланы»</a> в блоке «Мои заявки».</p></div>} />}
       </div>}
     </>}
   </div>;

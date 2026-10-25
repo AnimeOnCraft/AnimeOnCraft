@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {cpSync,existsSync,mkdirSync,readFileSync,readdirSync,writeFileSync} from 'node:fs';
+import {cpSync,copyFileSync,existsSync,mkdirSync,readFileSync,readdirSync,writeFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {spawn} from 'node:child_process';
 import {once} from 'node:events';
@@ -10,6 +10,10 @@ const originalRuntime=path.join(process.env.USERPROFILE,'.animeoncraft/launcher/
 const hash=file=>createHash('sha256').update(readFileSync(file)).digest('hex');
 const before=hash(originalRuntime),profile=JSON.parse(readFileSync(path.join(bundle,'minecraft/modpack/profile.json')));
 mkdirSync(directory,{recursive:true});
+// The media is not published by a local preparation test. Network/cache behavior is tested separately.
+const titleMedia=JSON.parse(readFileSync(path.join(bundle,'title-media.json')));
+const mediaDir=path.join(directory,'client/aoc-assets/title');mkdirSync(mediaDir,{recursive:true});
+copyFileSync(path.join(root,'.tools/title-media',titleMedia.sha256+'.zip'),path.join(mediaDir,titleMedia.sha256+'.zip'));
 for(const folder of ['minecraft','client/mods','downloads'])cpSync(path.join(root,'.tools/modpack-mvp',folder),path.join(directory,folder),{recursive:true});
 // Simulate an upgrade from the former managed Overgeared installation.
 const retiredName='overgeared-neoforge-1.21.1-1.6.19.jar';
@@ -52,7 +56,7 @@ assert.equal(createHash('sha1').update(readFileSync(asset)).digest('hex'),assetH
 assert.equal(createHash('sha512').update(readFileSync(modTarget)).digest('hex'),mod.sha512);
 assert.equal(createHash('sha1').update(readFileSync(libraryTarget)).digest('hex'),library.sha1);
 const second=await run(true);assert.equal(second.downloaded,0);assert.equal(second.repaired,0);
-assert.equal(readFileSync(options,'utf8'),'personal-options-sentinel\n');assert.equal(readFileSync(save,'utf8'),'personal-world-sentinel\n');assert.equal(hash(originalRuntime),before);
+assert.equal(readFileSync(options,'utf8'),'personal-options-sentinel\ndarkMojangStudiosBackground:true\n');assert.equal(readFileSync(save,'utf8'),'personal-world-sentinel\n');assert.equal(hash(originalRuntime),before);
 const prepared=JSON.parse(readFileSync(path.join(directory,'prepared-game-runtime.json')));assert.equal(prepared.game_directory,path.join(directory,'client'));assert.equal(prepared.java,java);
 const result={passed:true,directory,repaired_mod_asset_loader_library:true,regenerated_patched_neoforge_client:true,repaired_files:first.repaired,offline_second_pass:true,unchanged_files_downloaded_again:0,user_options_and_saves_preserved:true,human_runtime_preserved:true};
 writeFileSync(path.join(root,'.tools/client-preparation-result.json'),JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result));

@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.state.BlockState;
  * sample the ground along the polyline, smooth it (at most 1 block of height per 2 blocks of length, both ways),
  * then pave a strip of the road width. Water is crossed on a plank bridge with pillars; hills are cut (a 4-block
  * corridor, so a high ridge becomes a tunnel). Nothing is placed above the corridor.
+ * A guarded road (added to an already played world) leaves every column with players' blocks as it is.
  */
 final class RoadBuilder implements LayoutJobs.Job {
     private final WorldLayout.Road road;
@@ -21,6 +22,8 @@ final class RoadBuilder implements LayoutJobs.Job {
     private int[] height;
     private int index;
     private int phase;
+    private PoiBuilder.Canvas guard;
+    private int kept;
 
     RoadBuilder(WorldLayout.Road road) {
         this.road = road;
@@ -42,8 +45,14 @@ final class RoadBuilder implements LayoutJobs.Job {
             if (index >= trace.size()) { phase = 1; index = 0; }
             return false;
         }
-        if (phase == 1) { height = RoadGeometry.smooth(ground, water, PoiBuilder.sea(level)); phase = 2; return false; }
+        if (phase == 1) {
+            height = RoadGeometry.smooth(ground, water, PoiBuilder.sea(level)); phase = 2;
+            var layout = WorldLayout.state();
+            if (layout != null && layout.guarded(road.code())) guard = new PoiBuilder.Canvas(level, layout.palettes().get("neutral"));
+            return false;
+        }
         for (int done = 0; done < 24 && index < trace.size(); done++, index++) pave(level, index);
+        if (index >= trace.size() && guard != null) System.out.println("AOC_LAYOUT_GUARDED " + road.code() + " kept_columns=" + kept);
         return index >= trace.size();
     }
 
@@ -67,6 +76,7 @@ final class RoadBuilder implements LayoutJobs.Job {
             int x = p[0] + (int) Math.round(w * px), z = p[1] + (int) Math.round(w * pz);
             boolean rail = Math.abs(w) == half + 1;
             if (rail && !bridge) continue;
+            if (guard != null && SoraExpansion.firstForeign(level, guard, x, z, y - 12, y + 4, true) != null) { kept++; continue; }
             if (rail) { set(level, x, y, z, Blocks.SPRUCE_FENCE.defaultBlockState()); continue; }
             set(level, x, y - 1, z, bridge ? Blocks.SPRUCE_PLANKS.defaultBlockState() : surface(w, i));
             if (!bridge) for (int fy = y - 2, depth = 0; depth < 10 && fy > level.getMinBuildHeight(); fy--, depth++) {

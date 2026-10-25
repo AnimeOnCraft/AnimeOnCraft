@@ -1,0 +1,14 @@
+{
+  "code": "KITSUNE_SAKURA",
+  "source": "minecraft\\cosmetics\\kitsune-sakura\\kitsune-sakura.bbmodel",
+  "source_sha256": "b6ecd8fc7372e43d533cac4a53bfa2a7397efec38d83790e7256fe9c8e3451b3",
+  "geometry": "minecraft/integration/neoforge/src/main/resources/assets/animeoncraft/cosmetics/kitsune_sakura.json",
+  "texture": "minecraft/integration/neoforge/src/main/resources/assets/animeoncraft/textures/cosmetics/kitsune_sakura.png",
+  "faces": 306,
+  "triangles": 176,
+  "emissive_faces": 16,
+  "parts": [
+    "static"
+  ],
+  "reference_head_exported": false
+}

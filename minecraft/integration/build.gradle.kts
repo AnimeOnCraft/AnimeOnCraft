@@ -12,7 +12,7 @@ subprojects {
         toolchain.languageVersion.set(JavaLanguageVersion.of(21))
     }
     tasks.withType<JavaCompile>().configureEach {
-        options.release.set(if (project.name == "neoforge") 21 else 17)
+        options.release.set(if (project.name == "neoforge" || project.name == "loading-window") 21 else 17)
         options.encoding = "UTF-8"
         options.compilerArgs.addAll(listOf("-Xlint:all", "-Werror"))
     }

@@ -39,7 +39,7 @@ public final class AnimeOnCraftAdmission {
         events.addListener(net.neoforged.bus.api.EventPriority.LOWEST,false,PlayerChat::chat);
         events.addListener(PlayerChat::login);
         events.addListener(ServerEmotes::tick);events.addListener(ServerEmotes::tracking);events.addListener(ServerEmotes::logout);events.addListener(ServerEmotes::stopped);
-        events.addListener(ServerWardrobe::tick);events.addListener(ServerWardrobe::logout);events.addListener(ServerWardrobe::stopped);events.addListener(BetaPassServer::login);events.addListener(BetaPassServer::logout);events.addListener(BetaPassServer::tracking);events.addListener(BetaPassServer::tick);events.addListener(BetaPassServer::stopped);events.addListener(BetaPassServer::commands);
+        events.addListener(PremiumCrystals::tick);events.addListener(PremiumCrystals::logout);events.addListener(PremiumCrystals::stopped);events.addListener(GachaServer::logout);events.addListener(GachaServer::stopped);events.addListener(ServerWardrobe::tick);events.addListener(ServerWardrobe::logout);events.addListener(ServerWardrobe::stopped);events.addListener(BetaPassServer::login);events.addListener(BetaPassServer::logout);events.addListener(BetaPassServer::tracking);events.addListener(BetaPassServer::tick);events.addListener(BetaPassServer::stopped);events.addListener(BetaPassServer::commands);
         events.addListener(GuildServer::tick);events.addListener(GuildServer::login);events.addListener(GuildServer::logout);events.addListener(GuildServer::stopped);events.addListener(GuildServer::commands);events.addListener(GuildServer::spawned);events.addListener(GuildServer::tracking);events.addListener(CoinReset::login);events.addListener(CoinReset::chunkLoaded);events.addListener(CoinReset::tick);events.addListener(CoinReset::entityJoined);events.addListener(CoinReset::drops);events.addListener(CoinReset::stopped);
         events.addListener(net.neoforged.bus.api.EventPriority.HIGH,true,GuildServer::interact);events.addListener(net.neoforged.bus.api.EventPriority.LOWEST,false,GuildServer::kill);
         events.addListener(PlayerProfiles::login);events.addListener(PlayerProfiles::logout);events.addListener(PlayerProfiles::tracking);events.addListener(PlayerProfiles::tick);events.addListener(PlayerProfiles::stopped);
@@ -64,6 +64,7 @@ public final class AnimeOnCraftAdmission {
         events.addListener(LayoutJobs::tick);
         events.addListener(LayoutJobs::stopped);
         if(System.getProperty("animeoncraft.layoutProbe")!=null){events.addListener(LayoutProbe::started);events.addListener(LayoutProbe::tick);}
+        if(System.getProperty("animeoncraft.mineProbe")!=null){events.addListener(net.neoforged.bus.api.EventPriority.HIGHEST,false,MineProbe::started);events.addListener(MineProbe::tick);}
         if(Boolean.getBoolean("animeoncraft.rehearsal")){events.addListener(StatesRehearsalProbe::started);events.addListener(StatesRehearsalProbe::tick);}
         events.addListener(CaptureSites::tick);
         // World Design stages 7–8: region catalog of a states world for protection (inactive in the current world).
@@ -109,6 +110,7 @@ public final class AnimeOnCraftAdmission {
         events.addListener(TerritoryProtection::mobGriefing);
         events.addListener(TerritoryProtection::piston);
         events.addListener(TerritoryProtection::useBlock);
+        ContainerLocks.register(events);
         events.addListener(TerritoryProtection::useBucket);
         events.addListener(TerritoryProtection::fluidPlacement);
         events.addListener(TerritoryProtectionProbe::started);
@@ -143,6 +145,8 @@ public final class AnimeOnCraftAdmission {
         beta.playToServer(BetaPassPayloads.Request.TYPE,BetaPassPayloads.Request.CODEC,BetaPassServer::request);
         beta.playToClient(BetaPassPayloads.Snapshot.TYPE,BetaPassPayloads.Snapshot.CODEC,(p,c)->{if(net.neoforged.fml.loading.FMLEnvironment.dist==net.neoforged.api.distmarker.Dist.CLIENT)ClientRegistration.beta(p,c);});
         beta.playToClient(BetaPassPayloads.Appearance.TYPE,BetaPassPayloads.Appearance.CODEC,(p,c)->{if(net.neoforged.fml.loading.FMLEnvironment.dist==net.neoforged.api.distmarker.Dist.CLIENT)ClientRegistration.cosmetics(p,c);});
+        beta.playToServer(GachaPayloads.Request.TYPE,GachaPayloads.Request.CODEC,GachaServer::request);
+        beta.playToClient(GachaPayloads.Snapshot.TYPE,GachaPayloads.Snapshot.CODEC,(p,c)->{if(net.neoforged.fml.loading.FMLEnvironment.dist==net.neoforged.api.distmarker.Dist.CLIENT)ClientRegistration.gacha(p,c);});
         beta.playToServer(GuildPayloads.Request.TYPE,GuildPayloads.Request.CODEC,GuildServer::request);
         beta.playToClient(GuildPayloads.Snapshot.TYPE,GuildPayloads.Snapshot.CODEC,(p,c)->{if(net.neoforged.fml.loading.FMLEnvironment.dist==net.neoforged.api.distmarker.Dist.CLIENT)ClientRegistration.guild(p,c);});
         beta.playToClient(GuildPayloads.Badge.TYPE,GuildPayloads.Badge.CODEC,(p,c)->{if(net.neoforged.fml.loading.FMLEnvironment.dist==net.neoforged.api.distmarker.Dist.CLIENT)ClientRegistration.guildBadge(p,c);});
@@ -190,17 +194,23 @@ public final class AnimeOnCraftAdmission {
         static void beta(BetaPassPayloads.Snapshot p,IPayloadContext c){ClientBetaPass.accept(p,c);}
         static void cosmetics(BetaPassPayloads.Appearance p,IPayloadContext c){ClientBetaPass.appearance(p,c);}
         static void guild(GuildPayloads.Snapshot p,IPayloadContext c){ClientGuild.accept(p,c);}
+        static void gacha(GachaPayloads.Snapshot p,IPayloadContext c){ClientGacha.accept(p,c);}
         static void guildBadge(GuildPayloads.Badge p,IPayloadContext c){ClientGuild.badge(p,c);}
         static void profile(ProfilePayloads.Snapshot payload,IPayloadContext context){ClientProfiles.accept(payload,context);}
         static void title(ProfilePayloads.Title payload,IPayloadContext context){ClientProfiles.title(payload,context);}
         static void register(IEventBus bus){
             bus.addListener(ClientEmoteMenu::register);
             var events=net.neoforged.neoforge.common.NeoForge.EVENT_BUS;
+            events.addListener(ClientTitleMenu::opening);
             events.addListener(ClientEmotes::logout);
-            events.addListener(ClientWardrobe::logout);events.addListener(ClientBetaPass::logout);events.addListener(ClientGuild::logout);bus.addListener(BetaCosmeticRenderer::register);bus.addListener(DetailedCosmetics::reload);events.addListener(ClientClanAchievements::logout);events.addListener(ClientProfiles::logout);events.addListener(ClientServerMenu::key);events.addListener(ClientServerMenu::tick);events.addListener(ClientServerMenu::layer);events.addListener(ClientServerMenu::logout);
+            events.addListener(ClientWardrobe::logout);events.addListener(ClientGacha::logout);events.addListener(ClientBetaPass::logout);events.addListener(ClientGuild::logout);bus.addListener(BetaCosmeticRenderer::register);bus.addListener(DetailedCosmetics::reload);events.addListener(ClientClanAchievements::logout);events.addListener(ClientProfiles::logout);events.addListener(ClientServerMenu::key);events.addListener(ClientServerMenu::tick);events.addListener(ClientServerMenu::layer);events.addListener(ClientServerMenu::logout);
             if(Boolean.getBoolean("animeoncraft.atlasClientProbe"))AtlasClientProbe.register();
             if(Boolean.getBoolean("animeoncraft.guildShotProbe"))GuildShotProbe.register();
+            if(Boolean.getBoolean("animeoncraft.mapIconShotProbe"))MapIconShotProbe.register();
+            if(System.getProperty("animeoncraft.reviewShotProbe")!=null)ReviewShotProbe.register();
             if(Boolean.getBoolean("animeoncraft.guildFlowProbe"))GuildFlowProbe.register();
+            if(Boolean.getBoolean("animeoncraft.lockFlowProbe"))LockFlowProbe.register();
+            if(Boolean.getBoolean("animeoncraft.gachaVideoProbe"))GachaVideoProbe.register();
             net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(ClientWorldAtlas::logout);
             net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(ClientWorldAtlas::tick);
             net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(ClientSavedServers::tick);

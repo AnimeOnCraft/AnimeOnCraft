@@ -24,6 +24,35 @@ pub enum ReadInput {
     Applications {
         cursor: Option<String>,
     },
+    ClanRoles {
+        clan_id: String,
+    },
+    StaffApplications {
+        clan_id: String,
+        cursor: Option<String>,
+    },
+}
+const CLAN_ROLES: [&str; 4] = ["LEADER", "OFFICER", "RECRUITER", "MANAGER"];
+fn page_query(cursor: &Option<String>) -> Result<String, Error> {
+    let mut url = reqwest::Url::parse("http://127.0.0.1/").map_err(|_| "VALIDATION_ERROR")?;
+    url.query_pairs_mut().append_pair("limit", "20");
+    if let Some(cursor) = cursor {
+        if cursor.is_empty()
+            || cursor.len() > 2048
+            || !cursor
+                .bytes()
+                .all(|b| b.is_ascii_alphanumeric() || b"_-.".contains(&b))
+        {
+            return Err("VALIDATION_ERROR");
+        }
+        url.query_pairs_mut().append_pair("cursor", cursor);
+    }
+    Ok(url.query().unwrap_or("").to_string())
+}
+fn nickname(value: &Option<String>) -> bool {
+    value.as_ref().is_none_or(|name| {
+        name.len() <= 16 && name.bytes().all(|b| b.is_ascii_alphanumeric() || b == b'_')
+    })
 }
 #[derive(Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -138,6 +167,18 @@ pub async fn read(auth: &Auth, input: ReadInput) -> Result<Value, Error> {
                 query.query_pairs_mut().append_pair("cursor", cursor);
             }
             format!("clans/{clan_id}/members?{}", query.query().unwrap_or(""))
+        }
+        ReadInput::ClanRoles { clan_id } => {
+            if !id(clan_id) {
+                return Err("VALIDATION_ERROR");
+            }
+            format!("launcher/clans/{clan_id}/roles")
+        }
+        ReadInput::StaffApplications { clan_id, cursor } => {
+            if !id(clan_id) {
+                return Err("VALIDATION_ERROR");
+            }
+            format!("launcher/clans/{clan_id}/applications?{}", page_query(cursor)?)
         }
         ReadInput::Access => "me/access".into(),
         ReadInput::Clan => "me/clan".into(),
@@ -266,7 +307,52 @@ pub async fn read(auth: &Auth, input: ReadInput) -> Result<Value, Error> {
             }
             serde_json::to_value(value)
         }
-        ReadInput::Applications { .. } | ReadInput::OwnerApplications { .. } => {
+        ReadInput::ClanRoles { .. } => {
+            #[derive(Serialize, Deserialize)]
+            #[serde(deny_unknown_fields)]
+            struct Member {
+                nickname: Option<String>,
+                role: String,
+                joined_at: String,
+                #[serde(default, skip_serializing_if = "Option::is_none")]
+                user_id: Option<String>,
+                #[serde(default, skip_serializing_if = "Option::is_none")]
+                version: Option<String>,
+            }
+            #[derive(Serialize, Deserialize)]
+            #[serde(deny_unknown_fields)]
+            struct Roles {
+                my_role: Option<String>,
+                owner: bool,
+                can_review: bool,
+                can_remove: bool,
+                can_assign: bool,
+                clan_version: String,
+                members: Vec<Member>,
+            }
+            let value = reply.parse::<Roles>()?;
+            if value.members.len() > 200
+                || !version(&value.clan_version)
+                || value
+                    .my_role
+                    .as_ref()
+                    .is_some_and(|role| !CLAN_ROLES.contains(&role.as_str()))
+                || value.members.iter().any(|item| {
+                    !nickname(&item.nickname)
+                        || (item.role != "MEMBER" && !CLAN_ROLES.contains(&item.role.as_str()))
+                        || chrono::DateTime::parse_from_rfc3339(&item.joined_at).is_err()
+                        || item.user_id.as_ref().is_some_and(|v| !id(v))
+                        || item.version.as_ref().is_some_and(|v| !version(v))
+                        || item.user_id.is_some() != item.version.is_some()
+                })
+            {
+                return Err("INVALID_RESPONSE");
+            }
+            serde_json::to_value(value)
+        }
+        ReadInput::Applications { .. }
+        | ReadInput::OwnerApplications { .. }
+        | ReadInput::StaffApplications { .. } => {
             let value = reply.parse::<Applications>()?;
             if value.items.len() > 20
                 || value.items.iter().any(|v| {
@@ -301,6 +387,25 @@ pub enum Action {
         application_id: String,
         version: String,
     },
+    StaffApprove {
+        application_id: String,
+        version: String,
+    },
+    StaffReject {
+        application_id: String,
+        version: String,
+    },
+    SetRole {
+        clan_id: String,
+        user_id: String,
+        role: String,
+        version: String,
+    },
+    RemoveMember {
+        clan_id: String,
+        user_id: String,
+        version: String,
+    },
     Apply {
         clan_id: String,
         message: String,
@@ -329,7 +434,31 @@ impl Action {
             | Self::OwnerReject {
                 application_id,
                 version: v,
+            }
+            | Self::StaffApprove {
+                application_id,
+                version: v,
+            }
+            | Self::StaffReject {
+                application_id,
+                version: v,
             } => id(application_id) && version(v),
+            Self::SetRole {
+                clan_id,
+                user_id,
+                role,
+                version: v,
+            } => {
+                id(clan_id)
+                    && id(user_id)
+                    && version(v)
+                    && ["LEADER", "OFFICER", "RECRUITER", "MEMBER"].contains(&role.as_str())
+            }
+            Self::RemoveMember {
+                clan_id,
+                user_id,
+                version: v,
+            } => id(clan_id) && id(user_id) && version(v),
             Self::Apply { clan_id, message } => id(clan_id) && message.chars().count() <= 4000,
             Self::Withdraw {
                 application_id,
@@ -371,6 +500,41 @@ impl Action {
             } => (
                 format!("launcher/owner/applications/{application_id}/reject"),
                 serde_json::json!({"reason":"Rejected by owner from launcher"}),
+                Some(version),
+            ),
+            Self::StaffApprove {
+                application_id,
+                version,
+            } => (
+                format!("launcher/applications/{application_id}/approve"),
+                serde_json::json!({"reason":"Approved by clan staff from launcher"}),
+                Some(version),
+            ),
+            Self::StaffReject {
+                application_id,
+                version,
+            } => (
+                format!("launcher/applications/{application_id}/reject"),
+                serde_json::json!({"reason":"Rejected by clan staff from launcher"}),
+                Some(version),
+            ),
+            Self::SetRole {
+                clan_id,
+                user_id,
+                role,
+                version,
+            } => (
+                format!("launcher/clans/{clan_id}/roles/{user_id}"),
+                serde_json::json!({"role":role,"reason":"Clan role set from launcher"}),
+                Some(version),
+            ),
+            Self::RemoveMember {
+                clan_id,
+                user_id,
+                version,
+            } => (
+                format!("launcher/clans/{clan_id}/members/{user_id}/remove"),
+                serde_json::json!({"reason":"Removed by clan staff from launcher"}),
                 Some(version),
             ),
             Self::Apply { clan_id, message } => (
