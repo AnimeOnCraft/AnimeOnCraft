@@ -10,7 +10,13 @@ final class Emotes {
         new Entry("HERO_POSE","Герой","Победная стойка: рука вверх, другая на поясе",600,true),
         new Entry("ZEN_POSE","Медитация","Спокойная поза со скрещёнными ногами",600,true),
         new Entry("HIGH_FIVE","Дай пять","Совместная эмоция · нужно согласие напарника",80,true),
-        new Entry("HANDSHAKE","Рукопожатие","Совместная эмоция · нужно согласие напарника",100,true));
+        new Entry("HANDSHAKE","Рукопожатие","Совместная эмоция · нужно согласие напарника",100,true),
+        // Banner SAKURA_RIFT: obtainable only by summoning, never starters.
+        new Entry("HANAMI","Ханами","Сидишь под сакурой с чашкой чая, вокруг кружатся лепестки",600,false),
+        new Entry("VICTORY_V","Победный жест","Подскок и «викторию» у лица",100,false),
+        new Entry("NINJA_HOP","Ниндзя-прыжок","Присед, прыжок с поджатыми ногами и стойка ниндзя",80,false),
+        new Entry("BOW_DUEL","Поклон-дуэль","Поклон противнику, рука на рукояти и молниеносный взмах",160,false),
+        new Entry("PETAL_STORM","Буря лепестков","Парение с поднятыми руками в вихре лепестков сакуры",200,false));
     private Emotes(){}
     static Entry find(String code){return ALL.stream().filter(e->e.code().equals(code)).findFirst().orElse(null);}
     static List<String> starters(){return ALL.stream().filter(Entry::starter).map(Entry::code).toList();}

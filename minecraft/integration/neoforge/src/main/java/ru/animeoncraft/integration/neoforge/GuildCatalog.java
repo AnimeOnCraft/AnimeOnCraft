@@ -16,14 +16,15 @@ import java.util.function.Predicate;
  * A target is an item or entity id, or a tag ({@code #minecraft:logs}).
  */
 final class GuildCatalog {
-    enum Kind { ITEM, KILL }
+    /** DUNGEON: clear a Rift Gate dungeon; target {@code dungeon:<code or any>/<lowest difficulty>}, progress like kills. */
+    enum Kind { ITEM, KILL, DUNGEON }
     /** An exam quest pays no coins and no XP; handing it in unlocks the rank-up out of {@link GuildRules#EXAM_RANK}. */
     /** party > 0 marks a team quest (KILL only, ranks B–S): the smallest team that may take it. */
     /** boss: a team quest for one boss of a mod; every team set of the rank has one of them, and only members near the boss are paid. */
     record Quest(String code, GuildRules.Rank rank, Kind kind, String target, int count, String name, String task, int min, int max, boolean exam, int party, boolean boss) {
         Quest {
             if (boss && (party == 0 || count != 1)) throw new IllegalArgumentException("Invalid boss quest " + code);
-            if (party != 0 && (party < 2 || party > GuildRules.MAX_PARTY || exam || kind != Kind.KILL || rank.ordinal() < GuildRules.TEAM_FROM.ordinal()))
+            if (party != 0 && (party < 2 || party > GuildRules.MAX_PARTY || exam || kind == Kind.ITEM || rank.ordinal() < GuildRules.TEAM_FROM.ordinal()))
                 throw new IllegalArgumentException("Invalid team quest " + code);
             if (!code.matches("[a-z0-9_]{3,32}") || count < 1 || count > 512 || min < (exam ? 0 : 1) || max < min || max > 100_000
                 || name.isBlank() || name.length() > 48 || task.isBlank() || task.length() > 64

@@ -91,6 +91,18 @@
         "logEntityDeath": false,
         "logEntityKills": false
       }
+    },
+    "gravestone-server.toml": {
+      "": {
+        "enable_obituary": true,
+        "remove_obituary": true,
+        "only_owners_can_break": false,
+        "spawn_ghost": false,
+        "friendly_ghost": true,
+        "sneak_pickup": true,
+        "break_pickup": true,
+        "strict_placement": false
+      }
     }
   }
 }

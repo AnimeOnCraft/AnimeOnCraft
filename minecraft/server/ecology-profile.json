@@ -68,7 +68,7 @@
     "cleanmaid-server.toml": {
       "general": {
         "enabled": true,
-        "interval_seconds": 300,
+        "interval_seconds": 1800,
         "warning_seconds": 60,
         "countdown_seconds": 10,
         "broadcast_when_zero": false,

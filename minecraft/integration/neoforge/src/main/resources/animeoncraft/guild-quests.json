@@ -101,6 +101,10 @@
     {"code": "s_tf_ur_ghast", "rank": "S", "kind": "KILL", "target": "twilightforest:ur_ghast", "count": 1, "name": "Древний гаст", "task": "Командой победить Древнего гаста", "reward": [360, 400], "party": 4, "boss": true},
     {"code": "s_tf_alpha_yeti", "rank": "S", "kind": "KILL", "target": "twilightforest:alpha_yeti", "count": 1, "name": "Вожак йети", "task": "Командой победить Альфа-йети", "reward": [350, 390], "party": 4, "boss": true},
     {"code": "s_tf_snow_queen", "rank": "S", "kind": "KILL", "target": "twilightforest:snow_queen", "count": 1, "name": "Снежная королева", "task": "Командой победить Снежную королеву", "reward": [370, 400], "party": 4, "boss": true},
-    {"code": "s_isb_tyros", "rank": "S", "kind": "KILL", "target": "irons_spellbooks:fire_boss", "count": 1, "name": "Эхо Тироса", "task": "Командой победить Эхо Тироса", "reward": [370, 400], "party": 4, "boss": true}
+    {"code": "s_isb_tyros", "rank": "S", "kind": "KILL", "target": "irons_spellbooks:fire_boss", "count": 1, "name": "Эхо Тироса", "task": "Командой победить Эхо Тироса", "reward": [370, 400], "party": 4, "boss": true},
+    {"code": "d_rift_first", "rank": "D", "kind": "DUNGEON", "target": "dungeon:any/normal", "count": 1, "name": "Первый Разлом", "task": "Пройти любое подземелье Врат Разлома", "reward": [30, 38]},
+    {"code": "c_rift_sakura", "rank": "C", "kind": "DUNGEON", "target": "dungeon:sakura_crypt/hard", "count": 1, "name": "Разлом под вишнями", "task": "Пройти Склеп Сакуры на Сложной", "reward": [50, 60]},
+    {"code": "b_rift_nightmare", "rank": "B", "kind": "DUNGEON", "target": "dungeon:any/nightmare", "count": 1, "name": "Кошмар в Разломе", "task": "Командой пройти подземелье на Кошмаре", "reward": [90, 110], "party": 2},
+    {"code": "a_rift_mythic", "rank": "A", "kind": "DUNGEON", "target": "dungeon:any/mythic", "count": 1, "name": "Миф Разлома", "task": "Командой пройти подземелье на Мифической", "reward": [150, 180], "party": 3}
   ]
 }

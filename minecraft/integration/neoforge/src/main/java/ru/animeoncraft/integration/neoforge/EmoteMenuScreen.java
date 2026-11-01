@@ -11,12 +11,13 @@ import org.lwjgl.glfw.GLFW;
 final class EmoteMenuScreen extends Screen {
     private record Hit(int x,int y,int w,int h,Runnable action){boolean contains(double a,double b){return a>=x&&a<x+w&&b>=y&&b<y+h;}}
     private final List<Hit> hits=new ArrayList<>();private boolean all;private String selected="NEON_DANCE";private long previewStart=System.nanoTime();private float angle=-25;
-    private double scale,left,top,mx,my;
+    private double scale,left,top,mx,my;private int listOffset;
     EmoteMenuScreen(){super(Component.literal("AnimeOnCraft — эмоции"));}
     EmoteMenuScreen(String code,boolean catalog){this();select(code);all=catalog;}
     @Override public boolean isPauseScreen(){return false;}
     @Override public void tick(){if(minecraft.player==null||minecraft.getConnection()==null){onClose();return;}ClientEmotes.read();}
     @Override public boolean keyPressed(int key,int scan,int modifiers){if(key==GLFW.GLFW_KEY_ESCAPE||ClientEmoteMenu.OPEN.matches(key,scan)){onClose();return true;}return super.keyPressed(key,scan,modifiers);}
+    @Override public boolean mouseScrolled(double x,double y,double dx,double dy){if(!all||dy==0)return false;listOffset=Math.clamp(listOffset+(dy>0?-1:1),0,Math.max(0,Emotes.ALL.size()-5));return true;}
     @Override public boolean mouseClicked(double x,double y,int button){if(button!=0)return false;double a=(x-left)/scale,b=(y-top)/scale;for(int i=hits.size()-1;i>=0;i--)if(hits.get(i).contains(a,b)){hits.get(i).action().run();return true;}if(!all){int slot=sector(a,b);var favorites=favorites();if(slot>=0&&slot<favorites.size()){ClientEmotes.choose(favorites.get(slot));return true;}}return false;}
     private static List<String> favorites(){var inventory=ClientEmotes.inventory();return inventory==null||!inventory.available()?List.of():ClientEmoteFavorites.all().stream().filter(inventory.owned()::contains).toList();}
     private void select(String code){if(!selected.equals(code)){selected=code;previewStart=System.nanoTime();}}
@@ -28,7 +29,7 @@ final class EmoteMenuScreen extends Screen {
         text(g,"ЭМОЦИИ",65,37,22,0xfff7efff);text(g,"AnimeOnCraft · "+ClientControls.label("key.animeoncraft.emotes"),65,67,11,0xffb9a6d0);button(g,956,34,89,29,"Закрыть",this::onClose,false);
         panel(g,65,108,320,376);center(g,"ПРЕДПРОСМОТР",225,125,12,0xffcdb0f2);
         var inventory=ClientEmotes.inventory();boolean available=inventory!=null&&inventory.available();button(g,435,105,145,30,"Избранное",()->all=false,!all);button(g,592,105,145,30,"Все эмоции",()->all=true,all);
-        if(all){for(int i=0;i<Emotes.ALL.size();i++){var entry=Emotes.ALL.get(i);int y=151+i*65;boolean owned=available&&inventory.owned().contains(entry.code());panel(g,435,y,610,58);button(g,446,y+9,323,39,entry.name()+(Emotes.paired(entry.code())?" · вдвоём":""),()->select(entry.code()),entry.code().equals(selected));if(owned){button(g,786,y+10,40,36,ClientEmoteFavorites.contains(entry.code())?"★":"☆",()->ClientEmoteFavorites.toggle(entry.code()),ClientEmoteFavorites.contains(entry.code()));button(g,840,y+10,192,36,Emotes.paired(entry.code())?"Пригласить":"Исполнить",()->ClientEmotes.choose(entry.code()),false);}else text(g,available?"Закрыто":"Загрузка…",852,y+24,12,0xffb9a6d0);}}
+        if(all){listOffset=Math.clamp(listOffset,0,Math.max(0,Emotes.ALL.size()-5));if(Emotes.ALL.size()>5)text(g,"Колесо мыши — ещё эмоции ("+(listOffset+1)+"–"+Math.min(Emotes.ALL.size(),listOffset+5)+" из "+Emotes.ALL.size()+")",760,113,10,0xffb9a6d0);for(int i=listOffset;i<Math.min(Emotes.ALL.size(),listOffset+5);i++){var entry=Emotes.ALL.get(i);int y=151+(i-listOffset)*65;boolean owned=available&&inventory.owned().contains(entry.code());panel(g,435,y,610,58);button(g,446,y+9,323,39,entry.name()+(Emotes.paired(entry.code())?" · вдвоём":""),()->select(entry.code()),entry.code().equals(selected));if(owned){button(g,786,y+10,40,36,ClientEmoteFavorites.contains(entry.code())?"★":"☆",()->ClientEmoteFavorites.toggle(entry.code()),ClientEmoteFavorites.contains(entry.code()));button(g,840,y+10,192,36,Emotes.paired(entry.code())?"Пригласить":"Исполнить",()->ClientEmotes.choose(entry.code()),false);}else text(g,!available?"Загрузка…":entry.starter()?"Закрыто":"✦ Из призыва",852,y+24,12,entry.starter()||!available?0xffb9a6d0:0xfff07aa6);}}
         else{
             var codes=favorites();int hovered=sector(mx,my);if(hovered>=0&&hovered<codes.size())select(codes.get(hovered));
             for(int y=-166;y<=166;y++){int from=-166,prior=-2;for(int x=-166;x<=167;x++){int current=x==167?-2:sector(755+x,317+y);if(current!=prior){if(prior>=0)g.fill(755+from,317+y,755+x,318+y,prior==hovered?0xf07536ab:0xea21152f);from=x;prior=current;}}}

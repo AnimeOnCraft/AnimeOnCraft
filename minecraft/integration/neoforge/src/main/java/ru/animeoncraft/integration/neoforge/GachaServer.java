@@ -37,7 +37,9 @@ final class GachaServer {
     var current=p.server.getPlayerList().getPlayer(p.getUUID());var currentIdentity=GameIdentity.PLAYERS.get(p.getUUID());
     if(current!=p||currentIdentity==null||!currentIdentity.connection().equals(flight.connection()))return;
     if(failure!=null){var stale=cached.get(p.getUUID());send(p,stale!=null&&stale.available()?with(stale,rolled?"Сервер не ответил. Открой призыв заново: если кристаллы списались, предметы уже твои.":"Сервер призыва не ответил."):GachaPayloads.Snapshot.unavailable(p.getUUID(),"Сервер призыва временно недоступен."));return;}
-    try{var value=parse(p.getUUID(),reply,rolled);cached.put(p.getUUID(),value);send(p,value);if(rolled)announce(p,value);}
+    try{var value=parse(p.getUUID(),reply,rolled);cached.put(p.getUUID(),value);send(p,value);if(rolled){announce(p,value);
+     // A new emote from the banner must show up in the emote menu without a relog.
+     if(value.pulls().stream().anyMatch(i->i.slot().equals("EMOTE")&&i.owned()))ServerWardrobe.request(p,new WardrobePayloads.Request("READ","",0));}}
     catch(RuntimeException invalid){send(p,GachaPayloads.Snapshot.unavailable(p.getUUID(),"Сервер призыва ответил непонятно."));}
    }));
   }catch(RuntimeException unavailable){flights.remove(p.getUUID(),flight);send(p,GachaPayloads.Snapshot.unavailable(p.getUUID(),"Сервер призыва временно недоступен."));}

@@ -84,6 +84,7 @@ final class ServerMenuScreen extends Screen {
         text(g,"Призыв",410,76,22,WHITE);text(g,"Предметы только выбиваются · повторы дают фрагменты ✧",410,104,11,MUTED);
         if(d==null||!d.available()){paragraph(g,d==null?(ClientGacha.supported()?"Загружаем баннер…":"Призыв появится после обновления сервера."):d.message(),410,160,650,15,MUTED,5);reveal(g,d);return;}
         var sh=d.shards();badge(g,930,72,140,30,d.balance()+" ◆",0xf07aa6);badge(g,800,72,120,30,sh.get(0)+" ✧",0xb48cff);
+        button(g,660,72,130,30,"＋ Пополнить ◆",()->ClientGacha.note(ClientGacha.TOP_UP),false,0xfff07aa6);
         var r=d.rates();text(g,"Шансы: ★5 "+r.get(0)/10.0+"%  ·  ★4 "+r.get(1)/10.0+"%  ·  ★3 "+r.get(2)/10.0+"%  ·  иначе +"+d.consolation()+" ◆ обратно",410,126,10,MUTED);
         meter(g,410,146,"Гарантия ★5"+(d.pity5()+1>=d.soft5()?" · шанс растёт":""),d.pity5(),d.hard5(),d.soft5(),TIER_COLORS[5]);
         meter(g,635,146,"Гарантия ★4",d.pity4(),d.hard4(),-1,TIER_COLORS[4]);
@@ -100,7 +101,7 @@ final class ServerMenuScreen extends Screen {
         var pulls=ClientGacha.lastPulls();
         if(!pulls.isEmpty()){text(g,"Последний призыв",410,450,10,MUTED);for(int i=0;i<pulls.size();i++){var p=pulls.get(i);int x=520+i*55;
             round(g,x,445,50,19,4,p.tier()>0?alpha(0x55,TIER_COLORS[p.tier()]):0x44302540,p.tier()>0?TIER_COLORS[p.tier()]:0xff3e304d);center(g,p.tier()>0?"★"+p.tier()+(p.owned()?"":" ✧"):"◆",x+25,450,9,p.tier()>0?TIER_COLORS[p.tier()]:MUTED);}}
-        if(!d.message().isEmpty())paragraph(g,d.message(),410,472,660,10,0xffffad88,2);
+        String note=ClientGacha.notice().isEmpty()?d.message():ClientGacha.notice();if(!note.isEmpty())paragraph(g,note,410,472,660,10,0xffffad88,2);
         boolean busy=ClientGacha.waiting();
         if(d.complete())center(g,"Весь набор собран! Следующий баннер появится позже.",740,520,13,0xff73dfa1);
         else{button(g,410,496,325,46,busy?"Призываем…":"Призвать ×1  ·  "+d.cost()+" ◆",()->{if(!busy)ClientGacha.roll(1);},false,d.balance()>=d.cost()?0xfff07aa6:MUTED);

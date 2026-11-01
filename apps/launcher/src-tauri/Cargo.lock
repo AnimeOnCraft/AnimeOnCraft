@@ -43,7 +43,7 @@ dependencies = [
 
 [[package]]
 name = "animeoncraft-launcher"
-version = "0.8.13"
+version = "0.8.17"
 dependencies = [
  "async-trait",
  "aws-lc-rs",

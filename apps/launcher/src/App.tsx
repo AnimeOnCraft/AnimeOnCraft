@@ -315,6 +315,7 @@ function AccountMenu({ account }: { account: AccountSnapshot }) {
     </button>
     {open && <div className="menu-popover" role="menu">
       <a role="menuitem" href="#profile" onClick={() => setOpen(false)}><LauncherIcon name="profile" size={16} />Профиль</a>
+      <a role="menuitem" href="#profile/crystals" onClick={() => setOpen(false)}><LauncherIcon name="sparkles" size={16} />Кристаллы</a>
       <a role="menuitem" href="#settings/account" onClick={() => setOpen(false)}><LauncherIcon name="settings" size={16} />Аккаунт и пароль</a>
       {canOpenAdmin(account) && <a role="menuitem" href="#admin" onClick={() => setOpen(false)}><LauncherIcon name="admin" size={16} />Админка</a>}
       <button type="button" role="menuitem" disabled={busy} onClick={() => { setBusy(true); void accountAction({ action: 'logout' }).catch(() => undefined).finally(() => { setBusy(false); setOpen(false); window.dispatchEvent(new Event(accountChangedEvent)); window.location.hash = '#profile'; }); }}><LauncherIcon name="logout" size={16} />Выйти</button>

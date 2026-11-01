@@ -34,7 +34,7 @@ final class BetaPassStore extends SavedData {
         /** Gacha accessories: the caller has checked ownership against the account backend; grants are never revoked. */
         boolean wear(String slot,String code){if(!slot.equals(GACHA_SLOTS.get(code)))return false;equipped.put(slot,code);return true;}
     }
-    static final Map<String,String> GACHA_SLOTS=Map.of("SAKURA_WINGS","BACK","KITSUNE_SAKURA","HEAD","RIFT_HALF_MASK","FACE","OMAMORI_CHARM","BELT");
+    static final Map<String,String> GACHA_SLOTS=Map.of("SAKURA_WINGS","BACK","KITSUNE_SAKURA","HEAD","RIFT_HALF_MASK","FACE","OMAMORI_CHARM","BELT","SAKURA_CHILD","TITLE","RIFT_SEER","TITLE");
     private final Map<UUID,Entry> players=new HashMap<>();
     boolean open=true;
     static BetaPassStore get(MinecraftServer server){return server.overworld().getDataStorage().computeIfAbsent(new Factory<>(BetaPassStore::new,BetaPassStore::load),"animeoncraft-beta-rift-1");}

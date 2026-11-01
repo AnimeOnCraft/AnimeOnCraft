@@ -7,10 +7,12 @@ export const CRYSTALS=Object.freeze({
  guildWeeklyCap:150,
  guildQuest:{F:2,E:2,D:2,C:3,B:3,A:5,S:5} as Record<string,number>,
  guildTeam:10,
+ // Rift Gate first clears: per player, dungeon and difficulty, once (owner decision 2026-10-26: 4×300 = 1200).
+ dungeonFirstClear:{NORMAL:50,HARD:50,NIGHTMARE:50,MYTHIC:150} as Record<string,number>,
  // Levels earned before the wallet existed are not paid out unless AOC_PREMIUM_RETRO_LEVELS=true.
  retroLevels:()=>process.env.AOC_PREMIUM_RETRO_LEVELS==='true',
 });
-export type EarnKind='LEVEL'|'GUILD'|'GUILD_TEAM';
+export type EarnKind='LEVEL'|'GUILD'|'GUILD_TEAM'|'DUNGEON';
 export interface Wallet {earned:number;paid:number;total:number}
 export function levelReward(level:number):number{return level<2||level>100?0:level<=20?20:level<=50?40:60;}
 /** Monday of the week in Asia/Yekaterinburg (UTC+5, no DST), the same calendar as the guild board. */
@@ -59,6 +61,16 @@ export async function earnGuild(tx:Prisma.TransactionClient,user:string,kind:'GU
  if(!await post(tx,user,kind,ref,amount,0,w))return 0;
  await tx.$executeRaw`UPDATE premium_wallets SET guild_week=${week},guild_week_earned=${used+amount} WHERE user_id=${user}::uuid`;
  return amount;
+}
+const dungeonCode=/^[a-z0-9_]{3,32}$/;
+/** The only reference a dungeon clear may carry, so one player is paid once per dungeon and difficulty whatever the game server sends. */
+export function dungeonRef(dungeon:string,difficulty:string):string{return `dungeon:${dungeon}:${difficulty.toLowerCase()}`;}
+export function validDungeon(dungeon:unknown,difficulty:unknown):boolean{return typeof dungeon==='string'&&dungeonCode.test(dungeon)&&typeof difficulty==='string'&&Object.hasOwn(CRYSTALS.dungeonFirstClear,difficulty);}
+/** First clear of a dungeon difficulty: a fixed amount by difficulty, outside the weekly guild cap; a repeat posts nothing. */
+export async function earnDungeon(tx:Prisma.TransactionClient,user:string,dungeon:string,difficulty:string):Promise<number>{
+ if(!validDungeon(dungeon,difficulty))throw new ForbiddenException('Invalid dungeon');
+ const amount=CRYSTALS.dungeonFirstClear[difficulty]!;const w=await lockWallet(tx,user);
+ return await post(tx,user,'DUNGEON',dungeonRef(dungeon,difficulty),amount,0,w)?amount:0;
 }
 /** Spends earned crystals first, then paid. Used by the gacha in the same transaction as the roll. */
 export async function spend(tx:Prisma.TransactionClient,user:string,amount:number,kind:'ROLL',ref:string):Promise<{earned:number;paid:number}>{

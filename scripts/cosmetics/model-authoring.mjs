@@ -44,7 +44,9 @@ export function turn(polygons,angle,axis=1,pivot=[0,0,0]){
  return polygons.map(p=>({...p,points:p.points.map(point=>{let[x,y,z]=point.map((n,i)=>n-pivot[i]);if(axis===0)[y,z]=[y*c-z*s,y*s+z*c];if(axis===1)[x,z]=[x*c+z*s,-x*s+z*c];if(axis===2)[x,y]=[x*c-y*s,x*s+y*c];return[x+pivot[0],y+pivot[1],z+pivot[2]];})}));
 }
 export const RIFT_PALETTE=[[30,23,45],[83,62,110],[100,42,160],[185,65,239],[215,181,244],[74,206,242],[188,140,71],[111,124,145]];
-export function writeProject({code,slug,name,anchor='head_top',meshes,parts={static:[0,0,0]},emissive=[3,5],palette=RIFT_PALETTE}){
+/** paint(tile,x,y) may return [r,g,b] to replace the default noisy tile colour; a polygon with uv (0..1 inside its tile)
+ * keeps that mapping instead of the projected one, so a tile can hold a gradient along a whole feather. */
+export function writeProject({code,slug,name,anchor='head_top',meshes,parts={static:[0,0,0]},emissive=[3,5],palette=RIFT_PALETTE,paint=null}){
  const selected=process.argv.find(argument=>argument.startsWith('--only='))?.slice(7);
  if(selected&&selected!==slug)return {code,skipped:true};
  const dir='minecraft/cosmetics/'+slug,project=dir+'/'+slug+'.bbmodel';
@@ -52,7 +54,7 @@ export function writeProject({code,slug,name,anchor='head_top',meshes,parts={sta
  fs.mkdirSync(dir,{recursive:true});
  const uuid=n=>{const h=createHash('sha256').update(code+'/'+n).digest('hex');return h.slice(0,8)+'-'+h.slice(8,12)+'-4'+h.slice(13,16)+'-8'+h.slice(17,20)+'-'+h.slice(20,32);};
  const png=new PNG({width:128,height:128});
- for(let t=0;t<8;t++)for(let y=0;y<32;y++)for(let x=0;x<32;x++){const offset=((Math.floor(t/4)*32+y)*128+t%4*32+x)*4,noise=(x*17+y*31+t*11)%11-5,edge=x===0||y===0?16:x===31||y===31?-14:0;for(let c=0;c<3;c++)png.data[offset+c]=Math.max(0,Math.min(255,palette[t][c]+noise+edge+Math.round((1-y/31)*(t===3||t===5?25:10))));png.data[offset+3]=255;}
+ for(let t=0;t<8;t++)for(let y=0;y<32;y++)for(let x=0;x<32;x++){const offset=((Math.floor(t/4)*32+y)*128+t%4*32+x)*4,noise=(x*17+y*31+t*11)%11-5,edge=x===0||y===0?16:x===31||y===31?-14:0;const painted=paint?.(t,x,y);if(painted){for(let c=0;c<3;c++)png.data[offset+c]=Math.max(0,Math.min(255,Math.round(painted[c])));png.data[offset+3]=255;continue;}for(let c=0;c<3;c++)png.data[offset+c]=Math.max(0,Math.min(255,palette[t][c]+noise+edge+Math.round((1-y/31)*(t===3||t===5?25:10))));png.data[offset+3]=255;}
  const texture=PNG.sync.write(png);fs.writeFileSync(dir+'/'+slug+'.png',texture);
  const elements=[],children=[],groupId=uuid('root');
  function addMesh(label,polygons,exported=true){
@@ -62,7 +64,7 @@ export function writeProject({code,slug,name,anchor='head_top',meshes,parts={sta
    const p=polygon.points,a=p[0],ab=p[1].map((v,i)=>v-a[i]),ac=p[2].map((v,i)=>v-a[i]),normal=[ab[1]*ac[2]-ab[2]*ac[1],ab[2]*ac[0]-ab[0]*ac[2],ab[0]*ac[1]-ab[1]*ac[0]];
    assert.ok(Math.hypot(...normal)>1e-7,'Degenerate '+label);
    const axis=normal.map(Math.abs).indexOf(Math.max(...normal.map(Math.abs))),axes=axis===0?[2,1]:axis===1?[0,2]:[0,1],min=axes.map(k=>Math.min(...p.map(v=>v[k]))),max=axes.map(k=>Math.max(...p.map(v=>v[k]))),uv={};
-   keys.forEach((key,i)=>{uv[key]=axes.map((k,j)=>(j===0?polygon.tile%4:Math.floor(polygon.tile/4))*32+1+(p[i][k]-min[j])/Math.max(.001,max[j]-min[j])*30);});
+   keys.forEach((key,i)=>{uv[key]=polygon.uv?polygon.uv[i].map((value,j)=>(j===0?polygon.tile%4:Math.floor(polygon.tile/4))*32+1+value*30):axes.map((k,j)=>(j===0?polygon.tile%4:Math.floor(polygon.tile/4))*32+1+(p[i][k]-min[j])/Math.max(.001,max[j]-min[j])*30);});
    faces['f'+Object.keys(faces).length]={vertices:keys,uv,texture:0};
   }
   const element={name:label,type:'mesh',uuid:uuid(label),origin:[0,0,0],rotation:[0,0,0],vertices,faces,visibility:true,export:exported,color:5};elements.push(element);return element.uuid;

@@ -49,7 +49,9 @@ const out=path.join(base,'video');mkdirSync(out,{recursive:true});
 const video=path.join(out,`gacha-${Date.now()}.mp4`);
 // --play starts the same client without the probe, for trying the summon tab by hand.
 const play=process.argv.includes('--play');
-const args=[...play?[]:['-Danimeoncraft.gachaVideoProbe=true','-Danimeoncraft.gachaVideoFfmpeg='+ffmpeg,'-Danimeoncraft.gachaVideoOutput='+video],...runtime.args.map(a=>{
+// --showcase records the wings and summon emotes instead of the summon tab.
+const showcase=process.argv.includes('--showcase');
+const args=[...play?[]:['-Danimeoncraft.gachaVideoProbe=true','-Danimeoncraft.gachaVideoFfmpeg='+ffmpeg,'-Danimeoncraft.gachaVideoOutput='+video],...showcase?['-Danimeoncraft.gachaVideoShowcase=true']:[],...runtime.args.map(a=>{
  if(a===remote)return '127.0.0.1:25565';if(a===publicClient)return client;if(a.startsWith(publicClient+'\\'))return client+a.slice(publicClient.length);
  return a.replaceAll('%AOC_NAME%',name).replaceAll('%AOC_UUID%',uuid).replaceAll('%AOC_RAM%','6144').replaceAll('%AOC_WIDTH%','1600').replaceAll('%AOC_HEIGHT%','900');})];
 const child=spawn(runtime.java,args,{cwd:client,windowsHide:false,env:{...process.env,AOC_GAME_BRIDGE_PORT:String(bridge.address().port),AOC_GAME_BRIDGE_KEY:key,AOC_GAME_TARGET_PORT:'25565',AOC_GAME_TARGET_HOST:'127.0.0.1'}});

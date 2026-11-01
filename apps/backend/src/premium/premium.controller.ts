@@ -4,13 +4,13 @@ import {InfrastructureModule} from '../infrastructure/infrastructure.module.js';
 import {RateLimitStoreService} from '../infrastructure/rate-limit-store.service.js';
 import {AuthService} from '../modules/auth/auth.service.js';
 import {GameTicketService} from '../modules/auth/game-ticket.service.js';
-import {CRYSTALS,GIFT_MAX,earnGuild,earnLevels,grantAll,readWallet,validRef} from './crystals.js';
+import {CRYSTALS,GIFT_MAX,dungeonRef,earnDungeon,earnGuild,earnLevels,grantAll,readWallet,validDungeon,validRef} from './crystals.js';
 import {gachaState,roll,secureRng,validCount,type Source} from './gacha.js';
 
-type Action='READ'|'LEVEL'|'GUILD'|'GUILD_TEAM';
-interface Input {server_id:string;connection_id:string;minecraft_uuid:string;action:Action;level?:number;rank?:string;ref?:string}
+type Action='READ'|'LEVEL'|'GUILD'|'GUILD_TEAM'|'DUNGEON';
+interface Input {server_id:string;connection_id:string;minecraft_uuid:string;action:Action;level?:number;rank?:string;ref?:string;dungeon?:string;difficulty?:string}
 const uuid=/^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/;
-const fields:Record<Action,string[]>={READ:[],LEVEL:['level'],GUILD:['rank','ref'],GUILD_TEAM:['rank','ref']};
+const fields:Record<Action,string[]>={READ:[],LEVEL:['level'],GUILD:['rank','ref'],GUILD_TEAM:['rank','ref'],DUNGEON:['dungeon','difficulty','ref']};
 /** The game server reports what happened; the amount is always decided by the backend. */
 export function premiumInput(body:unknown,server:string):Input {
  if(!body||typeof body!=='object'||Array.isArray(body))throw new HttpException('Invalid crystal input',400);
@@ -21,6 +21,7 @@ export function premiumInput(body:unknown,server:string):Input {
  if(Object.keys(value).some(key=>!allowed.includes(key))||fields[value.action].some(key=>!(key in value)))throw new HttpException('Unexpected crystal fields',400);
  if(value.action==='LEVEL'&&(!Number.isInteger(value.level)||value.level!<1||value.level!>100))throw new HttpException('Invalid level',400);
  if((value.action==='GUILD'||value.action==='GUILD_TEAM')&&(typeof value.rank!=='string'||!(value.rank in CRYSTALS.guildQuest)||!validRef(value.ref)||!value.ref.startsWith('guild:')))throw new HttpException('Invalid guild reward',400);
+ if(value.action==='DUNGEON'&&(!validDungeon(value.dungeon,value.difficulty)||value.ref!==dungeonRef(value.dungeon!,value.difficulty!)))throw new HttpException('Invalid dungeon reward',400);
  return value;
 }
 @Controller('integration/v1/premium')
@@ -36,6 +37,7 @@ export class GamePremiumController {
    const user=await this.tickets.admittedPlayer(tx,server,input);
    let granted=0;
    if(input.action==='LEVEL')granted=await earnLevels(tx,user,input.level!);
+   else if(input.action==='DUNGEON')granted=await earnDungeon(tx,user,input.dungeon!,input.difficulty!);
    else if(input.action!=='READ')granted=await earnGuild(tx,user,input.action,input.rank!,input.ref!);
    return {granted,wallet:await readWallet(tx,user)};
   });

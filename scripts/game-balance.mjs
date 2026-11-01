@@ -13,8 +13,8 @@ const quests=JSON.parse(readFileSync(path.join(root,'minecraft/server/quest-asse
 export function patchToml(source,sections){
   const lines=source.replaceAll('\r\n','\n').split('\n');
   for(const [section,values] of Object.entries(sections)){
-    let start=lines.findIndex(line=>line.trim()===`[${section}]`);
-    if(start<0){lines.push('',`[${section}]`);start=lines.length-1;}
+    let start=section===''?-1:lines.findIndex(line=>line.trim()===`[${section}]`);
+    if(section!==''&&start<0){lines.push('',`[${section}]`);start=lines.length-1;}
     let end=lines.findIndex((line,index)=>index>start&&line.trim().startsWith('['));
     if(end<0)end=lines.length;
     for(const [key,value] of Object.entries(values)){

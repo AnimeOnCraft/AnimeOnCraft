@@ -29,6 +29,7 @@ final class GachaVideoProbe {
         if (mc.player == null || mc.getConnection() == null || !ClientGacha.supported()) return;
         if (start < 0) { start = ticks; System.out.println("AOC_GACHA_VIDEO_JOINED"); }
         int t = ticks - start;
+        if (Boolean.getBoolean("animeoncraft.gachaVideoShowcase")) { showcase(mc, t); return; }
         if (step == 0 && t >= 80) { step++; record(mc); mc.player.connection.sendCommand("aoccrystals giveall 5000"); }
         else if (step == 1 && t >= 160) { step++; mc.setScreen(new ServerMenuScreen()); }
         else if (step == 2 && t >= 240) { step++; open(mc); }
@@ -49,6 +50,25 @@ final class GachaVideoProbe {
         // Each reveal stays on screen for two seconds after the last card, then the probe presses on, as a player would.
         if (mc.screen instanceof ServerMenuScreen s && s.revealShownFor(2)) s.advanceReveal();
         if (step >= 3 && step <= 9 && !(mc.screen instanceof ServerMenuScreen)) open(mc);
+    }
+
+    /** -Danimeoncraft.gachaVideoShowcase: daylight, the wings from behind, the side and the front, then every banner emote. */
+    private static final String[][] EMOTES = {{"HANAMI", "160"}, {"VICTORY_V", "110"}, {"NINJA_HOP", "95"}, {"BOW_DUEL", "170"}, {"PETAL_STORM", "210"}};
+    private void showcase(Minecraft mc, int t) {
+        if (step == 0 && t >= 60) { step++; mc.player.connection.sendCommand("time set 6000"); mc.player.connection.sendCommand("weather clear"); ClientGacha.read(); ClientEmotes.read(); }
+        else if (step == 1 && t >= 100) { step++; ClientGacha.wear("SAKURA_WINGS", true); mc.options.setCameraType(CameraType.THIRD_PERSON_BACK); mc.options.hideGui = true; }
+        else if (step == 2 && t >= 130) { step++; ClientGacha.wear("SAKURA_CHILD", true); record(mc); }
+        // Slow turn so the wings are seen from behind and from the side, then a short walk to show the flapping.
+        if (step == 3 && t < 330) mc.player.setYRot(mc.player.getYRot() + .9f);
+        if (step == 3 && t >= 330) { step++; mc.options.keyUp.setDown(true); }
+        if (step == 4 && t >= 380) { step++; var title = ClientBetaPass.title(mc.player.getUUID()); System.out.println("AOC_GACHA_VIDEO_TITLE " + (title == null ? "none" : title.getString())); mc.options.keyUp.setDown(false); mc.options.setCameraType(CameraType.THIRD_PERSON_FRONT); }
+        int at = 470;
+        for (int i = 0; i < EMOTES.length; i++) {
+            if (step == 5 + i && t >= at) { step++; ClientEmotes.choose(EMOTES[i][0]); System.out.println("AOC_GACHA_VIDEO_EMOTE " + EMOTES[i][0]); }
+            at += Integer.parseInt(EMOTES[i][1]);
+        }
+        if (step == 5 + EMOTES.length && t >= at) { step++; mc.options.setCameraType(CameraType.FIRST_PERSON); mc.options.hideGui = false; finish(); System.out.println("AOC_GACHA_VIDEO_DONE"); }
+        else if (step == 6 + EMOTES.length && t >= at + 40) { step++; mc.stop(); }
     }
 
     private static void open(Minecraft mc) { var s = new ServerMenuScreen(); s.show(ServerMenuLogic.Page.SUMMON, 0); mc.setScreen(s); ClientGacha.read(); }

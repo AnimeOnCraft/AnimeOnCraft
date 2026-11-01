@@ -78,7 +78,8 @@ export function AccountPanel({area='profile'}:{area?:AccountArea}){
 
 function ProfileView({account,busy,setBusy,onboarding,gameRevision,onNameChosen,onGameChanged,onAuthError}:{account:AccountSnapshot;busy:boolean;setBusy:(v:boolean)=>void;onboarding:boolean;gameRevision:number;onNameChosen:()=>void;onGameChanged:()=>void;onAuthError:()=>void}){
  const profile=account.profile!,temporary=profile.password_change_required;
- const [tab,setTab]=useState<'skin'|'cape'|'crystals'>('skin');
+ const [tab,setTab]=useState<'skin'|'cape'|'crystals'>(()=>window.location.hash==='#profile/crystals'?'crystals':'skin');
+ useEffect(()=>{const open=()=>{if(window.location.hash==='#profile/crystals')setTab('crystals');};window.addEventListener('hashchange',open);return()=>window.removeEventListener('hashchange',open);},[]);
  const [clan,setClan]=useState<OwnClan|null>(null);
  const skin=useSkinEditor(setBusy);
  useEffect(()=>{if(temporary)return;let active=true;void playerRead<OwnClan>('clan').then(value=>{if(active)setClan(value);}).catch(()=>{});return()=>{active=false;};},[temporary,gameRevision]);

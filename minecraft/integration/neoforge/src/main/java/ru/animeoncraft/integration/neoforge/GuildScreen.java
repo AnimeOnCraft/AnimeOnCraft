@@ -147,7 +147,7 @@ final class GuildScreen extends Screen {
         text(g, a.name() + " · " + (a.max() == 0 ? "открывает ранг " + rank(d.rank() + 1) : GuildRules.money(a.min())), 140, 537, 13, 0xfff7efff);
         int bw = 380, done = Math.min(a.count(), d.progress());
         g.fill(140, 560, 140 + bw, 572, 0xff2a2036); g.fill(140, 560, 140 + bw * done / Math.max(1, a.count()), 572, done >= a.count() ? 0xff7bea8a : 0xffffd27a);
-        text(g, (a.kill() ? "Убито " : "В инвентаре ") + done + " / " + a.count(), 532, 561, 11, 0xfff2e8ff);
+        text(g, (dungeon(a) ? "Пройдено " : a.kill() ? "Убито " : "В инвентаре ") + done + " / " + a.count(), 532, 561, 11, 0xfff2e8ff);
         button(g, 723, 540, 145, 34, "Сдать", () -> ClientGuild.request("TURN_IN", 0, 0), done >= a.count());
         button(g, 881, 540, 149, 34, "Отказаться", () -> ClientGuild.request("ABANDON", 0, 0), false);
     }
@@ -180,10 +180,12 @@ final class GuildScreen extends Screen {
             int bw = 300, done = Math.min(ta.count(), d.teamProgress());
             text(g, ta.name() + " · ~" + GuildRules.money(ta.min()), 450, y + 50, 11, 0xffffd27a);
             g.fill(450, y + 70, 450 + bw, y + 80, 0xff2a2036); g.fill(450, y + 70, 450 + bw * done / Math.max(1, ta.count()), y + 80, done >= ta.count() ? 0xff7bea8a : 0xffffd27a);
-            text(g, "Убито " + done + " / " + ta.count(), 760, y + 70, 11, 0xfff2e8ff);
+            text(g, (dungeon(ta) ? "Пройдено " : "Убито ") + done + " / " + ta.count(), 760, y + 70, 11, 0xfff2e8ff);
             if (d.leader()) button(g, 905, y + 52, 125, 30, "Отменить", () -> ClientGuild.request("TEAM_ABANDON", tab, 0), false);
         } else text(g, "/aocparty invite <ник> — позвать · /aocparty leave — выйти · 2–4 игрока из любых кланов", 450, y + 58, 10, 0xffb9a6d0);
     }
+    /** Rift Gate quests carry the Rift Essence icon; their progress counts clears. */
+    private static boolean dungeon(GuildPayloads.Quest q) { return q.icon().equals("animeoncraft:rift_essence"); }
     private static void item(GuiGraphics g, String id, int x, int y, float size) {
         var rl = ResourceLocation.tryParse(id); if (rl == null) return;
         g.pose().pushPose(); g.pose().translate(x, y, 0); g.pose().scale(size, size, 1); g.renderItem(new ItemStack(BuiltInRegistries.ITEM.get(rl)), 0, 0); g.pose().popPose();

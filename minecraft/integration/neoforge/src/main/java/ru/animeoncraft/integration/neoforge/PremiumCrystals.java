@@ -18,8 +18,10 @@ final class PremiumCrystals {
  private PremiumCrystals(){}
  static void level(ServerPlayer p,int level){if(!GameIdentity.PLAYERS.containsKey(p.getUUID())||levels.getOrDefault(p.getUUID(),0)>=level)return;levels.put(p.getUUID(),level);var b=new JsonObject();b.addProperty("action","LEVEL");b.addProperty("level",level);enqueue(p,b);}
  static void guild(ServerPlayer p,boolean team,GuildRules.Rank rank,String ref){if(!GameIdentity.PLAYERS.containsKey(p.getUUID()))return;var b=new JsonObject();b.addProperty("action",team?"GUILD_TEAM":"GUILD");b.addProperty("rank",rank.name());b.addProperty("ref",ref.replaceAll("[^A-Za-z0-9_.:-]","_"));enqueue(p,b);}
+ /** First clear of a dungeon difficulty: the backend pays it once per player (ref dungeon:code:difficulty), so every clear may report. */
+ static void dungeon(ServerPlayer p,String dungeon,String difficulty){if(!GameIdentity.PLAYERS.containsKey(p.getUUID()))return;var b=new JsonObject();b.addProperty("action","DUNGEON");b.addProperty("dungeon",dungeon);b.addProperty("difficulty",difficulty);b.addProperty("ref",DungeonRules.crystalRef(dungeon,difficulty));enqueue(p,b);}
  static int profileLevel(ServerPlayer p,ProfileProgression.Metrics metrics){return ProfileProgression.level(ProfileProgression.xp(metrics,PlayerProfileStore.get(p.server).player(p.getUUID()).unlocked));}
- private static void retry(Report r){if(r.attempts()>=8||!r.body().get("action").getAsString().startsWith("GUILD")&&r.attempts()>=3)return;synchronized(queue){queue.add(new Report(r.player(),r.body(),r.attempts()+1,System.currentTimeMillis()+60_000L*(r.attempts()+1)));}}
+ private static void retry(Report r){if(r.attempts()>=8||!r.body().get("action").getAsString().startsWith("GUILD")&&!r.body().get("action").getAsString().equals("DUNGEON")&&r.attempts()>=3)return;synchronized(queue){queue.add(new Report(r.player(),r.body(),r.attempts()+1,System.currentTimeMillis()+60_000L*(r.attempts()+1)));}}
  private static void enqueue(ServerPlayer p,JsonObject body){synchronized(queue){if(queue.size()<500)queue.add(new Report(p.getUUID(),body,0,0));}}
  static void tick(ServerTickEvent.Post event){
   var server=event.getServer();if(server.getTickCount()%10!=0||inFlight)return;Report next=null;long now=System.currentTimeMillis();

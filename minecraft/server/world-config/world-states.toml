@@ -432,7 +432,7 @@ kind = "MARKET"
 clan = "VORIX"
 pvp = "OFF"
 build = "MEMBERS"
-polygon = [[129, -18], [157, -18], [157, 18], [129, 18]]
+polygon = [[-157, -18], [-129, -18], [-129, 18], [-157, 18]]
 
 [[points]]
 code = "core.capital"

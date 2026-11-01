@@ -55,7 +55,7 @@ class GuildRulesTest {
     @Test void shippedCatalogParsesWithEnoughQuestsPerRank() throws Exception {
         var skipped = new ArrayList<String>(); var c = GuildCatalog.load(Path.of("does-not-exist"), q -> true, skipped);
         assertTrue(skipped.isEmpty()); assertTrue(c.rank(F).size() >= 10); assertTrue(c.rank(E).size() >= 10); assertTrue(c.rank(D).size() >= 10); assertTrue(c.rank(C).size() >= 10); assertTrue(c.rank(B).isEmpty(), "B board waits for team quests");
-        for (var r : List.of(B, A, S)) { assertTrue(c.team(r).size() >= 4, r + " team pool"); for (var t : c.team(r)) { assertEquals(GuildRules.partyMin(r), t.party()); assertEquals(GuildCatalog.Kind.KILL, t.kind()); } }
+        for (var r : List.of(B, A, S)) { assertTrue(c.team(r).size() >= 4, r + " team pool"); for (var t : c.team(r)) { assertEquals(GuildRules.partyMin(r), t.party()); assertNotEquals(GuildCatalog.Kind.ITEM, t.kind(), "team quests are kills or a dungeon clear"); } }
         assertThrows(IllegalArgumentException.class, () -> new GuildCatalog.Quest("bad_team", D, GuildCatalog.Kind.KILL, "minecraft:zombie", 1, "a", "b", 1, 2, false, 2, false), "team quests start at B");
         assertTrue(c.exams().size() >= 3); for (var e : c.exams()) { assertEquals(B, e.rank()); assertEquals(0, e.max()); assertEquals(e, c.find(e.code())); }
         for (var q : c.quests()) { assertTrue(q.max() <= c.economy().caps()[q.rank().ordinal()] / 3, q.code() + " reward too big for the daily cap"); assertNotNull(c.find(q.code())); }

@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "name": "AnimeOnCraft Friends",
-  "pack_version": "0.8.13-admin-ecology",
+  "pack_version": "0.8.17-gravestone",
   "status": "release-candidate",
-  "checked_on": "2026-10-24",
+  "checked_on": "2026-11-01",
   "client_map_defaults": {
     "revision": "surface-caves-v2"
   },
@@ -4285,6 +4285,60 @@
           "mod_id": "minecraft",
           "type": "required",
           "version_range": "[1.21.1]",
+          "side": "BOTH"
+        }
+      ]
+    },
+    {
+      "slug": "gravestone-mod",
+      "mod_id": "gravestone",
+      "title": "GraveStone Mod",
+      "project_id": "RYtXKJPr",
+      "version_id": "rMGJpjaM",
+      "version": "1.21.1-1.0.40",
+      "release_type": "release",
+      "purpose": "Сохранение вещей после смерти в персональной могиле; возврат приседанием",
+      "install_sides": [
+        "client",
+        "server"
+      ],
+      "requires": [],
+      "upstream_sides": {
+        "client": "required",
+        "server": "required"
+      },
+      "license": {
+        "id": "LicenseRef-All-Rights-Reserved",
+        "name": "",
+        "url": null
+      },
+      "project_url": "https://www.curseforge.com/minecraft/mc-mods/gravestone-mod",
+      "version_url": "https://modrinth.com/mod/gravestone-mod/version/rMGJpjaM",
+      "metadata_url": "https://api.modrinth.com/v2/version/rMGJpjaM",
+      "file": {
+        "name": "gravestone-neoforge-1.21.1-1.0.40.jar",
+        "url": "https://cdn.modrinth.com/data/RYtXKJPr/versions/rMGJpjaM/gravestone-neoforge-1.21.1-1.0.40.jar",
+        "size": 322082,
+        "sha512": "5504a222d4085da1898ff6d4dff8eb1821fd14a8caaaac785554277147f984262e63925a411db3f1a34e9c7874652fb6737176bea4c0c3f01243f5eae4ea6eaa",
+        "sha1": "97230b93af34ac6581ed36b0cc98f6b16b06c04e"
+      },
+      "manifest_constraints": [
+        {
+          "mod_id": "neoforge",
+          "type": "required",
+          "version_range": "[21.0.0-beta,)",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "minecraft",
+          "type": "required",
+          "version_range": "[1.21,1.21.1]",
+          "side": "BOTH"
+        },
+        {
+          "mod_id": "jade",
+          "type": "optional",
+          "version_range": "*",
           "side": "BOTH"
         }
       ]

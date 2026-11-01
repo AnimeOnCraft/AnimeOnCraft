@@ -51,13 +51,13 @@ class AddedClanTest {
     @Test void layoutGuardsVorixObjectsAndKeepsSoraFiveGates() throws Exception {
         var layout = WorldLayout.load(WorldLayoutTest.LAYOUT);
         assertEquals(Set.of("region.vorix.capital", "ring.outpost.vorix", "road.vorix.main"),
-            layout.guarded().stream().filter(code -> !code.startsWith("mine.") && !code.startsWith("decor.")).collect(java.util.stream.Collectors.toSet()));
+            layout.guarded().stream().filter(code -> !code.startsWith("mine.") && !code.startsWith("decor.") && !code.equals(RiftGate.CODE)).collect(java.util.stream.Collectors.toSet()));
         assertEquals("VORIX", layout.pois().get("region.vorix.capital").palette());
         assertEquals("CLAN_CAPITAL", layout.pois().get("region.vorix.capital").type());
         assertFalse(layout.roads().containsKey("road.main.vorix"), "road.main.* would open a sixth gate in Sora");
         var ring = SoraRing.of(layout, layout.pois().get("core.capital.expansion"));
         assertEquals(5, ring.bearings.size());
-        for (int x = 129; x < 157; x++) for (int z = -18; z < 18; z++) assertEquals(SoraRing.Cell.LAWN, ring.cell(x, z), "market " + x + "," + z);
+        for (int x = -157; x < -129; x++) for (int z = -18; z < 18; z++) assertEquals(SoraRing.Cell.LAWN, ring.cell(x, z), "market " + x + "," + z);
     }
 
     @Test void vorixIsShownWithItsOwnSpelling() {

@@ -39,7 +39,24 @@ public final class ClientEmotes {
         if(packet.code().isEmpty()){playing.remove(packet.player());if(self)restoreCamera();}
         else {playing.put(packet.player(),new Playing(packet.code(),System.nanoTime()-packet.elapsed()*50_000_000L));if(self&&!was&&mc.options.getCameraType()==CameraType.FIRST_PERSON){previousCamera=CameraType.FIRST_PERSON;mc.options.setCameraType(CameraType.THIRD_PERSON_BACK);}}
     });}
-    static void tick(){var mc=Minecraft.getInstance();if(mc.player==null)return;long now=System.nanoTime();playing.entrySet().removeIf(e->(now-e.getValue().started())/50_000_000L>=Emotes.find(e.getValue().code()).ticks()||!e.getKey().equals(mc.player.getUUID())&&mc.level.getPlayerByUUID(e.getKey())==null);if(!playing.containsKey(mc.player.getUUID()))restoreCamera();}
+    static void tick(){var mc=Minecraft.getInstance();if(mc.player==null)return;long now=System.nanoTime();playing.entrySet().removeIf(e->(now-e.getValue().started())/50_000_000L>=Emotes.find(e.getValue().code()).ticks()||!e.getKey().equals(mc.player.getUUID())&&mc.level.getPlayerByUUID(e.getKey())==null);if(!playing.containsKey(mc.player.getUUID()))restoreCamera();petals(mc,now);}
+    /** Sakura emotes scatter a few vanilla cherry-leaf particles; nothing beyond 32 blocks or with minimal particles. */
+    private static void petals(Minecraft mc,long now){
+        if(mc.level==null||mc.options.particles().get()==net.minecraft.client.ParticleStatus.MINIMAL)return;
+        var camera=mc.gameRenderer.getMainCamera().getPosition();var random=mc.level.random;
+        for(var e:playing.entrySet()){
+            String code=e.getValue().code();if(!code.equals("PETAL_STORM")&&!code.equals("HANAMI")&&!code.equals("VICTORY_V"))continue;
+            var p=mc.level.getPlayerByUUID(e.getKey());if(p==null||p.isInvisible()||p.distanceToSqr(camera)>32*32)continue;
+            long t=(now-e.getValue().started())/50_000_000L;
+            switch(code){
+                case "PETAL_STORM"->{if(t<20)break;for(int i=0;i<3;i++){double a=t*.35+i*2.094,r=1.1+.15*Math.sin(t*.2+i),h=(t*.06+i*.7)%2.6;
+                    mc.level.addParticle(net.minecraft.core.particles.ParticleTypes.CHERRY_LEAVES,p.getX()+Math.cos(a)*r,p.getY()+.2+h,p.getZ()+Math.sin(a)*r,0,0,0);}
+                    if(t==20)for(int i=0;i<16;i++){double a=i*Math.PI/8;mc.level.addParticle(net.minecraft.core.particles.ParticleTypes.CHERRY_LEAVES,p.getX()+Math.cos(a)*.6,p.getY()+1.2,p.getZ()+Math.sin(a)*.6,0,0,0);}}
+                case "HANAMI"->{if(t%6==0)mc.level.addParticle(net.minecraft.core.particles.ParticleTypes.CHERRY_LEAVES,p.getX()+(random.nextDouble()-.5)*3,p.getY()+2.4+random.nextDouble()*.6,p.getZ()+(random.nextDouble()-.5)*3,0,0,0);}
+                default->{if(t==6)for(int i=0;i<5;i++)mc.level.addParticle(net.minecraft.core.particles.ParticleTypes.CHERRY_LEAVES,p.getX()+(random.nextDouble()-.5),p.getY()+2.1,p.getZ()+(random.nextDouble()-.5),0,0,0);}
+            }
+        }
+    }
     private static void restoreCamera(){var mc=Minecraft.getInstance();if(previousCamera!=null){if(mc.options.getCameraType()==CameraType.THIRD_PERSON_BACK)mc.options.setCameraType(previousCamera);previousCamera=null;}}
     static void logout(net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent.LoggingOut e){playing.clear();entityDraws.clear();draws.clear();inventory=null;requested=0;invitation=null;previewCode="";ClientEmoteFavorites.logout();restoreCamera();}
     public static void reset(PlayerModel<?> model){var lift=lifts.remove(model);if(lift!=null)for(var part:List.of(model.head,model.body,model.rightArm,model.leftArm,model.rightLeg,model.leftLeg))part.y-=lift;}

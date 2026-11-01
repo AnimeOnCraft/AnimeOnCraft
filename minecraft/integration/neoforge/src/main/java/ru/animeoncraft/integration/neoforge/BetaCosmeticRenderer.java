@@ -26,18 +26,21 @@ final class BetaCosmeticRenderer {
             var worn = ClientBetaPass.equipped(player.getUUID());
             if (worn.isEmpty()) return;
             float time = player.tickCount + partial, movement = Math.min(1, player.walkAnimation.speed(partial));
+            // Far players get no glow pass and, further still, no accessories: a crowd at spawn stays cheap.
+            double distance = mc.gameRenderer.getMainCamera().getPosition().distanceToSqr(player.getX(), player.getY(), player.getZ());
+            if (distance > DetailedCosmetics.HIDE) return;
             pose.pushPose(); getParentModel().head.translateAndRotate(pose);
             for (String slot : new String[]{"HEAD", "FACE"}) {
                 String code = worn.get(slot);
-                if (code != null) DetailedCosmetics.draw(code, pose, buffers, light, time, movement, player.isCrouching());
+                if (code != null) DetailedCosmetics.draw(code, pose, buffers, light, time, movement, player.isCrouching(), distance);
             }
             pose.popPose();
             pose.pushPose(); getParentModel().body.translateAndRotate(pose);
             String belt = worn.get("BELT");
-            if (belt != null) DetailedCosmetics.draw(belt, pose, buffers, light, time, movement, player.isCrouching());
+            if (belt != null) DetailedCosmetics.draw(belt, pose, buffers, light, time, movement, player.isCrouching(), distance);
             String back = worn.get("BACK");
             if (back != null && !player.getItemBySlot(net.minecraft.world.entity.EquipmentSlot.CHEST).is(Items.ELYTRA) &&
-                    DetailedCosmetics.draw(back, pose, buffers, light, time, movement, player.isCrouching()) &&
+                    DetailedCosmetics.draw(back, pose, buffers, light, time, movement, player.isCrouching(), distance) &&
                     back.equals("RIFT_MANTLE")) mantleDraws++;
             pose.popPose();
         }

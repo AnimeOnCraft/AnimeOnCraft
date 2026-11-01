@@ -1,10 +1,11 @@
 import {face,box,bevelBox,prism,gem,turn,writeProject} from './cosmetics/model-authoring.mjs';
+import {rightWing,driftPetals,ROOT_PIVOT} from './cosmetics/sakura-wings-geometry.mjs';
 // Gacha banner SAKURA_RIFT v1: editable starting projects for the four accessories. Same rules as the beta set:
 // never overwrites an edited project without --regenerate, run export-beta-cosmetics.mjs afterwards.
 const results=[];
 // 0 plum wood, 1 sakura pink, 2 deep rose, 3 glowing pink, 4 petal white, 5 rift violet glow, 6 gold, 7 reference grey.
 const palette=[[58,30,48],[238,158,190],[190,62,112],[255,138,200],[252,226,236],[168,112,255],[214,172,92],[111,124,145]];
-const mirror=polys=>polys.map(p=>({...p,points:p.points.map(([x,y,z])=>[-x,y,z]).toReversed()}));
+const mirror=polys=>polys.map(p=>({...p,points:p.points.map(([x,y,z])=>[-x,y,z]).toReversed(),...(p.uv?{uv:p.uv.toReversed()}:{})}));
 const rotate2=(points,angle,[ox,oy])=>points.map(([x,y])=>[ox+x*Math.cos(angle)-y*Math.sin(angle),oy+x*Math.sin(angle)+y*Math.cos(angle)]);
 // Sakura petal along +X from its base (0,0): a rounded blade with the notched tip. Star-shaped from the base, counter-clockwise.
 function petal(length,half,detail=true){
@@ -18,20 +19,18 @@ function flower(center,length,tile=4,edge=1,core=6,depth=.12){
  return out;
 }
 
-// SAKURA_WINGS (BACK, ★5): two wings of layered sakura-petal feathers; each wing is its own animated part.
+// SAKURA_WINGS (BACK, ★5) v2: lush layered wings, see sakura-wings-geometry.mjs. Flat double-sided feathers keep
+// the whole accessory under the 512-face budget; feather tiles are painted as base-to-tip gradients.
 {
- const feathers=[[72,11],[48,14.5],[24,16],[0,13],[-24,9.5]],wing=[];
- feathers.forEach(([deg,length],i)=>{
-  const a=deg*Math.PI/180,z0=2.55+i*.2,outline=rotate2(petal(length,length*.2),a,[1.4,-3.4]);
-  wing.push(...prism(outline,z0,z0+.18,i%2?4:1,2));
-  const vein=rotate2([[.1*length,-.09],[.75*length,-.05],[.75*length,.05],[.1*length,.09]],a,[1.4,-3.4]);
-  wing.push(...prism(vein,z0-.05,z0-.01,3,3));
- });
- const right=turn(wing,-.32,1,[1.4,-3.4,2.6]),left=mirror(right);
+ const right=turn(rightWing(),-.32,1,ROOT_PIVOT),left=mirror(right);
  const root=[...bevelBox([0,-3.5,2.35],[2.8,2.6,.7],0,6,.35),...gem([0,-3.5,1.85],1.7,.6,5)];
- results.push(writeProject({code:'SAKURA_WINGS',slug:'sakura-wings',name:'Крылья Сакуры',anchor:'body',palette,
-  meshes:[{name:'static__rift_clasp',faces:root},{name:'wing_r__petal_feathers',faces:right},{name:'wing_l__petal_feathers',faces:left}],
-  parts:{static:[0,0,0],wing_r:[1.4,-3.4,2.6],wing_l:[-1.4,-3.4,2.6]}}));
+ const feathers={4:[[253,240,245],[244,160,198]],1:[[248,190,214],[226,104,156]],2:[[196,64,116],[244,140,182]]};
+ const paint=(tile,x,y)=>{const g=feathers[tile];if(!g)return null;const u=(x-1)/30,v=(y-1)/30,edge=Math.abs(v-.5)*2,
+  barbs=Math.sin((x-Math.abs(y-15.5)*1.3)*.9)*5,shaft=Math.abs(y-15.5)<1?-22:0,rim=edge>.85?-18:0;
+  return g[0].map((c,i)=>c+(g[1][i]-c)*u**1.2+barbs+shaft+rim-edge*10);};
+ results.push(writeProject({code:'SAKURA_WINGS',slug:'sakura-wings',name:'Крылья Сакуры',anchor:'body',palette,paint,
+  meshes:[{name:'static__rift_clasp',faces:root},{name:'wing_r__petal_feathers',faces:right},{name:'wing_l__petal_feathers',faces:left},{name:'drift__loose_petals',faces:driftPetals()}],
+  parts:{static:[0,0,0],wing_r:ROOT_PIVOT,wing_l:[-ROOT_PIVOT[0],ROOT_PIVOT[1],ROOT_PIVOT[2]],drift:[0,-3.4,4]}}));
 }
 // KITSUNE_SAKURA (HEAD, ★4): fox ears with rose tips on a thin band, a sakura blossom at each ear.
 {

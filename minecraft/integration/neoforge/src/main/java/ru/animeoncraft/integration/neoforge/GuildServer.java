@@ -71,11 +71,13 @@ final class GuildServer {
         }
     }
     private static boolean known(GuildCatalog.Quest q) {
+        if (q.kind() == GuildCatalog.Kind.DUNGEON) return DungeonServer.knownQuest(q.target());
         var id = ResourceLocation.tryParse(q.id()); if (id == null) return false;
         if (q.kind() == GuildCatalog.Kind.ITEM) return q.tag() ? BuiltInRegistries.ITEM.getTag(TagKey.create(Registries.ITEM, id)).map(t -> t.size() > 0).orElse(false) : BuiltInRegistries.ITEM.containsKey(id);
         return q.tag() ? BuiltInRegistries.ENTITY_TYPE.getTag(TagKey.create(Registries.ENTITY_TYPE, id)).map(t -> t.size() > 0).orElse(false) : BuiltInRegistries.ENTITY_TYPE.containsKey(id);
     }
     private static String icon(GuildCatalog.Quest q) {
+        if (q.kind() == GuildCatalog.Kind.DUNGEON) return "animeoncraft:rift_essence";
         var id = ResourceLocation.parse(q.id()); Item item = Items.IRON_SWORD;
         if (q.kind() == GuildCatalog.Kind.ITEM) item = q.tag() ? BuiltInRegistries.ITEM.getTag(TagKey.create(Registries.ITEM, id)).map(t -> t.get(0).value()).orElse(Items.CHEST) : BuiltInRegistries.ITEM.get(id);
         else {
@@ -97,7 +99,7 @@ final class GuildServer {
 
     // Coins: Lightman's Currency items of the main chain.
     private static Item coin(int index) { return BuiltInRegistries.ITEM.get(ResourceLocation.parse(GuildRules.COIN_IDS[index])); }
-    private static boolean coinsAvailable() { for (int i = 0; i < GuildRules.COINS.length; i++) if (coin(i) == Items.AIR) return false; return true; }
+    static boolean coinsAvailable() { for (int i = 0; i < GuildRules.COINS.length; i++) if (coin(i) == Items.AIR) return false; return true; }
     static void give(ServerPlayer p, long copper) {
         var counts = GuildRules.coins(copper);
         for (int i = 0; i < counts.length; i++) for (long left = counts[i]; left > 0; ) {
@@ -106,19 +108,19 @@ final class GuildServer {
         }
         p.getInventory().setChanged();
     }
-    private static long[] coinsHeld(ServerPlayer p) {
+    static long[] coinsHeld(ServerPlayer p) {
         var held = new long[GuildRules.COINS.length];
         for (var s : p.getInventory().items) for (int i = 0; i < held.length; i++) if (!s.isEmpty() && s.is(coin(i))) held[i] += s.getCount();
         return held;
     }
-    private static boolean charge(ServerPlayer p, long fee) {
+    static boolean charge(ServerPlayer p, long fee) {
         var payment = GuildRules.pay(coinsHeld(p), fee); if (payment == null) return false;
         for (int i = 0; i < payment.take().length; i++) { long left = payment.take()[i]; for (var s : p.getInventory().items) if (left > 0 && s.is(coin(i))) { int n = (int) Math.min(left, s.getCount()); s.shrink(n); left -= n; } }
         give(p, payment.change()); return true;
     }
 
     private static GuildPayloads.Quest view(GuildCatalog.Quest q, GuildRules.Rank player) {
-        return new GuildPayloads.Quest(q.code(), q.rank().ordinal(), q.kind() == GuildCatalog.Kind.KILL, icon(q), q.count(), q.name(), q.task(), q.min(), q.max(), GuildRules.xpFor(player, q.rank()), 0, false);
+        return new GuildPayloads.Quest(q.code(), q.rank().ordinal(), q.kind() != GuildCatalog.Kind.ITEM, icon(q), q.count(), q.name(), q.task(), q.min(), q.max(), GuildRules.xpFor(player, q.rank()), 0, false);
     }
     private static GuildPayloads.Quest teamView(GuildCatalog.Quest q, GuildStore.Card c, long window) {
         return new GuildPayloads.Quest(q.code(), q.rank().ordinal(), true, icon(q), q.count(), q.name(), q.task(), GuildRules.teamShare(q.min(), c.rank(), q.rank()), GuildRules.teamShare(q.max(), c.rank(), q.rank()),
@@ -138,8 +140,8 @@ final class GuildServer {
         var offers = new ArrayList<GuildPayloads.Quest>();
         if (c.opened) for (int r = 0; r <= Math.min(c.rank, GuildRules.BOARD_UP_TO.ordinal()); r++) for (var q : offers(p.server, c, r)) offers.add(view(q, c.rank()));
         var active = c.active.isEmpty() ? null : catalog(p.server).find(c.active);
-        var activeView = active == null ? null : new GuildPayloads.Quest(active.code(), active.rank().ordinal(), active.kind() == GuildCatalog.Kind.KILL, icon(active), active.count(), active.name(), active.task(), c.reward, c.reward, GuildRules.xpFor(c.rank(), active.rank()), 0, false);
-        int progress = active == null ? 0 : active.kind() == GuildCatalog.Kind.KILL ? c.progress : held(p, active);
+        var activeView = active == null ? null : new GuildPayloads.Quest(active.code(), active.rank().ordinal(), active.kind() != GuildCatalog.Kind.ITEM, icon(active), active.count(), active.name(), active.task(), c.reward, c.reward, GuildRules.xpFor(c.rank(), active.rank()), 0, false);
+        int progress = active == null ? 0 : active.kind() != GuildCatalog.Kind.ITEM ? c.progress : held(p, active);
         long window = GuildRules.window(now); var team = new ArrayList<GuildPayloads.Quest>();
         if (c.opened) for (int r = GuildRules.TEAM_FROM.ordinal(); r <= Math.min(c.rank + 1, GuildRules.Rank.S.ordinal()); r++) for (var q : teamSet(p.server, window, r)) team.add(teamView(q, c, window));
         var party = parties.of(p.getUUID()); var members = new ArrayList<String>(); GuildPayloads.Quest teamActive = null; int teamProgress = 0;
@@ -307,6 +309,7 @@ final class GuildServer {
     }
     private static void teamKill(ServerPlayer p, GuildParty.Party party, EntityType<?> type) {
         var q = catalog(p.server).find(party.active); if (q == null) { party.clear(); return; }
+        if (q.kind() != GuildCatalog.Kind.KILL) return;
         if (!target(q, type) || party.progress >= q.count()) return;
         party.progress++;
         for (var id : party.members) { var m = member(p.server, id); if (m != null) m.displayClientMessage(Component.literal(q.name() + " (команда): " + party.progress + "/" + q.count()).withColor(party.progress >= q.count() ? 0x7bea8a : 0xffd27a), true); }
@@ -317,7 +320,7 @@ final class GuildServer {
         var store = GuildStore.get(server); long now = System.currentTimeMillis();
         for (var id : List.copyOf(party.members)) {
             var m = member(server, id); var card = store.existing(id); if (m == null || card == null) continue;
-            if (q.count() == 1 && (m.level() != killer.level() || m.distanceToSqr(killer) > (double) BOSS_NEAR * BOSS_NEAR)) {
+            if (q.count() == 1 && q.kind() == GuildCatalog.Kind.KILL && (m.level() != killer.level() || m.distanceToSqr(killer) > (double) BOSS_NEAR * BOSS_NEAR)) {
                 m.sendSystemMessage(Component.literal("Команда победила босса «" + q.name() + "», но ты был дальше " + BOSS_NEAR + " блоков — награды нет.").withColor(0xffa04a));
                 System.out.println("AOC_GUILD_TEAM_FAR " + m.getGameProfile().getName() + " " + q.code()); continue;
             }
@@ -329,6 +332,29 @@ final class GuildServer {
         }
         store.setDirty(); party.clear();
         for (var id : party.members) { var m = member(server, id); if (m != null) send(m, GuildPayloads.SCREEN_NONE, ""); }
+    }
+    /**
+     * A Rift Gate dungeon was cleared by these players: their active DUNGEON quests that match advance by one, a team
+     * DUNGEON quest advances once for the team when at least its party size of members took part. Coins are paid at the board as usual.
+     */
+    static void dungeonCleared(MinecraftServer server, Collection<UUID> players, String dungeon, String difficulty, List<String> order) {
+        var store = GuildStore.get(server); var teams = new LinkedHashSet<GuildParty.Party>();
+        for (var id : players) {
+            var c = store.existing(id); var p = server.getPlayerList().getPlayer(id); var party = parties.of(id); if (party != null) teams.add(party);
+            var q = c == null || c.active.isEmpty() ? null : catalog(server).find(c.active);
+            if (q == null || q.kind() != GuildCatalog.Kind.DUNGEON || c.progress >= q.count() || !DungeonRules.questMatches(q.target(), dungeon, difficulty, order)) continue;
+            c.progress++; store.setDirty();
+            if (p != null) p.sendSystemMessage(Component.literal(q.name() + ": " + c.progress + "/" + q.count() + (c.progress >= q.count() ? " — сдай задание на доске гильдии." : "")).withColor(0x7bea8a));
+            System.out.println("AOC_GUILD_DUNGEON " + (p == null ? id : p.getGameProfile().getName()) + " " + q.code() + " " + c.progress + "/" + q.count());
+        }
+        for (var party : teams) {
+            var q = party.active.isEmpty() ? null : catalog(server).find(party.active);
+            if (q == null || q.kind() != GuildCatalog.Kind.DUNGEON || party.progress >= q.count() || !DungeonRules.questMatches(q.target(), dungeon, difficulty, order)) continue;
+            long inside = party.members.stream().filter(players::contains).count(); if (inside < q.party()) continue;
+            party.progress++; ServerPlayer any = null; for (var id : party.members) { var m = member(server, id); if (m != null) any = m; }
+            System.out.println("AOC_GUILD_TEAM_DUNGEON " + q.code() + " " + party.progress + "/" + q.count() + " members=" + inside);
+            if (party.progress >= q.count() && any != null) completeTeam(server, party, q, any);
+        }
     }
     static void leaveParty(MinecraftServer server, UUID id) {
         var party = parties.leave(id); if (party == null) return;
@@ -427,7 +453,8 @@ final class GuildServer {
             })));
         event.getDispatcher().register(Commands.literal("aocguild").requires(s -> s.hasPermission(2))
             .then(Commands.literal("reload").executes(ctx -> { var line = reload(ctx.getSource().getServer()); ctx.getSource().sendSuccess(() -> Component.literal(line), true); return 1; }))
-            .then(Commands.literal("economy").executes(ctx -> { for (var line : economyReport(GuildStore.get(ctx.getSource().getServer()), 7)) ctx.getSource().sendSuccess(() -> Component.literal(line), false); return 1; })
+            .then(Commands.literal("economy").executes(ctx -> { for (var line : economyReport(GuildStore.get(ctx.getSource().getServer()), 7)) ctx.getSource().sendSuccess(() -> Component.literal(line), false);
+                    var dungeons = DungeonServer.economyLine(ctx.getSource().getServer()); ctx.getSource().sendSuccess(() -> Component.literal(dungeons), false); return 1; })
                 .then(Commands.literal("days").executes(ctx -> { for (var line : economyDays(GuildStore.get(ctx.getSource().getServer()))) ctx.getSource().sendSuccess(() -> Component.literal(line), false); return 1; })))
             .then(Commands.literal("rank").then(Commands.argument("player", EntityArgument.player()).then(Commands.argument("rank", StringArgumentType.word()).executes(ctx -> {
                 var p = EntityArgument.getPlayer(ctx, "player"); var rank = GuildRules.Rank.valueOf(StringArgumentType.getString(ctx, "rank").toUpperCase(Locale.ROOT));

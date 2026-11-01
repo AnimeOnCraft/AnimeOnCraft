@@ -1,0 +1,75 @@
+{
+  "version": 1,
+  "dailyChests": 3,
+  "reconnectSeconds": 180,
+  "victorySeconds": 60,
+  "teamHealthPerPlayer": 0.6,
+  "maxPlayers": 4,
+  "difficulties": [
+    {"code": "NORMAL", "name": "Обычная", "minRank": "F", "minPlayers": 1, "fee": 0, "lossPercent": 10, "health": 1.0, "damage": 1.0,
+     "lives": 3, "teamLives": false, "crystals": 50, "essence": [0, 1], "rolls": 3, "wave": 3},
+    {"code": "HARD", "name": "Сложная", "minRank": "D", "minPlayers": 1, "fee": 10, "lossPercent": 20, "health": 1.8, "damage": 1.4,
+     "lives": 1, "teamLives": false, "crystals": 50, "essence": [2, 4], "rolls": 4, "wave": 4},
+    {"code": "NIGHTMARE", "name": "Кошмар", "minRank": "B", "minPlayers": 2, "fee": 30, "lossPercent": 30, "health": 3.0, "damage": 2.0,
+     "lives": 2, "teamLives": true, "crystals": 50, "essence": [5, 8], "rolls": 5, "wave": 5, "affixes": true},
+    {"code": "MYTHIC", "name": "Мифическая", "minRank": "A", "minPlayers": 3, "fee": 80, "lossPercent": 40, "health": 5.0, "damage": 2.8,
+     "lives": 0, "teamLives": true, "crystals": 150, "essence": [10, 14], "rolls": 6, "wave": 6, "affixes": true, "timeLimitSeconds": 1200}
+  ],
+  "affixes": [
+    {"code": "BLOODSUCKERS", "name": "Кровопийцы", "description": "мобы лечатся от своих ударов", "value": 50},
+    {"code": "RIFT", "name": "Разлом", "description": "мобы взрываются после смерти, блоки целы", "value": 20},
+    {"code": "SHADOWS", "name": "Тени", "description": "элиты невидимы дальше 6 блоков", "value": 6},
+    {"code": "NO_REGEN", "name": "Без регена", "description": "здоровье само не восстанавливается", "value": 0}
+  ],
+  "dungeons": [
+    {
+      "code": "sakura_crypt", "name": "Склеп Сакуры", "theme": "нежить", "open": true, "rooms": 5, "parSeconds": 540,
+      "description": "Каменные залы под вишнёвым садом",
+      "mobs": ["minecraft:zombie", "minecraft:skeleton", "minecraft:husk", "minecraft:zombie_villager"],
+      "elite": {"type": "minecraft:wither_skeleton", "name": "Страж Сакуры", "health": 80, "damage": 6},
+      "boss": {"type": "minecraft:wither_skeleton", "name": "Вишнёвый сёгун", "health": 220, "damage": 8, "summon": "minecraft:skeleton", "summonSeconds": 15},
+      "bossFrom": {"NIGHTMARE": {"type": "mowziesmobs:ferrous_wroughtnaut", "name": "Ферросовый рыцарь", "health": 0, "damage": 0}},
+      "loot": {
+        "NORMAL": [
+          {"item": "minecraft:iron_ingot", "min": 3, "max": 8, "weight": 10},
+          {"item": "minecraft:gold_ingot", "min": 2, "max": 6, "weight": 8},
+          {"item": "minecraft:cooked_beef", "min": 4, "max": 10, "weight": 8},
+          {"item": "minecraft:golden_apple", "min": 1, "max": 1, "weight": 2},
+          {"item": "minecraft:book", "min": 1, "max": 1, "weight": 4, "enchant": 12},
+          {"item": "irons_spellbooks:common_ink", "min": 1, "max": 3, "weight": 4},
+          {"item": "minecraft:cherry_sapling", "min": 1, "max": 2, "weight": 3}
+        ],
+        "HARD": [
+          {"item": "minecraft:diamond", "min": 1, "max": 3, "weight": 8},
+          {"item": "minecraft:gold_ingot", "min": 4, "max": 10, "weight": 8},
+          {"item": "minecraft:golden_apple", "min": 1, "max": 2, "weight": 4},
+          {"item": "minecraft:book", "min": 1, "max": 1, "weight": 5, "enchant": 25},
+          {"item": "irons_spellbooks:uncommon_ink", "min": 1, "max": 3, "weight": 5},
+          {"item": "irons_spellbooks:arcane_essence", "min": 2, "max": 6, "weight": 5},
+          {"item": "simplyswords:iron_katana", "min": 1, "max": 1, "weight": 2},
+          {"item": "simplyswords:iron_longsword", "min": 1, "max": 1, "weight": 2}
+        ],
+        "NIGHTMARE": [
+          {"item": "minecraft:netherite_scrap", "min": 1, "max": 2, "weight": 6},
+          {"item": "minecraft:diamond", "min": 2, "max": 5, "weight": 8},
+          {"item": "minecraft:book", "min": 1, "max": 1, "weight": 5, "enchant": 30},
+          {"item": "cataclysm:ancient_metal_ingot", "min": 1, "max": 3, "weight": 4},
+          {"item": "irons_spellbooks:rare_ink", "min": 1, "max": 2, "weight": 4},
+          {"item": "simplyswords:diamond_katana", "min": 1, "max": 1, "weight": 2},
+          {"item": "minecraft:enchanted_golden_apple", "min": 1, "max": 1, "weight": 1}
+        ],
+        "MYTHIC": [
+          {"item": "minecraft:netherite_scrap", "min": 2, "max": 4, "weight": 6},
+          {"item": "minecraft:book", "min": 1, "max": 1, "weight": 5, "enchant": 30},
+          {"item": "cataclysm:witherite_ingot", "min": 1, "max": 3, "weight": 4},
+          {"item": "irons_spellbooks:epic_ink", "min": 1, "max": 2, "weight": 4},
+          {"item": "simplyswords:netherite_katana", "min": 1, "max": 1, "weight": 2},
+          {"item": "minecraft:enchanted_golden_apple", "min": 1, "max": 1, "weight": 2}
+        ]
+      }
+    },
+    {"code": "rift_forge", "name": "Кузня Разлома", "theme": "огонь", "open": false, "rooms": 6, "parSeconds": 660, "description": "Подземная литейная", "mobs": ["minecraft:piglin_brute"], "loot": {}},
+    {"code": "ice_spire", "name": "Ледяной шпиль", "theme": "лёд", "open": false, "rooms": 6, "parSeconds": 660, "description": "Подъём по замёрзшей башне", "mobs": ["minecraft:stray"], "loot": {}},
+    {"code": "lo_abyss", "name": "Бездна Ло", "theme": "Край", "open": false, "rooms": 7, "parSeconds": 780, "description": "Острова в пустоте", "mobs": ["minecraft:enderman"], "loot": {}}
+  ]
+}

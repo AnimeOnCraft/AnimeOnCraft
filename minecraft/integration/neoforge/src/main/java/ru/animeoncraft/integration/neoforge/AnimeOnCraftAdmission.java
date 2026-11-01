@@ -27,7 +27,7 @@ public final class AnimeOnCraftAdmission {
 
     public AnimeOnCraftAdmission(IEventBus bus) {
         BossHealthRange.initialize();
-        Worldgen.register(bus);CoinReset.register(bus);
+        Worldgen.register(bus);CoinReset.register(bus);DungeonServer.register(bus);
         net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(WorldgenProbe::started);
         bus.addListener(AnimeOnCraftAdmission::payloads);
         bus.addListener(AnimeOnCraftAdmission::tasks);
@@ -149,6 +149,8 @@ public final class AnimeOnCraftAdmission {
         beta.playToClient(GachaPayloads.Snapshot.TYPE,GachaPayloads.Snapshot.CODEC,(p,c)->{if(net.neoforged.fml.loading.FMLEnvironment.dist==net.neoforged.api.distmarker.Dist.CLIENT)ClientRegistration.gacha(p,c);});
         beta.playToServer(GuildPayloads.Request.TYPE,GuildPayloads.Request.CODEC,GuildServer::request);
         beta.playToClient(GuildPayloads.Snapshot.TYPE,GuildPayloads.Snapshot.CODEC,(p,c)->{if(net.neoforged.fml.loading.FMLEnvironment.dist==net.neoforged.api.distmarker.Dist.CLIENT)ClientRegistration.guild(p,c);});
+        beta.playToServer(DungeonPayloads.Request.TYPE,DungeonPayloads.Request.CODEC,DungeonServer::request);
+        beta.playToClient(DungeonPayloads.Snapshot.TYPE,DungeonPayloads.Snapshot.CODEC,(p,c)->{if(net.neoforged.fml.loading.FMLEnvironment.dist==net.neoforged.api.distmarker.Dist.CLIENT)ClientRegistration.dungeon(p,c);});
         beta.playToClient(GuildPayloads.Badge.TYPE,GuildPayloads.Badge.CODEC,(p,c)->{if(net.neoforged.fml.loading.FMLEnvironment.dist==net.neoforged.api.distmarker.Dist.CLIENT)ClientRegistration.guildBadge(p,c);});
         var menu=event.registrar("1").optional();
         menu.playToClient(ServerMenuPayloads.CaptureSummary.TYPE,ServerMenuPayloads.CaptureSummary.CODEC,(p,c)->{
@@ -195,6 +197,7 @@ public final class AnimeOnCraftAdmission {
         static void cosmetics(BetaPassPayloads.Appearance p,IPayloadContext c){ClientBetaPass.appearance(p,c);}
         static void guild(GuildPayloads.Snapshot p,IPayloadContext c){ClientGuild.accept(p,c);}
         static void gacha(GachaPayloads.Snapshot p,IPayloadContext c){ClientGacha.accept(p,c);}
+        static void dungeon(DungeonPayloads.Snapshot p,IPayloadContext c){ClientDungeon.accept(p,c);}
         static void guildBadge(GuildPayloads.Badge p,IPayloadContext c){ClientGuild.badge(p,c);}
         static void profile(ProfilePayloads.Snapshot payload,IPayloadContext context){ClientProfiles.accept(payload,context);}
         static void title(ProfilePayloads.Title payload,IPayloadContext context){ClientProfiles.title(payload,context);}
@@ -203,12 +206,15 @@ public final class AnimeOnCraftAdmission {
             var events=net.neoforged.neoforge.common.NeoForge.EVENT_BUS;
             events.addListener(ClientTitleMenu::opening);
             events.addListener(ClientEmotes::logout);
-            events.addListener(ClientWardrobe::logout);events.addListener(ClientGacha::logout);events.addListener(ClientBetaPass::logout);events.addListener(ClientGuild::logout);bus.addListener(BetaCosmeticRenderer::register);bus.addListener(DetailedCosmetics::reload);events.addListener(ClientClanAchievements::logout);events.addListener(ClientProfiles::logout);events.addListener(ClientServerMenu::key);events.addListener(ClientServerMenu::tick);events.addListener(ClientServerMenu::layer);events.addListener(ClientServerMenu::logout);
+            events.addListener(ClientWardrobe::logout);events.addListener(ClientGacha::logout);events.addListener(ClientBetaPass::logout);events.addListener(ClientGuild::logout);events.addListener(ClientDungeon::logout);bus.addListener(BetaCosmeticRenderer::register);bus.addListener(DetailedCosmetics::reload);events.addListener(ClientClanAchievements::logout);events.addListener(ClientProfiles::logout);events.addListener(ClientServerMenu::key);events.addListener(ClientServerMenu::tick);events.addListener(ClientServerMenu::layer);events.addListener(ClientServerMenu::logout);
             if(Boolean.getBoolean("animeoncraft.atlasClientProbe"))AtlasClientProbe.register();
             if(Boolean.getBoolean("animeoncraft.guildShotProbe"))GuildShotProbe.register();
             if(Boolean.getBoolean("animeoncraft.mapIconShotProbe"))MapIconShotProbe.register();
             if(System.getProperty("animeoncraft.reviewShotProbe")!=null)ReviewShotProbe.register();
             if(Boolean.getBoolean("animeoncraft.guildFlowProbe"))GuildFlowProbe.register();
+            if(Boolean.getBoolean("animeoncraft.dungeonFlowProbe"))DungeonFlowProbe.register();
+            if(System.getProperty("aoc.dungeonTeamRole")!=null)DungeonTeamProbe.register();
+            if(Boolean.getBoolean("animeoncraft.dungeonStage4Probe"))DungeonStage4Probe.register();
             if(Boolean.getBoolean("animeoncraft.lockFlowProbe"))LockFlowProbe.register();
             if(Boolean.getBoolean("animeoncraft.gachaVideoProbe"))GachaVideoProbe.register();
             net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(ClientWorldAtlas::logout);

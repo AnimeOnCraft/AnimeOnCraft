@@ -143,6 +143,7 @@ final class PoiBuilder {
             case "EVENT_ZONE", "BOSS_LAIR" -> arena(canvas, poi, "BOSS_LAIR".equals(poi.type()));
             case "RESOURCE_SITE", "MINE" -> site(canvas, poi);
             case "ADVENTURER_GUILD" -> AdventurerGuild.build(canvas, layout, poi);
+            case RiftGate.TYPE -> RiftGate.build(canvas, layout, poi);
             default -> groundLevel(level, poi.x(), poi.z(), 4);
         };
         return y;
@@ -150,7 +151,7 @@ final class PoiBuilder {
 
     /** Half-size of the ground a POI type levels and builds on (footprint and skirt). */
     static int footprint(String type) {
-        return switch (type) { case "CLAN_CAPITAL" -> 31; case "OUTPOST", "WATCHTOWER" -> 16; case "FORT" -> 25; default -> 40; };
+        return switch (type) { case "CLAN_CAPITAL" -> 31; case "OUTPOST", "WATCHTOWER" -> 16; case "FORT" -> 25; case RiftGate.TYPE -> 18; default -> 40; };
     }
     /**
      * Site check for an object added to an already played world (layout {@code guarded}): the whole build is refused,

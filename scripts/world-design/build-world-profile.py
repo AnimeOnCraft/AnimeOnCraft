@@ -331,6 +331,8 @@ SORA_RING_R = 160
 LAYOUT_EXTRA = [
     dict(code="core.capital.expansion", type="CITY_EXPANSION", name="Сора — внешнее кольцо", x=0, z=0, radius=SORA_RING_R, palette="core"),
     dict(code="core.guild", type="ADVENTURER_GUILD", name="Гильдия искателей приключений", x=0, z=142, radius=14, palette="core"),
+    # Rift Gate (dungeons) on the east lawn of the ring, between the NYA and ZXC streets; guarded: a live world.
+    dict(code="core.rift_gate", type="RIFT_GATE", name="Врата Разлома", x=142, z=0, radius=14, palette="core", guarded=True),
 ]
 layout["pois"] += LAYOUT_EXTRA
 # Objects of added clans go up in a live world: the server mod refuses (POI) or skips (road) columns with players' blocks.
