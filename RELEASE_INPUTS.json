@@ -1,0 +1,7 @@
+{
+  "version": "0.8.18",
+  "game_mod_sha256": "746bd06d39606a0e1190b131f286a09cb91f854fb1b4f9762e9983bda7e381e9",
+  "public_baseline": "0.8.17",
+  "balance_changed": false,
+  "note": "Profile and balance files in this snapshot are the inputs used for the public installer. Pending website source is not deployed; the existing public pages receive version-link updates only."
+}

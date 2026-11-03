@@ -12,6 +12,7 @@ import { WorldIntegrationController } from './modules/world-map/world-integratio
 import { ServerMenuController } from './server-menu/server-menu.controller.js';
 import { GameWardrobeModule } from './wardrobe/wardrobe.controller.js';
 import { GamePremiumModule } from './premium/premium.controller.js';
+import { GameAnticheatModule } from './anticheat/anticheat.controller.js';
 import { InfrastructureModule } from './infrastructure/infrastructure.module.js';
 import { DatabaseService } from './infrastructure/database.service.js';
 
@@ -148,5 +149,5 @@ class IntegrationHealthController {
   private authenticateHeader(authorization: string | undefined): void { authenticateServiceKey(authorization); }
 }
 
-@Module({ imports: [InfrastructureModule,GameWardrobeModule,GamePremiumModule], controllers: [IntegrationHealthController, CaptureIntegrationController, WorldIntegrationController, ServerMenuController] })
+@Module({ imports: [InfrastructureModule,GameWardrobeModule,GamePremiumModule,GameAnticheatModule], controllers: [IntegrationHealthController, CaptureIntegrationController, WorldIntegrationController, ServerMenuController] })
 export class IntegrationAppModule {}

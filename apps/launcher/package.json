@@ -1,6 +1,6 @@
 {
   "name": "@animeoncraft/launcher",
-  "version": "0.8.17-gravestone",
+  "version": "0.8.18-gravestone",
   "private": true,
   "type": "module",
   "scripts": {

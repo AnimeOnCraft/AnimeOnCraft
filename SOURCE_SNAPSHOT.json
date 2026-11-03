@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "kind": "release-source-snapshot",
-  "created_at": "2026-11-01T06:08:50.163Z",
+  "created_at": "2026-11-03T06:22:49.345Z",
   "private_history_included": false,
   "text_hashing": "UTF-8 text normalized to LF as stored by Git; binary files raw",
-  "release_binary_correspondence": "Current development snapshot accompanying 0.8.17, including pending work. See RELEASE_BUILD.json and SCOPED_GAME_MOD_PATCH.json for the scoped game-mod build; this is not an exact release build tree.",
+  "release_binary_correspondence": "Current development snapshot accompanying 0.8.18, including pending work. See RELEASE_BUILD.json and RELEASE_INPUTS.json for the release inputs; the snapshot also contains pending website work.",
   "files": [
     {
       "path": ".dockerignore",
@@ -87,14 +87,19 @@
       "bytes": 2940
     },
     {
+      "path": "apps/admin/src/mobile-owner-tabs.tsx",
+      "sha256": "90a1eca9a831366ee667c03827e221c4a901457d725e02e0757c50024e9d48da",
+      "bytes": 13313
+    },
+    {
       "path": "apps/admin/src/mobile-owner.css",
-      "sha256": "4736b540dda80aacef48c302c62d08bd037c5b611c8d34d8cc7daf2ba941caa5",
-      "bytes": 2948
+      "sha256": "5200d405fbcc647ae357f53cd12e1ad04548ec108f373dbbf2176b8ce8fc0de7",
+      "bytes": 4556
     },
     {
       "path": "apps/admin/src/mobile-owner.tsx",
-      "sha256": "23aa146f12c609fe6deb3fd394a293c5c048596c621a4e84b7a42796b45723af",
-      "bytes": 13874
+      "sha256": "dc6058432f80a0fbdfc1e61f615a24bc4213b5ac5cb39a8cecdac0e3ec1c8dc5",
+      "bytes": 16120
     },
     {
       "path": "apps/admin/tsconfig.json",
@@ -422,6 +427,16 @@
       "bytes": 452
     },
     {
+      "path": "apps/backend/db/migrations/20261103000100_anticheat_reports/migration.sql",
+      "sha256": "ac01a1b8d84af9ec008ddfbdbd811bce764e338fa41fefd8fac6eb2fd168a430",
+      "bytes": 1354
+    },
+    {
+      "path": "apps/backend/db/migrations/20261103000200_arena_crystals/migration.sql",
+      "sha256": "e6433f5cce855b74c62cf1c6b50e05462415e97209d8600c6ecfd1e20848c5c1",
+      "bytes": 502
+    },
+    {
       "path": "apps/backend/db/migrations/migration_lock.toml",
       "sha256": "1db17a8d051aa136110736752c5e1f8b7ed92b6ea8e803112fbbe2497047c210",
       "bytes": 24
@@ -430,6 +445,11 @@
       "path": "apps/backend/db/native-account-smoke.ts",
       "sha256": "0053edf6665a35b6df8bc583f43c2e1f88911aa151e41b23c17aacb975663132",
       "bytes": 12297
+    },
+    {
+      "path": "apps/backend/db/next-update-smoke.ts",
+      "sha256": "cc9b8c1031b97c822d1901eda676d0f7dded6110c8dd6c0acc7f23705bd17b80",
+      "bytes": 10029
     },
     {
       "path": "apps/backend/db/owner.ts",
@@ -515,6 +535,21 @@
       "path": "apps/backend/prisma.config.ts",
       "sha256": "c7feb4f199576147007c6c74b5194e5782e03717d8735d28ad4b98d4fc843f11",
       "bytes": 325
+    },
+    {
+      "path": "apps/backend/src/anticheat/anticheat.controller.ts",
+      "sha256": "46f7f2145d72df6f08ec7de36da3412e98a81cc12cc46481b462cd9813df5070",
+      "bytes": 1687
+    },
+    {
+      "path": "apps/backend/src/anticheat/anticheat.test.ts",
+      "sha256": "a8dea7081494b40425c0d07ea64dd57383440c501f276b337c9bb433b6d0ff5c",
+      "bytes": 2618
+    },
+    {
+      "path": "apps/backend/src/anticheat/anticheat.ts",
+      "sha256": "dd31a8736f26136b65149910b9c37f4ba9e7e0f2d1cb7ca3f474addb88fad850",
+      "bytes": 7146
     },
     {
       "path": "apps/backend/src/app.module.ts",
@@ -608,8 +643,8 @@
     },
     {
       "path": "apps/backend/src/integration-app.module.ts",
-      "sha256": "7041905f94c742abf5f3f571a841d900bebfa50fce23f78bba2b43e83632039a",
-      "bytes": 13195
+      "sha256": "6972d96b9c1ab871dbfd785db7f24cc1fe6408c9d07d4d9149c4cd14bfe456b4",
+      "bytes": 13290
     },
     {
       "path": "apps/backend/src/integration-auth.ts",
@@ -783,18 +818,18 @@
     },
     {
       "path": "apps/backend/src/modules/community/administration-input.ts",
-      "sha256": "128a65431abf31862a80853d222a686970d1744ba8e35d205f40ad3f1b32df75",
-      "bytes": 1677
+      "sha256": "7a19d9d9459061dd4e37d996f9ce68303d610c589f0ac9ed6b25bbfc2f4fa3b0",
+      "bytes": 2086
     },
     {
       "path": "apps/backend/src/modules/community/administration.controller.ts",
-      "sha256": "7383ed2baf7fa4e186f2754961974256b3c820db7136f8f806d8f6dec33af08e",
-      "bytes": 6143
+      "sha256": "e222056a33f6c0a9d64e601739582f3a94655f7870d8eeac7ea183391c18d6b7",
+      "bytes": 6671
     },
     {
       "path": "apps/backend/src/modules/community/administration.service.ts",
-      "sha256": "f784b9a2f42413092c1f2581319482b8ddd2f93ffe7f318042b03ab089b8f8c3",
-      "bytes": 16579
+      "sha256": "3d4b53a513341596338a11d4d2a0fa188726d8752e5a3ed7f6955471983d0a01",
+      "bytes": 17400
     },
     {
       "path": "apps/backend/src/modules/community/community-input.ts",
@@ -893,8 +928,8 @@
     },
     {
       "path": "apps/backend/src/premium/crystals.ts",
-      "sha256": "9a7761fb032af27d5188543449235d076c91d58e6c31da6ff30eac5bdd5559e0",
-      "bytes": 8633
+      "sha256": "fd5c9a7d48a65d59a961c2b0257d9bcc271bce400cc5d5760e1e9bb5c9f7dc51",
+      "bytes": 9862
     },
     {
       "path": "apps/backend/src/premium/gacha.ts",
@@ -913,8 +948,8 @@
     },
     {
       "path": "apps/backend/src/premium/premium.controller.ts",
-      "sha256": "d717b8609e59bc7a1e3bd91e7c9df96627c4f5fc1a41f2cd655ff5507a7b1583",
-      "bytes": 7440
+      "sha256": "1880494320241a703cf7c1d29e883d059c40fa1c38f686528aacefb6146ab8f8",
+      "bytes": 7672
     },
     {
       "path": "apps/backend/src/server-menu/server-menu.controller.ts",
@@ -993,8 +1028,8 @@
     },
     {
       "path": "apps/backend/test/premium.test.ts",
-      "sha256": "82e220d71aea85cb56e2a14bd9669918da5a56b600222be054ff09126f4d4a69",
-      "bytes": 3543
+      "sha256": "e7a851fe69fc705d3fd789bcde2f5d71f59eb114d43427bc70d0f03f372043c3",
+      "bytes": 4205
     },
     {
       "path": "apps/backend/test/wardrobe.test.ts",
@@ -1032,14 +1067,199 @@
       "bytes": 342
     },
     {
+      "path": "apps/download-site-glass/app.js",
+      "sha256": "59806ab9d00a93aa209b9d6a2d18c54182d9416c5885477d1d62fa0c18f48f58",
+      "bytes": 14957
+    },
+    {
+      "path": "apps/download-site-glass/assets/mascot-cut.webp",
+      "sha256": "b271c760508f12bc124643e34fb1ed77d57eb97e5e054a369667cf672806570d",
+      "bytes": 57214
+    },
+    {
+      "path": "apps/download-site-glass/assets/mascot.png",
+      "sha256": "ab3a904fe6ae268e11c45a71181a46fb6239ac5e3e6612d039669d888b8bbb83",
+      "bytes": 46784
+    },
+    {
+      "path": "apps/download-site-glass/assets/news.js",
+      "sha256": "75726260f4f3e436dfb5a1ca44fa2091bac99f68812ac7b6786106ea56f168b1",
+      "bytes": 15347
+    },
+    {
+      "path": "apps/download-site-glass/assets/relief.webp",
+      "sha256": "c536d8c2c72e60e8155b41ef33118cfa3c363a981088c7d187af41771b5b61fd",
+      "bytes": 652400
+    },
+    {
+      "path": "apps/download-site-glass/assets/shots/guild-board-s.webp",
+      "sha256": "12b01f8477b22cdc7b717b84f0572dc080f79061847e5d3f63945c616f4849d2",
+      "bytes": 19032
+    },
+    {
+      "path": "apps/download-site-glass/assets/shots/guild-board.webp",
+      "sha256": "f57eae1e6335cb4959d008745440429ff6690f8045163116ac07ae7015212739",
+      "bytes": 56500
+    },
+    {
+      "path": "apps/download-site-glass/assets/shots/guild-entrance-s.webp",
+      "sha256": "077aebf926a1936edd8230d43cd2da24a559d5c7809b8075128ba7c240b640e0",
+      "bytes": 28918
+    },
+    {
+      "path": "apps/download-site-glass/assets/shots/guild-entrance.webp",
+      "sha256": "20bfea1008aae8a9c54ab53164b2ef6d633a19e19f638151f9b05dbe93d2c550",
+      "bytes": 114268
+    },
+    {
+      "path": "apps/download-site-glass/assets/shots/guild-gallery-s.webp",
+      "sha256": "a4c304eb8d24c918860ab625e23ff67e40c1d9fcea98b1b123b0cd19f9d2ff69",
+      "bytes": 27452
+    },
+    {
+      "path": "apps/download-site-glass/assets/shots/guild-gallery.webp",
+      "sha256": "b55eb876447de74edaa3ef890ff1e294914a1061c539e8f0bace0f6d59db33ac",
+      "bytes": 92372
+    },
+    {
+      "path": "apps/download-site-glass/assets/shots/guild-hall-s.webp",
+      "sha256": "e13f980561ebac327531dce57868a9c0abe0ab68ff8b8d91001fef1245f14c8b",
+      "bytes": 22386
+    },
+    {
+      "path": "apps/download-site-glass/assets/shots/guild-hall.webp",
+      "sha256": "be7fee4b04ad0c2b2238c664e0ab8f9deb0c0e1e0b5b26a565a88880ea1776d4",
+      "bytes": 75054
+    },
+    {
+      "path": "apps/download-site-glass/assets/shots/guild-northwest-s.webp",
+      "sha256": "26b2492376efc55096d63671855a2dc741476e10e18ceadd9b6553eea53290bc",
+      "bytes": 30926
+    },
+    {
+      "path": "apps/download-site-glass/assets/shots/guild-northwest.webp",
+      "sha256": "098791fa7a7e0abcaa361299c4a8e7209b5962b3664e2110d3a95586b02165a1",
+      "bytes": 153632
+    },
+    {
+      "path": "apps/download-site-glass/assets/shots/guild-tables-s.webp",
+      "sha256": "2cb2daa778db08b73f6c083602c7a8319134fcacb02e7b6866114bb8c2966498",
+      "bytes": 23726
+    },
+    {
+      "path": "apps/download-site-glass/assets/shots/guild-tables.webp",
+      "sha256": "e9efee4c46135c72f8d234c066b7d47fa0079550ceb92aa4c91cd26e18cf69c3",
+      "bytes": 77420
+    },
+    {
+      "path": "apps/download-site-glass/assets/shots/rift-boss-s.webp",
+      "sha256": "b4c378f57f3baaecece18312e242f8998b59249571e6b981fb85b128da60ed85",
+      "bytes": 25162
+    },
+    {
+      "path": "apps/download-site-glass/assets/shots/rift-boss.webp",
+      "sha256": "2308206a836e999b2c2173b219f5bf3458648cbb2c448245a116e71bb021ea79",
+      "bytes": 60866
+    },
+    {
+      "path": "apps/download-site-glass/assets/shots/rift-crypt-s.webp",
+      "sha256": "0d06c8adc0662f2bb4d3133bac8a3fb44bad9f327324238b2368f74698929ee5",
+      "bytes": 31592
+    },
+    {
+      "path": "apps/download-site-glass/assets/shots/rift-crypt.webp",
+      "sha256": "f0e9309f387327cf1b7e115414a7d1b050b2d429e1acf906e1fd574f1284529b",
+      "bytes": 64944
+    },
+    {
+      "path": "apps/download-site-glass/assets/shots/rift-outside-s.webp",
+      "sha256": "19d60968cae69d99f8a453e27126df570b0a0ce0986afaf3741de3a4143ea6c9",
+      "bytes": 35204
+    },
+    {
+      "path": "apps/download-site-glass/assets/shots/rift-outside.webp",
+      "sha256": "0a01fa04f3eacad243a15279042a06dcc2e6b21b2006df66c7daa0f054bf3353",
+      "bytes": 82646
+    },
+    {
+      "path": "apps/download-site-glass/assets/shots/sora-aerial-s.webp",
+      "sha256": "9ef063bff20dd1a7be605b6521d41dea346623ff3c88a7e601e9495cc8330dbe",
+      "bytes": 30806
+    },
+    {
+      "path": "apps/download-site-glass/assets/shots/sora-aerial.webp",
+      "sha256": "d05ab89e83417ad0580e51bf8fdc43c2ea425ec9e0a3639f86ff3f01270d32ed",
+      "bytes": 170692
+    },
+    {
+      "path": "apps/download-site-glass/assets/shots/sora-top-s.webp",
+      "sha256": "bca9bbfa99834ba8ea3178932c72b053fed7c59ff7eab06c8bd59000365856c1",
+      "bytes": 82062
+    },
+    {
+      "path": "apps/download-site-glass/assets/shots/sora-top.webp",
+      "sha256": "cd0a74cf1e0799ba2f5d054a0f3070f53dcec25f63bd61c0c4f75278bdd74301",
+      "bytes": 173226
+    },
+    {
+      "path": "apps/download-site-glass/assets/world.js",
+      "sha256": "9709f36a191cf43548f7044ed31e36a86ab3a9cb6489f0cd3ea554a096ca0e89",
+      "bytes": 12223
+    },
+    {
+      "path": "apps/download-site-glass/index.html",
+      "sha256": "85efdf7c824daba6be910844001d56c21a353ce0c0a41d5dac01c004f301c5c1",
+      "bytes": 10649
+    },
+    {
+      "path": "apps/download-site-glass/offer.html",
+      "sha256": "c52329edc62e5e8c05b04d68f39535f5ab9108f4ccee2cd48eec9b61ecf1765c",
+      "bytes": 7111
+    },
+    {
+      "path": "apps/download-site-glass/style.css",
+      "sha256": "e61ece2da57508bc9954292af18c98954e3fbe52bf7cae8bd84d6d7d3a1f80f9",
+      "bytes": 19058
+    },
+    {
+      "path": "apps/download-site/app.js",
+      "sha256": "17bb7837b5bc124011429e3d468b79cd29547e465277830348da98ff4d275b23",
+      "bytes": 11253
+    },
+    {
+      "path": "apps/download-site/assets/mascot-cut.webp",
+      "sha256": "e986795375188cf2573178454b816541e814c13441cb14672bd26ee2569c7f72",
+      "bytes": 57214
+    },
+    {
       "path": "apps/download-site/assets/mascot.png",
       "sha256": "492c55c13d3630f6663fff1bb143935fb99f940cb6d91d2bde4d4c721ba7da91",
       "bytes": 1497213
     },
     {
+      "path": "apps/download-site/assets/news.js",
+      "sha256": "75726260f4f3e436dfb5a1ca44fa2091bac99f68812ac7b6786106ea56f168b1",
+      "bytes": 15347
+    },
+    {
+      "path": "apps/download-site/assets/relief.webp",
+      "sha256": "d60d19c1cdf8619b87303ac853301f21ff76e78d82aba1e3dc2f2824bbfb6bac",
+      "bytes": 652400
+    },
+    {
+      "path": "apps/download-site/assets/sora-top.webp",
+      "sha256": "2cd8e0da2b5c3570c9f7f44f3dcd44ed3a3251617ce27aaa1084c5559e9d33bc",
+      "bytes": 82062
+    },
+    {
+      "path": "apps/download-site/assets/world.js",
+      "sha256": "9709f36a191cf43548f7044ed31e36a86ab3a9cb6489f0cd3ea554a096ca0e89",
+      "bytes": 12223
+    },
+    {
       "path": "apps/download-site/index.html",
-      "sha256": "1f24a679ff7f3ee7023c42f9ff2fc45d859570c737992865dd346e00ebedd429",
-      "bytes": 4331
+      "sha256": "056768b5d5b0d4660e4502ed567668e7b181ece6f7587f56269d65589bdd7571",
+      "bytes": 8873
     },
     {
       "path": "apps/download-site/offer.html",
@@ -1048,8 +1268,8 @@
     },
     {
       "path": "apps/download-site/style.css",
-      "sha256": "268f8e44e075c4ebe70a7a9afb3ed2a8cf777b91575ed3a3fa0b57557872bbc6",
-      "bytes": 5578
+      "sha256": "56da9fe5d19675492b4129241d631d7811b2c64be3ef8afb13a470d9917d3a34",
+      "bytes": 15754
     },
     {
       "path": "apps/launcher/index.html",
@@ -1058,7 +1278,7 @@
     },
     {
       "path": "apps/launcher/package.json",
-      "sha256": "b76dfae002836c799e359b794263e1f848a4067da58574e3487b175d9e10dfde",
+      "sha256": "8b501d707f6888ad030e97d74d615e8beb68b5fc293d37abb2c37f45e6eaafc4",
       "bytes": 819
     },
     {
@@ -1088,12 +1308,12 @@
     },
     {
       "path": "apps/launcher/src-tauri/Cargo.lock",
-      "sha256": "13fc5f00353f8834dc7a5da6b42182c5e0619e667e1d22d5e2adc99f80ff38c2",
+      "sha256": "b21c9cee2f86c810c728ed1f0017b90fc878c85a708c92ce7a49e5a186f36c72",
       "bytes": 127775
     },
     {
       "path": "apps/launcher/src-tauri/Cargo.toml",
-      "sha256": "a48bc05ef8ecbbebce38e765b28ff5a33d0cd880374ad10030212181f633882e",
+      "sha256": "6d48fcb44d637a836b4f1c9cf71cd2f139b5875b66edb286452eb0b623fcff3d",
       "bytes": 1984
     },
     {
@@ -1953,7 +2173,7 @@
     },
     {
       "path": "apps/launcher/src-tauri/tauri.conf.json",
-      "sha256": "bb9bc0392a0b397c955a23fbdd87eaea44e0d807a1b02ea1d88985984c4fb23c",
+      "sha256": "ac4936a47495d14651251b1eea233657b1dc6b562cedce14f2477269447ed66f",
       "bytes": 1326
     },
     {
@@ -2427,9 +2647,9 @@
       "bytes": 3282
     },
     {
-      "path": "docs/PATCH_NOTES_0_8_17.md",
-      "sha256": "68c0723a8d226aa6167ebeb12342051b37bfd50b66ad14bc5b5c5ddcc7afc63a",
-      "bytes": 1365
+      "path": "docs/PATCH_NOTES_0_8_18.md",
+      "sha256": "c2fd588d8346c027f42f627657ff9df8c3ac89a1315140922b8fa87c52d7b9e4",
+      "bytes": 2542
     },
     {
       "path": "docs/PUBLIC_README.md",
@@ -2438,8 +2658,8 @@
     },
     {
       "path": "eslint.config.mjs",
-      "sha256": "f039b576bb7a0c80ba83da9c38ee90621bb4ea6e68d23988727d9c40610b32c3",
-      "bytes": 642
+      "sha256": "d09e7f9491e46242289f134dd182e3d46f5626235bf750f7809eeae82c998d6c",
+      "bytes": 770
     },
     {
       "path": "infra/compose/backend.Dockerfile",
@@ -2923,8 +3143,8 @@
     },
     {
       "path": "minecraft/integration/neoforge/build.gradle.kts",
-      "sha256": "27347623beff55544dbce865cb40f3db3e5255bc155406708dce71abea4a62a2",
-      "bytes": 9689
+      "sha256": "45ae174b39133afefa5cd850895de8b039226181531bc52de1f6ca27485d48b8",
+      "bytes": 11054
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/AdmissionHttpClient.java",
@@ -2948,13 +3168,33 @@
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/AnimeOnCraftAdmission.java",
-      "sha256": "9b5722765c1a8f1c08f89585fc3c3b4c34789e4e43e910e6c6452bcaa46a099d",
-      "bytes": 26552
+      "sha256": "24a3b63402450f721b13aad9a4cdd659b62013ea476914c19863615c45ca8833",
+      "bytes": 28724
+    },
+    {
+      "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/Anticheat.java",
+      "sha256": "2d39e67ddb4f48b21cdd7203f1b81d6e3883de3fc4d84e85e212b37f55829d72",
+      "bytes": 17946
+    },
+    {
+      "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/AnticheatRules.java",
+      "sha256": "432fad8e2d84353b5554541044e897a231ac90c24c6fea3dc1f4ca3a653463f6",
+      "bytes": 3745
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ArenaChunkLifecycle.java",
       "sha256": "6a7facffac5f1c8e8597c6506492c1dce2306653fd02a208e6d1aa0f733de058",
       "bytes": 1511
+    },
+    {
+      "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ArenaRules.java",
+      "sha256": "d1e9beaa9ba7526d8eeab9b5787e9045c5fbefaa6fc9750db7bd315d13050137",
+      "bytes": 2092
+    },
+    {
+      "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ArenaStore.java",
+      "sha256": "587c67e92f3c6c22883bb38a76c60aa3de45fc2704fd4bc3a39da07a51403a01",
+      "bytes": 2960
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/AssemblyOrigin.java",
@@ -3087,6 +3327,16 @@
       "bytes": 1298
     },
     {
+      "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ChatLog.java",
+      "sha256": "ccf8016b981ba73d1fca8e4513ba0899ebff79b551d919ab9baf58a29e80dd10",
+      "bytes": 4206
+    },
+    {
+      "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ChatPayloads.java",
+      "sha256": "2d6131585677a7d4c8eba1ccefa3a23fd29b3720882f05940b0c86cc6d2f2124",
+      "bytes": 2813
+    },
+    {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ChatSpawnProbe.java",
       "sha256": "3cc92eda86604a57f03db0ff97369b6c72878214ad4a690b1d80bcdf57975101",
       "bytes": 9079
@@ -3162,6 +3412,11 @@
       "bytes": 3428
     },
     {
+      "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ClientChat.java",
+      "sha256": "ce9213d486277bd6226c0a20fa122bdf1a6fe27620039be65495661290d91f0a",
+      "bytes": 33456
+    },
+    {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ClientClanAchievements.java",
       "sha256": "a0195fec600030afc0cf04cd4b189135f2953ca5c22b24e8aba4975f564a8775",
       "bytes": 833
@@ -3208,8 +3463,8 @@
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ClientNameTags.java",
-      "sha256": "6aee9917da6583f80dcfe0d76e30eb8e363884dc23a09f5aa72fff825feaadef",
-      "bytes": 1397
+      "sha256": "b039b037df37cd59e46686a787071ea2f2e100eeda7edaa95791267c238f192b",
+      "bytes": 1532
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ClientProfiles.java",
@@ -3460,6 +3715,11 @@
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/GameplayRewardProbe.java",
       "sha256": "706ea0c2dc9afeadb5ace02d8d88d0de4452044b0451c43f631945779da48a70",
       "bytes": 2515
+    },
+    {
+      "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/GuideBook.java",
+      "sha256": "c6338bf09de10bc1f9898ed38d960e4100636f035b948cb2a1f9270479fa9a60",
+      "bytes": 5672
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/GuildCatalog.java",
@@ -3737,6 +3997,11 @@
       "bytes": 1526
     },
     {
+      "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/mixin/VanillaChatMixin.java",
+      "sha256": "e7b5fedb012a220b48f0f941db5b0c8c4e3f4bd3bdcfac3e0dd8a67076ef9514",
+      "bytes": 728
+    },
+    {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/mixin/XaeroClanMapScreenMixin.java",
       "sha256": "e3692e0de0835ee6e6dff9d48548e942cfe169b7840fe294ca9cfdc7d6379fe4",
       "bytes": 1862
@@ -3778,8 +4043,8 @@
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/PlayerChat.java",
-      "sha256": "62921083a54cfb038b431d5b08f9c37c37f2ef43da7e4d69854c4b447a94933a",
-      "bytes": 4102
+      "sha256": "8e2b389d6b5de2db3e5791a870fdac983f654f3af9144ab32c5c1d03dd241026",
+      "bytes": 6520
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/PlayerProfiles.java",
@@ -3803,8 +4068,8 @@
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/PremiumCrystals.java",
-      "sha256": "4188931c4825d84be20f3ddaab66ba4db10186af2ea6ac12bf3512a42acff485",
-      "bytes": 4763
+      "sha256": "1f1cd00c9111337f5b6fb80e5e30dbf56f72773df6baecc9d6f13cc4058fec8c",
+      "bytes": 5142
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ProfilePayloads.java",
@@ -3830,6 +4095,11 @@
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/PublicWaystoneProbe.java",
       "sha256": "7f3d429b2211c4d85d3135b3957d5103e39f485c4451e6d23fcdcc845ae09fda",
       "bytes": 7301
+    },
+    {
+      "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/PvpArena.java",
+      "sha256": "a69364f6878cd31140264ed7de1efddb8573b330f1eab33aedd646f610bda57e",
+      "bytes": 19070
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/RegionMapPayload.java",
@@ -3908,8 +4178,8 @@
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ServerMenuGuide.java",
-      "sha256": "7e400cf352675122355b136748f7f49bd26790f1d503a316cc3e1e2e51c960ad",
-      "bytes": 7081
+      "sha256": "229438107913c2a4cca13e15c9a8165d7eec899cd1aa7d21c3b62c8a7f61ec73",
+      "bytes": 7172
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ServerMenuLogic.java",
@@ -3938,8 +4208,8 @@
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ServerSettings.java",
-      "sha256": "4f72a9b167a8f4d1415dd724ed0d2b874d64432eb23280b4627dcddc69124ef7",
-      "bytes": 2091
+      "sha256": "0aea69f5ec288c6a6d8ba68aa4d9878840e3eff73132e0b742d74e8c5d495bb8",
+      "bytes": 2408
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ServerWardrobe.java",
@@ -3973,13 +4243,13 @@
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/SpawnTeleport.java",
-      "sha256": "49fb946da95606185c17a9f13d41eaa97e3a75280ce262cf944f7a4c99ef7b8a",
-      "bytes": 5135
+      "sha256": "cf07c9dd7ef49f3b15a6ec7165cfdfe152ab31917ed7ce2d819fc5157265e939",
+      "bytes": 5878
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/SpawnTeleportQueue.java",
-      "sha256": "8fdefddca12b58f141139b899470791feb5e1e893f81daab61353684403379ab",
-      "bytes": 2112
+      "sha256": "3134268e6fc4218903d9aa75d141d217e745056045058052c15893f8acd2dc70",
+      "bytes": 3212
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/SpawnTeleportStore.java",
@@ -4033,8 +4303,8 @@
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/TerritoryProtection.java",
-      "sha256": "2f2c61637943447d897930b81cd9ec75e65d9ee2c0c2de98b74b248c27154d83",
-      "bytes": 20692
+      "sha256": "4af2c4890bbe9d67384224dc1f042d468b7d411594c7b005c02acf40df7ef5bd",
+      "bytes": 20802
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/TerritoryProtectionProbe.java",
@@ -4183,8 +4453,8 @@
     },
     {
       "path": "minecraft/integration/neoforge/src/main/resources/animeoncraft.mixins.json",
-      "sha256": "526dd5c170534319e4a83091721c53e606ea614c1c4f14e5af85683c89462734",
-      "bytes": 1366
+      "sha256": "7a7ac0ada45df8d490e68a99a0272ae1364d84df21f7640ac87c4aa21df4c647",
+      "bytes": 1390
     },
     {
       "path": "minecraft/integration/neoforge/src/main/resources/animeoncraft/dungeons.json",
@@ -5827,6 +6097,16 @@
       "bytes": 5190
     },
     {
+      "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/AnticheatRulesTest.java",
+      "sha256": "2ac4b204cecb8b9a6a25fc7aed7eb6231b0896bc35831f29513d0c133a4fdd23",
+      "bytes": 4039
+    },
+    {
+      "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/ArenaRulesTest.java",
+      "sha256": "5e74d084796c6d0ea93b8eb1e9fac313b4e21288fc2463581486efe94438fdfc",
+      "bytes": 2149
+    },
+    {
       "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/BetaMultiplayerProbe.java",
       "sha256": "f5215a63b29e4e118438c1ad9815a07aaed19639615be1cb5d371aa713623f40",
       "bytes": 6796
@@ -5865,6 +6145,11 @@
       "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/ChatChannelsTest.java",
       "sha256": "1e351f15907593d67a491e4a83215ead37f09d89068ce65738e1034960d01283",
       "bytes": 2565
+    },
+    {
+      "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/ChatLogTest.java",
+      "sha256": "f3ecda3fe9caa59e71d42ee6b169c9a2f31617e34a2a0e51115dae862013a589",
+      "bytes": 4321
     },
     {
       "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/ClanMarketProbe.java",
@@ -5927,9 +6212,19 @@
       "bytes": 3645
     },
     {
+      "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/GuideBookTest.java",
+      "sha256": "99274d9ca6a895eb9b0b0197b67a765526b55c0b0038dce051b1ed938624bc3e",
+      "bytes": 979
+    },
+    {
       "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/GuildRulesTest.java",
       "sha256": "928a5f0acae19b3aaf6e8496899f8e4e16e29ca056cf536249b647f50fba6cb4",
       "bytes": 23852
+    },
+    {
+      "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/NextChatClientProbe.java",
+      "sha256": "60ad88bd2e2313925ab6e043294de85b092e77a79cfff7cd89928b41bb7d04da",
+      "bytes": 6513
     },
     {
       "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/NightRulesTest.java",
@@ -5998,13 +6293,18 @@
     },
     {
       "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/SpawnTeleportProbe.java",
-      "sha256": "e7538ad4b7c8cda8e7e885ad5d57819f4921a8bc44cad4f899578ccf7107e758",
-      "bytes": 8085
+      "sha256": "3f2a3fcf6b88a326f8ab70e5d982e130f33cf0ea14b5de55949547247429c8a2",
+      "bytes": 13986
     },
     {
       "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/SpawnTeleportQueueTest.java",
-      "sha256": "74c602e7ed8be45cbdf9042f3164deb011e0e341d66d9ba8ef78ff8b55dd6cfc",
-      "bytes": 3341
+      "sha256": "376482ff5be213f764f3cfa46aeb071aaae730d9e157a4edbe653fbfb4e99e0a",
+      "bytes": 4617
+    },
+    {
+      "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/StressProbe.java",
+      "sha256": "e1c370d6ba38c89d8e67c64565d5053205950c8654874d803fc40062482d3be1",
+      "bytes": 6432
     },
     {
       "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/TerritoryLayoutTest.java",
@@ -8358,8 +8658,8 @@
     },
     {
       "path": "minecraft/modpack/profile.json",
-      "sha256": "c2007c2d2f5ce1d4442c6894d485f5c6c894af740f816ba8116fb943a8aabf8f",
-      "bytes": 147639
+      "sha256": "781fff3f9307297a67e21c1ec5bc072342280368585aece1352200a0e0338b68",
+      "bytes": 147638
     },
     {
       "path": "minecraft/modpack/quest-book/chapter_groups.snbt",
@@ -8583,7 +8883,7 @@
     },
     {
       "path": "package.json",
-      "sha256": "c6b7c533ae1b59130260b24f078603126fd162b250e7a44e0362bfd7084bf765",
+      "sha256": "52512c95311f5a86917a23f00d32e3cf88e1c43a8bb7e1770cbc4aa8b839332d",
       "bytes": 5564
     },
     {
@@ -8758,13 +9058,13 @@
     },
     {
       "path": "RELEASE_BUILD.json",
-      "sha256": "ec893f99e23a525d678155c11965a8fcc46bcf6ffd9055d778c26811bfa745fa",
-      "bytes": 933
+      "sha256": "d8e56778a750d78a833345cacbbd751b37a571ec52962db29fe21872fa3541ff",
+      "bytes": 892
     },
     {
-      "path": "SCOPED_GAME_MOD_PATCH.json",
-      "sha256": "f93c39af47d33b2f10bac2818e7bacd2588cb7b38d46f84790f77f898f1cd404",
-      "bytes": 447
+      "path": "RELEASE_INPUTS.json",
+      "sha256": "627341080599a44e5d5218f733251a40ecbb271bbc0bb9d4f3c002cecfa66472",
+      "bytes": 377
     },
     {
       "path": "scripts/admin-https-smoke.mjs",
@@ -8843,8 +9143,8 @@
     },
     {
       "path": "scripts/check-prod-copy.mjs",
-      "sha256": "0a9da75a992f21eb2478c627c14befe4e6e51a896ff4177903bc13cb7e777764",
-      "bytes": 6389
+      "sha256": "163daa36a7949e6e28c7dd1f29f4d04cb0bba921063899089382e1e7144f86c1",
+      "bytes": 6438
     },
     {
       "path": "scripts/check-runtime-balance.ps1",
@@ -9067,6 +9367,11 @@
       "bytes": 4105
     },
     {
+      "path": "scripts/native-clan-roles.d.mts",
+      "sha256": "3e43ba1b957b383fe6e023f6e8f07244a7ec6ba1f37b804333d3e81acbbed9e3",
+      "bytes": 255
+    },
+    {
       "path": "scripts/native-clan-roles.mjs",
       "sha256": "dbb7e63f837b720c4a1f15fe0ab934192e5ee60157b8633279e7781c2799629c",
       "bytes": 7283
@@ -9155,6 +9460,16 @@
       "path": "scripts/native-update-ui.mjs",
       "sha256": "386bbbdab47f164c019bc8f296fd5ccd01611ecc0640a7b98b62beb31f111e4e",
       "bytes": 7298
+    },
+    {
+      "path": "scripts/next-update-phone-review.d.mts",
+      "sha256": "8818d56247950d32ec752e29564f5ed148793400c071bc7d6a70028a3ed4b649",
+      "bytes": 323
+    },
+    {
+      "path": "scripts/next-update-phone-review.mjs",
+      "sha256": "458e7a9efa4e3dab381f1bdd15eaed9365e50b281ba1be88518789a753b404b0",
+      "bytes": 3428
     },
     {
       "path": "scripts/nsis-payload-hash.mjs",
@@ -9472,14 +9787,19 @@
       "bytes": 2473
     },
     {
+      "path": "scripts/stress-test-local.mjs",
+      "sha256": "e2300d37aac80bd89490651778eff6fec51992f0628c5a6095656829b1beeb82",
+      "bytes": 6523
+    },
+    {
       "path": "scripts/survey-clan-world.mjs",
       "sha256": "693a4ec286524b315509aeb45db0a7ee1b8ded5f4dad1e13c83a44775c53a15b",
       "bytes": 2988
     },
     {
       "path": "scripts/survey-resource-sites.mjs",
-      "sha256": "e460319f2f0bcf72e4f4ba2dd74abceafc7aeae9baaf3a3775a0d1170bcbf6ce",
-      "bytes": 8618
+      "sha256": "ad1181f9b459806a746a130a5002650628eb5bf08eb1f38ca9a300d96b0b2cb5",
+      "bytes": 8242
     },
     {
       "path": "scripts/test-adventure-client.mjs",
@@ -9528,8 +9848,8 @@
     },
     {
       "path": "scripts/test-chat-spawn.mjs",
-      "sha256": "1a1a8f06332579b888c76e88a6e28ba848175b65976361f5b55671cd60075d09",
-      "bytes": 5988
+      "sha256": "b801e41a3e6cb14e88c226b8fd113b02122cfbaf7042d73c87389fd119baaf94",
+      "bytes": 6350
     },
     {
       "path": "scripts/test-clan-market-catalog.mjs",
@@ -9563,8 +9883,8 @@
     },
     {
       "path": "scripts/test-ecology-optional.mjs",
-      "sha256": "a5f7325bdd95a22b5c5ec105b2a8dd4e97948e47b6ec1278d9d2b949702c5c82",
-      "bytes": 3500
+      "sha256": "fe0e29fc41ba79885a6226f36b80f3f1b883da08b40ce348052edb9a72da55e9",
+      "bytes": 3489
     },
     {
       "path": "scripts/test-emote-multiplayer.mjs",
@@ -9712,14 +10032,19 @@
       "bytes": 1092
     },
     {
+      "path": "scripts/test-next-chat-client.mjs",
+      "sha256": "5f2b1aac0836a208d1e30dbeade38f8c556ad487af2665816260f690a0123981",
+      "bytes": 5203
+    },
+    {
       "path": "scripts/test-overgeared-removal.mjs",
       "sha256": "040b84fc497687b33e242999000d1598ca30522637c4ba2c6303f34d527e0016",
       "bytes": 5219
     },
     {
       "path": "scripts/test-owner-password-reset-ui.mjs",
-      "sha256": "b2ddc0f69d409c82aa12d2d94905f88667416f9f3fb6976b0f82ea2df9597593",
-      "bytes": 7822
+      "sha256": "0686daf23e680f8b6f2a5e79ff8fef7390d6136c763c552d5775b07da749e3f3",
+      "bytes": 7968
     },
     {
       "path": "scripts/test-pack-certificate.ps1",
@@ -9748,8 +10073,8 @@
     },
     {
       "path": "scripts/test-social-economy-server.mjs",
-      "sha256": "0f9981bd4033041620fb36788180d434ea084fd2ff58e829be57b259b777be54",
-      "bytes": 6010
+      "sha256": "5f72aacb3a8e20d154abb43aeeb653f565d9348475baf458f839a699c561de89",
+      "bytes": 6018
     },
     {
       "path": "scripts/test-social-economy.mjs",
@@ -9763,8 +10088,8 @@
     },
     {
       "path": "scripts/test-spawn-teleport.mjs",
-      "sha256": "b6cf8e07fe5270f24a941fc1b0df1d1b2969ad4f0934bd41ecddabea2b4c9e5f",
-      "bytes": 6081
+      "sha256": "842ed1157e0d9d703a378fc1edef0e71500ab49aa555152c13071a136619b6ec",
+      "bytes": 6345
     },
     {
       "path": "scripts/test-territory-protection.mjs",
@@ -9902,6 +10227,6 @@
       "bytes": 504
     }
   ],
-  "version": "0.8.17",
-  "release_tag": "v0.8.17"
+  "version": "0.8.18",
+  "release_tag": "v0.8.18"
 }

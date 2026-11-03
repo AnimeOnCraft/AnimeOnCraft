@@ -23,9 +23,6 @@ const base=path.join(root,'.tools/modpack-mvp/server');
 const args=process.argv.slice(2);
 const option=(name,fallback)=>{const hit=args.find(a=>a.startsWith(`--${name}=`));return hit?hit.slice(name.length+3):fallback;};
 for(const arg of args)assert.ok(/^--(codes|seed)=\S+$/.test(arg),`Unknown option ${arg}`);
-const NORTH=['road.main.scam','road.main.nya','road.ring.scam-nya','road.cross.w1','road.back.scam',
-  'core.capital','core.boss_arena','region.scam.capital','region.nya.capital','ring.outpost.scam','ring.outpost.nya',
-  'border.w1.fort','border.w1.pass','border.w1.village','site.ring.36','site.w1.t2','site.w1.t3','rim.watchtower.scam','border.w2.bridge','border.w4.port'];
 const codes=option('codes','site.ring.36,site.ring.108,site.ring.180,site.ring.252,site.ring.324,site.w1.t2,site.w1.t3,site.w2.t2,site.w2.t3,site.w3.t2,site.w3.t3,site.w4.t2,site.w4.t3,site.w5.t2,site.w5.t3,site.rim.36,site.rim.108,site.rim.180,site.rim.252,site.rim.324,site.frontier.54,site.frontier.230,site.frontier.162,site.frontier.280,site.frontier.340,site.frontier.98,site.frontier.226,site.frontier.314');
 const jar=path.join(root,'minecraft/integration/neoforge/build/libs/animeoncraft-admission-0.3.0-friends-dev.jar');
 const pack=path.join(root,'minecraft/server/world-config/worldgen-pack');

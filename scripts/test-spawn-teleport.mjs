@@ -31,10 +31,11 @@ for(const type of ['SpawnTeleport','SpawnTeleportQueue','SpawnTeleportStore','An
 fs.copyFileSync(probe,path.join(directory,'mods',name+'.jar'));
 applyBalanceConfig(directory);installBalancePack(directory,world);
 fs.cpSync(path.join(root,'minecraft/modpack/compat-pack'),path.join(directory,world,'datapacks/animeoncraft-compat'),{recursive:true});
-fs.copyFileSync(path.join(root,'minecraft/server/world-config/clan-spawns-states.json'),path.join(directory,'config/animeoncraft-clan-spawns.json'));
+// A fresh flat fixture has no live capitals: never apply production spawn heights to it.
+fs.writeFileSync(path.join(directory,'config/animeoncraft-clan-spawns.json'),JSON.stringify({format_version:1,seed:'20261020',clans:{}}));
 fs.writeFileSync(path.join(directory,'config/voicechat/voicechat-server.properties'),'port=24459\nbind_address=127.0.0.1\n');
 fs.writeFileSync(path.join(directory,'eula.txt'),'eula=true\n');
-fs.writeFileSync(path.join(directory,'server.properties'),['server-ip=127.0.0.1','server-port=25569','online-mode=false','enforce-secure-profile=false','white-list=false','spawn-protection=0','view-distance=2','simulation-distance=2','generate-structures=false','max-tick-time=-1','level-type=minecraft:flat','level-seed=20261020','level-name='+world].join('\n')+'\n');
+fs.writeFileSync(path.join(directory,'server.properties'),['server-ip=127.0.0.1','server-port=25569','online-mode=false','enforce-secure-profile=false','white-list=false','spawn-protection=0','view-distance=2','simulation-distance=2','generate-structures=false','max-tick-time=-1','level-type=minecraft:flat','generator-settings={"layers":[{"block":"minecraft:bedrock","height":1},{"block":"minecraft:dirt","height":2},{"block":"minecraft:grass_block","height":1}],"biome":"minecraft:plains"}','level-seed=20261020','level-name='+world].join('\n')+'\n');
 const java=process.env.JAVA_HOME?path.join(process.env.JAVA_HOME,'bin/java.exe'):'java';
 const child=spawn(java,['-Xms256m','-Xmx2048m','-Dterminal.jline=false','-Dterminal.ansi=false','-Danimeoncraft.spawnProbe=true','@libraries/net/neoforged/neoforge/21.1.262/win_args.txt','nogui'],{cwd:directory,windowsHide:true,stdio:['pipe','pipe','pipe'],env:{...process.env,TEMP:path.join(root,'.tools/work-temp'),TMP:path.join(root,'.tools/work-temp'),AOC_GAME_SERVER_ID:randomUUID(),AOC_GAME_SERVER_KEY:randomBytes(32).toString('hex'),AOC_GAME_REDEEM_URL:'http://127.0.0.1:1/api/v1/game/admission/redeem',AOC_GAME_HEARTBEAT_URL:'http://127.0.0.1:1/integration/v1/servers/heartbeat'}});
 let output='',stopping=false,forced;const exit=once(child,'exit');

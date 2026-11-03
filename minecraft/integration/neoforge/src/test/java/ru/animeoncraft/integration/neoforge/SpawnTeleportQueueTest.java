@@ -49,4 +49,18 @@ final class SpawnTeleportQueueTest {
         queue.restore(b,NOW-1);queue.cancel(b);
         assertEquals(SpawnTeleportQueue.Status.STARTED,queue.request(b,NOW+10_000).status());
     }
+    @Test void movementCancelsButLookingAroundAndJumpingInPlaceDoNot(){
+        var queue=new SpawnTeleportQueue();var id=UUID.randomUUID();
+        var start=new SpawnTeleportQueue.Origin("minecraft:overworld",10.5,64,-3.5);
+        queue.request(id,NOW,start);
+        assertFalse(queue.moved(id,start));
+        assertFalse(queue.moved(id,new SpawnTeleportQueue.Origin("minecraft:overworld",10.7,64,-3.3)),"tiny drift is tolerated");
+        assertFalse(queue.moved(id,new SpawnTeleportQueue.Origin("minecraft:overworld",10.5,65.25,-3.5)),"jump in place is tolerated");
+        assertTrue(queue.moved(id,new SpawnTeleportQueue.Origin("minecraft:overworld",11.1,64,-3.5)),"one step cancels");
+        assertTrue(queue.moved(id,new SpawnTeleportQueue.Origin("minecraft:overworld",10.5,62,-3.5)),"falling cancels");
+        assertTrue(queue.moved(id,new SpawnTeleportQueue.Origin("minecraft:the_nether",10.5,64,-3.5)),"dimension change cancels");
+        assertFalse(queue.moved(UUID.randomUUID(),start),"no pending request, nothing to cancel");
+        var legacy=UUID.randomUUID();queue.request(legacy,NOW);
+        assertFalse(queue.moved(legacy,new SpawnTeleportQueue.Origin("minecraft:overworld",99,99,99)),"request without origin is never cancelled by movement");
+    }
 }

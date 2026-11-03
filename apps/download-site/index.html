@@ -1,56 +1,138 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#0c0817">
-  <meta name="description" content="Скачай лаунчер AnimeOnCraft: Minecraft с магией, технологиями и кланами. Всё для игры — в одном приложении.">
-  <title>AnimeOnCraft — скачать лаунчер</title>
-  <link rel="icon" href="assets/mascot.png" type="image/png">
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>AnimeOnCraft — скачать лаунчер</title>
+<meta name="theme-color" content="#160c2b">
+<meta name="description" content="Скачай лаунчер AnimeOnCraft: Minecraft с магией, технологиями и кланами. Карта мира и новости сервера.">
+<link rel="icon" href="assets/mascot.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Manrope:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="ambient" aria-hidden="true"></div>
-  <div class="page">
-    <header>
-      <a class="brand" href="./" aria-label="AnimeOnCraft — главная">
-        <img src="assets/mascot.png" alt="" width="48" height="48">
-        <span>AnimeOn<span class="accent">Craft</span></span>
+<!-- Refraction filter for the liquid lens (Chromium uses it through backdrop-filter:url(); other browsers fall back to blur). -->
+<svg class="defs" aria-hidden="true" width="0" height="0">
+  <filter id="lens" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+    <feImage href="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='60'%3E%3Cdefs%3E%3ClinearGradient id='x'%3E%3Cstop offset='0' stop-color='%23000'/%3E%3Cstop offset='.18' stop-color='%23808080'/%3E%3Cstop offset='.82' stop-color='%23808080'/%3E%3Cstop offset='1' stop-color='%23fff'/%3E%3C/linearGradient%3E%3ClinearGradient id='y' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23000'/%3E%3Cstop offset='.3' stop-color='%23808080'/%3E%3Cstop offset='.7' stop-color='%23808080'/%3E%3Cstop offset='1' stop-color='%23fff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='60' fill='url(%23x)'/%3E%3Crect width='200' height='60' fill='url(%23y)' style='mix-blend-mode:screen' opacity='.0'/%3E%3C/svg%3E" preserveAspectRatio="none" result="map"/>
+    <feDisplacementMap in="SourceGraphic" in2="map" scale="22" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</svg>
+
+<div class="sky" aria-hidden="true"><i class="b1"></i><i class="b2"></i><i class="b3"></i><i class="b4"></i></div>
+
+<header class="top">
+  <a class="brand" href="#home" aria-label="AnimeOnCraft, главная">
+    <img src="assets/mascot.png" alt="" width="40" height="40">
+    <span>AnimeOnCraft</span>
+  </a>
+  <nav class="tabs glass" aria-label="Разделы сайта">
+    <span class="lens" aria-hidden="true"></span>
+    <a href="#home" data-tab="home">Главная</a>
+    <a href="#map" data-tab="map">Карта</a>
+    <a href="#news" data-tab="news">Новости</a>
+  </nav>
+  <a class="mini-download glass" href="https://charizma1337.github.io/animeoncraft-updates/0.8.17/AnimeOnCraft_0.8.17_x64-setup.exe" download>Скачать</a>
+</header>
+
+<main>
+  <!-- ГЛАВНАЯ -->
+  <section class="view view-home" id="view-home" data-view="home">
+    <div class="hero">
+      <div class="intro">
+        <span class="beta glass"><i></i>Бета-тест · 0.8.17</span>
+        <h1>Твой мир.<br>Твои люди.</h1>
+        <p class="lead">Minecraft с магией, технологиями и кланами. Исследуй, строй и создавай свою историю вместе с друзьями.</p>
+        <a class="cta" href="https://charizma1337.github.io/animeoncraft-updates/0.8.17/AnimeOnCraft_0.8.17_x64-setup.exe" download>
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/></svg>
+          <span>Скачать лаунчер</span>
+        </a>
+        <p class="meta">Windows 10 и 11, x64, версия 0.8.17, около 54 МБ.<br>Java уже внутри. Minecraft и моды загрузятся при подготовке сборки.</p>
+      </div>
+      <div class="stage" aria-hidden="false">
+        <div class="bubble"></div>
+        <img class="cat" src="assets/mascot-cut.webp" alt="Маскот AnimeOnCraft: белый пиксельный котик в золотой короне" width="900" height="983">
+        <div class="pedestal"></div>
+        <div class="chip chip-a glass">Minecraft 1.21.1 · NeoForge</div>
+        <div class="chip chip-b glass">6 кланов · 18 шахт · Врата Разлома</div>
+      </div>
+    </div>
+
+    <ol class="steps glass">
+      <li><b>1</b><div><h3>Установи лаунчер</h3><p>Скачай файл, запусти установщик и открой AnimeOnCraft.</p></div></li>
+      <li><b>2</b><div><h3>Создай персонажа</h3><p>Зарегистрируй аккаунт в лаунчере и выбери игровой ник.</p></div></li>
+      <li><b>3</b><div><h3>Заходи в мир</h3><p>Нажми «Проверить и восстановить сборку», дождись загрузки и нажми «Играть».</p></div></li>
+    </ol>
+
+    <div class="teasers">
+      <a class="teaser glass" href="#news" id="teaser-news">
+        <span class="t-kicker">Последнее обновление</span>
+        <strong class="t-title"></strong>
+        <span class="t-more">Читать новость</span>
       </a>
-      <span class="beta"><span></span> Бета-тест</span>
-    </header>
-    <main>
-      <section class="hero" aria-labelledby="welcome">
-        <div class="intro">
-          <p class="eyebrow">MINECRAFT · МАГИЯ · ТЕХНОЛОГИИ · КЛАНЫ</p>
-          <h1 id="welcome">Твой мир.<br>Твои <span>люди.</span></h1>
-          <p class="description">Исследуй, строй и создавай свою историю вместе с друзьями. Добро пожаловать в AnimeOnCraft.</p>
-          <a class="download" href="0.8.17/AnimeOnCraft_0.8.17_x64-setup.exe" download>
-            <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/></svg>
-            Скачать лаунчер <span aria-hidden="true">↗</span>
-          </a>
-          <p class="download-meta">Windows 10 / 11 · x64 · версия 0.8.17 · ≈54 МБ</p>
-          <p class="included">Java включена. Minecraft и моды загрузятся при подготовке сборки.</p>
-          <p class="included"><a class="source-link" href="https://github.com/AnimeOnCraft/AnimeOnCraft" target="_blank" rel="noopener noreferrer">Посмотреть исходный код на GitHub ↗</a></p>
+      <a class="teaser teaser-map glass" href="#map">
+        <span class="t-kicker">Карта мира</span>
+        <strong class="t-title">Сора в центре, шесть кланов вокруг</strong>
+        <span class="t-more">Открыть карту</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- КАРТА -->
+  <section class="view view-map" id="view-map" data-view="map" hidden>
+    <div class="view-head">
+      <h2>Карта мира</h2>
+      <p>Сора стоит в центре мира, от неё расходятся дороги к шести кланам. Колесо мыши или щипок приближают карту, перетаскивание двигает её.</p>
+    </div>
+    <div class="map-shell glass">
+      <div class="map-filters" role="group" aria-label="Что показывать на карте">
+        <button type="button" class="pill on" data-layer="sora" aria-pressed="true"><i class="dot d-sora"></i>Сора</button>
+        <button type="button" class="pill on" data-layer="clan" aria-pressed="true"><i class="dot d-clan"></i>Кланы</button>
+        <button type="button" class="pill on" data-layer="res" aria-pressed="true"><i class="dot d-res"></i>Шахты и угодья</button>
+        <button type="button" class="pill on" data-layer="place" aria-pressed="true"><i class="dot d-place"></i>Форты и деревни</button>
+        <button type="button" class="pill on" data-layer="event" aria-pressed="true"><i class="dot d-event"></i>Ивенты</button>
+        <button type="button" class="pill on" data-layer="roads" aria-pressed="true"><i class="dot d-road"></i>Дороги</button>
+      </div>
+      <div class="map-frame" id="map-frame">
+        <svg id="map-svg" role="img" aria-label="Карта мира AnimeOnCraft"></svg>
+        <div class="map-zoom glass">
+          <button type="button" id="zoom-in" aria-label="Приблизить">+</button>
+          <button type="button" id="zoom-out" aria-label="Отдалить">−</button>
+          <button type="button" id="zoom-home" aria-label="Показать весь мир">⌂</button>
         </div>
-        <div class="mascot-scene">
-          <div class="orbit" aria-hidden="true"></div>
-          <span class="spark spark-one" aria-hidden="true">✦</span>
-          <img class="mascot" src="assets/mascot.png" alt="Маскот AnimeOnCraft — белый Minecraft-котик в золотой короне" width="1254" height="1254" fetchpriority="high">
-          <span class="spark spark-two" aria-hidden="true">✦</span>
-          <div class="scene-caption"><span aria-hidden="true">✧</span> Место, где начинается твоя история</div>
+        <div class="map-card glass" id="map-card" hidden>
+          <span class="mc-type"></span>
+          <strong class="mc-name"></strong>
+          <span class="mc-xz"></span>
         </div>
-      </section>
-      <section class="getting-started" aria-labelledby="start">
-        <div class="section-heading"><span class="eyebrow">ДО ВСТРЕЧИ В ИГРЕ</span><h2 id="start">Начать проще, чем построить дом.</h2></div>
-        <ol class="steps">
-          <li><span class="number">01</span><div><h3>Установи лаунчер</h3><p>Скачай файл, запусти установщик и открой AnimeOnCraft.</p></div></li>
-          <li><span class="number">02</span><div><h3>Создай персонажа</h3><p>Зарегистрируй аккаунт в лаунчере и выбери игровой ник.</p></div></li>
-          <li><span class="number">03</span><div><h3>Заходи в свой мир</h3><p>Нажми «Проверить и восстановить сборку», дождись загрузки и нажми «Играть».</p></div></li>
-        </ol>
-      </section>
-    </main>
-    <footer><span>AnimeOnCraft <span class="footer-year">© 2026</span></span><span><a class="source-link" href="https://github.com/AnimeOnCraft/AnimeOnCraft" target="_blank" rel="noopener noreferrer">Открытый исходный код ↗</a> <span class="divider">/</span> <a href="offer.html">Оферта</a> <span class="divider">/</span> Minecraft 1.21.1 <span class="divider">/</span> NeoForge</span></footer>
-  </div>
+      </div>
+      <div class="map-legend" id="map-legend"></div>
+    </div>
+  </section>
+
+  <!-- НОВОСТИ -->
+  <section class="view view-news" id="view-news" data-view="news" hidden>
+    <div class="view-head">
+      <h2>Новости</h2>
+      <p>Что изменилось на сервере. Те же тексты приходят в лаунчер после каждого обновления.</p>
+    </div>
+    <div class="news">
+      <ul class="news-list glass" id="news-list" role="list"></ul>
+      <article class="news-article glass" id="news-article" aria-live="polite"></article>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <span>AnimeOnCraft © 2026. Неофициальный фанатский сервер, не связан с Mojang и Microsoft.</span>
+  <span class="links"><a href="https://github.com/AnimeOnCraft/AnimeOnCraft" target="_blank" rel="noopener noreferrer">Исходный код на GitHub</a><a href="offer.html">Оферта</a></span>
+</footer>
+
+<script src="assets/world.js"></script>
+<script src="assets/news.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

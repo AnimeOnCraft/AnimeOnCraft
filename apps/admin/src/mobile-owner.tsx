@@ -2,6 +2,7 @@ import { useEffect,useRef,useState,type FormEvent } from 'react';
 import type { CommunityComponents,AdministrationComponents } from '@animeoncraft/contracts';
 import { adminApi,ApiError } from './admin-api.js';
 import { LoginPanel,type Profile } from './auth-panel.js';
+import { Overview,Players,Suspicions,type Reports } from './mobile-owner-tabs.js';
 import './mobile-owner.css';
 type S=CommunityComponents['schemas'];
 type Entry=S['Application']&{nickname?:string};
@@ -54,9 +55,26 @@ function Queue({profile,onLogout}:{profile:Profile;onLogout:()=>void}){
  </section></>;
 }
 
+type Tab='queue'|'suspicions'|'players'|'overview';
+const TABS:[Tab,string][]=[['suspicions','Подозрения'],['queue','Заявки'],['players','Игроки'],['overview','Обзор']];
+/** Bottom tab bar for the phone. The open-suspicion counter refreshes every minute while the page is visible. */
+function OwnerHome({profile,onLogout}:{profile:Profile;onLogout:()=>void}){
+ const [tab,setTab]=useState<Tab>(()=>{const hash=location.hash.slice(1) as Tab;return TABS.some(([id])=>id===hash)?hash:'suspicions';}),[openCount,setOpenCount]=useState<number|null>(null),[playerQuery,setPlayerQuery]=useState('');
+ useEffect(()=>{let active=true;const poll=()=>{if(document.visibilityState!=='visible')return;void adminApi.call<Reports>('management/anticheat/reports?filter=open').then(data=>{if(active)setOpenCount(data.open_count);}).catch(()=>{/* Shown inside the tab. */});};
+  poll();const timer=window.setInterval(poll,60000);document.addEventListener('visibilitychange',poll);return()=>{active=false;window.clearInterval(timer);document.removeEventListener('visibilitychange',poll);};},[]);
+ useEffect(()=>{history.replaceState(null,'','#'+tab);document.title=(openCount?`(${openCount}) `:'')+'AnimeOnCraft · владелец';},[tab,openCount]);
+ return <><nav className="phone-tabs" aria-label="Разделы">{TABS.map(([id,label])=><button key={id} aria-current={tab===id?'page':undefined} className={tab===id?'':'secondary'} onClick={()=>setTab(id)}>{label}{id==='suspicions'&&!!openCount&&<span className="phone-badge">{openCount}</span>}</button>)}</nav>
+  {tab==='queue'&&<Queue profile={profile} onLogout={onLogout}/>}
+  {tab==='suspicions'&&<Suspicions onCount={setOpenCount} onOpenPlayer={name=>{setPlayerQuery(name);setTab('players');}}/>}
+  {tab==='players'&&<Players initialQuery={playerQuery}/>}
+  {tab==='overview'&&<Overview openCount={openCount}/>}
+  {tab!=='queue'&&<div className="phone-account"><span>{profile.login||'Y2K'} · владелец</span><button className="secondary small" onClick={()=>{void adminApi.call('auth/logout','POST',{}).finally(()=>{adminApi.clear();onLogout();});}}>Выйти</button></div>}
+ </>;
+}
+
 export function MobileOwnerApp(){
  const [profile,setProfile]=useState<Profile|null>(null),[checking,setChecking]=useState(true),[setup,setSetup]=useState(false);
  useEffect(()=>{let active=true;const expired=()=>{adminApi.clear();setProfile(null);};window.addEventListener('aoc-auth-expired',expired);void (async()=>{try{let value:Profile;try{value=await adminApi.call<Profile>('auth/me');}catch{await adminApi.renew();value=await adminApi.call<Profile>('auth/me');}if(active)setProfile(value);}catch{/* First visit. */}finally{if(active)setChecking(false);}})();return()=>{active=false;window.removeEventListener('aoc-auth-expired',expired);};},[]);
- return <main className="phone-shell"><header className="phone-brand"><span>AOC</span><div><p>ANIMEONCRAFT</p><h1>Управление кланами</h1></div></header>{checking?<p role="status">Проверяем сессию…</p>:setup?<Setup onBack={()=>setSetup(false)} onDone={()=>setSetup(false)}/>:profile?profile.system_role==='OWNER'?<Queue profile={profile} onLogout={()=>setProfile(null)}/>:<section className="phone-card"><h2>Доступ только владельцу</h2><p>У этого аккаунта нет прав владельца.</p><button onClick={()=>{void adminApi.call('auth/logout','POST',{}).finally(()=>{adminApi.clear();setProfile(null);});}}>Выйти</button></section>:<><LoginPanel ownerOnly onLogin={setProfile}/><button className="secondary" onClick={()=>setSetup(true)}>Первый вход: подключить защиту с телефона</button></>}
+ return <main className="phone-shell"><header className="phone-brand"><span>AOC</span><div><p>ANIMEONCRAFT</p><h1>Панель владельца</h1></div></header>{checking?<p role="status">Проверяем сессию…</p>:setup?<Setup onBack={()=>setSetup(false)} onDone={()=>setSetup(false)}/>:profile?profile.system_role==='OWNER'?<OwnerHome profile={profile} onLogout={()=>setProfile(null)}/>:<section className="phone-card"><h2>Доступ только владельцу</h2><p>У этого аккаунта нет прав владельца.</p><button onClick={()=>{void adminApi.call('auth/logout','POST',{}).finally(()=>{adminApi.clear();setProfile(null);});}}>Выйти</button></section>:<><LoginPanel ownerOnly onLogin={setProfile}/><button className="secondary" onClick={()=>setSetup(true)}>Первый вход: подключить защиту с телефона</button></>}
  <footer>В Safari можно добавить эту страницу на экран «Домой». Пароль и коды вводи только на этой странице.</footer></main>;
 }

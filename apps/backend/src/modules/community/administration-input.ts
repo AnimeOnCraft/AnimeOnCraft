@@ -1,5 +1,5 @@
 import { Transform } from 'class-transformer';
-import { IsIn, IsOptional, IsString, IsUUID, Matches, MaxLength, MinLength } from 'class-validator';
+import { IsBoolean, IsIn, IsISO8601, IsOptional, IsString, IsUUID, Matches, MaxLength, MinLength } from 'class-validator';
 import { PageInput } from '../../infrastructure/pagination.js';
 import { ReasonInput } from './community-input.js';
 export class UsersInput extends PageInput {
@@ -23,3 +23,10 @@ export class LauncherPasswordResetInput extends ReasonInput {
   @IsString() @MinLength(1) @MaxLength(1024) password!: string;
   @IsString() @MinLength(6) @MaxLength(128) proof!: string;
 }
+/** Phone panel: anticheat report list (newest first). */
+export class AnticheatListInput {
+  @IsOptional() @IsIn(['open','all']) filter?: 'open'|'all';
+  @IsOptional() @IsISO8601({ strict: true }) before?: string;
+}
+/** Marks one report (or every open report of that player) as reviewed. */
+export class AnticheatReviewInput extends ReasonInput { @IsBoolean() whole_player!: boolean; }

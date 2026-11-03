@@ -45,7 +45,7 @@ try{
   assert.ok(existsSync(path.join(backend,'dist/main.js')),'Build the backend first');
   api=spawn(node,['dist/main.js'],{cwd:backend,windowsHide:true,stdio:['ignore','pipe','pipe'],env:{...process.env,DATABASE_URL:at(runtimeUrl),PUBLIC_PORT:'3000',INTEGRATION_PORT:'3001',NODE_ENV:'development'}});
   for(const s of [api.stdout,api.stderr])s.on('data',c=>{output+=c;});
-  let ready=false;for(let i=0;i<60&&!ready;i++){await new Promise(r=>setTimeout(r,500));try{ready=(await fetch('http://127.0.0.1:3000/api/v1/health/ready')).status===200;}catch{}}
+  let ready=false;for(let i=0;i<60&&!ready;i++){await new Promise(r=>setTimeout(r,500));try{ready=(await fetch('http://127.0.0.1:3000/api/v1/health/ready')).status===200;}catch{/* Wait for the local fixture to become ready. */}}
   assert.ok(ready,'backend did not become ready on the copy');
   const get=async p=>{const r=await fetch(`http://127.0.0.1:3000/api/v1/${p}`);assert.equal(r.status,200,p);return r.json();};
   const map=await get('world/map'),points=await get('world/points'),clans=await get('clans'),relief=await get('world/relief');

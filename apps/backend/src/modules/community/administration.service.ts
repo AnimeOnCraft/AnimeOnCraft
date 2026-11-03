@@ -4,7 +4,8 @@ import { Prisma, type news, type User } from '../../generated/prisma/client.js';
 import { PaginationService, type PageInput } from '../../infrastructure/pagination.js';
 import { AuthService, type Principal } from '../auth/auth.service.js';
 import { CommunityService, checkVersion, type Command } from './community.service.js';
-import type { NewsInput, SlotInput, StateInput, UsersInput } from './administration-input.js';
+import type { AnticheatListInput, AnticheatReviewInput, NewsInput, SlotInput, StateInput, UsersInput } from './administration-input.js';
+import { listReports, reviewReports } from '../../anticheat/anticheat.js';
 import { assignSlot, listSlots, releaseSlot } from './region-assignment.js';
 type Tx=Prisma.TransactionClient;
 const userView=(row:User)=>({id:row.id,login:row.login,password_change_required:row.passwordChangeRequired,email:row.email,email_verified:!!row.emailVerifiedAt,system_role:row.systemRole,state:row.state,version:row.version.toString(),created_at:row.createdAt.toISOString()});
@@ -147,6 +148,15 @@ export class AdministrationService {
   }
   releaseSlot(principal:Principal,id:string,command:Command){
     return this.community.ownerCommand(principal,[],command,async(tx,{actor})=>releaseSlot(tx,id,command,(t,action,target,before,after)=>this.audit(t,actor.id,action,target,command,before,after)));
+  }
+  /** OWNER: suspicion reports from the game server (phone panel «Подозрения»). */
+  anticheat(principal:Principal,query:AnticheatListInput){return this.community.read(principal,null,'owner',async tx=>listReports(tx,query.filter!=='all',query.before?new Date(query.before):null));}
+  reviewAnticheat(principal:Principal,id:string,body:AnticheatReviewInput,command:Command){
+    return this.community.ownerCommand(principal,[],command,async(tx,{actor})=>{
+      const result=await reviewReports(tx,id,actor.id,body.whole_player);
+      await this.audit(tx,actor.id,'ANTICHEAT_REVIEWED',id,command,{},{reviewed:result.reviewed,whole_player:body.whole_player});
+      return result;
+    });
   }
   private audit(tx:Tx,actor:string,action:string,id:string,command:Command,before:Prisma.InputJsonObject,after:Prisma.InputJsonObject){return tx.audit_logs.create({data:{actor_kind:'USER',actor_user_id:actor,action,target_type:'administration',target_id:id,reason:String('reason' in command.body?command.body.reason:'Administrative change'),request_id:command.request_id,before_redacted:before,after_redacted:after}});}
 }

@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import {describe,it,expect} from 'vitest';
 import {giftInput,premiumInput} from '../src/premium/premium.controller.js';
-import {CRYSTALS,dungeonRef,guildWeek,levelReward,validDungeon,validRef} from '../src/premium/crystals.js';
+import {CRYSTALS,dungeonRef,guildWeek,levelReward,validArenaRef,validDungeon,validRef} from '../src/premium/crystals.js';
 const server='00000000-0000-4000-8000-000000000001',base={server_id:server,connection_id:'00000000-0000-4000-8000-000000000002',minecraft_uuid:'00000000-0000-4000-8000-000000000003',action:'READ'};
 describe('Premium crystals',()=>{
  it('lets the game server report events but never amounts or owners',()=>{
@@ -36,6 +36,15 @@ describe('Premium crystals',()=>{
   const gift={server_id:server,connection_id:base.connection_id,minecraft_uuid:base.minecraft_uuid,amount:500,gift_id:'00000000-0000-4000-8000-000000000009'};
   expect(giftInput(gift,server).amount).toBe(500);
   for(const bad of [{amount:0},{amount:5001},{amount:1.5},{amount:'500'},{gift_id:'x'},{server_id:'other'},{user_id:server},{action:'READ'}])expect(()=>giftInput({...gift,...bad},server)).toThrow();
+ });
+ it('accepts an arena win only with a match reference and never an amount',()=>{
+  const win={...base,action:'ARENA',ref:'arena:00000000-0000-4000-8000-0000000000aa'};
+  expect(premiumInput(win,server).ref).toBe(win.ref);
+  for(const bad of [{ref:'arena:x'},{ref:'guild:00000000-0000-4000-8000-0000000000aa'},{ref:'arena:00000000-0000-4000-8000-0000000000aa:2'},{amount:5},{rank:'A'}])
+   expect(()=>premiumInput({...win,...bad},server)).toThrow();
+  expect(()=>premiumInput({...base,action:'ARENA'},server)).toThrow();
+  expect(validArenaRef(win.ref)).toBe(true);
+  expect(CRYSTALS.arenaWin).toBe(5);expect(CRYSTALS.arenaWeeklyCap).toBe(60);
  });
  it('accepts only plain references',()=>{
   expect(validRef('guild:2026-10-25:quest:3')).toBe(true);

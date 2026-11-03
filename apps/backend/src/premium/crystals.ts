@@ -9,10 +9,13 @@ export const CRYSTALS=Object.freeze({
  guildTeam:10,
  // Rift Gate first clears: per player, dungeon and difficulty, once (owner decision 2026-10-26: 4×300 = 1200).
  dungeonFirstClear:{NORMAL:50,HARD:50,NIGHTMARE:50,MYTHIC:150} as Record<string,number>,
+ // PvP arena in Sora: per win, at most arenaWeeklyCap per week (same Monday calendar as the guild).
+ arenaWin:5,
+ arenaWeeklyCap:60,
  // Levels earned before the wallet existed are not paid out unless AOC_PREMIUM_RETRO_LEVELS=true.
  retroLevels:()=>process.env.AOC_PREMIUM_RETRO_LEVELS==='true',
 });
-export type EarnKind='LEVEL'|'GUILD'|'GUILD_TEAM'|'DUNGEON';
+export type EarnKind='LEVEL'|'GUILD'|'GUILD_TEAM'|'DUNGEON'|'ARENA';
 export interface Wallet {earned:number;paid:number;total:number}
 export function levelReward(level:number):number{return level<2||level>100?0:level<=20?20:level<=50?40:60;}
 /** Monday of the week in Asia/Yekaterinburg (UTC+5, no DST), the same calendar as the guild board. */
@@ -44,7 +47,7 @@ export async function readWallet(tx:Prisma.TransactionClient,user:string):Promis
 export async function earnLevels(tx:Prisma.TransactionClient,user:string,level:number):Promise<number>{
  if(!Number.isInteger(level)||level<1||level>100)throw new ForbiddenException('Invalid profile level');
  const w=await lockWallet(tx,user);
- let from=w.level_rewarded??(CRYSTALS.retroLevels()?1:level);
+ const from=w.level_rewarded??(CRYSTALS.retroLevels()?1:level);
  if(level<=from){if(w.level_rewarded===null)await tx.$executeRaw`UPDATE premium_wallets SET level_rewarded=${level} WHERE user_id=${user}::uuid`;return 0;}
  let granted=0;
  for(let n=from+1;n<=level;n++){const amount=levelReward(n);if(amount>0&&await post(tx,user,'LEVEL','level:'+n,amount,0,w))granted+=amount;}
@@ -71,6 +74,20 @@ export async function earnDungeon(tx:Prisma.TransactionClient,user:string,dungeo
  if(!validDungeon(dungeon,difficulty))throw new ForbiddenException('Invalid dungeon');
  const amount=CRYSTALS.dungeonFirstClear[difficulty]!;const w=await lockWallet(tx,user);
  return await post(tx,user,'DUNGEON',dungeonRef(dungeon,difficulty),amount,0,w)?amount:0;
+}
+const arenaPattern=/^arena:[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/;
+/** The only reference an arena win may carry: one payment per player and match. */
+export function validArenaRef(ref:unknown):ref is string{return typeof ref==='string'&&arenaPattern.test(ref);}
+/** Arena win: a fixed amount, at most arenaWeeklyCap per week counted from the ledger (the wallet row lock serializes it). */
+export async function earnArena(tx:Prisma.TransactionClient,user:string,ref:string,now=new Date()):Promise<number>{
+ if(!validArenaRef(ref))throw new ForbiddenException('Invalid arena reference');
+ const w=await lockWallet(tx,user);
+ const weekStart=new Date(Date.parse(guildWeek(now)+'T00:00:00+05:00'));
+ const used=Number((await tx.$queryRaw<Array<{n:bigint|null}>>`SELECT COALESCE(sum(delta_earned),0)::bigint AS n FROM premium_ledger
+  WHERE user_id=${user}::uuid AND kind='ARENA' AND created_at>=${weekStart}`)[0]?.n??0n);
+ const amount=Math.min(CRYSTALS.arenaWin,CRYSTALS.arenaWeeklyCap-used);
+ if(amount<=0)return 0;
+ return await post(tx,user,'ARENA',ref,amount,0,w)?amount:0;
 }
 /** Spends earned crystals first, then paid. Used by the gacha in the same transaction as the roll. */
 export async function spend(tx:Prisma.TransactionClient,user:string,amount:number,kind:'ROLL',ref:string):Promise<{earned:number;paid:number}>{

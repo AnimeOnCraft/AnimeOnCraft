@@ -23,12 +23,12 @@ final class SpawnTeleport {
             if(!player.isAlive()||player.isRemoved()){
                 context.getSource().sendFailure(Component.literal("Дождись возрождения перед телепортацией."));return 0;
             }
-            var reply=SpawnTeleportStore.get(context.getSource().getServer()).queue.request(player.getUUID(),System.currentTimeMillis());
+            var reply=SpawnTeleportStore.get(context.getSource().getServer()).queue.request(player.getUUID(),System.currentTimeMillis(),origin(player));
             switch(reply.status()){
                 case COOLDOWN -> context.getSource().sendFailure(Component.literal("/spawn будет доступен через "+reply.seconds()+" сек."));
                 case PENDING -> context.getSource().sendFailure(Component.literal("Телепортация уже готовится: "+reply.seconds()+" сек."));
                 case STARTED -> {
-                    player.sendSystemMessage(Component.literal("Телепортация на центральный спавн через 10 секунд."));
+                    player.sendSystemMessage(Component.literal("Телепортация на центральный спавн через 10 секунд. Не двигайся, иначе она отменится."));
                     countdown(player,10);return 1;
                 }
             }
@@ -45,6 +45,11 @@ final class SpawnTeleport {
     static void advance(MinecraftServer server,ServerPlayer player,long now){
         var store=SpawnTeleportStore.get(server);var queue=store.queue;
         if(!player.isAlive()||player.isRemoved()){queue.cancel(player.getUUID());return;}
+        if(queue.moved(player.getUUID(),origin(player))){
+            queue.cancel(player.getUUID());
+            player.sendSystemMessage(Component.literal("Телепортация отменена: ты сдвинулся с места. Перерыв не начислен, можно ввести /spawn снова."));
+            player.displayClientMessage(Component.literal("Телепортация отменена: движение."),true);return;
+        }
         var seconds=queue.advance(player.getUUID(),now);
         if(seconds.isEmpty())return;
         if(seconds.getAsInt()>0){countdown(player,seconds.getAsInt());return;}
@@ -68,6 +73,7 @@ final class SpawnTeleport {
         if(queue.succeeded(player.getUUID(),Math.max(now,System.currentTimeMillis())))store.setDirty();
         player.displayClientMessage(Component.literal("Ты на центральном спавне. /spawn снова через 5 минут."),true);
     }
+    static SpawnTeleportQueue.Origin origin(ServerPlayer player){return new SpawnTeleportQueue.Origin(player.level().dimension().location().toString(),player.getX(),player.getY(),player.getZ());}
     private static void countdown(ServerPlayer player,int seconds){player.displayClientMessage(Component.literal("На спавн через "+seconds+" сек."),true);}
     static void logout(PlayerEvent.PlayerLoggedOutEvent event){
         if(event.getEntity() instanceof ServerPlayer player&&player.getServer()!=null)SpawnTeleportStore.get(player.getServer()).queue.cancel(player.getUUID());

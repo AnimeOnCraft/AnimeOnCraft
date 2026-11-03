@@ -297,6 +297,7 @@ public final class TerritoryProtection {
     }
     public static boolean hostilePlayerEffectDenied(Entity victim,Entity source){
         if(!(victim instanceof ServerPlayer target)||!(source instanceof ServerPlayer attacker))return false;
+        if(PvpArena.fighting(attacker,target))return false; // the two fighters of a running Sora arena match
         if(active(target.level())&&(marketAt(target.blockPosition().getX(),target.blockPosition().getZ())!=null
             ||(attacker.level()==target.level()&&marketAt(attacker.blockPosition().getX(),attacker.blockPosition().getZ())!=null)))return true;
         var attackerIdentity=GameIdentity.PLAYERS.get(attacker.getUUID());var targetIdentity=GameIdentity.PLAYERS.get(target.getUUID());

@@ -50,6 +50,11 @@ public final class AnimeOnCraftAdmission {
         events.addListener(ClanMarkets::tick);
         events.addListener(ClanMarkets::stopped);
         events.addListener(SpawnTeleport::register);
+        events.addListener(PvpArena::commands);events.addListener(PvpArena::tick);events.addListener(PvpArena::stopped);events.addListener(net.neoforged.bus.api.EventPriority.HIGHEST,false,PvpArena::death);
+        events.addListener(GuideBook::login);events.addListener(GuideBook::clone);events.addListener(GuideBook::commands);
+        events.addListener(Anticheat::commands);events.addListener(Anticheat::tick);events.addListener(Anticheat::attack);events.addListener(Anticheat::startBreak);
+        events.addListener(net.neoforged.bus.api.EventPriority.LOWEST,false,Anticheat::broken);events.addListener(Anticheat::damaged);events.addListener(net.neoforged.bus.api.EventPriority.LOWEST,false,Anticheat::teleported);
+        events.addListener(Anticheat::respawn);events.addListener(Anticheat::dimension);events.addListener(Anticheat::login);events.addListener(Anticheat::logout);events.addListener(Anticheat::stopped);
         events.addListener(SpawnTeleport::tick);
         events.addListener(SpawnTeleport::logout);
         events.addListener(net.neoforged.bus.api.EventPriority.LOWEST,false,SpawnTeleport::death);
@@ -164,6 +169,9 @@ public final class AnimeOnCraftAdmission {
         menu.playToClient(ServerMenuPayloads.Snapshot.TYPE,ServerMenuPayloads.Snapshot.CODEC,(payload,context)->{
             if(net.neoforged.fml.loading.FMLEnvironment.dist==net.neoforged.api.distmarker.Dist.CLIENT)ClientRegistration.menu(payload,context);
         });
+        var chat=event.registrar("1").optional();
+        chat.playToClient(ChatPayloads.Line.TYPE,ChatPayloads.Line.CODEC,(p,c)->{if(net.neoforged.fml.loading.FMLEnvironment.dist==net.neoforged.api.distmarker.Dist.CLIENT)ClientRegistration.chatLine(p,c);});
+        chat.playToClient(ChatPayloads.Notice.TYPE,ChatPayloads.Notice.CODEC,(p,c)->{if(net.neoforged.fml.loading.FMLEnvironment.dist==net.neoforged.api.distmarker.Dist.CLIENT)ClientRegistration.chatNotice(p,c);});
         var registrar = event.registrar("2").optional();
         registrar.configurationToClient(AdmissionPayloads.Challenge.TYPE, AdmissionPayloads.Challenge.CODEC, AnimeOnCraftAdmission::challenge);
         registrar.configurationToServer(AdmissionPayloads.Proof.TYPE, AdmissionPayloads.Proof.CODEC, AnimeOnCraftAdmission::proof);
@@ -201,6 +209,8 @@ public final class AnimeOnCraftAdmission {
         static void guildBadge(GuildPayloads.Badge p,IPayloadContext c){ClientGuild.badge(p,c);}
         static void profile(ProfilePayloads.Snapshot payload,IPayloadContext context){ClientProfiles.accept(payload,context);}
         static void title(ProfilePayloads.Title payload,IPayloadContext context){ClientProfiles.title(payload,context);}
+        static void chatLine(ChatPayloads.Line p,IPayloadContext c){ClientChat.line(p,c);}
+        static void chatNotice(ChatPayloads.Notice p,IPayloadContext c){ClientChat.notice(p,c);}
         static void register(IEventBus bus){
             bus.addListener(ClientEmoteMenu::register);
             var events=net.neoforged.neoforge.common.NeoForge.EVENT_BUS;
@@ -226,6 +236,10 @@ public final class AnimeOnCraftAdmission {
             net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(ClientTerritories::logout);
             net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(CapeRenderProbe::tick);
             net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(ClientNameTags::render);
+            // Tabbed chat (Ближний / Общий / Клановый / Информация); can be switched back to vanilla from its gear menu.
+            events.addListener(ClientChat::received);events.addListener(ClientChat::sending);events.addListener(ClientChat::layer);
+            events.addListener(ClientChat::screenPre);events.addListener(ClientChat::screenPost);events.addListener(ClientChat::click);
+            events.addListener(ClientChat::scrolled);events.addListener(ClientChat::key);events.addListener(ClientChat::tick);events.addListener(ClientChat::logout);
         }
         static void receive(SkinPayload payload,IPayloadContext context){ClientSkins.accept(payload,context);}
         static void cape(CapeTexturePayload payload,IPayloadContext context){ClientSkins.acceptCape(payload,context);}

@@ -25,6 +25,12 @@ record ServerSettings(UUID serverId, URI redeemUrl, String key) {
         return validatedHeartbeat(base + "/integration/v1/servers/heartbeat");
     }
 
+    /** Another integration route on the same base as the heartbeat (for example the anticheat reports). */
+    URI integrationUrl(String path){
+        if(!path.matches("/integration/v1/[a-z0-9/-]+"))throw new IllegalArgumentException("Invalid integration path");
+        return heartbeatUrl().resolve(path);
+    }
+
     static URI validatedHeartbeat(String value){
         URI url=URI.create(value);
         boolean loopback="http".equals(url.getScheme())&&"127.0.0.1".equals(url.getHost());

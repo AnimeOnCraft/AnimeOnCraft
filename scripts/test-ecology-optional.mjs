@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {spawn} from 'node:child_process';
 import {randomBytes,randomUUID,createHash} from 'node:crypto';
 import {once} from 'node:events';
-import {copyFileSync,cpSync,existsSync,mkdirSync,readdirSync,readFileSync,symlinkSync,writeFileSync} from 'node:fs';
+import {copyFileSync,cpSync,mkdirSync,readdirSync,readFileSync,symlinkSync,writeFileSync} from 'node:fs';
 import net from 'node:net';
 import path from 'node:path';
 

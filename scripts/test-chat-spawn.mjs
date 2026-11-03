@@ -25,8 +25,12 @@ const directory = path.join(root, `.tools/chat-spawn-probe-${stamp}`);
 mkdirSync(path.join(directory, 'mods'), {recursive:true}); mkdirSync(path.join(directory, 'config/voicechat'), {recursive:true});
 symlinkSync(path.join(base, 'libraries'), path.join(directory, 'libraries'), 'junction');
 copyFileSync(jar, path.join(directory, 'mods', path.basename(jar)));
-for (const name of readdirSync(path.join(base, 'mods')))
-  if (name.endsWith('.jar') && !name.startsWith('animeoncraft-admission-')) copyFileSync(path.join(base, 'mods', name), path.join(directory, 'mods', name));
+const profile=JSON.parse(readFileSync(path.join(root,'minecraft/modpack/profile.json'),'utf8'));
+for(const mod of profile.mods.filter(mod=>mod.install_sides.includes('server'))){
+  const sources=['server/mods','client/mods','downloads'].map(folder=>path.join(root,'.tools/modpack-mvp',folder,mod.file.name));
+  const source=sources.find(file=>existsSync(file)&&createHash('sha512').update(readFileSync(file)).digest('hex')===mod.file.sha512);
+  assert.ok(source,'Verified cached mod required: '+mod.file.name);copyFileSync(source,path.join(directory,'mods',mod.file.name));
+}
 const optimizations = JSON.parse(readFileSync(path.join(root, 'minecraft/server/optimizations.json'), 'utf8'));
 for (const mod of optimizations.mods) {
   assert.equal(path.basename(mod.file.name), mod.file.name);

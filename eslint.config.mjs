@@ -7,6 +7,7 @@ export default [
   js.configs.recommended,
   ...tseslint.configs.recommended,
   { files: ['**/*.mjs'], languageOptions: { globals: globals.node } },
+  { files: ['apps/download-site/**/*.js', 'apps/download-site-glass/**/*.js'], languageOptions: { globals: globals.browser } },
   {
     files: ['**/*.{ts,tsx,mts}'],
     languageOptions: { globals: { ...globals.browser, ...globals.node } },

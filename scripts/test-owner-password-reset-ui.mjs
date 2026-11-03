@@ -28,9 +28,9 @@ async function evaluate(expression){const value=await call('Runtime.evaluate',{e
 async function wait(expression){for(let i=0;i<100;i++){if(await evaluate(expression))return;await new Promise(resolve=>setTimeout(resolve,100));}throw Error('UI fixture condition timed out (no credentials logged)');}
 const submit=`(()=>{const f=document.querySelector('form');f.elements.login.value='FixtureNick';f.elements.password.value='Fixture-Owner-Password-2026!';f.elements.proof.value='123456';f.requestSubmit();})()`;
 try{
- let target;for(let i=0;i<100;i++){try{target=(await(await fetch('http://127.0.0.1:'+debugPort+'/json/list')).json()).find(p=>p.url.includes('__owner_reset_fixture'));if(target)break;}catch{}await new Promise(resolve=>setTimeout(resolve,100));}assert.ok(target,'Own test browser did not start');
+ let target;for(let i=0;i<100;i++){try{target=(await(await fetch('http://127.0.0.1:'+debugPort+'/json/list')).json()).find(p=>p.url.includes('__owner_reset_fixture'));if(target)break;}catch{/* The disposable browser may already be closed or still starting. */}await new Promise(resolve=>setTimeout(resolve,100));}assert.ok(target,'Own test browser did not start');
  socket=new WebSocket(target.webSocketDebuggerUrl);await new Promise((resolve,reject)=>{socket.addEventListener('open',resolve,{once:true});socket.addEventListener('error',reject,{once:true});});
- socket.addEventListener('message',event=>{const value=JSON.parse(event.data),item=pending.get(value.id);if(!item)return;pending.delete(value.id);clearTimeout(item.timer);value.error?item.reject(Error('CDP command rejected')):item.resolve(value.result);});
+ socket.addEventListener('message',event=>{const value=JSON.parse(event.data),item=pending.get(value.id);if(!item)return;pending.delete(value.id);clearTimeout(item.timer);if(value.error)item.reject(Error('CDP command rejected'));else item.resolve(value.result);});
  await wait(`!!document.querySelector('input[name="login"]')`);
  await evaluate(submit);await evaluate(`document.querySelector('form').dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}))`);
  assert.equal(await evaluate('window.calls.length'),1,'Duplicate submission issued a second reset');
@@ -51,5 +51,5 @@ try{
  const result={passed:true,react_strict_mode:true,duplicate_submit_blocked:true,proof_inputs_cleared:true,temporary_password_displayed:true,clipboard_failure_and_success:true,secret_not_persisted:true,hidden_after_dismissal:true,mfa_guidance:true,unmount_safe:true,production_accounts_unchanged:true};
  writeFileSync(path.join(out,'ui-result.json'),JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result));
 }finally{
- try{if(socket?.readyState===WebSocket.OPEN)await call('Browser.close');}catch{}socket?.close();for(const item of pending.values())clearTimeout(item.timer);await server.close();if(browser.exitCode===null)browser.kill();
+ try{if(socket?.readyState===WebSocket.OPEN)await call('Browser.close');}catch{/* The disposable browser may already be closed or still starting. */}socket?.close();for(const item of pending.values())clearTimeout(item.timer);await server.close();if(browser.exitCode===null)browser.kill();
 }

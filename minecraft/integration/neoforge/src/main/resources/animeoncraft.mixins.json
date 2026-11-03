@@ -4,6 +4,7 @@
   "package": "ru.animeoncraft.integration.neoforge.mixin",
   "compatibilityLevel": "JAVA_21",
   "client": [
+    "VanillaChatMixin",
     "PlayerSkinMixin",
     "PlayerTitleMixin",
     "CapeLayerMixin",

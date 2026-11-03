@@ -7,15 +7,9 @@ import net.neoforged.neoforge.client.event.RenderNameTagEvent;
 /** Client display of the server-supplied clan identity and guild rank. */
 final class ClientNameTags {
  private ClientNameTags() {}
- static void render(RenderNameTagEvent event) {
-  if (!(event.getEntity() instanceof Player player)) return;
-  String clan=ClientSkins.clan(player.getUUID());int rank=ClientGuild.rank(player.getUUID());
-  boolean hasClan=clan!=null && !clan.isEmpty();
-  if (!hasClan && rank<0) return;
-  Component content=event.getOriginalContent();
-  if (rank>=0) content=content.copy().append(Component.literal(" · ").withStyle(style->style.withColor(0x9a8aae))).append(Component.literal(GuildRules.Rank.of(rank).name()).withStyle(style->style.withColor(GuildScreen.RANK_COLORS[rank]&0xffffff).withBold(true)));
-  if (!hasClan) { event.setContent(content); return; }
-  int color=switch (clan) {
+ /** Shared by name tags and the tabbed chat. */
+ static int clanColor(String clan) {
+  return switch (clan == null ? "" : clan) {
    case "SCAM" -> 0xE84A5F;
    case "NYA" -> 0xF47DCB;
    case "AKUMA" -> 0xA970FF;
@@ -24,6 +18,16 @@ final class ClientNameTags {
    case "VORIX" -> 0x36D399;
    default -> 0xFFFFFF;
   };
+ }
+ static void render(RenderNameTagEvent event) {
+  if (!(event.getEntity() instanceof Player player)) return;
+  String clan=ClientSkins.clan(player.getUUID());int rank=ClientGuild.rank(player.getUUID());
+  boolean hasClan=clan!=null && !clan.isEmpty();
+  if (!hasClan && rank<0) return;
+  Component content=event.getOriginalContent();
+  if (rank>=0) content=content.copy().append(Component.literal(" · ").withStyle(style->style.withColor(0x9a8aae))).append(Component.literal(GuildRules.Rank.of(rank).name()).withStyle(style->style.withColor(GuildScreen.RANK_COLORS[rank]&0xffffff).withBold(true)));
+  if (!hasClan) { event.setContent(content); return; }
+  int color=clanColor(clan);
   Component tag=Component.literal("["+ClanCodes.display(clan)+"] ").withStyle(style->style.withColor(color).withBold(true));
   event.setContent(tag.copy().append(content));
  }
