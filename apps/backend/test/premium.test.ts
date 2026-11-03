@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import {describe,it,expect} from 'vitest';
-import {giftInput,premiumInput} from '../src/premium/premium.controller.js';
+import {giftInput,giftOneInput,premiumInput} from '../src/premium/premium.controller.js';
 import {CRYSTALS,dungeonRef,guildWeek,levelReward,validArenaRef,validDungeon,validRef} from '../src/premium/crystals.js';
 const server='00000000-0000-4000-8000-000000000001',base={server_id:server,connection_id:'00000000-0000-4000-8000-000000000002',minecraft_uuid:'00000000-0000-4000-8000-000000000003',action:'READ'};
 describe('Premium crystals',()=>{
@@ -36,6 +36,11 @@ describe('Premium crystals',()=>{
   const gift={server_id:server,connection_id:base.connection_id,minecraft_uuid:base.minecraft_uuid,amount:500,gift_id:'00000000-0000-4000-8000-000000000009'};
   expect(giftInput(gift,server).amount).toBe(500);
   for(const bad of [{amount:0},{amount:5001},{amount:1.5},{amount:'500'},{gift_id:'x'},{server_id:'other'},{user_id:server},{action:'READ'}])expect(()=>giftInput({...gift,...bad},server)).toThrow();
+ });
+ it('accepts a one-player gift only with a valid game name',()=>{
+  const gift={server_id:server,connection_id:base.connection_id,minecraft_uuid:base.minecraft_uuid,amount:300,gift_id:'00000000-0000-4000-8000-000000000010',player:'Crizzis8014'};
+  expect(giftOneInput(gift,server)).toMatchObject({player:'Crizzis8014',amount:300});
+  for(const bad of [{player:'ab'},{player:'name with space'},{player:'x'.repeat(17)},{player:5},{player:undefined},{amount:0},{amount:5001},{gift_id:'x'},{extra:1}])expect(()=>giftOneInput({...gift,...bad},server)).toThrow();
  });
  it('accepts an arena win only with a match reference and never an amount',()=>{
   const win={...base,action:'ARENA',ref:'arena:00000000-0000-4000-8000-0000000000aa'};

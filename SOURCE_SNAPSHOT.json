@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "kind": "release-source-snapshot",
-  "created_at": "2026-11-03T06:22:49.345Z",
+  "created_at": "2026-11-03T13:38:04.562Z",
   "private_history_included": false,
   "text_hashing": "UTF-8 text normalized to LF as stored by Git; binary files raw",
-  "release_binary_correspondence": "Current development snapshot accompanying 0.8.18, including pending work. See RELEASE_BUILD.json and RELEASE_INPUTS.json for the release inputs; the snapshot also contains pending website work.",
+  "release_binary_correspondence": "Current development snapshot accompanying 0.8.19, including pending work. See RELEASE_BUILD.json and RELEASE_INPUTS.json for the release inputs; the snapshot also contains pending website work.",
   "files": [
     {
       "path": ".dockerignore",
@@ -453,8 +453,8 @@
     },
     {
       "path": "apps/backend/db/next-update-smoke.ts",
-      "sha256": "a5975c157c9a8e0478ae5f607e6c9fa2af1afe5416b37af15993bb17f0e18793",
-      "bytes": 10314
+      "sha256": "af289be5bbd3d9ba37d2754c74cecb597ef8335ca777b292f71990ee77285dc6",
+      "bytes": 13391
     },
     {
       "path": "apps/backend/db/owner.ts",
@@ -933,8 +933,8 @@
     },
     {
       "path": "apps/backend/src/premium/crystals.ts",
-      "sha256": "fd5c9a7d48a65d59a961c2b0257d9bcc271bce400cc5d5760e1e9bb5c9f7dc51",
-      "bytes": 9862
+      "sha256": "16ca939c2bdd6dda85c6e7caabf8a79fb54849ccb893d1e73eee2337d2d87211",
+      "bytes": 11162
     },
     {
       "path": "apps/backend/src/premium/gacha.ts",
@@ -953,8 +953,8 @@
     },
     {
       "path": "apps/backend/src/premium/premium.controller.ts",
-      "sha256": "1880494320241a703cf7c1d29e883d059c40fa1c38f686528aacefb6146ab8f8",
-      "bytes": 7672
+      "sha256": "1f57b915393322944c3e6e7442ea34a9990c85baad8751dde124ff6ba365f835",
+      "bytes": 9158
     },
     {
       "path": "apps/backend/src/server-menu/server-menu.controller.ts",
@@ -1033,8 +1033,8 @@
     },
     {
       "path": "apps/backend/test/premium.test.ts",
-      "sha256": "e7a851fe69fc705d3fd789bcde2f5d71f59eb114d43427bc70d0f03f372043c3",
-      "bytes": 4205
+      "sha256": "b6b54d70e7792b22309913d22d7cb6f4b915674fe762125b3b1d03539fe17e42",
+      "bytes": 4781
     },
     {
       "path": "apps/backend/test/wardrobe.test.ts",
@@ -1283,7 +1283,7 @@
     },
     {
       "path": "apps/launcher/package.json",
-      "sha256": "8b501d707f6888ad030e97d74d615e8beb68b5fc293d37abb2c37f45e6eaafc4",
+      "sha256": "b512767416a4124ea5e0ffe886a7566e8d9fe5683a23d0dbfc91e04732d7eb52",
       "bytes": 819
     },
     {
@@ -1313,12 +1313,12 @@
     },
     {
       "path": "apps/launcher/src-tauri/Cargo.lock",
-      "sha256": "b21c9cee2f86c810c728ed1f0017b90fc878c85a708c92ce7a49e5a186f36c72",
+      "sha256": "39b9b4a71fa1741d873760115f2198fbe4ff815cd5506dbb3479d9ae9fd1a458",
       "bytes": 127775
     },
     {
       "path": "apps/launcher/src-tauri/Cargo.toml",
-      "sha256": "6d48fcb44d637a836b4f1c9cf71cd2f139b5875b66edb286452eb0b623fcff3d",
+      "sha256": "0c2a40f906d14e25955733191b07d4d028ab16cfa1a235e7600143ae4840d42c",
       "bytes": 1984
     },
     {
@@ -2178,7 +2178,7 @@
     },
     {
       "path": "apps/launcher/src-tauri/tauri.conf.json",
-      "sha256": "ac4936a47495d14651251b1eea233657b1dc6b562cedce14f2477269447ed66f",
+      "sha256": "f3f42b076a9ddf80070e4bac75ced553684f8527062528386f8154ad5b5be01b",
       "bytes": 1326
     },
     {
@@ -2652,19 +2652,14 @@
       "bytes": 3282
     },
     {
-      "path": "docs/PATCH_NOTES_0_8_18.md",
-      "sha256": "c2fd588d8346c027f42f627657ff9df8c3ac89a1315140922b8fa87c52d7b9e4",
-      "bytes": 2542
+      "path": "docs/PATCH_NOTES_0_8_19.md",
+      "sha256": "fd1dbbe88e3c39951ea28e8869aee2d71c93b733ca757686d856d286a721af72",
+      "bytes": 1591
     },
     {
       "path": "docs/PUBLIC_README.md",
       "sha256": "2f3e7aa363b4d6dd3c142c27492af43d67be0b6d89ddce6271b8adbe70d6906c",
       "bytes": 3850
-    },
-    {
-      "path": "docs/RELEASE_DB_PERMISSIONS_0_8_18.md",
-      "sha256": "b6ba25d0fb6dc207e20a71bc3cdbe9e9a401c639221c3a19a8c84baa3d89930c",
-      "bytes": 626
     },
     {
       "path": "eslint.config.mjs",
@@ -3248,8 +3243,8 @@
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/BetaRewardIcons.java",
-      "sha256": "d3ce0046de02dd277d1235ff3589e9c1230d0470720206fec96c4ea989799774",
-      "bytes": 2097
+      "sha256": "f8dc1c0476b93a714f008c0da3bc718fa574aebba1e5327b25a1c0cbe3f7eead",
+      "bytes": 3119
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/BossHealthRange.java",
@@ -3423,8 +3418,8 @@
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ClientChat.java",
-      "sha256": "ce9213d486277bd6226c0a20fa122bdf1a6fe27620039be65495661290d91f0a",
-      "bytes": 33456
+      "sha256": "b6d13e281494ed3d9626e76737955c4af69146aaaec7c836c2558645cbda8d03",
+      "bytes": 33351
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ClientClanAchievements.java",
@@ -4073,8 +4068,8 @@
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/PremiumCommands.java",
-      "sha256": "1eabd07cbb7a6479e59b4234e94f93551b24ce416b84ce920040a7c8a86dedcb",
-      "bytes": 3742
+      "sha256": "8a07c9bd11929882918cd32b3f78f2d034bb858d479d0b34c8f68b2ec49a0a57",
+      "bytes": 7742
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/PremiumCrystals.java",
@@ -4203,8 +4198,8 @@
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ServerMenuScreen.java",
-      "sha256": "836cfb3a8cb74e82143f1ed58557d269ecc196118f5a827cafa9a797d656a5ba",
-      "bytes": 59771
+      "sha256": "904c40066c9559ede27d5ad697cbf5c70c57f6f73a4c384a5ff34b121ab6a358",
+      "bytes": 63203
     },
     {
       "path": "minecraft/integration/neoforge/src/main/java/ru/animeoncraft/integration/neoforge/ServerMenuSync.java",
@@ -4675,6 +4670,11 @@
       "path": "minecraft/integration/neoforge/src/main/resources/assets/animeoncraft/textures/gui/beta_rewards.png.mcmeta",
       "sha256": "c01a8f77c3720cc5ff7b9bf9868b931beb03a0369f316e872610bfbf43ab05ef",
       "bytes": 59
+    },
+    {
+      "path": "minecraft/integration/neoforge/src/main/resources/assets/animeoncraft/textures/gui/gacha_rewards.png",
+      "sha256": "750db9ccc7ac0925bc6762fad2465063f22c1607d773264fdf8880c6451fff0e",
+      "bytes": 2685
     },
     {
       "path": "minecraft/integration/neoforge/src/main/resources/assets/animeoncraft/textures/item/rift_essence.png",
@@ -6273,8 +6273,8 @@
     },
     {
       "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/ServerMenuClientProbe.java",
-      "sha256": "265963e4c4fefe4f05d59a53e05819d1fb336f400a08bd7b0ad9765f7f229bce",
-      "bytes": 34238
+      "sha256": "50d27cbaf99e90dce4a8889a6e8c2d2ea2a13cae111466f83cf53c257ebeba44",
+      "bytes": 34462
     },
     {
       "path": "minecraft/integration/neoforge/src/test/java/ru/animeoncraft/integration/neoforge/ServerMenuTest.java",
@@ -8668,8 +8668,8 @@
     },
     {
       "path": "minecraft/modpack/profile.json",
-      "sha256": "781fff3f9307297a67e21c1ec5bc072342280368585aece1352200a0e0338b68",
-      "bytes": 147638
+      "sha256": "c4111ace02e19be3195f3379f00bb828fffd1aac71f3bf6f47297b287eee60af",
+      "bytes": 151984
     },
     {
       "path": "minecraft/modpack/quest-book/chapter_groups.snbt",
@@ -8893,7 +8893,7 @@
     },
     {
       "path": "package.json",
-      "sha256": "52512c95311f5a86917a23f00d32e3cf88e1c43a8bb7e1770cbc4aa8b839332d",
+      "sha256": "de262dedce211c5769c501e62732f4da79e98a1bd7bfc9ae5b375dd7e6adcb5d",
       "bytes": 5564
     },
     {
@@ -9068,13 +9068,13 @@
     },
     {
       "path": "RELEASE_BUILD.json",
-      "sha256": "4d09ee869e02314cf3998644308452d0556600735cb295b519d8c313a7221413",
-      "bytes": 1070
+      "sha256": "da1dc33222a64ef91dbf114360a7a5b203e1799f34f5c5b4a52e7f9d054d23a8",
+      "bytes": 892
     },
     {
       "path": "RELEASE_INPUTS.json",
-      "sha256": "627341080599a44e5d5218f733251a40ecbb271bbc0bb9d4f3c002cecfa66472",
-      "bytes": 377
+      "sha256": "7db2f2780640626ac0280ace6c1d3ef78c648b363960fad195c348cd99293676",
+      "bytes": 356
     },
     {
       "path": "scripts/admin-https-smoke.mjs",
@@ -9195,6 +9195,11 @@
       "path": "scripts/community-contract.mjs",
       "sha256": "a1919a0eaa3ad2bd964c8ad8e7091d4bee53408e5108f3fa5bd2621a97f59391",
       "bytes": 8543
+    },
+    {
+      "path": "scripts/cosmetics/generate-event-icons.py",
+      "sha256": "5dc5d8bf5d5151494df0102fa94309de478dc6da403e80be4aaf69d779c8e7b9",
+      "bytes": 2494
     },
     {
       "path": "scripts/cosmetics/model-authoring.mjs",
@@ -10073,8 +10078,8 @@
     },
     {
       "path": "scripts/test-server-menu-client.mjs",
-      "sha256": "fe8e8c912d5521a662d111c6df21a1ab1416c69adae63ddfafc64d21d4cd4232",
-      "bytes": 11707
+      "sha256": "d3cd802def3fe353106aa9bd91764403862251ddd85d7bff7977f51667af5bb5",
+      "bytes": 11949
     },
     {
       "path": "scripts/test-simple-update.ps1",
@@ -10237,6 +10242,6 @@
       "bytes": 504
     }
   ],
-  "version": "0.8.18",
-  "release_tag": "v0.8.18-dbfix.1"
+  "version": "0.8.19",
+  "release_tag": "v0.8.19"
 }

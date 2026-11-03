@@ -1,18 +1,13 @@
 {
-  "version": "0.8.18",
-  "source_tag": "v0.8.18-dbfix.1",
+  "version": "0.8.19",
+  "source_tag": "v0.8.19",
   "installer": {
-    "url": "https://charizma1337.github.io/animeoncraft-updates/0.8.18/AnimeOnCraft_0.8.18_x64-setup.exe",
-    "bytes": 56707203,
-    "sha256": "14994d16f3b56cfdc3cc4a9e4d1581e0e5414b67139f3d0c23aae61d5faac96b",
-    "signature_url": "https://charizma1337.github.io/animeoncraft-updates/0.8.18/AnimeOnCraft_0.8.18_x64-setup.exe.sig"
+    "url": "https://charizma1337.github.io/animeoncraft-updates/0.8.19/AnimeOnCraft_0.8.19_x64-setup.exe",
+    "bytes": 56722694,
+    "sha256": "8eb982c9144092c15724c111153bd78cbf482785e0d61d54fee0974cefc94afb",
+    "signature_url": "https://charizma1337.github.io/animeoncraft-updates/0.8.19/AnimeOnCraft_0.8.19_x64-setup.exe.sig"
   },
-  "game_mod_sha256": "746bd06d39606a0e1190b131f286a09cb91f854fb1b4f9762e9983bda7e381e9",
-  "modpack_profile_sha256": "781fff3f9307297a67e21c1ec5bc072342280368585aece1352200a0e0338b68",
-  "reproducibility": "The game mod was built and tested from this development tree. Public delivery preserves the 0.8.17 balance. See RELEASE_INPUTS.json. Pending website work is included as development source and is not deployed. Independent builds are not guaranteed to be bit-for-bit identical.",
-  "database_permissions_followup": {
-    "migration": "20261103000300_anticheat_report_permissions",
-    "installer_unchanged": true,
-    "game_mod_unchanged": true
-  }
+  "game_mod_sha256": "ae81382d94749dee9f730d313f43ff1255be2641cbe2c35ce3b2c6e34ea4604e",
+  "modpack_profile_sha256": "c4111ace02e19be3195f3379f00bb828fffd1aac71f3bf6f47297b287eee60af",
+  "reproducibility": "The game mod was built and tested from this development tree. Public delivery preserves the 0.8.18 balance. See RELEASE_INPUTS.json. Pending website work is included as development source and is not deployed. Independent builds are not guaranteed to be bit-for-bit identical."
 }

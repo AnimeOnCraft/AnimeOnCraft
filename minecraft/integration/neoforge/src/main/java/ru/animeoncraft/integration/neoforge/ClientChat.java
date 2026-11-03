@@ -218,7 +218,7 @@ public final class ClientChat {
         }
         if (text == null || text.getString().isEmpty()) return null;
         var styled = Component.empty().withStyle(s -> s.withFont(MENU)).append(text);
-        return new Badge(styled, color & 0xFFFFFF, font.width(styled) + 8);
+        return new Badge(styled, color & 0xFFFFFF, font.width(styled) + 1);
     }
 
     private static Component body(ChatLog.Entry<Item> entry) {
@@ -273,9 +273,8 @@ public final class ClientChat {
                 int tx = x + (hud ? 1 : 0) + r.indent();
                 if (k == 0 && r.badge() != null) {
                     var b = r.badge(); int bx = x + (hud ? 1 : 0);
-                    g.fill(bx, y, bx + b.width(), y + ROW - 2, (a * 3 / 10) << 24 | b.color());
-                    g.fill(bx, y + ROW - 3, bx + b.width(), y + ROW - 2, (a * 7 / 10) << 24 | b.color());
-                    g.drawString(font, b.text(), bx + 4, y + 1, a << 24 | 0xFFFFFF, false);
+                    // Title is plain coloured (and animated) text: no plate or underline behind it.
+                    g.drawString(font, b.text(), bx, y + 1, a << 24 | 0xFFFFFF, false);
                 }
                 g.drawString(font, r.rows().get(k), tx, y + 1, a << 24 | TEXT, false);
                 if (!hud) hits.add(new Hit(tx, y, r.rows().get(k)));

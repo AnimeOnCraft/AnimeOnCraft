@@ -36,14 +36,17 @@ final class ServerMenuScreen extends Screen {
     @Override public void onClose(){minecraft.options.keyPlayerList.setDown(false);super.onClose();}
     @Override public boolean mouseClicked(double x,double y,int button){
         if(button!=0)return false;double px=(x-left)/scale,py=(y-top)/scale;boolean main=page()==ServerMenuLogic.Page.WHEEL;
+        if(barX>=0&&listTotal>listVisible&&px>=barX-6&&px<=barX+10&&py>=barY&&py<=barY+barH){barDrag=true;dragBar(py);return true;}
         var sector=ServerMenuLogic.sector(px,py,main?510:224,315,main?195:150);
         if(page()!=ServerMenuLogic.Page.BETA_PASS&&page()!=ServerMenuLogic.Page.WARDROBE&&page()!=ServerMenuLogic.Page.SUMMON&&sector!=null&&logic.select(sector,button,ClientServerMenu.held())){rowOffset=0;triggerImmediateNarration(true);return true;}
         for(int i=hits.size()-1;i>=0;i--)if(hits.get(i).contains(px,py)){hits.get(i).action().run();return true;}return false;
     }
-    @Override public boolean mouseScrolled(double x,double y,double dx,double dy){if(dy==0)return false;if(page()==ServerMenuLogic.Page.WARDROBE&&wardrobeSlot.equals("BACK")){var d=ClientWardrobe.data();rowOffset=ServerMenuLogic.scroll(rowOffset,dy>0?-1:1,1+(d!=null&&d.available()?d.capes().size():0),3);return true;}if(page()==ServerMenuLogic.Page.PROFILE&&profileTab>0&&profileTab<3){rowOffset=ServerMenuLogic.scroll(rowOffset,dy>0?-1:1,ProfileProgression.ALL.size(),4);return true;}if(page()==ServerMenuLogic.Page.CLANS||page()==ServerMenuLogic.Page.ONLINE){rowOffset=ServerMenuLogic.scroll(rowOffset,dy>0?-1:1,page()==ServerMenuLogic.Page.CLANS?(clanTab==0?members().size():clanAchievementCount()):online().size(),page()==ServerMenuLogic.Page.CLANS?4:7);return true;}return false;}
+    @Override public boolean mouseDragged(double x,double y,int button,double dx,double dy){if(barDrag){dragBar((y-top)/scale);return true;}return super.mouseDragged(x,y,button,dx,dy);}
+    @Override public boolean mouseReleased(double x,double y,int button){if(barDrag){barDrag=false;return true;}return super.mouseReleased(x,y,button);}
+    @Override public boolean mouseScrolled(double x,double y,double dx,double dy){if(dy==0)return false;if(page()==ServerMenuLogic.Page.WARDROBE){if(listTotal>listVisible)rowOffset=ServerMenuLogic.scroll(rowOffset,dy>0?-1:1,listTotal,listVisible);return true;}if(page()==ServerMenuLogic.Page.PROFILE&&profileTab>0&&profileTab<3){rowOffset=ServerMenuLogic.scroll(rowOffset,dy>0?-1:1,ProfileProgression.ALL.size(),4);return true;}if(page()==ServerMenuLogic.Page.CLANS||page()==ServerMenuLogic.Page.ONLINE){rowOffset=ServerMenuLogic.scroll(rowOffset,dy>0?-1:1,page()==ServerMenuLogic.Page.CLANS?(clanTab==0?members().size():clanAchievementCount()):online().size(),page()==ServerMenuLogic.Page.CLANS?4:7);return true;}return false;}
     @Override public Component getNarrationMessage(){return Component.literal("Меню сервера. "+label(page())+". ЛКМ — выбрать. Escape — закрыть.");}
     @Override public void render(GuiGraphics g,int mouseX,int mouseY,float delta){
-        layout();mx=(mouseX-left)/scale;my=(mouseY-top)/scale;hits.clear();renderBlurredBackground(delta);g.fill(0,0,width,height,0x68060010);
+        layout();mx=(mouseX-left)/scale;my=(mouseY-top)/scale;hits.clear();barX=-1;listTotal=0;listVisible=0;renderBlurredBackground(delta);g.fill(0,0,width,height,0x68060010);
         g.pose().pushPose();g.pose().translate(left,top,0);g.pose().scale((float)scale,(float)scale,1);
         double brandEnd=32+minecraft.font.width(styled("AnimeOn",19))*19/9.0;text(g,"AnimeOn",32,25,19,WHITE);text(g,"Craft",brandEnd,25,19,VIOLET);int separator=(int)(brandEnd+minecraft.font.width(styled("Craft",19))*19/9.0+18);g.fill(separator,24,separator+1,46,0xff665178);text(g,"МЕНЮ СЕРВЕРА",separator+16,29,12,MUTED);button(g,976,21,94,29,"ESC  Закрыть",this::onClose,false);
         if(ClientGacha.supported()){boolean summoning=page()==ServerMenuLogic.Page.SUMMON;button(g,858,21,108,29,summoning?"← Меню":"✦  Призыв",()->{if(summoning){logic.back();rowOffset=0;}else openSummon();},false,0xfff07aa6);}
@@ -306,43 +309,62 @@ final class ServerMenuScreen extends Screen {
         text(g,data.open()?"Прогресс пропуска не связан с уровнем профиля":"Пропуск закрыт: получение XP приостановлено",455,537,10,MUTED);
     }
     private void wardrobe(GuiGraphics g){
-        text(g,"Гардероб",455,108,20,WHITE);var data=ClientBetaPass.data();
+        text(g,"Гардероб",455,108,20,WHITE);var data=ClientBetaPass.data();ClientGacha.read();
         String[] slots={"HEAD","FACE","BELT","BACK","TITLE","EMOTES"},names={"Голова","Лицо","Пояс","Спина","Титул","Эмоции"};
         for(int i=0;i<slots.length;i++){final String slot=slots[i];button(g,455+i*99,153,91,28,names[i],()->{wardrobeSlot=slot;rowOffset=0;},wardrobeSlot.equals(slot));}
         if(wardrobeSlot.equals("EMOTES")){emotes(g);return;}
         if(data==null){paragraph(g,"Загружаем полученную косметику…",455,200,550,14,MUTED,4);return;}
         if(wardrobeSlot.equals("BACK")){backWardrobe(g,data);return;}
-        var rows=BetaPass.REWARDS.stream().filter(r->BetaPass.slot(r).equals(wardrobeSlot)).toList();
-        for(int i=0;i<rows.size();i++){var r=rows.get(i);int y=208+i*91;boolean owned=(data.rewards()&(1<<(r.level()-1)))!=0,selected=r.code().equals(data.equipped().get(wardrobeSlot));
-            round(g,455,y,590,80,6,0xb51d152c,selected?VIOLET:0xff48335d);BetaRewardIcons.draw(g,r.code(),468,y+16,48);
+        var rows=BetaPass.REWARDS.stream().filter(r->BetaPass.slot(r).equals(wardrobeSlot)).toList();var event=eventItems(wardrobeSlot);int total=rows.size()+event.size();
+        rowOffset=ServerMenuLogic.scroll(rowOffset,0,total,3);
+        for(int i=rowOffset;i<Math.min(total,rowOffset+3);i++){int y=208+(i-rowOffset)*91;if(i>=rows.size()){eventRow(g,event.get(i-rows.size()),y);continue;}
+            var r=rows.get(i);boolean owned=(data.rewards()&(1<<(r.level()-1)))!=0,selected=r.code().equals(data.equipped().get(wardrobeSlot));
+            round(g,455,y,578,80,6,0xb51d152c,selected?VIOLET:0xff48335d);BetaRewardIcons.draw(g,r.code(),468,y+16,48);
             text(g,r.name(),522,y+15,14,owned?WHITE:MUTED);text(g,"Награда "+r.level()+" уровня",522,y+39,10,MUTED);
             if(BetaPass.title(r.code())){g.pose().pushPose();g.pose().translate(522,y+57,0);g.drawString(minecraft.font,ClientBetaPass.shimmer(r.code(),System.currentTimeMillis()),0,0,WHITE,false);g.pose().popPose();}
             if(owned)button(g,925,y+23,103,29,selected?"Снять":"Надеть",()->ClientBetaPass.request("EQUIP",0,wardrobeSlot,selected?"":r.code()),selected);
             else right(g,"Закрыто",1028,y+31,11,MUTED);
         }
+        scrollbar(g,1040,208,262,total,3);
         text(g,"По одному аксессуару каждого типа · Титул общий с профилем",455,510,10,MUTED);
-        text(g,"Мантия скрывается при надетых элитрах",455,529,10,MUTED);
+        text(g,total>3?"Колесо мыши или ползунок справа — прокрутка":"Мантия скрывается при надетых элитрах",455,529,10,MUTED);
+    }
+    /** Event accessories («Разлом Сакуры» summon) for one wardrobe slot; the summon snapshot says which the account owns. */
+    private static List<GachaPayloads.Item> eventItems(String slot){var d=ClientGacha.data();if(d==null||!d.available())return List.of();return d.items().stream().filter(it->slot.equals(BetaPassStore.GACHA_SLOTS.get(it.code()))).toList();}
+    private void eventRow(GuiGraphics g,GachaPayloads.Item it,int y){
+        boolean owned=it.owned(),worn=ClientGacha.worn(it.code());int color=TIER_COLORS[Math.clamp(it.tier(),0,5)];if(color==0)color=TIER_COLORS[0];String code=it.code();
+        round(g,455,y,578,80,6,0xb51d152c,worn?VIOLET:owned?color:0xff48335d);
+        if(BetaRewardIcons.has(code)){BetaRewardIcons.draw(g,code,468,y+10,50);center(g,"★"+it.tier(),493,y+64,9,color);}
+        else{round(g,468,y+16,48,48,6,alpha(0x48,color),color);center(g,"★"+it.tier(),492,y+33,13,color);}
+        text(g,it.name(),522,y+15,14,owned?WHITE:MUTED);text(g,"Ивент «Разлом Сакуры» · из призыва",522,y+39,10,MUTED);
+        if("TITLE".equals(BetaPassStore.GACHA_SLOTS.get(code))){g.pose().pushPose();g.pose().translate(522,y+57,0);g.drawString(minecraft.font,ClientBetaPass.shimmer(code,System.currentTimeMillis()),0,0,WHITE,false);g.pose().popPose();}
+        if(owned)button(g,925,y+23,103,29,worn?"Снять":"Надеть",()->ClientGacha.wear(code,!worn),worn,color);
+        else right(g,"Закрыто",1028,y+31,11,MUTED);
     }
     private void emotes(GuiGraphics g){
         var inventory=ClientEmotes.inventory();
         if(!ClientEmotes.supported()){paragraph(g,"Эмоции появятся после установки обновления на сервер.",455,218,560,14,MUTED,4);return;}
         if(inventory==null||!inventory.available()){paragraph(g,"Получаем эмоции аккаунта… Если сервис недоступен, попробуй позже.",455,218,560,14,MUTED,4);return;}
-        for(int i=0;i<Emotes.ALL.size();i++){var entry=Emotes.ALL.get(i);int y=195+i*57;boolean owned=inventory.owned().contains(entry.code()),selected=ClientEmotes.current().equals(entry.code());round(g,455,y,590,50,6,0xb51d152c,selected?VIOLET:0xff48335d);
-            String symbol=entry.code().equals("NEON_DANCE")?"♪":Emotes.paired(entry.code())?"↔":"✦";center(g,symbol,483,y+13,22,VIOLET);text(g,entry.name(),507,y+9,13,owned?WHITE:MUTED);text(g,Emotes.paired(entry.code())?"Совместная · по приглашению":"Стартовая · есть у каждого",507,y+30,9,MUTED);
+        // Five rows fit between the tabs and the hint; the rest scroll (wheel or the bar on the right).
+        int total=Emotes.ALL.size(),visible=5;rowOffset=ServerMenuLogic.scroll(rowOffset,0,total,visible);
+        for(int i=rowOffset;i<Math.min(total,rowOffset+visible);i++){var entry=Emotes.ALL.get(i);int y=195+(i-rowOffset)*57;boolean owned=inventory.owned().contains(entry.code()),selected=ClientEmotes.current().equals(entry.code());round(g,455,y,578,50,6,0xb51d152c,selected?VIOLET:0xff48335d);
+            String symbol=entry.code().equals("NEON_DANCE")?"♪":Emotes.paired(entry.code())?"↔":"✦";center(g,symbol,483,y+13,22,VIOLET);text(g,entry.name(),507,y+9,13,owned?WHITE:MUTED);text(g,Emotes.paired(entry.code())?"Совместная · по приглашению":entry.starter()?"Стартовая · есть у каждого":"Ивент «Разлом Сакуры» · из призыва",507,y+30,9,MUTED);
             button(g,843,y+10,70,29,"Смотреть",()->minecraft.setScreen(new EmoteMenuScreen(entry.code(),true)),false);
             if(owned){button(g,799,y+10,34,29,ClientEmoteFavorites.contains(entry.code())?"★":"☆",()->ClientEmoteFavorites.toggle(entry.code()),ClientEmoteFavorites.contains(entry.code()));button(g,925,y+10,103,29,selected?"Стоп":Emotes.paired(entry.code())?"Пригласить":"Исполнить",()->ClientEmotes.choose(selected?"":entry.code()),selected);}else right(g,"Закрыто",1028,y+20,11,MUTED);
         }
-        text(g,"Шаг, прыжок, удар или урон прекращают эмоцию",455,493,11,MUTED);button(g,455,519,300,25,"Избранное · меню "+ClientControls.label("key.animeoncraft.emotes"),()->minecraft.setScreen(new EmoteMenuScreen()),false);
+        scrollbar(g,1040,195,277,total,visible);
+        text(g,"Шаг, прыжок, удар или урон прекращают эмоцию"+(total>visible?" · Колесо мыши — прокрутка":""),455,493,11,MUTED);button(g,455,519,300,25,"Избранное · меню "+ClientControls.label("key.animeoncraft.emotes"),()->minecraft.setScreen(new EmoteMenuScreen()),false);
     }
     private void backWardrobe(GuiGraphics g,BetaPassPayloads.Snapshot beta){
         var d=ClientWardrobe.data();boolean available=d!=null&&d.available();
         boolean mantle=available?d.kind().equals("BETA"):beta.equipped().containsKey("BACK");
         button(g,885,185,159,20,"Снять со спины",()->{if(available)ClientWardrobe.choose("NONE","");else if(!minecraft.hasSingleplayerServer())ClientWardrobe.read();else ClientBetaPass.request("EQUIP",0,"BACK","");},available?d.kind().equals("NONE"):!mantle);
-        int total=1+(available?d.capes().size():0);rowOffset=ServerMenuLogic.scroll(rowOffset,0,total,3);
+        var event=eventItems("BACK");int total=1+event.size()+(available?d.capes().size():0);rowOffset=ServerMenuLogic.scroll(rowOffset,0,total,3);
         for(int i=rowOffset;i<Math.min(total,rowOffset+3);i++){
-            int y=208+(i-rowOffset)*91;boolean isMantle=i==0;var cape=isMantle?null:d.capes().get(i-1);
+            int y=208+(i-rowOffset)*91;if(i>=1&&i<=event.size()){eventRow(g,event.get(i-1),y);continue;}
+            boolean isMantle=i==0;var cape=isMantle?null:d.capes().get(i-1-event.size());
             boolean owned=!isMantle||(beta.rewards()&512)!=0,selected=isMantle?mantle:d.kind().equals("CAPE")&&d.code().equals(cape.id());
-            round(g,455,y,590,80,6,0xb51d152c,selected?VIOLET:0xff48335d);
+            round(g,455,y,578,80,6,0xb51d152c,selected?VIOLET:0xff48335d);
             if(isMantle)BetaRewardIcons.draw(g,"RIFT_MANTLE",468,y+16,48);
             else {round(g,479,y+15,29,44,3,0xff57308a,0xffc596ff);g.fill(485,y+24,502,y+27,0xff99e4f6);g.fill(485,y+32,502,y+35,0xff99e4f6);}
             text(g,isMantle?"Мантия Разлома":cape.name(),522,y+15,14,owned?WHITE:MUTED);
@@ -391,7 +413,10 @@ final class ServerMenuScreen extends Screen {
         if(compact){text(g,"КАК ОБЩАТЬСЯ",455,427,12,WHITE);String[][] chat={{"Без префикса","Чат рядом · до 100 блоков"},{"!","Глобальный чат"},{"!!","Чат клана"}};for(int i=0;i<chat.length;i++){int y=449+i*25;badge(g,455,y,110,21,chat[i][0],0xbba4db);text(g,chat[i][1],578,y+6,11,MUTED);}}
         text(g,rules?"Ограничения и доступность захвата проверяются сервером.":"Карта: "+ClientControls.label("gui.xaero_open_map")+" · Голос и микрофон: "+ClientControls.label("key.voice_chat")+" · Клавиши: Настройки → Управление",455,539,10,MUTED);
     }
-    private void scrollbar(GuiGraphics g,int x,int y,int h,int total,int visible){if(total<=visible)return;round(g,x,y,4,h,2,0xff352940,0xff352940);int size=Math.max(12,h*visible/total),pos=(h-size)*rowOffset/(total-visible);round(g,x,y+pos,4,size,2,0xffac91c9,0xffac91c9);}
+    /** The list drawn last frame: wheel and the draggable bar both move rowOffset within it. */
+    private int listTotal,listVisible,barX=-1,barY,barH;private boolean barDrag;
+    private void dragBar(double py){if(listTotal<=listVisible)return;int size=Math.max(12,barH*listVisible/listTotal);double t=(py-barY-size/2.0)/Math.max(1,barH-size);rowOffset=Math.clamp((int)Math.round(t*(listTotal-listVisible)),0,listTotal-listVisible);}
+    private void scrollbar(GuiGraphics g,int x,int y,int h,int total,int visible){listTotal=total;listVisible=visible;barX=x;barY=y;barH=h;if(total<=visible)return;round(g,x,y,4,h,2,0xff352940,0xff352940);int size=Math.max(12,h*visible/total),pos=(h-size)*rowOffset/(total-visible);round(g,x,y+pos,4,size,2,0xffac91c9,0xffac91c9);}
     private static PlayerInfo info(UUID id){var c=Minecraft.getInstance().getConnection();return c==null?null:c.getListedOnlinePlayers().stream().filter(p->p.getProfile().getId().equals(id)).findFirst().orElse(null);}
     private static void face(GuiGraphics g,UUID id,int x,int y,int size){var p=info(id);var skin=p==null?DefaultPlayerSkin.get(id):ClientSkins.appearance(id,p.getSkin());g.pose().pushPose();g.pose().translate(x,y,0);g.pose().scale(size/8f,size/8f,1);g.blit(skin.texture(),0,0,8f,8f,8,8,64,64);g.blit(skin.texture(),0,0,40f,8f,8,8,64,64);g.pose().popPose();}
     private static void stat(GuiGraphics g,int x,int y,String title,String value){round(g,x,y,190,48,6,0x901d142c,0xff48335d);text(g,title,x+12,y+9,10,MUTED);text(g,value,x+12,y+25,18,WHITE);}

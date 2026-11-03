@@ -118,6 +118,19 @@ export async function grantAll(tx:Prisma.TransactionClient,amount:number,gift:st
  for(const {user_id} of users){const w=await lockWallet(tx,user_id);if(await post(tx,user_id,'ADMIN',ref,amount,0,w))players++;}
  return {players,amount};
 }
+export const PLAYER_NAME=/^[A-Za-z0-9_]{3,16}$/;
+/** Admin gift of earned crystals to one player, found by game name (case-insensitive, online or not).
+ * Same gift-id ledger ref as grantAll, so a retried request pays at most once. null when no such player. */
+export async function grantOne(tx:Prisma.TransactionClient,name:string,amount:number,gift:string):Promise<{user:string;player:string;minecraft_uuid:string;amount:number;granted:boolean;wallet:Wallet}|null>{
+ if(!Number.isInteger(amount)||amount<1||amount>GIFT_MAX)throw new ForbiddenException('Invalid amount');
+ if(typeof name!=='string'||!PLAYER_NAME.test(name))throw new ForbiddenException('Invalid player name');
+ const ref='gift:'+gift;if(!validRef(ref))throw new ForbiddenException('Invalid gift reference');
+ const found=(await tx.$queryRaw<Array<{user_id:string;game_name:string;minecraft_uuid:string}>>`
+  SELECT user_id::text AS user_id,game_name,minecraft_uuid::text AS minecraft_uuid FROM game_profiles WHERE game_name_key=lower(${name})`)[0];
+ if(!found)return null;
+ const w=await lockWallet(tx,found.user_id);const granted=await post(tx,found.user_id,'ADMIN',ref,amount,0,w);
+ return {user:found.user_id,player:found.game_name,minecraft_uuid:found.minecraft_uuid,amount,granted,wallet:await readWallet(tx,found.user_id)};
+}
 export async function ledger(tx:Prisma.TransactionClient,user:string,limit=20){
  return tx.$queryRaw<Array<{kind:string;ref:string;delta_earned:number;delta_paid:number;created_at:Date}>>`
   SELECT kind,ref,delta_earned,delta_paid,created_at FROM premium_ledger WHERE user_id=${user}::uuid ORDER BY id DESC LIMIT ${Math.min(Math.max(limit,1),100)}`;

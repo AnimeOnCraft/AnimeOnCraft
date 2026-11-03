@@ -4,7 +4,7 @@ import {InfrastructureModule} from '../infrastructure/infrastructure.module.js';
 import {RateLimitStoreService} from '../infrastructure/rate-limit-store.service.js';
 import {AuthService} from '../modules/auth/auth.service.js';
 import {GameTicketService} from '../modules/auth/game-ticket.service.js';
-import {CRYSTALS,GIFT_MAX,dungeonRef,earnArena,earnDungeon,earnGuild,earnLevels,grantAll,readWallet,validArenaRef,validDungeon,validRef} from './crystals.js';
+import {CRYSTALS,GIFT_MAX,dungeonRef,earnArena,earnDungeon,earnGuild,earnLevels,grantAll,grantOne,PLAYER_NAME,readWallet,validArenaRef,validDungeon,validRef} from './crystals.js';
 import {gachaState,roll,secureRng,validCount,type Source} from './gacha.js';
 
 type Action='READ'|'LEVEL'|'GUILD'|'GUILD_TEAM'|'DUNGEON'|'ARENA';
@@ -56,6 +56,27 @@ export class GamePremiumController {
    return result;
   });
  }
+ /** Operator gift to one player by game name (`/aoccrystals give <name> <amount>`); the target need not be online. */
+ @Post('grant-one') @HttpCode(200) @Header('Cache-Control','no-store')
+ async giftOne(@Req() request:FastifyRequest,@Body() body:unknown){
+  const server=this.tickets.authenticateServer(request),input=giftOneInput(body,server);
+  await this.rate.consume([{key:'aoc:premium-gift-one:'+server,limit:30,seconds:60}]);
+  return this.auth.transaction(async tx=>{
+   const actor=await this.tickets.admittedPlayer(tx,server,input);
+   const result=await grantOne(tx,input.player,input.amount,input.gift_id);
+   // 200 with found:false, because the game server's HTTP client reports every non-200 the same way.
+   if(!result)return {found:false,player:input.player};
+   if(result.granted)await this.auth.audit(tx,actor,'PREMIUM_GIFT_ONE',request.id,result.user);
+   return {found:true,player:result.player,minecraft_uuid:result.minecraft_uuid,amount:result.amount,granted:result.granted,wallet:result.wallet};
+  });
+ }
+}
+interface GiftOneInput extends GiftInput {player:string}
+export function giftOneInput(body:unknown,server:string):GiftOneInput {
+ if(!body||typeof body!=='object'||Array.isArray(body))throw new HttpException('Invalid gift input',400);
+ const {player,...rest}=body as GiftOneInput;
+ if(typeof player!=='string'||!PLAYER_NAME.test(player))throw new HttpException('Invalid gift player',400);
+ return {...giftInput(rest,server),player};
 }
 interface GiftInput {server_id:string;connection_id:string;minecraft_uuid:string;amount:number;gift_id:string}
 export function giftInput(body:unknown,server:string):GiftInput {
