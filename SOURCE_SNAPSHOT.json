@@ -8668,8 +8668,8 @@
     },
     {
       "path": "minecraft/modpack/profile.json",
-      "sha256": "c4111ace02e19be3195f3379f00bb828fffd1aac71f3bf6f47297b287eee60af",
-      "bytes": 151984
+      "sha256": "bb15650fe126a84b5f15cb62083917394d319b21072f0b0084f1e3d050a4c637",
+      "bytes": 147637
     },
     {
       "path": "minecraft/modpack/quest-book/chapter_groups.snbt",
@@ -9068,13 +9068,13 @@
     },
     {
       "path": "RELEASE_BUILD.json",
-      "sha256": "da1dc33222a64ef91dbf114360a7a5b203e1799f34f5c5b4a52e7f9d054d23a8",
-      "bytes": 892
+      "sha256": "921b3aebb31664e944eab29e2a0786dd51fd119844853ce6b8828d21707599dd",
+      "bytes": 1298
     },
     {
       "path": "RELEASE_INPUTS.json",
-      "sha256": "7db2f2780640626ac0280ace6c1d3ef78c648b363960fad195c348cd99293676",
-      "bytes": 356
+      "sha256": "fa82abff603748128f2f449929e563e30fed1450030f983caf72ea20c52664e3",
+      "bytes": 549
     },
     {
       "path": "scripts/admin-https-smoke.mjs",
@@ -10243,5 +10243,5 @@
     }
   ],
   "version": "0.8.19",
-  "release_tag": "v0.8.19"
+  "release_tag": "v0.8.19-source.1"
 }

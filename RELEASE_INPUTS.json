@@ -4,5 +4,7 @@
   "balance_changed": false,
   "game_mod_sha256": "ae81382d94749dee9f730d313f43ff1255be2641cbe2c35ce3b2c6e34ea4604e",
   "reward_art": "rarity stars only; illustrated icons deferred by owner",
-  "note": "Pending website source is not deployed. Profile and balance match the public installer inputs."
+  "note": "Pending website source is not deployed. Profile and balance match the public installer inputs.",
+  "installer_profile_sha256": "c4111ace02e19be3195f3379f00bb828fffd1aac71f3bf6f47297b287eee60af",
+  "source_profile_sha256": "bb15650fe126a84b5f15cb62083917394d319b21072f0b0084f1e3d050a4c637"
 }

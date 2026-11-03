@@ -1,6 +1,6 @@
 {
   "version": "0.8.19",
-  "source_tag": "v0.8.19",
+  "source_tag": "v0.8.19-source.1",
   "installer": {
     "url": "https://charizma1337.github.io/animeoncraft-updates/0.8.19/AnimeOnCraft_0.8.19_x64-setup.exe",
     "bytes": 56722694,
@@ -9,5 +9,8 @@
   },
   "game_mod_sha256": "ae81382d94749dee9f730d313f43ff1255be2641cbe2c35ce3b2c6e34ea4604e",
   "modpack_profile_sha256": "c4111ace02e19be3195f3379f00bb828fffd1aac71f3bf6f47297b287eee60af",
-  "reproducibility": "The game mod was built and tested from this development tree. Public delivery preserves the 0.8.18 balance. See RELEASE_INPUTS.json. Pending website work is included as development source and is not deployed. Independent builds are not guaranteed to be bit-for-bit identical."
+  "reproducibility": "The game mod was built and tested from this development tree. Public delivery preserves the 0.8.18 balance. See RELEASE_INPUTS.json. Pending website work is included as development source and is not deployed. Independent builds are not guaranteed to be bit-for-bit identical.",
+  "installer_modpack_profile_sha256": "c4111ace02e19be3195f3379f00bb828fffd1aac71f3bf6f47297b287eee60af",
+  "source_modpack_profile_sha256": "bb15650fe126a84b5f15cb62083917394d319b21072f0b0084f1e3d050a4c637",
+  "source_line_endings": "Git text is normalized to LF. The installer profile retains the original CRLF bytes; its checksum is recorded separately. Installer and game JAR are unchanged."
 }
