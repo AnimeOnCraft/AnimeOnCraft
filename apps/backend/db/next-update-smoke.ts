@@ -42,7 +42,11 @@ try{
  sql('postgres',`CREATE ROLE anime_app LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE; CREATE DATABASE ${db};`);
  const migrations=fs.readdirSync(path.join(root,'apps/backend/db/migrations')).filter(n=>/^\d/.test(n)).sort();
  assert.ok(migrations.includes('20261103000100_anticheat_reports'));assert.ok(migrations.includes('20261103000200_arena_crystals'));
- for(const m of migrations)sql(db,fs.readFileSync(path.join(root,'apps/backend/db/migrations',m,'migration.sql'),'utf8'));
+ for(const m of migrations){
+  if(m==='20261103000100_anticheat_reports')sql(db,'ALTER DEFAULT PRIVILEGES FOR ROLE anime_migrator IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO anime_app');
+  sql(db,fs.readFileSync(path.join(root,'apps/backend/db/migrations',m,'migration.sql'),'utf8'));
+ }
+ checks.push('production default table grants reproduced and restricted by additive migration');
  checks.push('all migrations on disposable database');
  assert.match(sql(db,"SELECT pg_get_constraintdef(oid) FROM pg_constraint WHERE conname='premium_ledger_kind_check'"),/ARENA/);
  checks.push('ARENA ledger constraint');

@@ -437,6 +437,11 @@
       "bytes": 502
     },
     {
+      "path": "apps/backend/db/migrations/20261103000300_anticheat_report_permissions/migration.sql",
+      "sha256": "b4c625fd127acd97fda7019076c115996f501009894ea4b903061ce69b7ec74f",
+      "bytes": 487
+    },
+    {
       "path": "apps/backend/db/migrations/migration_lock.toml",
       "sha256": "1db17a8d051aa136110736752c5e1f8b7ed92b6ea8e803112fbbe2497047c210",
       "bytes": 24
@@ -448,8 +453,8 @@
     },
     {
       "path": "apps/backend/db/next-update-smoke.ts",
-      "sha256": "cc9b8c1031b97c822d1901eda676d0f7dded6110c8dd6c0acc7f23705bd17b80",
-      "bytes": 10029
+      "sha256": "a5975c157c9a8e0478ae5f607e6c9fa2af1afe5416b37af15993bb17f0e18793",
+      "bytes": 10314
     },
     {
       "path": "apps/backend/db/owner.ts",
@@ -2655,6 +2660,11 @@
       "path": "docs/PUBLIC_README.md",
       "sha256": "2f3e7aa363b4d6dd3c142c27492af43d67be0b6d89ddce6271b8adbe70d6906c",
       "bytes": 3850
+    },
+    {
+      "path": "docs/RELEASE_DB_PERMISSIONS_0_8_18.md",
+      "sha256": "b6ba25d0fb6dc207e20a71bc3cdbe9e9a401c639221c3a19a8c84baa3d89930c",
+      "bytes": 626
     },
     {
       "path": "eslint.config.mjs",
@@ -9058,8 +9068,8 @@
     },
     {
       "path": "RELEASE_BUILD.json",
-      "sha256": "d8e56778a750d78a833345cacbbd751b37a571ec52962db29fe21872fa3541ff",
-      "bytes": 892
+      "sha256": "4d09ee869e02314cf3998644308452d0556600735cb295b519d8c313a7221413",
+      "bytes": 1070
     },
     {
       "path": "RELEASE_INPUTS.json",
@@ -10228,5 +10238,5 @@
     }
   ],
   "version": "0.8.18",
-  "release_tag": "v0.8.18"
+  "release_tag": "v0.8.18-dbfix.1"
 }
